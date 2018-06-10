@@ -1,19 +1,20 @@
 import Vue from 'vue'
 import App from './App'
 import ElementUI from 'element-ui'
-//import 'element-ui/lib/theme-default/index.css'
-// import './assets/theme/theme-green/index.css'
+import 'element-ui/lib/theme-chalk/index.css'
+import './assets/theme/theme-green/index.css'
 import VueRouter from 'vue-router'
 import store from './vuex/store'
 import Vuex from 'vuex'
-// import NProgress from 'nprogress'
-// import 'nprogress/nprogress.css'
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 import routes from './routes'
 // import Mock from './mock'
-// Mock.bootstrap()
 import 'font-awesome/css/font-awesome.min.css'
-
 import timestamp from './common/js/util'
+
+// Mock.bootstrap()
+
 Vue.filter('timestamp', timestamp.getLocalTime)
 
 Vue.use(ElementUI)
@@ -27,7 +28,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  // NProgress.start();
+  NProgress.start()
   if (to.path === '/login') {
     sessionStorage.removeItem('token')
   }
@@ -39,9 +40,9 @@ router.beforeEach((to, from, next) => {
   }
 })
 
-// router.afterEach(transition => {
-// NProgress.done();
-// });
+router.afterEach(transition => {
+  NProgress.done()
+})
 
 new Vue({
   // el: '#app',

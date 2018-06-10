@@ -1,14 +1,17 @@
 import Login from './views/Login.vue'
 import NotFound from './views/404.vue'
 import Home from './views/Home.vue'
-// import Devices from './views/nav1/Devices.vue'
-// import AppInfos from './views/nav1/AppInfos.vue'
-// import AppBuildInfos from './views/nav1/AppBuildInfos.vue'
-// import Form from './views/nav1/Form.vue'
-// import user from './views/nav1/user.vue'
-import Rates from './views/nav2/Rates.vue'
-// import Page6 from './views/nav3/Page6.vue'
-import echarts from './views/charts/echarts.vue'
+import company from './views/company/company.vue'
+import product from './views/product/product.vue'
+import salesman from './views/salesman/salesman.vue'
+import dashboard from './views/dashboard/echarts.vue'
+import list from './views/task/list.vue'
+import task from './views/task/task.vue'
+import dict from './views/parameter/dict.vue'
+import parameter from './views/parameter/parameter.vue'
+import workload from './views/report/workload.vue'
+import reporttask from './views/report/task.vue'
+import reportproduct from './views/report/product.vue'
 
 let routes = [
   {
@@ -31,39 +34,70 @@ let routes = [
     iconCls: 'fa fa-dashboard',
     leaf: true,
     children: [
-      {path: '/dashboard', component: echarts, name: 'Dashboard'}
+      {path: '/dashboard', component: dashboard, name: '仪表盘'}
     ]
   },
-  // {
-  //   path: '/',
-  //   component: Home,
-  //   name: '基础信息',
-  //   iconCls: 'fa fa-database',
-  //   children: [
-  //     {path: '/devices', component: Devices, name: '设备信息'},
-  //     {path: '/appInfos', component: AppInfos, name: 'APP信息'},
-  //     {path: '/appBuildInfos', component: AppBuildInfos, name: 'Build信息'}
-  //   ]
-  // },
   {
     path: '/',
     component: Home,
-    name: '基础参数',
-    iconCls: 'fa fa-cog',
+    name: '',
+    iconCls: 'fa fa-sitemap',
+    leaf: true,
     children: [
-      {path: '/rates', component: Rates, name: '贷款利率配置'}
+      {path: '/company', component: company, name: '公司管理'}
     ]
   },
-  // {
-  //   path: '/',
-  //   component: Home,
-  //   name: '',
-  //   iconCls: 'fa fa-address-card',
-  //   leaf: true, // 只有一个节点
-  //   children: [
-  //     {path: '/page6', component: Page6, name: '导航三'}
-  //   ]
-  // },
+  {
+    path: '/',
+    component: Home,
+    name: '',
+    iconCls: 'fa fa-globe',
+    leaf: true,
+    children: [
+      {path: '/product', component: product, name: '产品管理'}
+    ]
+  },
+  {
+    path: '/',
+    component: Home,
+    name: '',
+    iconCls: 'fa fa-address-book',
+    leaf: true, // 只有一个节点
+    children: [
+      {path: '/salesman', component: salesman, name: '销售管理'}
+    ]
+  },
+  {
+    path: '/',
+    component: Home,
+    name: '外呼管理',
+    iconCls: 'fa fa-phone-square',
+    children: [
+      {path: '/list', component: list, name: '名单管理'},
+      {path: '/task', component: task, name: '任务分配'}
+    ]
+  },
+  {
+    path: '/',
+    component: Home,
+    name: '参数管理',
+    iconCls: 'fa fa-cog',
+    children: [
+      {path: '/dict', component: dict, name: '数据字典'},
+      {path: '/parameter', component: parameter, name: '参数设置'}
+    ]
+  },
+  {
+    path: '/',
+    component: Home,
+    name: '报表统计',
+    iconCls: 'fa fa-wpforms',
+    children: [
+      {path: '/workload', component: workload, name: '工作量'},
+      {path: '/reporttask', component: reporttask, name: '外呼任务'},
+      {path: '/reportproduct', component: reportproduct, name: '产品外呼'}
+    ]
+  },
   {
     path: '*',
     hidden: true,

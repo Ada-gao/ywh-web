@@ -11,7 +11,7 @@
       </el-col>
       <el-col :span="4" class="userinfo">
         <el-dropdown trigger="hover">
-          <span class="el-dropdown-link userinfo-inner"><img :src="this.sysUserAvatar"/> {{sysUserName}}</span>
+          <span class="el-dropdown-link userinfo-inner"><img src="../assets/user.png"/> {{sysUserName}}</span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>我的消息</el-dropdown-item>
             <el-dropdown-item>设置</el-dropdown-item>
@@ -27,20 +27,20 @@
                  @select="handleselect"
                  unique-opened router v-show="!collapsed">
           <template v-for="(item,index) in $router.options.routes" v-if="!item.hidden">
-            <el-submenu :index="index+''" v-if="!item.leaf">
+            <el-submenu :index="index+''" v-if="!item.leaf"  :key="index">
               <template slot="title"><i :class="item.iconCls"></i>{{item.name}}</template>
               <el-menu-item v-for="child in item.children" :index="child.path" :key="child.path" v-if="!child.hidden">
                 {{child.name}}
               </el-menu-item>
             </el-submenu>
-            <el-menu-item v-if="item.leaf&&item.children.length>0" :index="item.children[0].path"><i
+            <el-menu-item v-if="item.leaf&&item.children.length>0"  :key="item.children[0].path" :index="item.children[0].path"><i
               :class="item.iconCls"></i>{{item.children[0].name}}
             </el-menu-item>
           </template>
         </el-menu>
         <!--导航菜单-折叠后-->
         <ul class="el-menu el-menu-vertical-demo collapsed" v-show="collapsed" ref="menuCollapsed">
-          <li v-for="(item,index) in $router.options.routes" v-if="!item.hidden" class="el-submenu item">
+          <li v-for="(item,index) in $router.options.routes" v-if="!item.hidden" class="el-submenu item" :key="index">
             <template v-if="!item.leaf">
               <div class="el-submenu__title" style="padding-left: 20px;" @mouseover="showMenu(index,true)"
                    @mouseout="showMenu(index,false)"><i :class="item.iconCls"></i></div>
@@ -82,67 +82,65 @@
 </template>
 
 <script>
-  import { getUser } from '../api/api'
+import { getUser } from '../api/api'
 
-  export default {
-    data () {
-      return {
-        sysName: 'App Admin Web',
-        collapsed: false,
-        sysUserName: '',
-        sysUserAvatar: '',
-        form: {
-          name: '',
-          region: '',
-          date1: '',
-          date2: '',
-          delivery: false,
-          type: [],
-          resource: '',
-          desc: ''
-        }
-      }
-    },
-    methods: {
-      onSubmit () {
-        console.log('submit!')
-      },
-      handleopen () {
-      },
-      handleclose () {
-      },
-      handleselect: function (a, b) {
-      },
-      // 退出登录
-      logout: function () {
-        let _this = this
-        this.$confirm('确认退出吗?', '提示', {
-          // type: 'warning'
-        }).then(() => {
-          sessionStorage.removeItem('token')
-          _this.$router.push('/login')
-        }).catch(() => {
-
-        })
-      },
-      // 折叠导航栏
-      collapse: function () {
-        this.collapsed = !this.collapsed
-      },
-      showMenu (i, status) {
-        this.$refs.menuCollapsed.getElementsByClassName('submenu-hook-' + i)[0].style.display = status ? 'block' : 'none'
-      }
-    },
-    mounted () {
-      let user = sessionStorage.getItem('token')
-      if (user) {
-        getUser().then((res) => {
-          this.sysUserName = res.data.username
-          this.sysUserAvatar = 'http://10.15.166.49/uploads/user/avatar/19/avatar.png'
-        })
+export default {
+  data () {
+    return {
+      sysName: '云外呼管理平台',
+      collapsed: false,
+      sysUserName: '',
+      form: {
+        name: '',
+        region: '',
+        date1: '',
+        date2: '',
+        delivery: false,
+        type: [],
+        resource: '',
+        desc: ''
       }
     }
+  },
+  methods: {
+    onSubmit () {
+      console.log('submit!')
+    },
+    handleopen () {
+    },
+    handleclose () {
+    },
+    handleselect: function (a, b) {
+    },
+    // 退出登录
+    logout: function () {
+      let _this = this
+      this.$confirm('确认退出吗?', '提示', {
+        // type: 'warning'
+      }).then(() => {
+        sessionStorage.removeItem('token')
+        _this.$router.push('/login')
+      }).catch(() => {
+
+      })
+    },
+    // 折叠导航栏
+    collapse: function () {
+      this.collapsed = !this.collapsed
+    },
+    showMenu (i, status) {
+      this.$refs.menuCollapsed.getElementsByClassName('submenu-hook-' + i)[0].style.display = status ? 'block' : 'none'
+    }
+  },
+  mounted () {
+    let user = sessionStorage.getItem('token')
+    if (user) {
+      getUser().then((res) => {
+        this.sysUserName = res.data.username
+      })
+    }
   }
+}
 
 </script>
 

@@ -1,7 +1,6 @@
 <template>
   <section>
 
-
     <!--列表-->
     <el-table :data="appBuildInfos" highlight-current-row v-loading="listLoading" @selection-change="selsChange"
               style="width: 100%;">
@@ -17,7 +16,7 @@
       <el-table-column prop="packageFile" :label="titles.packageFile" sortable>
       </el-table-column>
       <el-table-column :label="titles.appBuildDate " sortable>
-        <template scope="scope">{{ scope.row.appBuildDate | timestamp }}</template>
+        <template slot-scope="scope">{{ scope.row.appBuildDate | timestamp }}</template>
       </el-table-column>
 
     </el-table>
@@ -30,58 +29,57 @@
       </el-pagination>
     </el-col>
 
-
   </section>
 </template>
 
 <script>
-  // import NProgress from 'nprogress'
-  import {getAppBuildInfoListPage} from '../../api/api'
+// import NProgress from 'nprogress'
+import {getAppBuildInfoListPage} from '../../api/api'
 
-  export default {
-    data () {
-      return {
-        filters: {
-          name: ''
-        },
-        titles: {},
-        appBuildInfos: [],
-        total: 0,
-        page: 1,
-        listLoading: false,
-        sels: [] // 列表选中列
-
-      }
-    },
-    methods: {
-
-      handleCurrentChange (val) {
-        this.page = val
-        this.getAppBuildInfos()
+export default {
+  data () {
+    return {
+      filters: {
+        name: ''
       },
+      titles: {},
+      appBuildInfos: [],
+      total: 0,
+      page: 1,
+      listLoading: false,
+      sels: [] // 列表选中列
 
-      getAppBuildInfos () {
-        let para = {
-          page: this.page - 1,
-          pageSize: 20
-        }
-        this.listLoading = true
-        getAppBuildInfoListPage(para).then((res) => {
-          this.titles = res.data.keyTitles
-          this.total = res.data.total
-          this.appBuildInfos = res.data.list
-          this.listLoading = false
-        })
-      },
-      selsChange: function (sels) {
-        this.sels = sels
-      }
-    },
-
-    mounted () {
-      this.getAppBuildInfos()
     }
+  },
+  methods: {
+
+    handleCurrentChange (val) {
+      this.page = val
+      this.getAppBuildInfos()
+    },
+
+    getAppBuildInfos () {
+      let para = {
+        page: this.page - 1,
+        pageSize: 20
+      }
+      this.listLoading = true
+      getAppBuildInfoListPage(para).then((res) => {
+        this.titles = res.data.keyTitles
+        this.total = res.data.total
+        this.appBuildInfos = res.data.list
+        this.listLoading = false
+      })
+    },
+    selsChange: function (sels) {
+      this.sels = sels
+    }
+  },
+
+  mounted () {
+    this.getAppBuildInfos()
   }
+}
 
 </script>
 

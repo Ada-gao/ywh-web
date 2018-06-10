@@ -1,7 +1,6 @@
 <template>
   <section>
 
-
     <!--列表-->
     <el-table :data="appInfos" highlight-current-row v-loading="listLoading" @selection-change="selsChange"
               style="width: 100%;">
@@ -12,7 +11,7 @@
       </el-table-column>
 
       <el-table-column :label="titles.appCompileDate" sortable>
-        <template scope="scope">{{ scope.row.appCompileDate | timestamp }}</template>
+        <template slot-scope="scope">{{ scope.row.appCompileDate | timestamp }}</template>
       </el-table-column>
       <el-table-column prop="appIdentifier" :label="titles.appIdentifier" sortable>
       </el-table-column>
@@ -29,59 +28,58 @@
       </el-pagination>
     </el-col>
 
-
   </section>
 </template>
 
 <script>
-  // import NProgress from 'nprogress'
-  import {getAppInfoListPage} from '../../api/api'
+// import NProgress from 'nprogress'
+import {getAppInfoListPage} from '../../api/api'
 
-  export default {
-    data () {
-      return {
-        filters: {
-          name: ''
-        },
-        titles: {},
-        appInfos: [],
-        total: 0,
-        page: 1,
-        listLoading: false,
-        sels: [] // 列表选中列
-
-      }
-    },
-    methods: {
-
-      handleCurrentChange (val) {
-        this.page = val
-        this.getAppInfos()
+export default {
+  data () {
+    return {
+      filters: {
+        name: ''
       },
+      titles: {},
+      appInfos: [],
+      total: 0,
+      page: 1,
+      listLoading: false,
+      sels: [] // 列表选中列
 
-      getAppInfos () {
-        let para = {
-          page: this.page - 1,
-          pageSize: 20
-        }
-        this.listLoading = true
-        getAppInfoListPage(para).then((res) => {
-          this.titles = res.data.keyTitles
-          this.total = res.data.total
-          this.appInfos = res.data.list
-          this.listLoading = false
-        })
-      },
-      selsChange: function (sels) {
-        this.sels = sels
-      }
-
-    },
-
-    mounted () {
-      this.getAppInfos()
     }
+  },
+  methods: {
+
+    handleCurrentChange (val) {
+      this.page = val
+      this.getAppInfos()
+    },
+
+    getAppInfos () {
+      let para = {
+        page: this.page - 1,
+        pageSize: 20
+      }
+      this.listLoading = true
+      getAppInfoListPage(para).then((res) => {
+        this.titles = res.data.keyTitles
+        this.total = res.data.total
+        this.appInfos = res.data.list
+        this.listLoading = false
+      })
+    },
+    selsChange: function (sels) {
+      this.sels = sels
+    }
+
+  },
+
+  mounted () {
+    this.getAppInfos()
   }
+}
 
 </script>
 

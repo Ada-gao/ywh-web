@@ -2,7 +2,7 @@
   <div>
   <el-form :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left" label-width="0px"
            class="demo-loginForm login-container">
-    <h3 class="title typo-PingFang">App后台管理系统</h3>
+    <h3 class="title typo-PingFang">云外呼管理平台</h3>
     <el-form-item prop="account">
       <el-input type="text" v-model="loginForm.account" auto-complete="off" placeholder="账号"></el-input>
     </el-form-item>
@@ -16,84 +16,61 @@
       <!--<el-button @click.native.prevent="handleReset2">重置</el-button>-->
     </el-form-item>
   </el-form>
-    <div class="qrcode-content">
-  <!--<div class="qrcode-wrapper">-->
-    <!--<h3>android下载</h3>-->
-    <!--<qrcode :config="config" :text="androidText"></qrcode>-->
-  <!--</div>-->
-    <!--<div class="qrcode-wrapper">-->
-      <!--<h3>ios下载</h3>-->
-      <!--<qrcode :config="config" :text="iosText"></qrcode>-->
-    <!--</div>-->
-  </div>
   </div>
 </template>
 
 <script>
-  import { requestLogin } from '../api/api'
-  import qrcode from '../components/qrcode'
-  export default {
-    data () {
-      return {
-        logining: false,
-        loginForm: {
-          account: '',
-          checkPass: ''
-        },
-        loginRules: {
-          account: [
-            {required: true, message: '请输入账号', trigger: 'blur'}
-            // { validator: validaePass }handle
-          ],
-          checkPass: [
-            {required: true, message: '请输入密码', trigger: 'blur'}
-            // { validator: validaePass2 }
-          ]
-        },
-        checked: true,
-        androidText: 'https://cn.vuejs.org/',
-        iosText: 'https://itunes.apple.com/app/id1061880281',
-        config: {
-          scale: 8,
-          color: {
-            light: '#fff',
-            dark: '#000'
-          }
-        }
-      }
-    },
-    methods: {
-      handleLogin (ev) {
-        // var _this = this
-        this.$refs.loginForm.validate((valid) => {
-          if (valid) {
-            // _this.$router.replace('/table');
-            this.logining = true
-            // NProgress.start();
-            let loginParams = {username: this.loginForm.account, password: this.loginForm.checkPass}
-            requestLogin(loginParams).then(res => {
-              this.logining = false
-              // NProgress.done();
-              sessionStorage.setItem('token', res.data.token)
-              this.$router.push({path: '/dashboard'})
-            }).catch(error => {
-              this.logining = false
-              this.$message({
-                message: error.response.data.error,
-                type: 'error'
-              })
+import { requestLogin } from '../api/api'
+export default {
+  data () {
+    return {
+      logining: false,
+      loginForm: {
+        account: '',
+        checkPass: ''
+      },
+      loginRules: {
+        account: [
+          {required: true, message: '请输入账号', trigger: 'blur'}
+          // { validator: validaePass }handle
+        ],
+        checkPass: [
+          {required: true, message: '请输入密码', trigger: 'blur'}
+          // { validator: validaePass2 }
+        ]
+      },
+      checked: true
+    }
+  },
+  methods: {
+    handleLogin (ev) {
+      // var _this = this
+      this.$refs.loginForm.validate((valid) => {
+        if (valid) {
+          // _this.$router.replace('/table');
+          this.logining = true
+          // NProgress.start();
+          let loginParams = {username: this.loginForm.account, password: this.loginForm.checkPass}
+          requestLogin(loginParams).then(res => {
+            this.logining = false
+            // NProgress.done();
+            sessionStorage.setItem('token', res.data.token)
+            this.$router.push({path: '/dashboard'})
+          }).catch(error => {
+            this.logining = false
+            this.$message({
+              message: error.response.data.error,
+              type: 'error'
             })
-          } else {
-            console.log('error submit!!')
-            return false
-          }
-        })
-      }
-    },
-    components: {
-      qrcode
+          })
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
     }
   }
+}
 
 </script>
 

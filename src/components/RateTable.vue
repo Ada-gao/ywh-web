@@ -14,7 +14,7 @@
     </div>
     <el-table :data="rates" border highlight-current-row v-loading="listLoading" style="width: 100%">
       <el-table-column width="300px" label="对应折扣" align="center">
-        <template scope="scope">
+        <template slot-scope="scope">
           <input type="number" step="0.01" v-show="scope.row.edit" v-model="scope.row.discountTmp"
                  @keyup.enter="handleEdit(scope.$index, scope.row)"/>
           <span class="row1" v-show="!scope.row.edit"
@@ -29,12 +29,12 @@
         </template>
       </el-table-column>
       <el-table-column label="折扣利率" align="center">
-        <template scope="scope">
+        <template slot-scope="scope">
           <span>{{scope.row.rate}}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="操作">
-        <template scope="scope">
+        <template slot-scope="scope">
           <el-button type="danger" @click="handleDel(scope.$index)" size="small" icon="delete2"></el-button>
         </template>
       </el-table-column>
@@ -42,125 +42,125 @@
   </div>
 </template>
 <script>
-  import { getRates, updateRates } from '../api/api'
-  import { validate } from '../common/js/util'
+import { getRates, updateRates } from '../api/api'
+import { validate } from '../common/js/util'
 
-  export default {
-    props: ['loanType'],
-    data () {
-      return {
-        rates: null,
-        listLoading: false,
-        baseRate: null,
-        baseRateTmp: null,
-        baseRateEdit: false,
-        title: ''
-      }
-    },
-    methods: {
-      async getRates () {
-        this.listLoading = true
-        let res = await getRates(this.loanType)
-        this.baseRate = res.data.baseRate.toFixed(2)
-        this.baseRateTmp = this.baseRate
-        this.rates = res.data.rates.map(item => {
-          item.discount = item.discount.toFixed(2)
-          item.discountTmp = item.discount
-          item.rate = (item.discount * this.baseRate).toFixed(2) + '%'
-          item.edit = false
-          return item
-        })
-        this.listLoading = false
-      },
-      async handleAdd () {
-        if (!this.rates[this.rates.length - 1].discount) {
-          return
-        }
-        this.rates.push({
-          discount: null,
-          edit: true
-        })
-      },
-      // 删除
-      async handleDel (index) {
-        await this.$confirm('确认删除该记录吗?', '提示', {
-          type: 'warning'
-        })
-        this.rates.splice(index, 1)
-        this.listLoading = true
-        this.postRates()
-      },
-      showInput (index, row) {
-        row.edit = true
-      },
-      // 编辑
-      handleEdit (index, row) {
-        if (!validate.isPositiveNum(row.discountTmp)) {
-          this.$message({
-            message: '输入不合法',
-            type: 'error'
-          })
-          this.handleCancel(index, row)
-          return
-        }
-        row.edit = false
-        if (row.discountTmp === row.discount) {
-          return
-        }
-        row.discount = row.discountTmp
-        this.postRates()
-      },
-      handleCancel (index, row) {
-        row.edit = false
-        if (!row.discount) {
-          this.rates.splice(index, 1)
-        }
-        row.discountTmp = row.discount
-      },
-      async postRates () {
-        let rates = this.rates.concat()
-        rates.forEach(item => {
-          item.id = Number(item.id)
-          item.discount = Number(item.discount)
-          delete item.discountTmp
-          delete item.edit
-          delete item.rate
-        })
-        let id = this.loanType === 'GJJ' ? 2 : 1
-        await updateRates(id, this.loanType, this.baseRate, rates).catch(err => {
-          this.$message({
-            message: err.response.data.error,
-            type: 'error'
-          })
-        })
-        this.getRates()
-      },
-      updateBaseRate () {
-        if (!validate.isPositiveNum(this.baseRateTmp)) {
-          this.$message({
-            message: '输入不合法',
-            type: 'error'
-          })
-          this.cancelEditBaseRate()
-          return
-        }
-        this.baseRateEdit = false
-        if (this.baseRateTmp === this.baseRate) {
-          return
-        }
-        this.baseRate = this.baseRateTmp
-        this.postRates()
-      },
-      cancelEditBaseRate () {
-        this.baseRateTmp = this.baseRate
-        this.baseRateEdit = false
-      }
-    },
-    mounted () {
-      this.getRates()
-      this.title = this.loanType === 'GJJ' ? '公积金' : '商业'
+export default {
+  props: ['loanType'],
+  data () {
+    return {
+      rates: null,
+      listLoading: false,
+      baseRate: null,
+      baseRateTmp: null,
+      baseRateEdit: false,
+      title: ''
     }
+  },
+  methods: {
+    async getRates () {
+      this.listLoading = true
+      let res = await getRates(this.loanType)
+      this.baseRate = res.data.baseRate.toFixed(2)
+      this.baseRateTmp = this.baseRate
+      this.rates = res.data.rates.map(item => {
+        item.discount = item.discount.toFixed(2)
+        item.discountTmp = item.discount
+        item.rate = (item.discount * this.baseRate).toFixed(2) + '%'
+        item.edit = false
+        return item
+      })
+      this.listLoading = false
+    },
+    async handleAdd () {
+      if (!this.rates[this.rates.length - 1].discount) {
+        return
+      }
+      this.rates.push({
+        discount: null,
+        edit: true
+      })
+    },
+    // 删除
+    async handleDel (index) {
+      await this.$confirm('确认删除该记录吗?', '提示', {
+        type: 'warning'
+      })
+      this.rates.splice(index, 1)
+      this.listLoading = true
+      this.postRates()
+    },
+    showInput (index, row) {
+      row.edit = true
+    },
+    // 编辑
+    handleEdit (index, row) {
+      if (!validate.isPositiveNum(row.discountTmp)) {
+        this.$message({
+          message: '输入不合法',
+          type: 'error'
+        })
+        this.handleCancel(index, row)
+        return
+      }
+      row.edit = false
+      if (row.discountTmp === row.discount) {
+        return
+      }
+      row.discount = row.discountTmp
+      this.postRates()
+    },
+    handleCancel (index, row) {
+      row.edit = false
+      if (!row.discount) {
+        this.rates.splice(index, 1)
+      }
+      row.discountTmp = row.discount
+    },
+    async postRates () {
+      let rates = this.rates.concat()
+      rates.forEach(item => {
+        item.id = Number(item.id)
+        item.discount = Number(item.discount)
+        delete item.discountTmp
+        delete item.edit
+        delete item.rate
+      })
+      let id = this.loanType === 'GJJ' ? 2 : 1
+      await updateRates(id, this.loanType, this.baseRate, rates).catch(err => {
+        this.$message({
+          message: err.response.data.error,
+          type: 'error'
+        })
+      })
+      this.getRates()
+    },
+    updateBaseRate () {
+      if (!validate.isPositiveNum(this.baseRateTmp)) {
+        this.$message({
+          message: '输入不合法',
+          type: 'error'
+        })
+        this.cancelEditBaseRate()
+        return
+      }
+      this.baseRateEdit = false
+      if (this.baseRateTmp === this.baseRate) {
+        return
+      }
+      this.baseRate = this.baseRateTmp
+      this.postRates()
+    },
+    cancelEditBaseRate () {
+      this.baseRateTmp = this.baseRate
+      this.baseRateEdit = false
+    }
+  },
+  mounted () {
+    this.getRates()
+    this.title = this.loanType === 'GJJ' ? '公积金' : '商业'
   }
+}
 </script>
 
 <style lang="scss" scoped>

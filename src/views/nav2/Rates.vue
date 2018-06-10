@@ -9,16 +9,16 @@
   </section>
 </template>
 <script>
-  import RateTable from '../../components/RateTable.vue'
+import RateTable from '../../components/RateTable.vue'
 
-  export default {
-    data () {
-      return {}
-    },
-    components: {
-      RateTable
-    }
+export default {
+  data () {
+    return {}
+  },
+  components: {
+    RateTable
   }
+}
 </script>
 
 <style>
