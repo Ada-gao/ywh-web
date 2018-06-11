@@ -87,7 +87,7 @@ import { getUser } from '../api/api'
 export default {
   data () {
     return {
-      sysName: '云外呼管理平台',
+      sysName: '雷鸣电销系统',
       collapsed: false,
       sysUserName: '',
       form: {

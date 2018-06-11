@@ -2,7 +2,7 @@
   <div>
   <el-form :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left" label-width="0px"
            class="demo-loginForm login-container">
-    <h3 class="title typo-PingFang">云外呼管理平台</h3>
+    <h3 class="title typo-PingFang">雷鸣电销系统管理平台</h3>
     <el-form-item prop="account">
       <el-input type="text" v-model="loginForm.account" auto-complete="off" placeholder="账号"></el-input>
     </el-form-item>
