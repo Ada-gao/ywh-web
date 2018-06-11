@@ -1,6 +1,6 @@
 <template>
     <section class="chart-container">
-      云外呼欢迎您！
+      雷鸣电销系统欢迎您！
         <el-row>
             <el-col :span="6">
                 <div class="panel panel-blue">

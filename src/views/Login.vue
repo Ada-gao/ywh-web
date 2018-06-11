@@ -21,6 +21,8 @@
 
 <script>
 import { requestLogin } from '../api/api'
+import NProgress from 'nprogress'
+
 export default {
   data () {
     return {
@@ -49,11 +51,11 @@ export default {
         if (valid) {
           // _this.$router.replace('/table');
           this.logining = true
-          // NProgress.start();
+          NProgress.start()
           let loginParams = {username: this.loginForm.account, password: this.loginForm.checkPass}
           requestLogin(loginParams).then(res => {
             this.logining = false
-            // NProgress.done();
+            NProgress.done()
             sessionStorage.setItem('token', res.data.token)
             this.$router.push({path: '/dashboard'})
           }).catch(error => {
