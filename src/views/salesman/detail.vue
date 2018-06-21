@@ -173,7 +173,7 @@ export default {
     return {
       form: {},
       headers: {
-        Authorization: 'Bearer ' + getToken()
+        Authorization: getToken()
       },
       options: [
         {
@@ -287,12 +287,12 @@ export default {
     handleSuccess (fileList) {
       console.log(fileList)
     },
-    handleSizeChange (z) {
-      this.listQuery.limit = z
+    handleSizeChange (val) {
+      this.listQuery.limit = val
       // this.getList()
     },
-    handleCurrentChange () {
-      // this.listQuery.page
+    handleCurrentChange (val) {
+      this.listQuery.page = val
       // this.getList()
     }
   }

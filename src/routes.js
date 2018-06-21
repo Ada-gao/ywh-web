@@ -69,7 +69,7 @@ let routes = [
     leaf: true, // 只有一个节点
     children: [
       {path: '/salesman', component: salesman, name: '销售管理'},
-      {path: 'salesman/detail/:id', component: salesmanDetail, name: '新建销售'}
+      {path: '/salesman/detail/:id', component: salesmanDetail, name: '新建销售'}
     ]
   },
   {

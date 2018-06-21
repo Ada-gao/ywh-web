@@ -4,30 +4,30 @@
       <el-row>
         <el-col :span="8">
           <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="输入公司名称关键词"
-                v-model="listQuery.username">
+                v-model="listQuery.companyName">
           </el-input>
           <el-button class="filter-item" type="primary" icon="search" @click="handleFilter">查询</el-button>
         </el-col>
         <el-col :span="16" style="text-align: right;">
-          <el-select v-model="value" placeholder="省份筛选">
+          <el-select v-model="listQuery.companyProvince" placeholder="省份筛选" @change="handleFilter">
             <el-option
-              v-for="item in options"
+              v-for="item in provinceData"
               :key="item.value"
               :label="item.label"
-              :value="item.value">
+              :value="item">
             </el-option>
           </el-select>
-          <el-select v-model="value" placeholder="行业筛选">
+          <el-select v-model="listQuery.industryType" placeholder="行业筛选" @change="handleFilter">
             <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
+              v-for="item in industry"
+              :key="item.id"
+              :label="item.name"
+              :value="item.name">
             </el-option>
           </el-select>
-          <el-select v-model="value" placeholder="公司规模筛选">
+          <el-select v-model="listQuery.orgSize" placeholder="公司规模筛选" @change="handleFilter">
             <el-option
-              v-for="item in options"
+              v-for="item in orgSize"
               :key="item.value"
               :label="item.label"
               :value="item.value">
@@ -80,18 +80,9 @@
 
       <el-table-column align="center" label="操作" fixed="right" width="150">
         <template slot-scope="scope">
-          <a size="small" class="common_btn">查看
+          <a size="small" class="common_btn"
+            @click="handleUpdate(scope.row)">查看
           </a>
-          <!-- <a v-if="sys_user_upd" size="small" class="common_btn"
-                     @click="handleUpdate(scope.row, 'view')">查看
-          </a>
-          <span class="space_line"> | </span>
-          <a v-if="sys_user_upd" size="small" class="common_btn"
-                     @click="handleUpdate(scope.row, 'update')">编辑
-          </a> -->
-          <!-- <el-button v-if="sys_user_del" size="small" type="danger"
-                     @click="deletes(scope.row)">删除
-          </el-button> -->
         </template>
       </el-table-column>
     </el-table>
@@ -108,7 +99,8 @@
 </template>
 
 <script>
-import { getCompanies } from '@/api/api'
+import { getCompanies, getCompanyPage, getAuthDustries, getOrgSize } from '@/api/api'
+import { provinceAndCityData } from 'element-china-area-data' // 省市区数据
 
 export default {
   components: {},
@@ -141,7 +133,10 @@ export default {
           label: '北京烤鸭'
         }
       ],
-      value: ''
+      value: '',
+      provinceData: provinceAndCityData,
+      industry: [],
+      orgSize: []
     }
   },
   created () {
@@ -149,11 +144,28 @@ export default {
   },
   methods: {
     getList () {
-      getCompanies().then(response => {
-        this.list = response.data
-        this.total = response.data.total
+      getCompanies().then(res => {
+        this.list = res.data
+        this.total = res.data.total
         this.listLoading = false
       })
+      getAuthDustries().then(res => {
+        this.industry = res.data
+      })
+      getOrgSize().then(res => {
+        this.orgSize = res.data
+        // this.form.orgSizeText = transformText(this.coInfo.orgSize, this.form.orgSize)
+      })
+    },
+    getListByQue () {
+      getCompanyPage(this.listQuery).then(res => {
+        this.list = res.data.content
+        this.total = res.data.total
+        this.listLoading = false
+      })
+    },
+    handleUpdate (obj) {
+      this.$router.push({path: '/company/detail/' + obj.companyCode, query: {item: obj}})
     },
     handleSizeChange (val) {
       this.listQuery.limit = val
@@ -164,8 +176,12 @@ export default {
       this.getList()
     },
     handleFilter () {
+      if(this.listQuery.companyProvince) {
+        this.listQuery.companyProvince = this.listQuery.companyProvince.label
+      }
+      console.log(this.listQuery)
       this.listQuery.page = 1
-      this.getList()
+      this.getListByQue()
     },
     handleCreate () {
       this.$router.push({path: '/company/detail/0'})
