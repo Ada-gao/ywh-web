@@ -14,6 +14,7 @@ export const requestLogin = params => axios.post('/auth/login', params)
 export const getUser = () => axios.get('/auth/user')
 // company
 export const getCompanies = () => axios.get('/companies')
+export const getCompanyPage = params => axios.get('/companies/companyPage', {params: params})
 export const addCompanies = data => axios.post('/companies/', data)
 export const delCompanies = id => axios.delete('/companies/' + id)
 export const putCompanies = (id, data) => axios.put('/companies/' + id, data)
