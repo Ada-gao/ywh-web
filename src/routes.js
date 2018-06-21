@@ -2,7 +2,7 @@ import Login from './views/Login.vue'
 import NotFound from './views/404.vue'
 import Home from './views/Home.vue'
 import company from './views/company/company.vue'
-import product from './views/product/product.vue'
+// import product from './views/product/product.vue'
 import salesman from './views/salesman/salesman.vue'
 import dashboard from './views/dashboard/echarts.vue'
 import list from './views/task/list.vue'
@@ -49,16 +49,16 @@ let routes = [
       {path: '/company/detail/:id', component: companyDetail, name: '新建公司'}
     ]
   },
-  {
-    path: '/',
-    component: Home,
-    name: '',
-    iconCls: 'fa fa-globe',
-    leaf: true,
-    children: [
-      {path: '/product', component: product, name: '产品管理'}
-    ]
-  },
+  // {
+  //   path: '/',
+  //   component: Home,
+  //   name: '',
+  //   iconCls: 'fa fa-globe',
+  //   leaf: true,
+  //   children: [
+  //     {path: '/product', component: product, name: '产品管理'}
+  //   ]
+  // },
   {
     path: '/',
     component: Home,
@@ -72,11 +72,21 @@ let routes = [
   {
     path: '/',
     component: Home,
-    name: '外呼管理',
+    name: '',
     iconCls: 'fa fa-phone-square',
+    leaf: true, // 只有一个节点
     children: [
-      {path: '/list', component: list, name: '名单管理'},
-      {path: '/task', component: task, name: '任务分配'}
+      {path: '/list', component: list, name: '名单管理'}
+    ]
+  },
+  {
+    path: '/',
+    component: Home,
+    name: '',
+    iconCls: 'fa fa-phone-square',
+    leaf: true, // 只有一个节点
+    children: [
+      {path: '/task', component: task, name: '任务管理'}
     ]
   },
   {
