@@ -8,7 +8,7 @@
           </el-input>
           <el-button class="filter-item" type="primary" icon="search" @click="handleFilter">查询</el-button>
         </el-col>
-        <el-col :span="16">
+        <el-col :span="16" style="text-align: right;">
           <el-select v-model="value" placeholder="省份筛选">
             <el-option
               v-for="item in options"

@@ -8,7 +8,7 @@
           </el-input>
           <el-button class="filter-item" type="primary" icon="search" @click="handleFilter">查询</el-button>
         </el-col>
-        <el-col :span="16">
+        <el-col :span="16" style="text-align: right;">
           <el-select v-model="value" placeholder="公司筛选">
             <el-option
               v-for="item in options"
@@ -156,7 +156,7 @@ export default {
       this.getList()
     },
     handleCreate () {
-      this.$router.push({path: '/company/detail/0'})
+      this.$router.push({path: '/salesman/detail/0'})
     }
   }
 }

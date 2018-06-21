@@ -13,6 +13,7 @@ import workload from './views/report/workload.vue'
 import reporttask from './views/report/task.vue'
 import reportproduct from './views/report/product.vue'
 import companyDetail from './views/company/create.vue'
+import salesmanDetail from './views/salesman/detail.vue'
 
 let routes = [
   {
@@ -66,7 +67,8 @@ let routes = [
     iconCls: 'fa fa-address-book',
     leaf: true, // 只有一个节点
     children: [
-      {path: '/salesman', component: salesman, name: '销售管理'}
+      {path: '/salesman', component: salesman, name: '销售管理'},
+      {path: 'salesman/detail/:id', component: salesmanDetail, name: '新建销售'}
     ]
   },
   {

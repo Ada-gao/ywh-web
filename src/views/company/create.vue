@@ -9,17 +9,17 @@
         <el-row :gutter="20">
           <el-col :span="11">
             <el-form-item label="公司名称" prop="name">
-              <el-input v-model="form.name" placeholder="请输入公司名称"></el-input>
+              <el-input v-model="form.companyName" placeholder="请输入公司名称"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="11">
-            <el-form-item label="所在地" prop="username">
+            <el-form-item label="所在地" prop="companyProvince">
               <el-cascader
                 style="width: 100%"
                 :options="options"
-                v-model="selectedOptions"
+                v-model="companyProvince"
                 @change="handleChange">
               </el-cascader>
             </el-form-item>
@@ -27,15 +27,30 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="11">
-            <el-form-item label="公司地址" prop="empNo">
-              <el-input v-model="form.empNo" placeholder="请输入公司地址"></el-input>
+            <el-form-item label="公司地址" prop="companyAdress">
+              <el-input v-model="form.companyAdress" placeholder="请输入公司地址"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="11">
             <el-form-item label="所属行业" prop="employeeDate">
-              <el-input v-model="form.empNo" placeholder="请输入公司地址"></el-input>
+              <el-select v-model="form.industry" placeholder="请选择行业大类" @change="changeIndustry" style="width: 50%">
+                <el-option
+                  v-for="item in coInfo.industry"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id">
+                </el-option>
+              </el-select>
+              <el-select v-model="form.industryType" placeholder="请选择行业小类" @change="changeIndustryType" style="width: 50%; float: right;">
+                <el-option
+                  v-for="item in coInfo.industryType"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id">
+                </el-option>
+              </el-select>
             </el-form-item>
           </el-col>
         </el-row>
@@ -44,7 +59,7 @@
             <el-form-item label="公司规模" prop="gender">
               <el-select v-model="value" placeholder="请选择规模" style="width: 100%">
                 <el-option
-                  v-for="item in options1"
+                  v-for="item in coInfo.orgSize"
                   :key="item.value"
                   :label="item.label"
                   :value="item.value">
@@ -56,21 +71,21 @@
         <el-row :gutter="20">
           <el-col :span="11">
             <el-form-item label="联系人" prop="education">
-              <el-input v-model="form.mobile" :maxlength="11" placeholder="请输入联系人姓名"></el-input>
+              <el-input v-model="form.contact" :maxlength="11" placeholder="请输入联系人姓名"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="11">
             <el-form-item label="职务" prop="idType">
-              <el-input v-model="form.mobile" :maxlength="11" placeholder="请输入联系人职务"></el-input>
+              <el-input v-model="form.occupation" :maxlength="11" placeholder="请输入联系人职务"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="11">
             <el-form-item label="联系手机" prop="mobile">
-              <el-input v-model="form.mobile" :maxlength="11" placeholder="请输入手机号码"></el-input>
+              <el-input v-model="form.contactMobile" :maxlength="11" placeholder="请输入手机号码"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -134,7 +149,6 @@
               <span></span>
             </el-form-item>
           </el-col>
-        
           <el-col :span="11">
             <el-form-item label="职务" prop="idType">
               <span>:</span>
@@ -154,7 +168,7 @@
             <el-form-item label="备注" prop="remark">
               <span>:</span>
             </el-form-item>
-          </el-col> 
+          </el-col>
         </el-row>
       </el-form>
     </div>
@@ -163,6 +177,7 @@
 
 <script>
 import { getToken } from '@/common/js/auth'
+import { getOrgSize, getAuthDustries, getAuthDustryByType } from '@/api/api'
 
 export default {
   data () {
@@ -194,7 +209,7 @@ export default {
           }]
         }
       ],
-      selectedOptions: [],
+      companyProvince: [],
       fileList: [],
       options1: [
         {
@@ -220,7 +235,12 @@ export default {
         create: '新建公司',
         update: '修改公司详情',
         view: '查看公司详情'
-      }
+      },
+      coInfo: {
+        orgSize: [],
+        industry: []
+      },
+      industry: []
     }
   },
   created () {
@@ -231,11 +251,38 @@ export default {
     } else {
       this.updateStatus = 'create'
     }
+    this.getOrgSize()
   },
   methods: {
+    getOrgSize () {
+      getOrgSize().then(res => {
+        this.coInfo.orgSize = res.data
+      })
+      getAuthDustries().then(res => {
+        this.coInfo.industry = res.data
+      })
+    },
+    changeIndustry (val) {
+      console.log(val)
+      console.log(this.form.industryType)
+      this.form.industryType = ''
+      // this.coInfo.industryType = []
+      getAuthDustryByType(val).then(res => {
+        this.coInfo.industryType = res.data
+      })
+    },
+    changeIndustryType () {
+      this.coInfo.industryType = this.coInfo.industryType.slice(0)
+    },
     create (formName) {
       console.log('提交了')
       this.updateStatus = 'view'
+      this.$notify({
+        title: '成功',
+        message: '创建成功',
+        type: 'success',
+        duration: 2000
+      })
 
       // const set = this.$refs
       // this.form.positionId = this.form.positionName
@@ -246,13 +293,13 @@ export default {
       //     addObj(this.form)
       //       .then(() => {
       //         this.dialogFormVisible = false
-      //         this.getList()
-              this.$notify({
-                title: '成功',
-                message: '创建成功',
-                type: 'success',
-                duration: 2000
-              })
+      // //         this.getList()
+      //         this.$notify({
+      //           title: '成功',
+      //           message: '创建成功',
+      //           type: 'success',
+      //           duration: 2000
+      //         })
       //       })
       //   } else {
       //     return false
