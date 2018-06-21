@@ -15,8 +15,8 @@ export function transformText (source, k) {
   }
   let obj = {}
   source.forEach((val) => {
-    let key = val.value || val.positionId || val.productTypeId
-    obj[key] = val.label || val.positionName || val.name
+    let key = val.value || val.id
+    obj[key] = val.label || val.name
   })
   k = obj[k]
   return k
