@@ -99,7 +99,7 @@
 </template>
 
 <script>
-import { getCompanies, getCompanyPage, getAuthDustries, getOrgSize } from '@/api/api'
+import { getCompanyPage, getAuthDustries, getOrgSize } from '@/api/api'
 import { provinceAndCityData } from 'element-china-area-data' // 省市区数据
 
 export default {
@@ -144,9 +144,9 @@ export default {
   },
   methods: {
     getList () {
-      getCompanies().then(res => {
-        this.list = res.data
-        this.total = res.data.total
+      getCompanyPage(this.listQuery).then(res => {
+        this.list = res.data.content
+        this.total = res.data.totalElements
         this.listLoading = false
       })
       getAuthDustries().then(res => {
@@ -155,13 +155,6 @@ export default {
       getOrgSize().then(res => {
         this.orgSize = res.data
         // this.form.orgSizeText = transformText(this.coInfo.orgSize, this.form.orgSize)
-      })
-    },
-    getListByQue () {
-      getCompanyPage(this.listQuery).then(res => {
-        this.list = res.data.content
-        this.total = res.data.total
-        this.listLoading = false
       })
     },
     handleUpdate (obj) {
@@ -176,12 +169,12 @@ export default {
       this.getList()
     },
     handleFilter () {
-      if(this.listQuery.companyProvince) {
+      if (this.listQuery.companyProvince) {
         this.listQuery.companyProvince = this.listQuery.companyProvince.label
       }
       console.log(this.listQuery)
       this.listQuery.page = 1
-      this.getListByQue()
+      this.getList()
     },
     handleCreate () {
       this.$router.push({path: '/company/detail/0'})

@@ -20,7 +20,9 @@ export const delCompanies = id => axios.delete('/companies/' + id)
 export const putCompanies = (id, data) => axios.put('/companies/' + id, data)
 // dict
 export const getOrgSize = () => axios.get('/dict/TypeorgSize')
-// export const putCompanies = id => axios.put('/companies/' + id)
 // industry
 export const getAuthDustries = () => axios.get('/industry/auth/getAllTypes')
 export const getAuthDustryByType = typeId => axios.get('/industry/auth/getIndustrysByTypeId/' + typeId)
+// user/sale
+export const getUsers = params => axios.get('/users/querySales', {params: params})
+export const getUsersCount = () => axios.get('/users/salesCount')

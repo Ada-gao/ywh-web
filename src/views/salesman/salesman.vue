@@ -4,25 +4,25 @@
       <el-row>
         <el-col :span="8">
           <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="输入销售姓名"
-                v-model="listQuery.username">
+                v-model="listQuery.name">
           </el-input>
           <el-button class="filter-item" type="primary" icon="search" @click="handleFilter">查询</el-button>
         </el-col>
         <el-col :span="16" style="text-align: right;">
-          <el-select v-model="value" placeholder="公司筛选">
+          <el-select v-model="listQuery.companyId" placeholder="公司筛选" @change="handleFilter">
             <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
+              v-for="item in companies"
+              :key="item.id"
+              :label="item.companyName"
+              :value="item.id">
             </el-option>
           </el-select>
-          <el-select v-model="value" placeholder="部门筛选">
+          <el-select v-model="listQuery.team" placeholder="团队筛选" @change="handleFilter">
             <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
+              v-for="item in companies"
+              :key="item.id"
+              :label="item.companyName"
+              :value="item.id">
             </el-option>
           </el-select>
         </el-col>
@@ -36,43 +36,43 @@
 
       <el-table-column align="center" label="销售ID">
         <template slot-scope="scope">
-          <span>{{scope.row.companyCode}}</span>
+          <span>{{scope.row[0]}}</span>
         </template>
       </el-table-column>
 
       <el-table-column align="center" label="销售名称">
         <template slot-scope="scope">
-          <span>{{scope.row.companyName}}</span>
+          <span>{{scope.row[1]}}</span>
         </template>
       </el-table-column>
 
       <el-table-column align="center" label="所属部门">
         <template slot-scope="scope">
-          <span>{{scope.row.companyCity}}</span>
+          <span>{{scope.row[2]}}</span>
         </template>
       </el-table-column>
 
       <el-table-column align="center" label="所属公司">
         <template slot-scope="scope">
-          <span>{{scope.row.companyCity}}</span>
+          <span>{{scope.row[3]}}</span>
         </template>
       </el-table-column>
 
       <el-table-column align="center" label="所在省份">
         <template slot-scope="scope">
-          <span>{{scope.row.companyCity}}</span>
+          <span>{{scope.row[4]}}</span>
         </template>
       </el-table-column>
 
       <el-table-column align="center" label="所属行业" show-overflow-tooltip>
         <template slot-scope="scope">
-        <span>{{scope.row.industryType}}</span>
+        <span>{{scope.row[5]}}</span>
         </template>
       </el-table-column>
 
       <el-table-column align="center" label="公司规模">
         <template slot-scope="scope">
-          <span>{{scope.row.orgSize}}</span>
+          <span>{{scope.row[7]}}</span>
         </template>
       </el-table-column>
 
@@ -96,7 +96,8 @@
 </template>
 
 <script>
-import { getCompanies } from '@/api/api'
+import { getUsers, getCompanies, getOrgSize, getUsersCount } from '@/api/api'
+import { transformText } from '@/common/js/util'
 
 export default {
   components: {},
@@ -111,36 +112,37 @@ export default {
       },
       list: null,
       sys_user_add: true,
-      options: [
-        {
-          value: '选项1',
-          label: '黄金糕'
-        }, {
-          value: '选项2',
-          label: '双皮奶'
-        }, {
-          value: '选项3',
-          label: '蚵仔煎'
-        }, {
-          value: '选项4',
-          label: '龙须面'
-        }, {
-          value: '选项5',
-          label: '北京烤鸭'
-        }
-      ],
-      value: ''
+      value: '',
+      companies: [],
+      orgSize: []
     }
   },
   created () {
     this.getList()
+    this.getQuery()
   },
   methods: {
     getList () {
-      getCompanies().then(response => {
+      getUsers(this.listQuery).then(response => {
         this.list = response.data
         this.total = response.data.total
         this.listLoading = false
+        getOrgSize().then(res => {
+          this.orgSize = res.data
+          this.list.forEach(item => {
+            item[7] = transformText(this.orgSize, item[6])
+            console.log(item[7])
+          })
+        })
+      })
+      getUsersCount().then(res => {
+        // this.total = res.data
+        console.log(res.data)
+      })
+    },
+    getQuery () {
+      getCompanies().then(res => {
+        this.companies = res.data
       })
     },
     handleSizeChange (val) {
