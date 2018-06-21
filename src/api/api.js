@@ -17,8 +17,6 @@ export const getCompanies = () => axios.get('/companies')
 export const addCompanies = data => axios.post('/companies/', data)
 export const delCompanies = id => axios.delete('/companies/' + id)
 export const putCompanies = (id, data) => axios.put('/companies/' + id, data)
-// file
-export const upload = () => axios.post('/file/upload')
 // dict
 export const getOrgSize = () => axios.get('/dict/TypeorgSize')
 // export const putCompanies = id => axios.put('/companies/' + id)

@@ -51,7 +51,7 @@
                   v-for="item in coInfo.industry"
                   :key="item.id"
                   :label="item.name"
-                  :value="item.id">
+                  :value="item.name">
                 </el-option>
               </el-select>
               <el-select v-model="form.industryType" placeholder="请选择行业小类" @change="changeIndustryType" style="width: 50%; float: right;">
@@ -59,7 +59,7 @@
                   v-for="item in coInfo.industryType"
                   :key="item.id"
                   :label="item.name"
-                  :value="item.id">
+                  :value="item.name">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -157,7 +157,7 @@
           </el-col>
           <el-col :span="11">
             <el-form-item label="所属行业">
-              <span>:{{form.industryText}}-{{form.industryTypeText}}</span>
+              <span>:{{form.industry}}-{{form.industryType}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="11">
@@ -198,7 +198,7 @@
 
 <script>
 import { getToken } from '@/common/js/auth'
-import { getOrgSize, getAuthDustries, getAuthDustryByType, putCompanies, addCompanies, upload } from '@/api/api'
+import { getOrgSize, getAuthDustries, getAuthDustryByType, putCompanies, addCompanies } from '@/api/api'
 import { transformText } from '@/common/js/util'
 import { provinceAndCityData } from 'element-china-area-data' // 省市区数据
 
@@ -207,7 +207,7 @@ export default {
     return {
       form: {},
       headers: {
-        Authorization: 'Bearer ' + getToken()
+        Authorization: getToken()
       },
       fileList: [],
       value: '',
@@ -262,11 +262,11 @@ export default {
     this.getOrgSize()
     if (obj) {
       this.form = obj
-      this.updateStatus = 'view'
-      getAuthDustryByType(this.form.industry).then(res => {
-        this.coInfo.industryType = res.data
-        this.form.industryTypeText = transformText(this.coInfo.industryType, this.form.industryType)
+      getOrgSize().then(res => {
+        this.coInfo.orgSize = res.data
+        this.form.orgSizeText = transformText(this.coInfo.orgSize, this.form.orgSize)
       })
+      this.updateStatus = 'view'
     } else {
       if (this.id === '0') {
         this.updateStatus = 'create'
@@ -283,11 +283,9 @@ export default {
       })
       getAuthDustries().then(res => {
         this.coInfo.industry = res.data
-        this.form.industryText = transformText(this.coInfo.industry, this.form.industry)
       })
     },
     changeProvince (val) {
-      console.log(val)
       this.cityData = val.children
       this.form.companyCity = null
     },

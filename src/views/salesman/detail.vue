@@ -173,7 +173,7 @@ export default {
     return {
       form: {},
       headers: {
-        Authorization: 'Bearer ' + getToken()
+        Authorization: getToken()
       },
       options: [
         {
