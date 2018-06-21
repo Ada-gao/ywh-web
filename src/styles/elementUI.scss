@@ -10,3 +10,15 @@
     display: none;
   }
 }
+.noml {
+  .el-input__icon {
+    right: -30px!important;
+  }
+}
+.last-item {
+  .el-form-item__label {
+    display: block;
+    float: none;
+    padding-right: 0;
+  }
+}

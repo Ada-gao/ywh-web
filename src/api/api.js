@@ -26,3 +26,19 @@ export const getAuthDustryByType = typeId => axios.get('/industry/auth/getIndust
 // user/sale
 export const getUsers = params => axios.get('/users/querySales', {params: params})
 export const getUsersCount = () => axios.get('/users/salesCount')
+// name
+export function getLists (query) {
+  return axios({
+    url: '/outboundName/getPage',
+    method: 'get',
+    params: query
+  })
+}
+// task
+export function getTasks (query) {
+  return axios({
+    url: '/task/admin/getPage',
+    method: 'get',
+    params: query
+  })
+}
