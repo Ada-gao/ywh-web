@@ -12,6 +12,7 @@ import parameter from './views/parameter/parameter.vue'
 import workload from './views/report/workload.vue'
 import reporttask from './views/report/task.vue'
 import reportproduct from './views/report/product.vue'
+import companyDetail from './views/company/create.vue'
 
 let routes = [
   {
@@ -44,7 +45,8 @@ let routes = [
     iconCls: 'fa fa-sitemap',
     leaf: true,
     children: [
-      {path: '/company', component: company, name: '公司管理'}
+      {path: '/company', component: company, name: '公司管理'},
+      {path: '/company/detail/:id', component: companyDetail, name: '新建公司'}
     ]
   },
   {

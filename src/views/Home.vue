@@ -139,6 +139,7 @@ export default {
         this.sysUserName = res.data.username
       })
     }
+    console.log(this.$router)
   }
 }
 

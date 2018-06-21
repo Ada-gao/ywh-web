@@ -1,2 +1,20 @@
 @import './vars.scss';
-@import './elementUI.scss'
+@import './elementUI.scss';
+
+$mainBlue: #0299CC;
+.app-container {
+  padding: 0 20px;
+}
+.margin-line {
+  border-bottom: 1px solid #ccc;
+  margin: 20px 0;
+}
+.tit-text::before {
+  content: '';
+  display: inline-block;
+  width: 5px;
+  background-color: $mainBlue;
+  height: 20px;
+  margin: 0 5px;
+  vertical-align: top;
+}

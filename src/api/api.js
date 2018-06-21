@@ -12,3 +12,7 @@ axios.interceptors.request.use(config => {
 
 export const requestLogin = params => axios.post('/auth/login', params)
 export const getUser = () => axios.get('/auth/user')
+export const getCompanies = () => axios.get('/companies')
+export const updateCompanies = params => axios.post('/companies', params)
+export const delCompanies = id => axios.delete('/companies/' + id)
+export const putCompanies = id => axios.put('/companies/' + id)
