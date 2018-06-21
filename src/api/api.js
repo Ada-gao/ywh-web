@@ -22,3 +22,19 @@ export const getOrgSize = () => axios.get('/dict/TypeorgSize')
 // industry
 export const getAuthDustries = () => axios.get('/industry/auth/getAllTypes')
 export const getAuthDustryByType = typeId => axios.get('/industry/auth/getIndustrysByTypeId/' + typeId)
+// name
+export function getLists (query) {
+  return axios({
+    url: '/outboundName/getPage',
+    method: 'get',
+    params: query
+  })
+}
+// task
+export function getTasks (query) {
+  return axios({
+    url: '/task/admin/getPage',
+    method: 'get',
+    params: query
+  })
+}
