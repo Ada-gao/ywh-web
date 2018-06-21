@@ -80,18 +80,9 @@
 
       <el-table-column align="center" label="操作" fixed="right" width="150">
         <template slot-scope="scope">
-          <a size="small" class="common_btn">查看
+          <a size="small" class="common_btn"
+            @click="handleUpdate(scope.row)">查看
           </a>
-          <!-- <a v-if="sys_user_upd" size="small" class="common_btn"
-                     @click="handleUpdate(scope.row, 'view')">查看
-          </a>
-          <span class="space_line"> | </span>
-          <a v-if="sys_user_upd" size="small" class="common_btn"
-                     @click="handleUpdate(scope.row, 'update')">编辑
-          </a> -->
-          <!-- <el-button v-if="sys_user_del" size="small" type="danger"
-                     @click="deletes(scope.row)">删除
-          </el-button> -->
         </template>
       </el-table-column>
     </el-table>
@@ -154,6 +145,9 @@ export default {
         this.total = response.data.total
         this.listLoading = false
       })
+    },
+    handleUpdate (obj) {
+      this.$router.push({path: '/company/detail/' + obj.companyCode, query: {item: obj}})
     },
     handleSizeChange (val) {
       this.listQuery.limit = val

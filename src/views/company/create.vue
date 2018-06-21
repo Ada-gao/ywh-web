@@ -2,6 +2,7 @@
   <div class="app-container">
     <div class="detail-title">
       <span class="tit-text">{{textMap[updateStatus]}}</span>
+      <el-button class="upd_btn" v-show="updateStatus==='view'" @click="updateStatus='update'">修改</el-button>
     </div>
     <div class="margin-line"></div>
     <div class="update-detail" v-if="updateStatus==='create'||updateStatus==='update'">
@@ -16,19 +17,35 @@
         <el-row :gutter="20">
           <el-col :span="11">
             <el-form-item label="所在地" prop="companyProvince">
-              <el-cascader
+              <el-select v-model="form.companyProvince" placeholder="请选择省份" @change="changeProvince" style="width: 50%">
+                <el-option
+                  v-for="item in provinceData"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item">
+                </el-option>
+              </el-select>
+              <el-select v-model="form.companyCity" placeholder="请选择地区" @change="changeCity" style="width: 50%; float: right;">
+                <el-option
+                  v-for="item in cityData"
+                  :key="item.label"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+              <!-- <el-cascader
                 style="width: 100%"
                 :options="options"
                 v-model="companyProvince"
                 @change="handleChange">
-              </el-cascader>
+              </el-cascader> -->
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="11">
-            <el-form-item label="公司地址" prop="companyAdress">
-              <el-input v-model="form.companyAdress" placeholder="请输入公司地址"></el-input>
+            <el-form-item label="公司地址" prop="companyAddress">
+              <el-input v-model="form.companyAddress" placeholder="请输入公司地址"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -57,7 +74,7 @@
         <el-row :gutter="20">
           <el-col :span="11">
             <el-form-item label="公司规模" prop="gender">
-              <el-select v-model="value" placeholder="请选择规模" style="width: 100%">
+              <el-select v-model="form.orgSize" placeholder="请选择规模" style="width: 100%">
                 <el-option
                   v-for="item in coInfo.orgSize"
                   :key="item.value"
@@ -92,8 +109,10 @@
         <el-row :gutter="20">
           <el-col :span="11">
             <el-form-item label="公司LOGO" prop="resumeUrl">
+              <img :src="form.logo" alt="" style="width: 50px; height: 30px;">
               <el-upload
                 class="upload-demo"
+                style="display: inline-block"
                 action="/zuul/admin/user/upload"
                 :headers="headers"
                 multiple
@@ -121,52 +140,52 @@
       </el-col>
     </div>
     <div class="read-detail" v-if="updateStatus==='view'">
-      <el-button class="upd_btn" @click="updateStatus='update'">修改</el-button>
+      <!-- <el-button class="upd_btn" @click="updateStatus='update'">修改</el-button> -->
       <el-form :model="form" class="form-border">
         <el-row :gutter="20">
           <el-col :span="11">
-            <el-form-item label="公司名称" prop="name">
-              <span>:{{form.name}}</span>
+            <el-form-item label="公司名称">
+              <span>:{{form.companyName}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="11">
-            <el-form-item label="所在地" prop="username">
-              <span>:{{form.name}}</span>
+            <el-form-item label="所在地">
+              <span>:{{form.companyProvince}}-{{form.companyCity}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="11">
-            <el-form-item label="公司地址" prop="empNo">
-              <span>:</span>
+            <el-form-item label="公司地址">
+              <span>:{{form.companyAddress}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="11">
-            <el-form-item label="公司规模" prop="gender">
-              <span>:</span>
+            <el-form-item label="公司规模">
+              <span>:{{form.orgSizeText}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="11">
-            <el-form-item label="联系人" prop="education">
-              <span></span>
+            <el-form-item label="联系人">
+              <span>:{{form.contact}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="11">
-            <el-form-item label="职务" prop="idType">
-              <span>:</span>
+            <el-form-item label="职务">
+              <span>:{{form.occupation}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="11">
-            <el-form-item label="联系手机" prop="mobile">
-              <span>:</span>
+            <el-form-item label="联系手机">
+              <span>:{{form.contactMobile}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="11">
-            <el-form-item label="公司LOGO" prop="resumeUrl">
-              <img src="" alt="">
+            <el-form-item label="公司LOGO">
+              :<img :src="form.logo" alt="" style="width: 50px; height: 30px;">
             </el-form-item>
           </el-col>
           <el-col :span="11">
-            <el-form-item label="备注" prop="remark">
-              <span>:</span>
+            <el-form-item label="备注">
+              <span>:{{form.remark}}</span>
             </el-form-item>
           </el-col>
         </el-row>
@@ -178,6 +197,8 @@
 <script>
 import { getToken } from '@/common/js/auth'
 import { getOrgSize, getAuthDustries, getAuthDustryByType } from '@/api/api'
+import { transformText } from '@/common/js/util'
+import { provinceAndCityData } from 'element-china-area-data' // 省市区数据
 
 export default {
   data () {
@@ -209,26 +230,7 @@ export default {
           }]
         }
       ],
-      companyProvince: [],
       fileList: [],
-      options1: [
-        {
-          value: '选项1',
-          label: '黄金糕'
-        }, {
-          value: '选项2',
-          label: '双皮奶'
-        }, {
-          value: '选项3',
-          label: '蚵仔煎'
-        }, {
-          value: '选项4',
-          label: '龙须面'
-        }, {
-          value: '选项5',
-          label: '北京烤鸭'
-        }
-      ],
       value: '',
       updateStatus: '',
       textMap: {
@@ -240,38 +242,51 @@ export default {
         orgSize: [],
         industry: []
       },
-      industry: []
+      industry: [],
+      provinceData: provinceAndCityData,
+      cityData: []
     }
   },
   created () {
-    console.log(this.$route.params)
+    const obj = this.$route.query.item
     this.id = this.$route.params.id
-    if (this.id) {
-      this.updateStatus = 'update'
-    } else {
-      this.updateStatus = 'create'
-    }
     this.getOrgSize()
+    if (obj) {
+      this.form = obj
+      // console.log(this.form)
+      this.updateStatus = 'view'
+    } else {
+      if (this.id === '0') {
+        this.updateStatus = 'create'
+      } else {
+        this.updateStatus = 'update'
+      }
+    }
   },
   methods: {
     getOrgSize () {
       getOrgSize().then(res => {
         this.coInfo.orgSize = res.data
+        this.form.orgSizeText = transformText(this.coInfo.orgSize, this.form.orgSize)
       })
       getAuthDustries().then(res => {
         this.coInfo.industry = res.data
       })
     },
+    changeProvince (val) {
+      this.cityData = val.children
+      this.form.companyCity = null
+    },
+    changeCity (val) {
+      this.cityData = this.cityData.slice(0)
+    },
     changeIndustry (val) {
-      console.log(val)
-      console.log(this.form.industryType)
-      this.form.industryType = ''
-      // this.coInfo.industryType = []
       getAuthDustryByType(val).then(res => {
         this.coInfo.industryType = res.data
+        this.form.industryType = null
       })
     },
-    changeIndustryType () {
+    changeIndustryType (val) {
       this.coInfo.industryType = this.coInfo.industryType.slice(0)
     },
     create (formName) {
@@ -323,9 +338,7 @@ export default {
 .read-detail {
   position: relative;
   .upd_btn {
-    position: absolute;
-    right: 0;
-    top: -40px;
+    float: right;
   }
 }
 .form-border {
