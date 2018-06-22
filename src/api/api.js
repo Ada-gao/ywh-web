@@ -30,20 +30,9 @@ export const getUserById = id => axios.get('/users/' + id)
 export const updUser = (id, params) => axios.put('/users/' + id, params)
 export const addUser = () => axios.post('/users/addBatch')
 // name
-export function getLists (query) {
-  return axios({
-    url: '/outboundName/getPage',
-    method: 'get',
-    params: query
-  })
-}
-// task
-export function getTasks (query) {
-  return axios({
-    url: '/task/admin/getPage',
-    method: 'get',
-    params: query
-  })
-}
+export const getLists = params => axios.get('/outboundName/getPage', {params: params})
 // file
 export const getFile = id => axios.get('/file/' + id)
+// task
+export const getTasks = params => axios.get('/task/admin/getPage', {params: params})
+export const createTask = data => axios.get('/task', data)

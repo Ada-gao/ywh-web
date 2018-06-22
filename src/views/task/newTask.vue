@@ -7,7 +7,7 @@
     <div class="update-detail">
       <el-form :model="ruleForm" ref="ruleForm" label-width="100px" :rules="rules">
         <el-row :gutter="20">
-          <el-col :span="11">
+          <el-col :span="13">
             <el-form-item label="所属公司" prop="name" required>
               <!--<el-input v-model="form.name" placeholder="选择/输入公司名称"></el-input>-->
               <el-select v-model="ruleForm.name" placeholder="选择/输入所属公司">
@@ -22,7 +22,7 @@
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="11">
+          <el-col :span="13">
             <el-form-item label="关联名单" prop="associatelist" required>
               <!--<el-input v-model="form.empNo" placeholder="选择/输入关联名单"></el-input>-->
               <el-select v-model="ruleForm.associatelist" placeholder="选择/输入关联名单">
@@ -37,21 +37,21 @@
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="11">
+          <el-col :span="13">
             <el-form-item label="任务名称" prop="taskname" required>
               <el-input v-model="ruleForm.taskname" placeholder="输入任务名称"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="11">
-            <el-form-item label="推广产品" prop="product">
-              <el-input v-model="ruleForm.product" placeholder="输入产品名称"></el-input>
+          <el-col :span="13">
+            <el-form-item label="推广产品">
+              <el-input v-model="ruleForm.productName" placeholder="输入产品名称"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="11">
+          <el-col :span="13">
             <el-form-item label="关联团队" prop="associateteam" required>
               <!--<el-input v-model="form.associateteam" placeholder="选择/输入关联团队"></el-input>-->
               <el-select v-model="ruleForm.associateteam" placeholder="选择/输入关联团队">
@@ -66,7 +66,7 @@
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="11">
+          <el-col :span="13">
             <el-form-item label="分配规则" prop="resource" required>
               <el-radio-group v-model="ruleForm.resource">
                 <el-radio label="随机平均分配"></el-radio>
@@ -76,46 +76,57 @@
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="11">
-            <el-form-item label="任务目标" prop="tasktarget" required>
-              <el-input v-model="ruleForm.tasktarget" placeholder="输入任务目标"></el-input>
+          <el-col :span="13">
+            <el-form-item label="任务目标" prop="taskTarget" required>
+              <el-input v-model="ruleForm.taskTarget" placeholder="输入任务目标"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="11">
+          <el-col :span="13">
             <el-form-item label="外呼话术" prop="calloutdesc" required>
               <el-input type="textarea" v-model="ruleForm.calloutdesc" placeholder="输入外呼话术"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="24" class="noml">
-            <el-form-item prop="date1" label="任务事件" required>
-              <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.date1"></el-date-picker>
+          <el-col :span="6" class="noml">
+            <el-form-item prop="taskStartDate" label="任务事件" required>
+              <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.taskStartDate"></el-date-picker>
             </el-form-item>
-            <span class="divideline">-</span>
-            <el-form-item prop="date2" class="nomargin">
-              <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.date2"></el-date-picker>
+            <!--<span class="divideline">-</span>-->
+            <!--<el-form-item prop="taskEndDate" class="nomargin">-->
+              <!--<el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.taskEndDate"></el-date-picker>-->
+            <!--</el-form-item>-->
+          </el-col>
+          <el-col class="line" style="width: 10px">-</el-col>
+          <el-col :span="6" class="noml1">
+            <el-form-item prop="taskEndDate">
+              <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.taskEndDate"></el-date-picker>
             </el-form-item>
           </el-col>
-          <!--<el-col class="line" style="width: 10px">-</el-col>-->
-          <!--<el-col :span="6" class="noml1">-->
-            <!--<el-form-item prop="date2">-->
-              <!--<el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.date2"></el-date-picker>-->
-            <!--</el-form-item>-->
-          <!--</el-col>-->
         </el-row>
-        <el-row :gutter="20">
+        <el-row :gutter="20" class="define-rule-tit">
           <el-col class="last-item" :span="24">
-            <el-form-item label="外呼规则设定" prop="calloutRule" required>
-              有效通话时长
-              <el-input placeholder="有效通话时长" v-model="ruleForm.callTime" style="width: 30%"></el-input>
-              有效任务数（通）：通/人
-              <el-input placeholder="有效任务数" v-model="ruleForm.callNum" style="width: 30%"></el-input>
-              下一步行动规则
-              <!--<el-input placeholder="下一步行动规则" v-model="ruleForm.callRule"></el-input>-->
-              <el-select v-model="ruleForm.callRule" placeholder="下一步行动规则" style="width: 30%">
+            <el-form-item label="外呼规则设定" required></el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20" class="define-rule-box">
+          <el-col :span="7">
+            <el-form-item label="有效通话时长" prop="callTime">
+              <el-input placeholder="有效通话时长" v-model="ruleForm.callTime"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="7">
+            <el-form-item label="有效任务数（通）：通/人" prop="callNum">
+              <el-input placeholder="有效任务数" v-model="ruleForm.callNum"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20" class="define-rule-box">
+          <el-col :span="7">
+            <el-form-item label="下一步行动规则" prop="assignRule">
+              <el-select v-model="ruleForm.assignRule" placeholder="下一步行动规则">
                 <el-option
                   v-for="item in options"
                   :key="item.value"
@@ -123,46 +134,35 @@
                   :value="item.value">
                 </el-option>
               </el-select>
-              外呼频率（间隔）天
-              <el-input placeholder="外呼频率间隔" v-model="ruleForm.callFrequency" style="width: 30%"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="7">
+            <el-form-item label="外呼频率（间隔）天" prop="callFrequency">
+              <el-input placeholder="外呼频率间隔" v-model="ruleForm.callFrequency"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item>
-          <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
-          <el-button @click="resetForm('ruleForm')">重置</el-button>
-        </el-form-item>
+        <!--<el-form-item>-->
+          <!--<el-button class="search_btn" @click="cancel('ruleForm')">取消</el-button>-->
+          <!--<el-button class="add_btn" @click="create('ruleForm')">提交</el-button>-->
+        <!--</el-form-item>-->
       </el-form>
-      <!--<el-col :span="11" slot="footer" class="dialog-footer" style="text-align: center">-->
-        <!--<el-button class="search_btn" @click="cancel('form')">取 消</el-button>-->
-        <!--<el-button class="add_btn" @click="create('form')">提 交</el-button>-->
-      <!--</el-col>-->
+      <el-col :span="11" slot="footer" class="dialog-footer" style="text-align: center">
+        <el-button class="add_btn" @click="create('ruleForm')">提 交</el-button>
+        <el-button class="search_btn" @click="cancel('ruleForm')">取 消</el-button>
+      </el-col>
     </div>
   </div>
 </template>
 
 <script>
 import { getToken } from '@/common/js/auth'
+import {createTask} from '@/api/api'
 
 export default {
   data () {
     return {
-      ruleForm: {
-        name: '',
-        associatelist: '',
-        taskname: '',
-        product: '',
-        associateteam: '',
-        tasktarget: '',
-        date1: '',
-        date2: '',
-        resource: '',
-        calloutdesc: '',
-        callTime: '',
-        callNum: '',
-        callRule: '',
-        callFrequency: ''
-      },
+      ruleForm: {},
       rules: {
         name: [
           { required: true, message: '请选择/输入所属公司', trigger: 'change' }
@@ -179,17 +179,29 @@ export default {
         resource: [
           {required: true, message: '请选择分配规则', trigger: 'change'}
         ],
-        tasktarget: [
+        taskTarget: [
           {required: true, message: '请输入任务目标', trigger: 'blur'}
         ],
-        date1: [
+        taskStartDate: [
           { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
         ],
-        date2: [
+        taskEndDate: [
           { type: 'date', required: true, message: '请选择时间', trigger: 'change' }
         ],
         calloutdesc: [
           { required: true, message: '请输入外呼话术', trigger: 'blur' }
+        ],
+        callTime: [
+          {required: true, message: '请输入有效通话时长', trigger: 'blur'}
+        ],
+        callNum: [
+          {required: true, message: '请输入有效任务数', trigger: 'blur'}
+        ],
+        assignRule: [
+          {required: true, message: '请选择下一步行动规则', trigger: 'change'}
+        ],
+        callFrequency: [
+          {required: true, message: '请输入外呼频率间隔', trigger: 'blur'}
         ]
       },
       headers: {
@@ -231,53 +243,29 @@ export default {
     this.listLoading = false
   },
   methods: {
-    submitForm (formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          alert('submit!')
-        } else {
-          console.log('error submit!!')
-          return false
-        }
-      })
-    },
-    resetForm (formName) {
-      this.$refs[formName].resetFields()
-    },
     create (formName) {
       console.log('提交了')
-      this.updateStatus = 'view'
-      this.$notify({
-        title: '成功',
-        message: '创建成功',
-        type: 'success',
-        duration: 2000
-      })
-
+      console.log(this.ruleForm)
       const set = this.$refs
-      this.form.positionId = this.form.positionName
-      this.form.idType = this.IDType
-      this.form.marriageStatus = this.maritalStatus
       set[formName].validate(valid => {
         if (valid) {
-          // addObj(this.form)
-          //   .then(() => {
-          //     this.dialogFormVisible = false
-          //     this.getList()
-          //     this.$notify({
-          //       title: '成功',
-          //       message: '创建成功',
-          //       type: 'success',
-          //       duration: 2000
-          //     })
-          //   })
+          console.log('验证通过。。')
+          createTask(this.ruleForm)
+            .then(() => {
+              this.getList()
+              this.$notify({
+                title: '成功',
+                message: '创建成功',
+                type: 'success',
+                duration: 2000
+              })
+            })
         } else {
           return false
         }
       })
     },
     cancel (formName) {
-      this.$router.push({path: '/company'})
     },
     handleChange (value) {
       console.log(value)

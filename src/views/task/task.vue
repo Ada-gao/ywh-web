@@ -16,7 +16,7 @@
                      @click="handleFilter">查询</el-button>
         </el-col>
         <el-col :span="16" style="text-align: right;">
-          <el-select v-model="value" placeholder="公司筛选">
+          <el-select v-model="value" placeholder="销售部门">
             <el-option
               v-for="item in options"
               :key="item.value"
@@ -24,7 +24,7 @@
               :value="item.value">
             </el-option>
           </el-select>
-          <el-select v-model="value" placeholder="部门筛选">
+          <el-select v-model="value" placeholder="产品名称">
             <el-option
               v-for="item in options"
               :key="item.value"

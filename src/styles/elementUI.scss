@@ -10,15 +10,49 @@
     display: none;
   }
 }
-.noml {
-  .el-input__icon {
-    right: -30px!important;
+.newtask {
+  .noml,
+  .noml1 {
+    .el-input__icon {
+      right: -30px!important;
+    }
+    .el-date-editor.el-input {
+      //width: 220px!important;
+    }
+    .el-input__suffix {
+      right: 25px;
+    }
   }
-}
-.last-item {
+  .line {
+    margin-left: 15px;
+    padding-top: 7px;
+  }
+  .noml1 {
+    //margin-left: 75px;
+    .el-form-item__content {
+      margin-left: 0 !important;
+    }
+  }
+  .last-item {
+    .el-form-item__label {
+      display: block;
+      float: none;
+      padding-right: 0;
+    }
+  }
   .el-form-item__label {
-    display: block;
-    float: none;
-    padding-right: 0;
+    font-size: 13px;
+  }
+  .define-rule-tit {
+    margin-left: 4px!important;
+  }
+  .define-rule-box {
+    margin-left: -50px!important;
+    .el-form-item__label {
+      width: 170px!important;
+    }
+    .el-form-item__content {
+      margin-left: 170px!important;
+    }
   }
 }
