@@ -51,7 +51,7 @@
                   v-for="item in coInfo.industry"
                   :key="item.id"
                   :label="item.name"
-                  :value="item.name">
+                  :value="item.id">
                 </el-option>
               </el-select>
               <el-select v-model="form.industryType" placeholder="请选择行业小类" @change="changeIndustryType" style="width: 50%; float: right;">
@@ -103,7 +103,8 @@
         <el-row :gutter="20">
           <el-col :span="11">
             <el-form-item label="公司LOGO" prop="logo">
-              <img :src="form.logo" alt="" style="width: 50px; height: 30px;" v-show="form.logo">
+              <img :src="form.logo" alt="" style="width: 50px; height: 30px;">
+              {{form.logo}}
               <el-upload
                 class="upload-demo"
                 style="display: inline-block"
@@ -113,7 +114,7 @@
                 :limit="1"
                 :on-success="handleSuccess"
                 :file-list="fileList"
-                :show-file-list="true"
+                :show-file-list="false"
                 accept=".png, .jpg">
                 <el-button size="small" class="add_btn">选择图片</el-button>
               </el-upload>
@@ -133,6 +134,17 @@
         <el-button class="add_btn" v-show="updateStatus==='create'" @click="create('form')">提 交</el-button>
         <el-button class="add_btn" v-show="updateStatus==='update'" @click="update('form')">提 交</el-button>
       </el-col>
+      <el-dialog
+        title="操作成功"
+        :visible.sync="centerDialogVisible"
+        width="30%"
+        center>
+        <span>{{this.form.companyName}}新建成功</span>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="dialogRouter('view')">查看详情</el-button>
+          <el-button type="primary" @click="dialogRouter('')">返回列表</el-button>
+        </span>
+      </el-dialog>
     </div>
     <div class="read-detail" v-if="updateStatus==='view'">
       <el-form :model="form" class="form-border">
@@ -219,7 +231,8 @@ export default {
       },
       coInfo: {
         orgSize: [],
-        industry: []
+        industry: [],
+        industryType: []
       },
       industry: [],
       provinceData: provinceAndCityData,
@@ -253,7 +266,8 @@ export default {
           {required: false, trigger: 'blur', message: '请上传公司logo'}
         ]
       },
-      uploadUrl: process.env.BASE_API + '/file/upload'
+      uploadUrl: process.env.BASE_API + '/file/upload',
+      centerDialogVisible: false
     }
   },
   created () {
@@ -295,28 +309,19 @@ export default {
     changeIndustry (val) {
       getAuthDustryByType(val).then(res => {
         this.coInfo.industryType = res.data
-        this.form.industryType = null
       })
     },
     changeIndustryType (val) {
-      this.coInfo.industryType = this.coInfo.industryType.slice(0)
+      // this.coInfo.industryType = this.coInfo.industryType.slice(0)
     },
     create (formName) {
-      // this.updateStatus = 'view'
-
       const set = this.$refs
       set[formName].validate(valid => {
         if (valid) {
           this.form.companyProvince = this.form.companyProvince.label
           addCompanies(this.form)
-            .then(() => {
-              this.dialogFormVisible = false
-              this.$notify({
-                title: '成功',
-                message: '创建成功',
-                type: 'success',
-                duration: 2000
-              })
+            .then(res => {
+              this.centerDialogVisible = true
             })
         } else {
           return false
@@ -349,7 +354,16 @@ export default {
       console.log(value)
     },
     handleSuccess (fileList) {
-      console.log(fileList)
+      this.form.logo = process.env.BASE_API + '/file/' + fileList
+      console.log(this.form.logo)
+    },
+    dialogRouter (status) {
+      if (status === 'view') {
+        this.updateStatus = 'view'
+        this.centerDialogVisible = false
+      } else {
+        this.$route.push({path: '/company'})
+      }
     }
   }
 }

@@ -10,28 +10,28 @@
         <el-row :gutter="20">
           <el-col :span="11">
             <el-form-item label="所属公司" prop="name">
-              <el-input v-model="form.name" placeholder="请选择/输入公司名称"></el-input>
+              <el-input v-model="form.companyName" placeholder="请选择/输入公司名称"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="11">
             <el-form-item label="所属团队" prop="username">
-              <el-input v-model="form.empNo" placeholder="请输入所属团队"></el-input>
+              <el-input v-model="form.team" placeholder="请输入所属团队"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="11">
             <el-form-item label="销售名称" prop="empNo">
-              <el-input v-model="form.empNo" placeholder="请输入销售名称"></el-input>
+              <el-input v-model="form.name" placeholder="请输入销售名称"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="11">
             <el-form-item label="对应职级" prop="employeeDate">
-              <el-input v-model="form.empNo" placeholder="请输入对应职级"></el-input>
+              <el-input v-model="form.name" placeholder="请输入对应职级"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -45,7 +45,8 @@
       </el-form>
       <el-col :span="11" slot="footer" class="dialog-footer" style="text-align: center">
         <el-button class="search_btn" @click="cancel('form')">取 消</el-button>
-        <el-button class="add_btn" @click="create('form')">提 交</el-button>
+        <el-button v-show="updateStatus==='create'" class="add_btn" @click="create('form')">提 交</el-button>
+        <el-button v-show="updateStatus==='update'" class="add_btn" @click="create('form')">提 交</el-button>
       </el-col>
     </div>
     <div class="read-detail" v-if="updateStatus==='view'">
@@ -53,47 +54,47 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item label="销售ID" prop="name">
-              <span>:{{form.name}}</span>
+              <span>:{{form.id}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="所属公司" prop="name">
-              <span>:{{form.name}}</span>
+              <span>:{{form.companyName}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="所属团队" prop="username">
-              <span>:{{form.name}}</span>
+              <span>:{{form.team}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="销售名称" prop="empNo">
-              <span>:</span>
+              <span>:{{form.name}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="对应职级" prop="gender">
-              <span>:</span>
+              <span>:{{form.name}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="联系手机" prop="education">
-              <span></span>
+              <span>:{{form.mobile}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="创建时间" prop="idType">
-              <span>:</span>
+              <span>:{{form.createdDate}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="登陆账号" prop="mobile">
-              <span>:</span>
+              <span>:{{form.username}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="登陆密码" prop="resumeUrl">
-              <img src="" alt="">
+              <span>:{{form.password}}</span>
             </el-form-item>
           </el-col>
         </el-row>
@@ -167,6 +168,7 @@
 
 <script>
 import { getToken } from '@/common/js/auth'
+import { addUser, getUserById, updUser } from '@/api/api'
 
 export default {
   data () {
@@ -242,37 +244,39 @@ export default {
       this.updateStatus = 'create'
     } else {
       this.updateStatus = 'update'
+      this.getList()
     }
     this.listLoading = false
   },
   methods: {
+    getList () {
+      getUserById(this.id).then(res => {
+        this.form = res.data
+        console.log(this.form)
+      })
+    },
     create (formName) {
       console.log('提交了')
-      this.updateStatus = 'view'
-      this.$notify({
-        title: '成功',
-        message: '创建成功',
-        type: 'success',
-        duration: 2000
-      })
 
       const set = this.$refs
-      this.form.positionId = this.form.positionName
-      this.form.idType = this.IDType
-      this.form.marriageStatus = this.maritalStatus
       set[formName].validate(valid => {
         if (valid) {
-          // addObj(this.form)
-          //   .then(() => {
-          //     this.dialogFormVisible = false
-          //     this.getList()
-          //     this.$notify({
-          //       title: '成功',
-          //       message: '创建成功',
-          //       type: 'success',
-          //       duration: 2000
-          //     })
-          //   })
+          if (this.updateStatus === 'create') {
+            addUser(this.form)
+              .then(() => {
+                this.updateStatus = 'view'
+                this.$notify({
+                  title: '成功',
+                  message: '创建成功',
+                  type: 'success',
+                  duration: 2000
+                })
+              })
+          } else {
+            updUser(this.form.id, this.form).then(res => {
+              this.updateStatus = 'view'
+            })
+          }
         } else {
           return false
         }
@@ -311,5 +315,6 @@ export default {
   border: 1px solid #EFEFEF;
   border-radius: 5px;
   padding: 20px 30px 0 20px;
+  overflow: hidden;
 }
 </style>

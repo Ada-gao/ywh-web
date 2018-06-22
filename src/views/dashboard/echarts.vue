@@ -10,8 +10,8 @@
                                 <i class="fa fa-comments fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="huge">26</div>
-                                <div>New Comments!</div>
+                                <span class="huge">26</span>个
+                                <div>外呼任务</div>
                             </div>
                         </div>
                     </div>
@@ -32,8 +32,8 @@
                                 <i class="fa fa-tasks fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="huge">12</div>
-                                <div>New Tasks!</div>
+                                <span class="huge">12</span>人
+                                <div>销售人数</div>
                             </div>
                         </div>
                     </div>
@@ -54,8 +54,8 @@
                                 <i class="fa fa-shopping-cart fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="huge">12</div>
-                                <div>New Tasks!</div>
+                                <span class="huge">12</span>个
+                                <div>任务完成数</div>
                             </div>
                         </div>
                     </div>
@@ -76,8 +76,8 @@
                                 <i class="fa fa-support fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="huge">13</div>
-                                <div>Support Tickets!</div>
+                                <span class="huge">13</span>分钟
+                                <div>有效童话时长</div>
                             </div>
                         </div>
                     </div>

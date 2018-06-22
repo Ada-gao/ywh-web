@@ -17,7 +17,7 @@
               :value="item.id">
             </el-option>
           </el-select>
-          <el-select v-model="listQuery.team" placeholder="团队筛选" @change="handleFilter">
+          <el-select v-model="listQuery.companyId" placeholder="团队筛选" @change="handleFilter">
             <el-option
               v-for="item in companies"
               :key="item.id"
@@ -78,7 +78,8 @@
 
       <el-table-column align="center" label="操作" fixed="right" width="150">
         <template slot-scope="scope">
-          <a size="small" class="common_btn">查看
+          <a size="small" class="common_btn"
+            @click="handleUpdate(scope.row[0])">查看
           </a>
         </template>
       </el-table-column>
@@ -96,7 +97,7 @@
 </template>
 
 <script>
-import { getUsers, getCompanies, getOrgSize, getUsersCount } from '@/api/api'
+import { getUsers, getCompanies, getOrgSize } from '@/api/api'
 import { transformText } from '@/common/js/util'
 
 export default {
@@ -135,15 +136,14 @@ export default {
           })
         })
       })
-      getUsersCount().then(res => {
-        // this.total = res.data
-        console.log(res.data)
-      })
     },
     getQuery () {
       getCompanies().then(res => {
         this.companies = res.data
       })
+    },
+    handleUpdate (id) {
+      this.$router.push({path: '/salesman/detail/' + id})
     },
     handleSizeChange (val) {
       this.listQuery.limit = val

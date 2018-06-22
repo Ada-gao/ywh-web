@@ -15,7 +15,7 @@ export const getUser = () => axios.get('/auth/user')
 // company
 export const getCompanies = () => axios.get('/companies')
 export const getCompanyPage = params => axios.get('/companies/companyPage', {params: params})
-export const addCompanies = data => axios.post('/companies/', data)
+export const addCompanies = data => axios.post('/companies', data)
 export const delCompanies = id => axios.delete('/companies/' + id)
 export const putCompanies = (id, data) => axios.put('/companies/' + id, data)
 // dict
@@ -26,6 +26,9 @@ export const getAuthDustryByType = typeId => axios.get('/industry/auth/getIndust
 // user/sale
 export const getUsers = params => axios.get('/users/querySales', {params: params})
 export const getUsersCount = () => axios.get('/users/salesCount')
+export const getUserById = id => axios.get('/users/' + id)
+export const updUser = (id, params) => axios.put('/users/' + id, params)
+export const addUser = () => axios.post('/users/addBatch')
 // name
 export function getLists (query) {
   return axios({
@@ -42,3 +45,5 @@ export function getTasks (query) {
     params: query
   })
 }
+// file
+export const getFile = id => axios.get('/file/' + id)
