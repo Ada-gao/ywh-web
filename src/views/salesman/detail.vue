@@ -243,7 +243,7 @@ export default {
     if (this.id === '0') {
       this.updateStatus = 'create'
     } else {
-      this.updateStatus = 'update'
+      this.updateStatus = 'view'
       this.getList()
     }
     this.listLoading = false

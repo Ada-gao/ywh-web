@@ -28,7 +28,7 @@ export const getUsers = params => axios.get('/users/querySales', {params: params
 export const getUsersCount = () => axios.get('/users/salesCount')
 export const getUserById = id => axios.get('/users/' + id)
 export const updUser = (id, params) => axios.put('/users/' + id, params)
-export const addUser = () => axios.post('/users/addBatch')
+export const addUser = params => axios.post('/users/addBatch', params)
 // name
 export const getLists = params => axios.get('/outboundName/getPage', {params: params})
 // file
