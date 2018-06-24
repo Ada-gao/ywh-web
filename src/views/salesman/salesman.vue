@@ -29,7 +29,8 @@
       </el-row>
     </div>
     <div style="text-align: right">
-      <el-button class="add_btn" @click="handleCreate">新建销售</el-button>
+      <el-button class="add_btn" @click="handleCreate('add')">新建销售</el-button>
+      <el-button class="add_btn" @click="handleCreate('import')">批量导入</el-button>
     </div>
     <el-table :key='tableKey' :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit
               highlight-current-row style="width: 100%">
@@ -157,8 +158,12 @@ export default {
       this.listQuery.page = 1
       this.getList()
     },
-    handleCreate () {
-      this.$router.push({path: '/salesman/detail/0'})
+    handleCreate (status) {
+      if (status === 'add') {
+        this.$router.push({path: '/salesman/detail/0'})
+      } else {
+        this.$router.push({path: '/salesman/excel'})
+      }
     }
   }
 }

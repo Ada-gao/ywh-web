@@ -86,9 +86,9 @@ export default {
     margin: 220px auto 50px auto;
     width: 350px;
     padding: 35px 35px 15px 35px;
-    background: #fff;
+    background: #D3DCE6;
     border: 1px solid #eaeaea;
-    box-shadow: 0 0 25px #cac6c6;
+    // box-shadow: 0 0 25px #cac6c6;
     .title {
       margin: 0px auto 40px auto;
       text-align: center;
