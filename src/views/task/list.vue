@@ -93,7 +93,7 @@
 
       <el-table-column align="center" label="联系人所在地">
         <template slot-scope="scope">
-          <span>{{scope.row.gender}}</span>
+          <span>{{scope.row.residence}}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="名单来源">

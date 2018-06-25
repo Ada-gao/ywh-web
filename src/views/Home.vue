@@ -83,6 +83,7 @@
 
 <script>
 import { getUser } from '../api/api'
+import {setAdminStat} from '../common/js/auth'
 
 export default {
   data () {
@@ -137,6 +138,11 @@ export default {
     if (user) {
       getUser().then((res) => {
         this.sysUserName = res.data.username
+        if (this.sysUserName === 'superadmin' || this.sysUserName === 'admin') {
+          setAdminStat(true)
+        } else {
+          setAdminStat(false)
+        }
       })
     }
   }

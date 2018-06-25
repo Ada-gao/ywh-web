@@ -1,4 +1,5 @@
 const TokenKey = 'token'
+const adminStat = 'adminStatus'
 
 export function getToken () {
   return sessionStorage.getItem(TokenKey)
@@ -10,4 +11,10 @@ export function setToken (token) {
 
 export function removeToken () {
   return sessionStorage.removeItem(TokenKey)
+}
+export function setAdminStat (stat) {
+  return sessionStorage.setItem(adminStat, stat)
+}
+export function getAdminStat () {
+  return sessionStorage.getItem(adminStat)
 }
