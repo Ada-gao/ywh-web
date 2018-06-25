@@ -8,7 +8,7 @@
                     style="width: 200px;"
                     class="filter-item"
                     placeholder="输入联系人姓名"
-                    v-model="listQuery.username">
+                    v-model="listQuery.contactName">
           </el-input>
           <el-button class="filter-item"
                      type="primary"
@@ -16,33 +16,37 @@
                      @click="handleFilter">查询</el-button>
         </el-col>
         <el-col :span="16" style="text-align: right;">
-          <el-select v-model="value" placeholder="公司筛选">
+          <el-select v-model="listQuery.companyId"
+                     placeholder="公司筛选"
+                     @change="handleFilter">
             <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
+              v-for="item in companies"
+              :key="item.id"
+              :label="item.companyName"
+              :value="item.id">
             </el-option>
           </el-select>
-          <el-select v-model="value" placeholder="部门筛选">
+          <el-select v-model="listQuery.residence"
+                     placeholder="所在地"
+                     @change="handleFilter">
             <el-option
-              v-for="item in options"
+              v-for="item in provinceData"
               :key="item.value"
               :label="item.label"
-              :value="item.value">
+              :value="item">
             </el-option>
           </el-select>
         </el-col>
       </el-row>
     </div>
     <!--<div style="text-align: right">-->
-      <!--<el-button class="add_btn" @click="handleCreate">新建销售</el-button>-->
+    <!--<el-button class="add_btn" @click="handleCreate">新建销售</el-button>-->
     <!--</div>-->
     <div class="table-add-box">
       <div class="list-table-tit">名单列表</div>
-      <div class="add-box">
+      <div class="add-box" @click="handleCreate">
         <i class="fal fa-plus"></i>
-        <span>新建任务</span>
+        <span>批量导入</span>
       </div>
     </div>
     <el-table :key='tableKey'
@@ -103,13 +107,13 @@
       </el-table-column>
 
       <!--<el-table-column align="center"-->
-                       <!--label="操作"-->
-                       <!--fixed="right"-->
-                       <!--width="150">-->
-        <!--<template slot-scope="scope">-->
-          <!--<a size="small" class="common_btn">查看-->
-          <!--</a>-->
-        <!--</template>-->
+      <!--label="操作"-->
+      <!--fixed="right"-->
+      <!--width="150">-->
+      <!--<template slot-scope="scope">-->
+      <!--<a size="small" class="common_btn">查看-->
+      <!--</a>-->
+      <!--</template>-->
       <!--</el-table-column>-->
     </el-table>
 
@@ -128,7 +132,8 @@
 </template>
 
 <script>
-import {getLists} from '@/api/api'
+import {getLists, getCompanies} from '@/api/api'
+import { provinceAndCityData } from 'element-china-area-data' // 省市区数据
 
 export default {
   components: {},
@@ -161,19 +166,28 @@ export default {
           label: '北京烤鸭'
         }
       ],
-      value: ''
+      value: '',
+      companies: [],
+      provinceData: provinceAndCityData
     }
   },
   created () {
     this.getList()
+    this.getQuery()
   },
   methods: {
     getList () {
       getLists(this.listQuery).then(response => {
         console.log(response.data)
         this.list = response.data.content
-        this.total = response.data.totalPages
+        this.total = response.data.totalElements
         this.listLoading = false
+      })
+    },
+    getQuery () {
+      getCompanies().then(res => {
+        this.companies = res.data
+        console.log(this.companies)
       })
     },
     handleSizeChange (val) {
@@ -185,11 +199,18 @@ export default {
       this.getList()
     },
     handleFilter () {
+      if (this.listQuery.residence) {
+        this.listQuery.residence = this.listQuery.residence.label
+      }
+      if (!this.listQuery.contactName) {
+        delete this.listQuery.contactName
+      }
+      console.log(this.listQuery)
       this.listQuery.page = 1
       this.getList()
     },
     handleCreate () {
-      this.$router.push({path: '/salesman/detail/0'})
+      this.$router.push({path: '/list/excel'})
     }
   }
 }

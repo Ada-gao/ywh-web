@@ -16,24 +16,24 @@
                      @click="handleFilter">查询</el-button>
         </el-col>
         <el-col :span="16" style="text-align: right;">
-          <el-select v-model="value"
+          <el-select v-model="listQuery.companyId"
                      placeholder="销售部门"
                      @change="handleFilter">
             <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
+              v-for="item in companies"
+              :key="item.companyCode"
+              :label="item.companyName"
+              :value="item.companyCode">
             </el-option>
           </el-select>
           <el-select v-model="value"
                      placeholder="产品名称"
                      @change="handleFilter">
             <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
+              v-for="item in products"
+              :key="item.companyId"
+              :label="item.productName"
+              :value="item.companyId">
             </el-option>
           </el-select>
         </el-col>
@@ -130,8 +130,7 @@
 </template>
 
 <script>
-import {getAdminTasks, getTasks} from '@/api/api'
-import {getAdminStat} from '@/common/js/auth'
+import {getAdminTasks, getTasks, getCompanies, getProductList} from '@/api/api'
 // import { transformText } from '@/common/js/util'
 
 export default {
@@ -166,16 +165,16 @@ export default {
         }
       ],
       value: '',
-      orgSize: []
-    }
-  },
-  computed: {
-    adminStat () {
-      return Boolean(getAdminStat())
+      adminStat: null,
+      orgSize: [],
+      companies: [],
+      products: []
     }
   },
   created () {
+    this.adminStat = this.$store.state.adminStat
     this.getList()
+    this.getQuery()
   },
   methods: {
     getList () {
@@ -194,6 +193,14 @@ export default {
           this.listLoading = false
         })
       }
+    },
+    getQuery () {
+      getCompanies().then(res => {
+        this.companies = res.data
+      })
+      getProductList().then(res => {
+        this.products = res.data
+      })
     },
     handleSizeChange (val) {
       this.listQuery.limit = val

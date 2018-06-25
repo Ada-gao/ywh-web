@@ -32,6 +32,7 @@ export const addBatch = params => axios.post('/users/addBatch', params)
 export const addUser = params => axios.post('/users', params)
 // name
 export const getLists = params => axios.get('/outboundName/getPage', {params: params})
+export const addNameExcel = params => axios.get('/outboundName/import', {params: params})
 // file
 export const getFile = id => axios.get('/file/' + id)
 // task
@@ -40,3 +41,5 @@ export const getTasks = params => axios.get('/task/getPage', {params: params})
 export const createTask = data => axios.get('/task', data)
 export const getTaskDetail = id => axios.get('/task/' + id)
 export const getAdminTaskDetail = id => axios.get('/task/admin/' + id)
+// product
+export const getProductList = () => axios.get('/product/list')

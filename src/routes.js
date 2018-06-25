@@ -5,7 +5,8 @@ import company from './views/company/company.vue'
 // import product from './views/product/product.vue'
 import salesman from './views/salesman/salesman.vue'
 import dashboard from './views/dashboard/echarts.vue'
-import list from './views/task/list.vue'
+import list from './views/namelist'
+import nameexcel from './views/namelist/importExcel.vue'
 import task from './views/task/task.vue'
 import newTask from './views/task/newTask.vue'
 import tasklist from './views/task/detail.vue'
@@ -82,7 +83,8 @@ let routes = [
     iconCls: 'fa fa-phone-square',
     leaf: true, // 只有一个节点
     children: [
-      {path: '/list', component: list, name: '名单管理'}
+      {path: '/list', component: list, name: '名单管理'},
+      {path: '/list/excel', component: nameexcel, name: '批量导入'}
     ]
   },
   {

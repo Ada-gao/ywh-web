@@ -9,7 +9,8 @@ Vue.use(Vuex)
 // 应用初始状态
 const state = {
   count: 10,
-  sysUser: ''
+  sysUser: '',
+  adminStat: null
 }
 
 // 定义所需的 mutations
@@ -22,6 +23,9 @@ const mutations = {
   },
   SET_SYS_USER: (state, sysUser) => {
     state.sysUser = sysUser
+  },
+  SET_ADMIN_STAT: (state, payload) => {
+    state.adminStat = payload
   }
 }
 

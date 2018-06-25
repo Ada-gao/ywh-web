@@ -11,6 +11,9 @@ export const GetUser = ({commit}, token) => {
   if (token) {
     getUser().then(res => {
       const sysUser = res.data
+      let status = null
+      status = (sysUser.username === 'superadmin' || sysUser.username === 'admin')
+      commit('SET_ADMIN_STAT', status)
       // const sysUser = res.data.username
       commit('SET_SYS_USER', sysUser)
     })
