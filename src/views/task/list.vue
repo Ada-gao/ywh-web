@@ -196,28 +196,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  .list-tit,
-  .list-table-tit {
-    font-family: PingFangSC-Medium;
-    font-size: 16px;
-    color: #000;
-    letter-spacing: 0;
-    text-align: left;
-    height: 20px;
-    line-height: 20px;
-    position: relative;
-    padding-left: 10px;
-    margin-bottom: 20px;
-    &:before {
-      content: "";
-      position: absolute;
-      width: 4px;
-      height: 20px;
-      /*background: #0299CC;*/
-      background: #18c79c;
-      left: 0;
-    }
-  }
   .table-add-box {
     position: relative;
     line-height: 48px;

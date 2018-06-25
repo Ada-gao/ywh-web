@@ -1,6 +1,9 @@
 <template>
   <section>
     <div class="filter-container">
+      <div class="detail-title">
+        <span class="list-tit">销售查询</span>
+      </div>
       <el-row>
         <el-col :span="8">
           <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="输入销售姓名"
@@ -28,10 +31,15 @@
         </el-col>
       </el-row>
     </div>
-    <div style="text-align: right">
+    <div class="detail-title">
+        <span class="list-tit">销售列表</span>
+        <el-button v-if="sysUser.username!=='sale'" class="add_btn" @click="handleCreate('add')">新建销售</el-button>
+        <el-button v-if="sysUser.username!=='sale'" class="add_btn" @click="handleCreate('import')">批量导入</el-button>
+      </div>
+    <!-- <div style="text-align: right">
       <el-button v-if="sysUser.username!=='sale'" class="add_btn" @click="handleCreate('add')">新建销售</el-button>
       <el-button v-if="sysUser.username!=='sale'" class="add_btn" @click="handleCreate('import')">批量导入</el-button>
-    </div>
+    </div> -->
     <!-- {{sysUser.companyId}} -->
     <el-table :key='tableKey' :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit
               highlight-current-row style="width: 100%">

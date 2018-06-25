@@ -1,6 +1,9 @@
 <template>
   <section>
     <div class="filter-container">
+      <div class="detail-title">
+        <span class="list-tit">公司查询</span>
+      </div>
       <el-row>
         <el-col :span="8">
           <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="输入公司名称关键词"
@@ -36,7 +39,8 @@
         </el-col>
       </el-row>
     </div>
-    <div style="text-align: right">
+    <div class="detail-title">
+      <span class="list-tit">公司列表</span>
       <el-button v-if="sysUser.username==='superadmin'" class="add_btn" @click="handleCreate">新建公司</el-button>
     </div>
     <el-table :key='tableKey' :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit

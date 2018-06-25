@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="detail-title">
-      <span class="tit-text">{{textMap[updateStatus]}}</span>
+      <span class="list-tit">{{textMap[updateStatus]}}</span>
       <el-button class="upd_btn" v-show="updateStatus==='view'" @click="updateStatus='update'">修改</el-button>
     </div>
     <div class="margin-line"></div>
@@ -37,6 +37,20 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="11">
+            <el-form-item label="登录账号" prop="employeeDate">
+              <el-input v-model="form.username" placeholder="请输入登录账号"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="11">
+            <el-form-item label="登录密码" prop="employeeDate">
+              <el-input v-model="form.password" placeholder="请输入登录密码"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="11">
             <el-form-item label="联系手机" prop="education">
               <el-input v-model="form.mobile" :maxlength="11" placeholder="请输入联系手机"></el-input>
             </el-form-item>
@@ -46,7 +60,7 @@
       <el-col :span="11" slot="footer" class="dialog-footer" style="text-align: center">
         <el-button class="search_btn" @click="cancel('form')">取 消</el-button>
         <el-button v-show="updateStatus==='create'" class="add_btn" @click="create('form')">提 交</el-button>
-        <el-button v-show="updateStatus==='update'" class="add_btn" @click="create('form')">提 交</el-button>
+        <el-button v-show="updateStatus==='update'" class="add_btn" @click="create('form')">提 交1</el-button>
       </el-col>
     </div>
     <div class="read-detail" v-if="updateStatus==='view'">
@@ -168,7 +182,7 @@
 
 <script>
 import { getToken } from '@/common/js/auth'
-import { getUserById, updUser } from '@/api/api'
+import { getUserById, updUser, addUser } from '@/api/api'
 
 export default {
   data () {
@@ -256,22 +270,21 @@ export default {
       })
     },
     create (formName) {
-      console.log('提交了')
-
       const set = this.$refs
       set[formName].validate(valid => {
         if (valid) {
           if (this.updateStatus === 'create') {
-            // addUser(this.form)
-            //   .then(() => {
-            //     this.updateStatus = 'view'
-            //     this.$notify({
-            //       title: '成功',
-            //       message: '创建成功',
-            //       type: 'success',
-            //       duration: 2000
-            //     })
-            //   })
+            console.log('新增')
+            addUser(this.form)
+              .then(() => {
+                this.updateStatus = 'view'
+                this.$notify({
+                  title: '成功',
+                  message: '创建成功',
+                  type: 'success',
+                  duration: 2000
+                })
+              })
           } else {
             updUser(this.form.id, this.form).then(res => {
               this.updateStatus = 'view'

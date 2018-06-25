@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="detail-title">
-      <span class="tit-text">{{textMap[updateStatus]}}</span>
+      <span class="list-tit">{{textMap[updateStatus]}}</span>
       <el-button class="upd_btn" v-show="updateStatus==='view'" @click="updateStatus='update'">修改</el-button>
     </div>
     <div class="margin-line"></div>
