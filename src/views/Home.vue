@@ -11,7 +11,8 @@
       </el-col>
       <el-col :span="4" class="userinfo">
         <el-dropdown trigger="hover">
-          <span class="el-dropdown-link userinfo-inner"><img src="../assets/user.png"/> {{sysUserName}}</span>
+          <!-- <span class="el-dropdown-link userinfo-inner"><img src="../assets/user.png"/> {{sysUserName}}</span> -->
+          <span class="el-dropdown-link userinfo-inner"><img src="../assets/user.png"/> {{sysUser.username}}</span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>我的消息</el-dropdown-item>
             <el-dropdown-item>设置</el-dropdown-item>
@@ -63,13 +64,13 @@
       </aside>
       <section class="content-container">
         <div class="grid-content bg-purple-light">
-          <el-col :span="24" class="breadcrumb-container">
+          <!-- <el-col :span="24" class="breadcrumb-container">
             <el-breadcrumb separator="/" class="breadcrumb-inner">
               <el-breadcrumb-item v-for="item in $route.matched" :key="item.path">
                 {{ item.name }}
               </el-breadcrumb-item>
             </el-breadcrumb>
-          </el-col>
+          </el-col> -->
           <el-col :span="24" class="content-wrapper">
             <transition name="fade" mode="out-in">
               <router-view></router-view>
@@ -82,8 +83,8 @@
 </template>
 
 <script>
-import { getUser } from '../api/api'
-import {setAdminStat} from '../common/js/auth'
+// import { getUser } from '../api/api'
+import { mapGetters } from 'vuex'
 
 export default {
   data () {
@@ -102,6 +103,11 @@ export default {
         desc: ''
       }
     }
+  },
+  computed: {
+    ...mapGetters([
+      'sysUser'
+    ])
   },
   methods: {
     onSubmit () {
@@ -135,16 +141,12 @@ export default {
   },
   mounted () {
     let user = sessionStorage.getItem('token')
-    if (user) {
-      getUser().then((res) => {
-        this.sysUserName = res.data.username
-        if (this.sysUserName === 'superadmin' || this.sysUserName === 'admin') {
-          setAdminStat(true)
-        } else {
-          setAdminStat(false)
-        }
-      })
-    }
+    this.$store.dispatch('GetUser', user)
+    // if (user) {
+    //   getUser().then((res) => {
+    //     this.sysUserName = res.data.username
+    //   })
+    // }
   }
 }
 

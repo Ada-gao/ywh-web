@@ -1,22 +1,27 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import * as actions from './actions'
-import * as getters from './getters'
+// import * as getters from './getters'
+import getters from './getters'
 
 Vue.use(Vuex)
 
 // 应用初始状态
 const state = {
-  count: 10
+  count: 10,
+  sysUser: ''
 }
 
 // 定义所需的 mutations
 const mutations = {
-  INCREMENT (state) {
+  INCREMENT: (state) => {
     state.count++
   },
-  DECREMENT (state) {
+  DECREMENT: (state) => {
     state.count--
+  },
+  SET_SYS_USER: (state, sysUser) => {
+    state.sysUser = sysUser
   }
 }
 

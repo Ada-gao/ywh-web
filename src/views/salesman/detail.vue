@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="detail-title">
-      <span class="tit-text">{{textMap[updateStatus]}}</span>
+      <span class="list-tit">{{textMap[updateStatus]}}</span>
       <el-button class="upd_btn" v-show="updateStatus==='view'" @click="updateStatus='update'">修改</el-button>
     </div>
     <div class="margin-line"></div>
@@ -10,7 +10,17 @@
         <el-row :gutter="20">
           <el-col :span="11">
             <el-form-item label="所属公司" prop="name">
-              <el-input v-model="form.companyName" placeholder="请选择/输入公司名称"></el-input>
+              <!-- <el-input v-model="form.companyName" placeholder="请选择/输入公司名称"></el-input> -->
+              <el-select v-model="listQuery.companyId"
+                placeholder="公司筛选"
+                style="width: 100%">
+                <el-option
+                  v-for="item in companies"
+                  :key="item.id"
+                  :label="item.companyName"
+                  :value="item.id">
+                </el-option>
+              </el-select>
             </el-form-item>
           </el-col>
         </el-row>
@@ -31,7 +41,21 @@
         <el-row :gutter="20">
           <el-col :span="11">
             <el-form-item label="对应职级" prop="employeeDate">
-              <el-input v-model="form.name" placeholder="请输入对应职级"></el-input>
+              <el-input v-model="form.level" placeholder="请输入对应职级"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="11">
+            <el-form-item label="登录账号" prop="employeeDate">
+              <el-input v-model="form.username" placeholder="请输入登录账号"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="11">
+            <el-form-item label="登录密码" prop="employeeDate">
+              <el-input v-model="form.password" placeholder="请输入登录密码"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -46,55 +70,55 @@
       <el-col :span="11" slot="footer" class="dialog-footer" style="text-align: center">
         <el-button class="search_btn" @click="cancel('form')">取 消</el-button>
         <el-button v-show="updateStatus==='create'" class="add_btn" @click="create('form')">提 交</el-button>
-        <el-button v-show="updateStatus==='update'" class="add_btn" @click="create('form')">提 交</el-button>
+        <el-button v-show="updateStatus==='update'" class="add_btn" @click="create('form')">提 交1</el-button>
       </el-col>
     </div>
     <div class="read-detail" v-if="updateStatus==='view'">
       <el-form :model="form" class="form-border">
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item label="销售ID" prop="name">
-              <span>:{{form.id}}</span>
+            <el-form-item label="销售ID:" prop="name">
+              <span>{{form.id}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="所属公司" prop="name">
-              <span>:{{form.companyName}}</span>
+            <el-form-item label="所属公司:" prop="name">
+              <span>{{form.companyName}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="所属团队" prop="username">
-              <span>:{{form.team}}</span>
+            <el-form-item label="所属团队:" prop="username">
+              <span>{{form.team}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="销售名称" prop="empNo">
-              <span>:{{form.name}}</span>
+            <el-form-item label="销售名称:" prop="empNo">
+              <span>{{form.name}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="对应职级" prop="gender">
-              <span>:{{form.name}}</span>
+            <el-form-item label="对应职级:" prop="gender">
+              <span>{{form.level}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="联系手机" prop="education">
-              <span>:{{form.mobile}}</span>
+            <el-form-item label="联系手机:" prop="education">
+              <span>{{form.mobile}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="创建时间" prop="idType">
-              <span>:{{form.createdDate}}</span>
+            <el-form-item label="创建时间:" prop="idType">
+              <span>{{form.createdDate}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="登陆账号" prop="mobile">
-              <span>:{{form.username}}</span>
+            <el-form-item label="登陆账号:" prop="mobile">
+              <span>{{form.username}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="登陆密码" prop="resumeUrl">
-              <span>:{{form.password}}</span>
+            <el-form-item label="登陆密码:" prop="resumeUrl">
+              <span>{{form.password}}</span>
             </el-form-item>
           </el-col>
         </el-row>
@@ -168,7 +192,7 @@
 
 <script>
 import { getToken } from '@/common/js/auth'
-import { addUser, getUserById, updUser } from '@/api/api'
+import { getUserById, updSale, addUser, getCompanies } from '@/api/api'
 
 export default {
   data () {
@@ -234,7 +258,8 @@ export default {
       listQuery: {
         page: 1,
         limit: 20
-      }
+      },
+      companies: []
     }
   },
   created () {
@@ -246,6 +271,7 @@ export default {
       this.updateStatus = 'view'
       this.getList()
     }
+    this.getQuery()
     this.listLoading = false
   },
   methods: {
@@ -255,13 +281,17 @@ export default {
         console.log(this.form)
       })
     },
+    getQuery () {
+      getCompanies().then(res => {
+        this.companies = res.data
+      })
+    },
     create (formName) {
-      console.log('提交了')
-
       const set = this.$refs
       set[formName].validate(valid => {
         if (valid) {
           if (this.updateStatus === 'create') {
+            console.log('新增')
             addUser(this.form)
               .then(() => {
                 this.updateStatus = 'view'
@@ -273,7 +303,7 @@ export default {
                 })
               })
           } else {
-            updUser(this.form.id, this.form).then(res => {
+            updSale(this.form).then(res => {
               this.updateStatus = 'view'
             })
           }

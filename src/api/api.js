@@ -27,8 +27,9 @@ export const getAuthDustryByType = typeId => axios.get('/industry/auth/getIndust
 export const getUsers = params => axios.get('/users/querySales', {params: params})
 export const getUsersCount = () => axios.get('/users/salesCount')
 export const getUserById = id => axios.get('/users/' + id)
-export const updUser = (id, params) => axios.put('/users/' + id, params)
-export const addUser = params => axios.post('/users/addBatch', params)
+export const updSale = (params) => axios.put('/users/updateSales', params)
+export const addBatch = params => axios.post('/users/addBatch', params)
+export const addUser = params => axios.post('/users', params)
 // name
 export const getLists = params => axios.get('/outboundName/getPage', {params: params})
 // file
