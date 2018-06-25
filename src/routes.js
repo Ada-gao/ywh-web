@@ -8,6 +8,7 @@ import dashboard from './views/dashboard/echarts.vue'
 import list from './views/task/list.vue'
 import task from './views/task/task.vue'
 import newTask from './views/task/newTask.vue'
+import tasklist from './views/task/detail.vue'
 import dict from './views/parameter/dict.vue'
 import parameter from './views/parameter/parameter.vue'
 import workload from './views/report/workload.vue'
@@ -92,7 +93,8 @@ let routes = [
     leaf: true, // 只有一个节点
     children: [
       {path: '/task', component: task, name: '任务管理'},
-      {path: 'task/newTask', component: newTask, name: '新建任务'}
+      {path: 'task/newTask', component: newTask, name: '新建任务'},
+      {path: 'task/detail/:id', component: tasklist, name: '任务详情'}
     ]
   },
   {

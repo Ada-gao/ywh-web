@@ -35,5 +35,8 @@ export const getLists = params => axios.get('/outboundName/getPage', {params: pa
 // file
 export const getFile = id => axios.get('/file/' + id)
 // task
-export const getTasks = params => axios.get('/task/admin/getPage', {params: params})
+export const getAdminTasks = params => axios.get('/task/admin/getPage', {params: params})
+export const getTasks = params => axios.get('/task/getPage', {params: params})
 export const createTask = data => axios.get('/task', data)
+export const getTaskDetail = id => axios.get('/task/' + id)
+export const getAdminTaskDetail = id => axios.get('/task/admin/' + id)
