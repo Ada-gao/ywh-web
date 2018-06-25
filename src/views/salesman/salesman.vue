@@ -29,9 +29,10 @@
       </el-row>
     </div>
     <div style="text-align: right">
-      <el-button class="add_btn" @click="handleCreate('add')">新建销售</el-button>
-      <el-button class="add_btn" @click="handleCreate('import')">批量导入</el-button>
+      <el-button v-if="sysUser.username!=='sale'" class="add_btn" @click="handleCreate('add')">新建销售</el-button>
+      <el-button v-if="sysUser.username!=='sale'" class="add_btn" @click="handleCreate('import')">批量导入</el-button>
     </div>
+    <!-- {{sysUser.companyId}} -->
     <el-table :key='tableKey' :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit
               highlight-current-row style="width: 100%">
 
@@ -100,6 +101,7 @@
 <script>
 import { getUsers, getCompanies, getOrgSize } from '@/api/api'
 import { transformText } from '@/common/js/util'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {},
@@ -110,7 +112,8 @@ export default {
       listLoading: true,
       listQuery: {
         page: 1,
-        limit: 20
+        limit: 20,
+        companyId: ''
       },
       list: null,
       sys_user_add: true,
@@ -119,12 +122,19 @@ export default {
       orgSize: []
     }
   },
+  computed: {
+    ...mapGetters([
+      'sysUser'
+    ])
+  },
   created () {
     this.getList()
     this.getQuery()
   },
   methods: {
     getList () {
+      this.listQuery.companyId = this.sysUser.companyId
+      console.log(this.listQuery)
       getUsers(this.listQuery).then(response => {
         this.list = response.data
         this.total = response.data.total

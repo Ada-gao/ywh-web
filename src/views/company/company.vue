@@ -37,7 +37,7 @@
       </el-row>
     </div>
     <div style="text-align: right">
-      <el-button class="add_btn" @click="handleCreate">新建公司</el-button>
+      <el-button v-if="sysUser.username==='superadmin'" class="add_btn" @click="handleCreate">新建公司</el-button>
     </div>
     <el-table :key='tableKey' :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit
               highlight-current-row style="width: 100%">
@@ -101,6 +101,7 @@
 <script>
 import { getCompanyPage, getAuthDustries, getOrgSize } from '@/api/api'
 import { provinceAndCityData } from 'element-china-area-data' // 省市区数据
+import { mapGetters } from 'vuex'
 
 export default {
   components: {},
@@ -138,6 +139,11 @@ export default {
       industry: [],
       orgSize: []
     }
+  },
+  computed: {
+    ...mapGetters([
+      'sysUser'
+    ])
   },
   created () {
     this.getList()

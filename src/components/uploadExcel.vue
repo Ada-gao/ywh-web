@@ -25,7 +25,7 @@ import XLSX from 'xlsx'
 // import { uploadExcel } from '@/api/uploadExcel'
 
 export default {
-  data() {
+  data () {
     return {
       loading: false,
       excelData: {
@@ -36,13 +36,13 @@ export default {
     }
   },
   methods: {
-    generateDate({ header, results, formData }) {
+    generateDate ({ header, results, formData }) {
       this.excelData.header = header
       this.excelData.results = results
       this.excelData.formData = formData
       this.$emit('on-selected-file', this.excelData)
     },
-    handleDrop(e) {
+    handleDrop (e) {
       e.stopPropagation()
       e.preventDefault()
       const files = e.dataTransfer.files
@@ -55,25 +55,22 @@ export default {
       e.stopPropagation()
       e.preventDefault()
     },
-    handleDragover(e) {
+    handleDragover (e) {
       e.stopPropagation()
       e.preventDefault()
       e.dataTransfer.dropEffect = 'copy'
     },
-    handleUpload() {
+    handleUpload () {
       document.getElementById('excel-upload-input').click()
     },
-    handkeFileChange(e) {
+    handkeFileChange (e) {
       const files = e.target.files
       const itemFile = files[0] // only use files[0]
-     
       let formData = new FormData()
       formData.append('file', itemFile)
-      
       this.readerData(itemFile, formData)
-      
     },
-    readerData(itemFile, formData) {
+    readerData (itemFile, formData) {
       const reader = new FileReader()
       reader.onload = e => {
         const data = e.target.result
@@ -83,7 +80,7 @@ export default {
         const firstSheetName = workbook.SheetNames[0]
         const worksheet = workbook.Sheets[firstSheetName]
         const header = this.get_header_row(worksheet)
-        const headerList = []
+        // const headerList = []
         // header.forEach((item, index) => {
         //   if(item.indexOf('UNKNOWN') === -1) {
         //     // debugger
@@ -99,7 +96,7 @@ export default {
       }
       reader.readAsArrayBuffer(itemFile)
     },
-    fixdata(data) {
+    fixdata (data) {
       let o = ''
       let l = 0
       const w = 10240
@@ -107,7 +104,7 @@ export default {
       o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w)))
       return o
     },
-    get_header_row(sheet) {
+    get_header_row (sheet) {
       // const headers = ['姓名', '用户名', '密码', '工作状态', '部门', '学历', '邮箱', '工号', '性别', '证件号码', '证件类型', '手机号', '角色']
       const headers = []
       const range = XLSX.utils.decode_range(sheet['!ref'])

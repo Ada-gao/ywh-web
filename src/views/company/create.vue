@@ -150,56 +150,56 @@
       <el-form :model="form" class="form-border">
         <el-row :gutter="20">
           <el-col :span="11">
-            <el-form-item label="公司ID">
-              <span>:{{form.id}}</span>
+            <el-form-item label="公司ID:">
+              <span>{{form.id}}</span>
             </el-form-item>
-            <el-form-item label="公司名称">
-              <span>:{{form.companyName}}</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span="11">
-            <el-form-item label="所在地">
-              <span>:{{form.companyProvince}}-{{form.companyCity}}</span>
+            <el-form-item label="公司名称:">
+              <span>{{form.companyName}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="11">
-            <el-form-item label="公司地址">
-              <span>:{{form.companyAddress}}</span>
+            <el-form-item label="所在地:">
+              <span>{{form.companyProvince}}-{{form.companyCity}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="11">
-            <el-form-item label="所属行业">
-              <span>:{{form.industry}}-{{form.industryType}}</span>
+            <el-form-item label="公司地址:">
+              <span>{{form.companyAddress}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="11">
-            <el-form-item label="公司规模">
-              <span>:{{form.orgSizeText}}</span>
+            <el-form-item label="所属行业:">
+              <span>{{form.industry}}-{{form.industryType}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="11">
-            <el-form-item label="联系人">
-              <span>:{{form.contact}}</span>
+            <el-form-item label="公司规模:">
+              <span>{{form.orgSizeText}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="11">
-            <el-form-item label="职务">
-              <span>:{{form.occupation}}</span>
+            <el-form-item label="联系人:">
+              <span>{{form.contact}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="11">
-            <el-form-item label="联系手机">
-              <span>:{{form.contactMobile}}</span>
+            <el-form-item label="职务:">
+              <span>{{form.occupation}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="11">
-            <el-form-item label="公司LOGO">
-              :<img :src="form.logo" alt="" style="width: 50px; height: 30px;">
+            <el-form-item label="联系手机:">
+              <span>{{form.contactMobile}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="11">
-            <el-form-item label="备注">
-              <span>:{{form.remark}}</span>
+            <el-form-item label="公司LOGO:">
+              <img :src="form.logo" alt="" style="width: 50px; height: 30px;">
+            </el-form-item>
+          </el-col>
+          <el-col :span="11">
+            <el-form-item label="备注:">
+              <span>{{form.remark}}</span>
             </el-form-item>
           </el-col>
         </el-row>

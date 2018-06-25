@@ -23,33 +23,15 @@ import { addBatch } from '@/api/api'
 export default {
   name: 'uploadExcel',
   components: { UploadExcelComponent },
-  data() {
+  data () {
     return {
       tableData: [],
       tableHeader: [],
-      formData: null,
-      modelData: [
-        {
-          name: '大王',
-          username: 'dawang',
-          password: '123456',
-          delFlag: '0',
-          deptId: '0',
-          education: '0',
-          email: 'dawang@shuyun365.com',
-          empNo: '1',
-          gender: '1',
-          idNo: '1',
-          idType: '1',
-          mobile: '13600000000',
-          role: '2',
-        }
-      ],
-      modelHeader: ["name", "username", "password", "delFlag", "deptId", "education", "email", "empNo", "gender", "idNo", "idType", "mobile", "role"]
+      formData: null
     }
   },
   methods: {
-    selected(data) {
+    selected (data) {
       this.tableHeader = data.header
       this.tableData = data.results
       // console.log(this.tableHeader)
@@ -57,8 +39,8 @@ export default {
       this.formData = data.formData
       // console.log(this.formData)
     },
-    submit() {
-      addBatch(this.formData, config).then(res => {
+    submit () {
+      addBatch(this.formData).then(res => {
       //   if(!res) {
       //     console.log('上传失败')
       //   } else {

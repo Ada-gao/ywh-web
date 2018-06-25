@@ -11,7 +11,8 @@
       </el-col>
       <el-col :span="4" class="userinfo">
         <el-dropdown trigger="hover">
-          <span class="el-dropdown-link userinfo-inner"><img src="../assets/user.png"/> {{sysUserName}}</span>
+          <!-- <span class="el-dropdown-link userinfo-inner"><img src="../assets/user.png"/> {{sysUserName}}</span> -->
+          <span class="el-dropdown-link userinfo-inner"><img src="../assets/user.png"/> {{sysUser.username}}</span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>我的消息</el-dropdown-item>
             <el-dropdown-item>设置</el-dropdown-item>
@@ -82,7 +83,8 @@
 </template>
 
 <script>
-import { getUser } from '../api/api'
+// import { getUser } from '../api/api'
+import { mapGetters } from 'vuex'
 
 export default {
   data () {
@@ -101,6 +103,11 @@ export default {
         desc: ''
       }
     }
+  },
+  computed: {
+    ...mapGetters([
+      'sysUser'
+    ])
   },
   methods: {
     onSubmit () {
@@ -134,11 +141,12 @@ export default {
   },
   mounted () {
     let user = sessionStorage.getItem('token')
-    if (user) {
-      getUser().then((res) => {
-        this.sysUserName = res.data.username
-      })
-    }
+    this.$store.dispatch('GetUser', user)
+    // if (user) {
+    //   getUser().then((res) => {
+    //     this.sysUserName = res.data.username
+    //   })
+    // }
   }
 }
 

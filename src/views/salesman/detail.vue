@@ -31,7 +31,7 @@
         <el-row :gutter="20">
           <el-col :span="11">
             <el-form-item label="对应职级" prop="employeeDate">
-              <el-input v-model="form.name" placeholder="请输入对应职级"></el-input>
+              <el-input v-model="form.level" placeholder="请输入对应职级"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -53,48 +53,48 @@
       <el-form :model="form" class="form-border">
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item label="销售ID" prop="name">
-              <span>:{{form.id}}</span>
+            <el-form-item label="销售ID:" prop="name">
+              <span>{{form.id}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="所属公司" prop="name">
-              <span>:{{form.companyName}}</span>
+            <el-form-item label="所属公司:" prop="name">
+              <span>{{form.companyName}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="所属团队" prop="username">
-              <span>:{{form.team}}</span>
+            <el-form-item label="所属团队:" prop="username">
+              <span>{{form.team}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="销售名称" prop="empNo">
-              <span>:{{form.name}}</span>
+            <el-form-item label="销售名称:" prop="empNo">
+              <span>{{form.name}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="对应职级" prop="gender">
-              <span>:{{form.name}}</span>
+            <el-form-item label="对应职级:" prop="gender">
+              <span>{{form.level}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="联系手机" prop="education">
-              <span>:{{form.mobile}}</span>
+            <el-form-item label="联系手机:" prop="education">
+              <span>{{form.mobile}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="创建时间" prop="idType">
-              <span>:{{form.createdDate}}</span>
+            <el-form-item label="创建时间:" prop="idType">
+              <span>{{form.createdDate}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="登陆账号" prop="mobile">
-              <span>:{{form.username}}</span>
+            <el-form-item label="登陆账号:" prop="mobile">
+              <span>{{form.username}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="登陆密码" prop="resumeUrl">
-              <span>:{{form.password}}</span>
+            <el-form-item label="登陆密码:" prop="resumeUrl">
+              <span>{{form.password}}</span>
             </el-form-item>
           </el-col>
         </el-row>
@@ -168,7 +168,7 @@
 
 <script>
 import { getToken } from '@/common/js/auth'
-import { addUser, getUserById, updUser } from '@/api/api'
+import { getUserById, updUser } from '@/api/api'
 
 export default {
   data () {
@@ -262,16 +262,16 @@ export default {
       set[formName].validate(valid => {
         if (valid) {
           if (this.updateStatus === 'create') {
-            addUser(this.form)
-              .then(() => {
-                this.updateStatus = 'view'
-                this.$notify({
-                  title: '成功',
-                  message: '创建成功',
-                  type: 'success',
-                  duration: 2000
-                })
-              })
+            // addUser(this.form)
+            //   .then(() => {
+            //     this.updateStatus = 'view'
+            //     this.$notify({
+            //       title: '成功',
+            //       message: '创建成功',
+            //       type: 'success',
+            //       duration: 2000
+            //     })
+            //   })
           } else {
             updUser(this.form.id, this.form).then(res => {
               this.updateStatus = 'view'
