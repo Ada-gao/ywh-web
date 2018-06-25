@@ -10,7 +10,17 @@
         <el-row :gutter="20">
           <el-col :span="11">
             <el-form-item label="所属公司" prop="name">
-              <el-input v-model="form.companyName" placeholder="请选择/输入公司名称"></el-input>
+              <!-- <el-input v-model="form.companyName" placeholder="请选择/输入公司名称"></el-input> -->
+              <el-select v-model="listQuery.companyId"
+                placeholder="公司筛选"
+                style="width: 100%">
+                <el-option
+                  v-for="item in companies"
+                  :key="item.id"
+                  :label="item.companyName"
+                  :value="item.id">
+                </el-option>
+              </el-select>
             </el-form-item>
           </el-col>
         </el-row>
@@ -182,7 +192,7 @@
 
 <script>
 import { getToken } from '@/common/js/auth'
-import { getUserById, updUser, addUser } from '@/api/api'
+import { getUserById, updSale, addUser, getCompanies } from '@/api/api'
 
 export default {
   data () {
@@ -248,7 +258,8 @@ export default {
       listQuery: {
         page: 1,
         limit: 20
-      }
+      },
+      companies: []
     }
   },
   created () {
@@ -260,6 +271,7 @@ export default {
       this.updateStatus = 'view'
       this.getList()
     }
+    this.getQuery()
     this.listLoading = false
   },
   methods: {
@@ -267,6 +279,11 @@ export default {
       getUserById(this.id).then(res => {
         this.form = res.data
         console.log(this.form)
+      })
+    },
+    getQuery () {
+      getCompanies().then(res => {
+        this.companies = res.data
       })
     },
     create (formName) {
@@ -286,7 +303,7 @@ export default {
                 })
               })
           } else {
-            updUser(this.form.id, this.form).then(res => {
+            updSale(this.form).then(res => {
               this.updateStatus = 'view'
             })
           }
