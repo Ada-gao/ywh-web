@@ -12,7 +12,7 @@
             <el-form-item label="所属公司" prop="name">
               <!-- <el-input v-model="form.companyName" placeholder="请选择/输入公司名称"></el-input> -->
               <el-select v-model="listQuery.companyId"
-                placeholder="公司筛选"
+                placeholder="请选择公司"
                 style="width: 100%">
                 <el-option
                   v-for="item in companies"
@@ -45,14 +45,14 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row :gutter="20">
+        <el-row :gutter="20" v-if="updateStatus==='create'">
           <el-col :span="11">
             <el-form-item label="登录账号" prop="employeeDate">
               <el-input v-model="form.username" placeholder="请输入登录账号"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row :gutter="20">
+        <el-row :gutter="20" v-if="updateStatus==='create'">
           <el-col :span="11">
             <el-form-item label="登录密码" prop="employeeDate">
               <el-input v-model="form.password" placeholder="请输入登录密码"></el-input>
