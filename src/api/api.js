@@ -14,7 +14,6 @@ export const requestLogin = params => axios.post('/auth/login', params)
 export const getUser = () => axios.get('/auth/user')
 // company
 export const getCompanies = () => axios.get('/companies')
-export const getTeams = id => axios.get('/companies/queryTeams/' + id)
 export const getAssociateList = id => axios.get('/outboundName/queryNames/' + id)
 export const getCompanyPage = params => axios.get('/companies/companyPage', {params: params})
 export const addCompanies = data => axios.post('/companies', data)
