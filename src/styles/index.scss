@@ -1,6 +1,9 @@
 @import './vars.scss';
 @import './elementUI.scss';
 
+a {
+  text-decoration: none;
+}
 $mainBlue: #0299CC;
 $mainGreen: #18c79c;
 .app-container {
