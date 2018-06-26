@@ -62,7 +62,7 @@
 
       <el-table-column align="center" label="任务名称">
         <template slot-scope="scope">
-          <span>{{scope.row.companyName}}</span>
+          <span>{{scope.row.taskCode}}</span>
         </template>
       </el-table-column>
 
@@ -74,7 +74,7 @@
 
       <el-table-column align="center" label="外呼名称">
         <template slot-scope="scope">
-          <span>{{scope.row.phoneNo}}</span>
+          <span>{{scope.row.salesTalk}}</span>
         </template>
       </el-table-column>
 
@@ -118,9 +118,9 @@
     <div v-show="!listLoading" class="pagination-container">
       <el-pagination @size-change="handleSizeChange"
                      @current-change="handleCurrentChange"
-                     :current-page.sync="listQuery.page"
+                     :current-page.sync="listQuery.pageIndex"
                      :page-sizes="[10,20,30, 50]"
-                     :page-size="listQuery.limit"
+                     :page-size="listQuery.pageSize"
                      layout="total, sizes, prev, pager, next, jumper"
                      :total="total">
       </el-pagination>
@@ -141,29 +141,11 @@ export default {
       total: null,
       listLoading: true,
       listQuery: {
-        page: 1,
-        limit: 20
+        pageIndex: 1,
+        pageSize: 10
       },
       list: null,
       sys_user_add: true,
-      options: [
-        {
-          value: '选项1',
-          label: '黄金糕'
-        }, {
-          value: '选项2',
-          label: '双皮奶'
-        }, {
-          value: '选项3',
-          label: '蚵仔煎'
-        }, {
-          value: '选项4',
-          label: '龙须面'
-        }, {
-          value: '选项5',
-          label: '北京烤鸭'
-        }
-      ],
       value: '',
       adminStat: null,
       orgSize: [],
@@ -203,15 +185,15 @@ export default {
       })
     },
     handleSizeChange (val) {
-      this.listQuery.limit = val
+      this.listQuery.pageSize = val
       this.getList()
     },
     handleCurrentChange (val) {
-      this.listQuery.page = val
+      this.listQuery.pageIndex = val
       this.getList()
     },
     handleFilter () {
-      this.listQuery.page = 1
+      this.listQuery.pageIndex = 1
       this.getList()
     },
     handleCreate () {

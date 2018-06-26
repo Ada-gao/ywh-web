@@ -167,57 +167,16 @@ export default {
       headers: {
         Authorization: getToken()
       },
-      options: [
-        {
-          value: 'zhinan',
-          label: '指南',
-          children: [{
-            value: 'shejiyuanze',
-            label: '设计原则',
-            children: [{
-              value: 'yizhi',
-              label: '一致'
-            }, {
-              value: 'fankui',
-              label: '反馈'
-            }, {
-              value: 'xiaolv',
-              label: '效率'
-            }, {
-              value: 'kekong',
-              label: '可控'
-            }]
-          }]
-        }
-      ],
       selectedOptions: [],
       fileList: [],
-      options1: [
-        {
-          value: '选项1',
-          label: '黄金糕'
-        }, {
-          value: '选项2',
-          label: '双皮奶'
-        }, {
-          value: '选项3',
-          label: '蚵仔煎'
-        }, {
-          value: '选项4',
-          label: '龙须面'
-        }, {
-          value: '选项5',
-          label: '北京烤鸭'
-        }
-      ],
       value: '',
       list: [],
       listLoading: true,
       tableKey: 0,
       total: null,
       listQuery: {
-        page: 1,
-        limit: 20
+        page: 0,
+        limit: 10
       },
       id: ''
     }

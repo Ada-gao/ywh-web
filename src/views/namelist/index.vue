@@ -120,9 +120,9 @@
     <div v-show="!listLoading" class="pagination-container">
       <el-pagination @size-change="handleSizeChange"
                      @current-change="handleCurrentChange"
-                     :current-page.sync="listQuery.page"
+                     :current-page.sync="listQuery.pageIndex"
                      :page-sizes="[10,20,30, 50]"
-                     :page-size="listQuery.limit"
+                     :page-size="listQuery.pageSize"
                      layout="total, sizes, prev, pager, next, jumper"
                      :total="total">
       </el-pagination>
@@ -143,29 +143,12 @@ export default {
       total: null,
       listLoading: true,
       listQuery: {
-        page: 1,
-        limit: 20
+        pageIndex: 0,
+        pageSize: 10
       },
+      pageIndex: 0,
       list: null,
       sys_user_add: true,
-      options: [
-        {
-          value: '选项1',
-          label: '黄金糕'
-        }, {
-          value: '选项2',
-          label: '双皮奶'
-        }, {
-          value: '选项3',
-          label: '蚵仔煎'
-        }, {
-          value: '选项4',
-          label: '龙须面'
-        }, {
-          value: '选项5',
-          label: '北京烤鸭'
-        }
-      ],
       value: '',
       companies: [],
       provinceData: provinceAndCityData
@@ -177,8 +160,8 @@ export default {
   },
   methods: {
     getList () {
+      console.log(this.listQuery)
       getLists(this.listQuery).then(response => {
-        console.log(response.data)
         this.list = response.data.content
         this.total = response.data.totalElements
         this.listLoading = false
@@ -187,15 +170,14 @@ export default {
     getQuery () {
       getCompanies().then(res => {
         this.companies = res.data
-        console.log(this.companies)
       })
     },
     handleSizeChange (val) {
-      this.listQuery.limit = val
+      this.listQuery.pageSize = val
       this.getList()
     },
     handleCurrentChange (val) {
-      this.listQuery.page = val
+      this.listQuery.pageIndex = val
       this.getList()
     },
     handleFilter () {
@@ -206,7 +188,7 @@ export default {
         delete this.listQuery.contactName
       }
       console.log(this.listQuery)
-      this.listQuery.page = 1
+      this.listQuery.pageIndex = 1
       this.getList()
     },
     handleCreate () {

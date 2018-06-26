@@ -14,6 +14,8 @@ export const requestLogin = params => axios.post('/auth/login', params)
 export const getUser = () => axios.get('/auth/user')
 // company
 export const getCompanies = () => axios.get('/companies')
+export const getTeams = id => axios.get('/companies/queryTeams/' + id)
+export const getAssociateList = id => axios.get('/outboundName/queryNames/' + id)
 export const getCompanyPage = params => axios.get('/companies/companyPage', {params: params})
 export const addCompanies = data => axios.post('/companies', data)
 export const delCompanies = id => axios.delete('/companies/' + id)
@@ -38,7 +40,7 @@ export const getFile = id => axios.get('/file/' + id)
 // task
 export const getAdminTasks = params => axios.get('/task/admin/getPage', {params: params})
 export const getTasks = params => axios.get('/task/getPage', {params: params})
-export const createTask = data => axios.get('/task', data)
+export const createTask = data => axios.get('/task/createGroup', data)
 export const getTaskDetail = id => axios.get('/task/' + id)
 export const getAdminTaskDetail = id => axios.get('/task/admin/' + id)
 // product
