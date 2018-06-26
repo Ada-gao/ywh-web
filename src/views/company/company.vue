@@ -93,8 +93,8 @@
 
     <div v-show="!listLoading" class="pagination-container">
       <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-                     :current-page.sync="listQuery.page"
-                     :page-sizes="[10,20,30, 50]" :page-size="listQuery.limit"
+                     :current-page.sync="currentPage"
+                     :page-sizes="[10,20,30, 50]" :page-size="listQuery.pageSize"
                      layout="total, sizes, prev, pager, next, jumper" :total="total">
       </el-pagination>
     </div>
@@ -116,8 +116,8 @@ export default {
       total: null,
       listLoading: true,
       listQuery: {
-        page: 1,
-        limit: 20
+        pageIndex: 0,
+        pageSize: 20
       },
       list: null,
       sys_user_add: true,
@@ -142,7 +142,8 @@ export default {
       value: '',
       provinceData: provinceAndCityData,
       industry: [],
-      orgSize: []
+      orgSize: [],
+      currentPage: 1
     }
   },
   computed: {
@@ -174,19 +175,18 @@ export default {
       this.$router.push({path: '/company/detail/' + obj.companyCode, query: {item: obj}})
     },
     handleSizeChange (val) {
-      this.listQuery.limit = val
+      this.listQuery.pageSize = val
       this.getList()
     },
     handleCurrentChange (val) {
-      this.listQuery.page = val
+      this.listQuery.pageIndex = val - 1
       this.getList()
     },
     handleFilter () {
       if (this.listQuery.companyProvince) {
         this.listQuery.companyProvince = this.listQuery.companyProvince.label
       }
-      console.log(this.listQuery)
-      this.listQuery.page = 1
+      this.listQuery.pageIndex = 0
       this.getList()
     },
     handleCreate () {

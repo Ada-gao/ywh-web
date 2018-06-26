@@ -118,7 +118,7 @@
     <div v-show="!listLoading" class="pagination-container">
       <el-pagination @size-change="handleSizeChange"
                      @current-change="handleCurrentChange"
-                     :current-page.sync="listQuery.pageIndex"
+                     :current-page.sync="currentPage"
                      :page-sizes="[10,20,30, 50]"
                      :page-size="listQuery.pageSize"
                      layout="total, sizes, prev, pager, next, jumper"
@@ -141,9 +141,10 @@ export default {
       total: null,
       listLoading: true,
       listQuery: {
-        pageIndex: 1,
+        pageIndex: 0,
         pageSize: 10
       },
+      currentPage: 1,
       list: null,
       sys_user_add: true,
       value: '',
@@ -189,11 +190,11 @@ export default {
       this.getList()
     },
     handleCurrentChange (val) {
-      this.listQuery.pageIndex = val
+      this.listQuery.pageIndex = val - 1
       this.getList()
     },
     handleFilter () {
-      this.listQuery.pageIndex = 1
+      this.listQuery.pageIndex = 0
       this.getList()
     },
     handleCreate () {
