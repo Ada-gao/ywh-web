@@ -18,6 +18,7 @@ export const getCompanyPage = params => axios.get('/companies/companyPage', {par
 export const addCompanies = data => axios.post('/companies', data)
 export const delCompanies = id => axios.delete('/companies/' + id)
 export const putCompanies = (id, data) => axios.put('/companies/' + id, data)
+export const getTeams = (id) => axios.get('/companies/queryTeams/' + id)
 // dict
 export const getOrgSize = () => axios.get('/dict/TypeorgSize')
 // industry
@@ -34,6 +35,7 @@ export const userEnabled = (id, params) => axios.put('/users/enabled/' + id + '?
 // name
 export const getLists = params => axios.get('/outboundName/getPage', {params: params})
 export const addNameExcel = (query, params) => axios.post('/outboundName/addGroup?companyId=' + query.companyId + '&groupName=' + query.groupName + '&maskPhoneNo=' + query.maskPhoneNo, params)
+export const getNames = (companyId) => axios.get('/outboundName/queryNames/' + companyId)
 // file
 export const getFile = id => axios.get('/file/' + id)
 // task

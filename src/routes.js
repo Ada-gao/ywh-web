@@ -73,7 +73,7 @@ let routes = [
     children: [
       {path: '/salesman', component: salesman, name: '销售管理'},
       {path: '/salesman/detail/:id', component: salesmanDetail, name: '新建销售'},
-      {path: '/salesman/excel', component: excel, name: '批量导入'}
+      {path: '/salesman/excel', component: excel, name: '销售批量导入'}
     ]
   },
   {
@@ -84,7 +84,7 @@ let routes = [
     leaf: true, // 只有一个节点
     children: [
       {path: '/list', component: list, name: '名单管理'},
-      {path: '/list/excel', component: nameexcel, name: '批量导入'}
+      {path: '/list/excel', component: nameexcel, name: '名单批量导入'}
     ]
   },
   {

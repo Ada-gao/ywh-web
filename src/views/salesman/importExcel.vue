@@ -4,7 +4,7 @@
       <span class="list-tit">批量导入</span>
     </div>
     <div class="upload-container">
-      <el-form :model="form" label-width="100px">
+      <el-form :model="form" :rules="rules" label-width="120px">
         <el-row :gutter="20">
           <el-col :span="11" :offset="6">
             <el-form-item label="所属公司" prop="companyId">
@@ -22,6 +22,7 @@
         <el-row :gutter="20">
           <el-col :span="11" :offset="6">
             <el-form-item label="上传销售名单" prop="filename">
+              <el-input style="display: none" v-model="form.filename"></el-input>
               <upload-excel-component @on-selected-file='selected'></upload-excel-component>
             </el-form-item>
           </el-col>
@@ -63,7 +64,15 @@ export default {
       formData: null,
       companies: [],
       form: {},
-      downloadUrl: 'http://10.9.60.142:8888/group1/M00/00/0A/Cgk8jlsV8_yAd5EUAAAssi76hjc78.xlsx'
+      downloadUrl: 'http://10.9.60.142:8888/group1/M00/00/0A/Cgk8jlsV8_yAd5EUAAAssi76hjc78.xlsx',
+      rules: {
+        companyId: [
+          { required: true, message: '请选择所属公司', trigger: 'change' }
+        ],
+        filename: [
+          { required: true, message: '请选择上传文件', trigger: 'change' }
+        ]
+      }
     }
   },
   created () {
@@ -78,10 +87,10 @@ export default {
     selected (data) {
       this.tableHeader = data.header
       this.tableData = data.results
+      this.form.filename = data.filename
     },
     submit () {
       addBatch(this.form.companyId, this.tableData).then(res => {
-        console.log(res)
         if (res.status === 200) {
           this.$notify({
             title: '成功',
@@ -91,11 +100,6 @@ export default {
           })
           this.$router.push({path: '/salesman'})
         }
-      //   if(!res) {
-      //     console.log('上传失败')
-      //   } else {
-      //     console.log('上传成功')
-      //   }
       })
     }
   }
