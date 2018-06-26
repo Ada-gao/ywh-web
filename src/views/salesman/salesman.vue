@@ -20,7 +20,7 @@
               :value="item.id">
             </el-option>
           </el-select>
-          <el-select v-model="listQuery.companyId" placeholder="团队筛选" @change="handleFilter">
+          <el-select v-model="listQuery.team" placeholder="团队筛选" @change="handleFilter">
             <el-option
               v-for="item in companies"
               :key="item.id"
@@ -141,7 +141,9 @@ export default {
   },
   methods: {
     getList () {
-      this.listQuery.companyId = this.sysUser.companyId
+      if (this.sysUser.username === 'admin') {
+        this.listQuery.companyId = this.sysUser.companyId
+      }
       console.log(this.listQuery)
       getUsers(this.listQuery).then(response => {
         this.list = response.data
@@ -151,7 +153,7 @@ export default {
           this.orgSize = res.data
           this.list.forEach(item => {
             item[7] = transformText(this.orgSize, item[6])
-            console.log(item[7])
+            // console.log(item[7])
           })
         })
       })

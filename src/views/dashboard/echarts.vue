@@ -32,7 +32,7 @@
                                 <i class="fa fa-tasks fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <span class="huge">12</span>人
+                                <span class="huge">{{total.sale}}</span>人
                                 <div>销售人数</div>
                             </div>
                         </div>
@@ -77,7 +77,7 @@
                             </div>
                             <div class="col-xs-9 text-right">
                                 <span class="huge">13</span>分钟
-                                <div>有效童话时长</div>
+                                <div>有效通话时长</div>
                             </div>
                         </div>
                     </div>
@@ -115,6 +115,7 @@
 
 <script>
 import echarts from 'echarts'
+import { getUsersCount } from '@/api/api'
 
 export default {
   data () {
@@ -122,11 +123,18 @@ export default {
       chartColumn: null,
       chartBar: null,
       chartLine: null,
-      chartPie: null
+      chartPie: null,
+      total: {
+        sale: ''
+      }
     }
   },
-
   methods: {
+    getCount () {
+      getUsersCount().then(res => {
+        this.total.sale = res.data
+      })
+    },
     drawColumnChart () {
       this.chartColumn = echarts.init(document.getElementById('chartColumn'))
       this.chartColumn.setOption({
@@ -283,9 +291,9 @@ export default {
       this.drawPieChart()
     }
   },
-
   mounted: function () {
     this.drawCharts()
+    this.getCount()
   },
   updated: function () {
     this.drawCharts()

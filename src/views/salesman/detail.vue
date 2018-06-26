@@ -2,6 +2,13 @@
   <div class="app-container">
     <div class="detail-title">
       <span class="list-tit">{{textMap[updateStatus]}}</span>
+      <span style="float: right">{{value3 ? '启用' : '停用'}}</span>
+      <el-switch
+         v-show="updateStatus==='view'"
+        style="float: right; margin-left: 30px"
+        v-model="value3"
+        @change="changeMode">
+      </el-switch>
       <el-button class="upd_btn" v-show="updateStatus==='view'" @click="updateStatus='update'">修改</el-button>
     </div>
     <div class="margin-line"></div>
@@ -10,8 +17,7 @@
         <el-row :gutter="20">
           <el-col :span="11">
             <el-form-item label="所属公司" prop="name">
-              <!-- <el-input v-model="form.companyName" placeholder="请选择/输入公司名称"></el-input> -->
-              <el-select v-model="listQuery.companyId"
+              <el-select v-model="form.companyId"
                 placeholder="请选择公司"
                 style="width: 100%">
                 <el-option
@@ -192,7 +198,7 @@
 
 <script>
 import { getToken } from '@/common/js/auth'
-import { getUserById, updSale, addUser, getCompanies } from '@/api/api'
+import { getUserById, updSale, addUser, getCompanies, userEnabled } from '@/api/api'
 
 export default {
   data () {
@@ -259,11 +265,11 @@ export default {
         page: 1,
         limit: 20
       },
-      companies: []
+      companies: [],
+      value3: true
     }
   },
   created () {
-    console.log(this.$route.params.id)
     this.id = this.$route.params.id
     if (this.id === '0') {
       this.updateStatus = 'create'
@@ -278,7 +284,7 @@ export default {
     getList () {
       getUserById(this.id).then(res => {
         this.form = res.data
-        console.log(this.form)
+        // console.log(this.form)
       })
     },
     getQuery () {
@@ -291,19 +297,21 @@ export default {
       set[formName].validate(valid => {
         if (valid) {
           if (this.updateStatus === 'create') {
-            console.log('新增')
+            // console.log(this.form)
             addUser(this.form)
-              .then(() => {
-                this.updateStatus = 'view'
+              .then((res) => {
+                // this.form = res.data
+                // this.updateStatus = 'view'
                 this.$notify({
                   title: '成功',
                   message: '创建成功',
                   type: 'success',
                   duration: 2000
                 })
+                this.$router.push({path: '/salesman'})
               })
           } else {
-            updSale(this.form).then(res => {
+            updSale(this.form.id, this.form).then(res => {
               this.updateStatus = 'view'
             })
           }
@@ -312,14 +320,21 @@ export default {
         }
       })
     },
+    changeMode (val) {
+      console.log(val)
+      // val = val ? 1 : 0
+      userEnabled(this.form.id, val).then(res => {
+        console.log(res)
+      })
+    },
     cancel (formName) {
-      this.$router.push({path: '/company'})
+      this.$router.push({path: '/salesman'})
     },
     handleChange (value) {
-      console.log(value)
+      // console.log(value)
     },
     handleSuccess (fileList) {
-      console.log(fileList)
+      // console.log(fileList)
     },
     handleSizeChange (val) {
       this.listQuery.limit = val

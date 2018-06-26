@@ -34,13 +34,19 @@ export default {
     selected (data) {
       this.tableHeader = data.header
       this.tableData = data.results
-      // console.log(this.tableHeader)
-      // console.log(this.tableData)
-      this.formData = data.formData
-      // console.log(this.formData)
     },
     submit () {
-      addBatch(this.formData).then(res => {
+      addBatch(this.tableData).then(res => {
+        console.log(res)
+        if (res.status === 200) {
+          this.$notify({
+            title: '成功',
+            message: '导入成功',
+            type: 'success',
+            duration: 2000
+          })
+          this.$router.push({path: '/salesman'})
+        }
       //   if(!res) {
       //     console.log('上传失败')
       //   } else {

@@ -27,9 +27,10 @@ export const getAuthDustryByType = typeId => axios.get('/industry/auth/getIndust
 export const getUsers = params => axios.get('/users/querySales', {params: params})
 export const getUsersCount = () => axios.get('/users/salesCount')
 export const getUserById = id => axios.get('/users/' + id)
-export const updSale = (params) => axios.put('/users/updateSales', params)
+export const updSale = (id, params) => axios.put('/users/updateSales/' + id, params)
 export const addBatch = params => axios.post('/users/addBatch', params)
 export const addUser = params => axios.post('/users', params)
+export const userEnabled = (id, params) => axios.put('/users/enabled/' + id + '?enabled=' + params)
 // name
 export const getLists = params => axios.get('/outboundName/getPage', {params: params})
 export const addNameExcel = params => axios.get('/outboundName/import', {params: params})

@@ -78,7 +78,7 @@
 
       <el-table-column align="center" label="公司规模">
         <template slot-scope="scope">
-          <span>{{scope.row.orgSize}}</span>
+          <span>{{scope.row.orgSizeText}}</span>
         </template>
       </el-table-column>
 
@@ -106,6 +106,7 @@
 import { getCompanyPage, getAuthDustries, getOrgSize } from '@/api/api'
 import { provinceAndCityData } from 'element-china-area-data' // 省市区数据
 import { mapGetters } from 'vuex'
+import { transformText } from '@/common/js/util'
 
 export default {
   components: {},
@@ -158,13 +159,15 @@ export default {
         this.list = res.data.content
         this.total = res.data.totalElements
         this.listLoading = false
+        getOrgSize().then(res => {
+          this.orgSize = res.data
+          this.list.forEach(item => {
+            item.orgSizeText = transformText(this.orgSize, item.orgSize)
+          })
+        })
       })
       getAuthDustries().then(res => {
         this.industry = res.data
-      })
-      getOrgSize().then(res => {
-        this.orgSize = res.data
-        // this.form.orgSizeText = transformText(this.coInfo.orgSize, this.form.orgSize)
       })
     },
     handleUpdate (obj) {
