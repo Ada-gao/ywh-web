@@ -120,7 +120,7 @@
     <div v-show="!listLoading" class="pagination-container">
       <el-pagination @size-change="handleSizeChange"
                      @current-change="handleCurrentChange"
-                     :current-page.sync="listQuery.pageIndex"
+                     :current-page.sync="currentPage"
                      :page-sizes="[10,20,30, 50]"
                      :page-size="listQuery.pageSize"
                      layout="total, sizes, prev, pager, next, jumper"
@@ -151,7 +151,8 @@ export default {
       sys_user_add: true,
       value: '',
       companies: [],
-      provinceData: provinceAndCityData
+      provinceData: provinceAndCityData,
+      currentPage: 1
     }
   },
   created () {
@@ -177,7 +178,7 @@ export default {
       this.getList()
     },
     handleCurrentChange (val) {
-      this.listQuery.pageIndex = val
+      this.listQuery.pageIndex = val - 1
       this.getList()
     },
     handleFilter () {
@@ -188,7 +189,7 @@ export default {
         delete this.listQuery.contactName
       }
       console.log(this.listQuery)
-      this.listQuery.pageIndex = 1
+      this.listQuery.pageIndex = 0
       this.getList()
     },
     handleCreate () {

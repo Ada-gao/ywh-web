@@ -20,7 +20,6 @@ export const getCompanyPage = params => axios.get('/companies/companyPage', {par
 export const addCompanies = data => axios.post('/companies', data)
 export const delCompanies = id => axios.delete('/companies/' + id)
 export const putCompanies = (id, data) => axios.put('/companies/' + id, data)
-export const getTeams = (id) => axios.get('/companies/queryTeams/' + id)
 // dict
 export const getOrgSize = () => axios.get('/dict/TypeorgSize')
 // industry
