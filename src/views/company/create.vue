@@ -104,7 +104,6 @@
           <el-col :span="11">
             <el-form-item label="公司LOGO" prop="logo">
               <img :src="form.logo" alt="" style="width: 50px; height: 30px;">
-              {{form.logo}}
               <el-upload
                 class="upload-demo"
                 style="display: inline-block"
@@ -321,6 +320,7 @@ export default {
           this.form.companyProvince = this.form.companyProvince.label
           addCompanies(this.form)
             .then(res => {
+              console.log(res.data)
               this.centerDialogVisible = true
             })
         } else {
@@ -362,7 +362,7 @@ export default {
         this.updateStatus = 'view'
         this.centerDialogVisible = false
       } else {
-        this.$route.push({path: '/company'})
+        this.$router.push({path: '/company'})
       }
     }
   }

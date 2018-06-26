@@ -1,22 +1,12 @@
 <template>
   <div>
     <input id="excel-upload-input" type="file" accept=".xlsx, .xls" class="c-hide" @change="handkeFileChange">
-    <div id="drop" class="el-upload-dragger" @drop="handleDrop" @dragover="handleDragover" @dragenter="handleDragover">
-      <i class="el-icon-upload"></i>
-      <div class="el-upload__text">将文件拖到此处，或<em @click="handleUpload">点击导入</em></div>
-      <div class="el-upload__tip" slot="tip">只能导入 Excel 文件 <a :href="downloadUrl">下载 Excel 模版</a></div>
-      <!-- <el-button style="margin-left:16px;" size="mini" type="primary" @click="handleUpload">browse</el-button> -->
-    </div>
-    <!-- <el-upload
-      class="upload-demo"
-      drag
-      action="https://jsonplaceholder.typicode.com/posts/"
-      :on-success="handkeFileChange"
-      multiple>
-      <i class="el-icon-upload"></i>
-      <div class="el-upload__text">将文件拖到此处，或<em>点击导入</em></div>
-      <div class="el-upload__tip" slot="tip">只能导入 Excel 文件 <a href="javascript:;">下载 Excel 模版</a></div>
-    </el-upload> -->
+    <!-- <div id="drop" class="el-upload-dragger"> -->
+      <div @click="handleUpload">
+        <el-input v-model="filename" placeholder="请选择上传文件" readonly></el-input>
+      </div>
+      <!-- <div class="el-upload__tip" slot="tip">只能导入 Excel 文件 <a :href="downloadUrl">下载 Excel 模版</a></div> -->
+    <!-- </div> -->
   </div>
 </template>
 
@@ -32,6 +22,7 @@ export default {
         header: null,
         results: null
       },
+      filename: '',
       downloadUrl: 'http://10.9.60.142:8888/group1/M00/00/0A/Cgk8jlsV8_yAd5EUAAAssi76hjc78.xlsx'
     }
   },
@@ -39,33 +30,36 @@ export default {
     generateDate ({ header, results, formData }) {
       this.excelData.header = header
       this.excelData.results = results
-      this.excelData.formData = formData
+      // this.excelData.formData = formData
+      this.excelData.filename = this.filename
       this.$emit('on-selected-file', this.excelData)
     },
-    handleDrop (e) {
-      e.stopPropagation()
-      e.preventDefault()
-      const files = e.dataTransfer.files
-      if (files.length !== 1) {
-        this.$message.error('Only support uploading one file!')
-        return
-      }
-      const itemFile = files[0] // only use files[0]
-      this.readerData(itemFile)
-      e.stopPropagation()
-      e.preventDefault()
-    },
-    handleDragover (e) {
-      e.stopPropagation()
-      e.preventDefault()
-      e.dataTransfer.dropEffect = 'copy'
-    },
+    // handleDrop (e) {
+    //   e.stopPropagation()
+    //   e.preventDefault()
+    //   const files = e.dataTransfer.files
+    //   if (files.length !== 1) {
+    //     this.$message.error('Only support uploading one file!')
+    //     return
+    //   }
+    //   const itemFile = files[0] // only use files[0]
+    //   this.readerData(itemFile)
+    //   e.stopPropagation()
+    //   e.preventDefault()
+    // },
+    // handleDragover (e) {
+    //   e.stopPropagation()
+    //   e.preventDefault()
+    //   e.dataTransfer.dropEffect = 'copy'
+    // },
     handleUpload () {
       document.getElementById('excel-upload-input').click()
     },
     handkeFileChange (e) {
       const files = e.target.files
       const itemFile = files[0] // only use files[0]
+      this.filename = itemFile.name
+      console.log(this.filename)
       let formData = new FormData()
       formData.append('file', itemFile)
       this.readerData(itemFile, formData)

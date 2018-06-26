@@ -12,7 +12,7 @@
           <el-button class="filter-item" type="primary" icon="search" @click="handleFilter">查询</el-button>
         </el-col>
         <el-col :span="16" style="text-align: right;">
-          <el-select v-model="listQuery.companyId" placeholder="公司筛选" @change="handleFilter">
+          <el-select v-model="listQuery.companyId" placeholder="公司筛选" @change="handleCompany">
             <el-option
               v-for="item in companies"
               :key="item.id"
@@ -20,12 +20,12 @@
               :value="item.id">
             </el-option>
           </el-select>
-          <el-select v-model="listQuery.companyId" placeholder="团队筛选" @change="handleFilter">
+          <el-select v-model="listQuery.team" placeholder="团队筛选" @change="handleFilter">
             <el-option
-              v-for="item in companies"
-              :key="item.id"
-              :label="item.companyName"
-              :value="item.id">
+              v-for="(item, index) in teams"
+              :key="index"
+              :label="item"
+              :value="item">
             </el-option>
           </el-select>
         </el-col>
@@ -107,7 +107,7 @@
 </template>
 
 <script>
-import { getUsers, getCompanies, getOrgSize } from '@/api/api'
+import { getUsers, getCompanies, getOrgSize, getTeams } from '@/api/api'
 import { transformText } from '@/common/js/util'
 import { mapGetters } from 'vuex'
 
@@ -121,12 +121,14 @@ export default {
       listQuery: {
         page: 1,
         limit: 20,
-        companyId: ''
+        companyId: '',
+        team: ''
       },
       list: null,
       sys_user_add: true,
       value: '',
       companies: [],
+      teams: [],
       orgSize: []
     }
   },
@@ -141,17 +143,18 @@ export default {
   },
   methods: {
     getList () {
-      this.listQuery.companyId = this.sysUser.companyId
-      console.log(this.listQuery)
+      if (this.sysUser.username === 'admin') {
+        this.listQuery.companyId = this.sysUser.companyId
+      }
       getUsers(this.listQuery).then(response => {
         this.list = response.data
-        this.total = response.data.total
+        this.total = response.data.length
         this.listLoading = false
         getOrgSize().then(res => {
           this.orgSize = res.data
           this.list.forEach(item => {
             item[7] = transformText(this.orgSize, item[6])
-            console.log(item[7])
+            // console.log(item[7])
           })
         })
       })
@@ -182,6 +185,15 @@ export default {
       } else {
         this.$router.push({path: '/salesman/excel'})
       }
+    },
+    handleCompany (val) {
+      getTeams(val).then(res => {
+        console.log(res)
+        this.teams = res.data
+        console.log(this.listQuery.team)
+        this.listQuery.team = ''
+      })
+      this.handleFilter()
     }
   }
 }
