@@ -26,7 +26,7 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="13">
-            <el-form-item label="关联名单" prop="outboundNameGroupId" >
+            <el-form-item label="关联名单" prop="outboundNameGroupId" required>
               <!--<el-input v-model="form.empNo" placeholder="选择/输入关联名单"></el-input>-->
               <el-select v-model="taskGroup.outboundNameGroupId" placeholder="选择/输入关联名单" filterable>
                 <el-option
@@ -55,7 +55,7 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="13">
-            <el-form-item label="关联团队" prop="team" required>
+            <el-form-item label="关联团队" prop="team" >
               <!--<el-input v-model="form.associateteam" placeholder="选择/输入关联团队"></el-input>-->
               <el-select v-model="taskGroup.team" placeholder="选择/输入关联团队" filterable>
                 <el-option
@@ -182,15 +182,15 @@ export default {
         salesTalk: [
           { required: true, message: '请输入外呼话术', trigger: 'blur' }
         ],
-        // outboundNameGroupId: [
-        //   { required: true, message: '请选择/输入关联名单', trigger: 'change' }
-        // ],
+        outboundNameGroupId: [
+          { required: true, message: '请选择/输入关联名单', trigger: 'change' }
+        ],
         taskName: [
           {required: true, message: '请输入任务名称', trigger: 'blur'}
         ],
-        team: [
-          {required: true, message: '请选择/输入关联团队', trigger: 'change'}
-        ],
+        // team: [
+        //   {required: true, message: '请选择/输入关联团队', trigger: 'change'}
+        // ],
         taskStartDate: [
           { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
         ],
@@ -274,6 +274,8 @@ export default {
           this.taskGroup.interv -= 0
           this.taskGroup.effectiveTasks -= 0
           this.taskGroup.minimumDuration -= 0
+          this.taskGroup.productId = 0
+          this.taskGroup.team = '数赟科技'
           createTask(this.taskGroup)
             .then((res) => {
               console.log(res)
