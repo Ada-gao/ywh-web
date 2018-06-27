@@ -160,7 +160,7 @@
 
 <script>
 import { getToken } from '@/common/js/auth'
-import {createTask, getCompanies, getTeams, getAssociateList} from '@/api/api'
+import {createTask, getCompanies, getTeams, getNames} from '@/api/api'
 
 export default {
   data () {
@@ -215,24 +215,6 @@ export default {
       },
       selectedOptions: [],
       fileList: [],
-      options: [
-        {
-          value: '选项1',
-          label: '黄金糕'
-        }, {
-          value: '选项2',
-          label: '双皮奶'
-        }, {
-          value: '选项3',
-          label: '蚵仔煎'
-        }, {
-          value: '选项4',
-          label: '龙须面'
-        }, {
-          value: '选项5',
-          label: '北京烤鸭'
-        }
-      ],
       value: '',
       updateStatus: '',
       teamList: [],
@@ -243,12 +225,20 @@ export default {
       companies: [],
       nextActionList: [
         {
-          value: 'CALL_AGAIN',
-          label: 'CALL_AGAIN'
+          value: 'REFUSE',
+          label: 'REFUSE'
         },
         {
-          value: 'GIVE_UP',
-          label: 'GIVE_UP'
+          value: 'NO_ANSWER',
+          label: 'NO_ANSWER'
+        },
+        {
+          value: 'BUSYING',
+          label: 'BUSYING'
+        },
+        {
+          value: 'NOT_CALL',
+          label: 'NOT_CALL'
         },
         {
           value: 'FOLLOW',
@@ -268,7 +258,7 @@ export default {
       getTeams(value).then(res => {
         this.teamList = res.data
       })
-      getAssociateList(value).then(res => {
+      getNames(value).then(res => {
         this.associateList = res.data
       })
     },
@@ -278,18 +268,16 @@ export default {
       })
     },
     create (formName) {
-      console.log('提交了')
-      console.log(this.taskGroup)
       const set = this.$refs
       set[formName].validate(valid => {
         if (valid) {
-          console.log('验证通过。。')
           this.taskGroup.interv -= 0
           this.taskGroup.effectiveTasks -= 0
           this.taskGroup.minimumDuration -= 0
           createTask(this.taskGroup)
-            .then(() => {
-              this.getList()
+            .then((res) => {
+              console.log(res)
+              // this.getList()
               this.$notify({
                 title: '成功',
                 message: '创建成功',

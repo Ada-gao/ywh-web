@@ -115,7 +115,7 @@
 
 <script>
 import echarts from 'echarts'
-import { getUsersCount } from '@/api/api'
+import { getUsersCount, getTaskCount } from '@/api/api'
 
 export default {
   data () {
@@ -125,7 +125,8 @@ export default {
       chartLine: null,
       chartPie: null,
       total: {
-        sale: ''
+        sale: 0,
+        task: 0
       }
     }
   },
@@ -133,6 +134,9 @@ export default {
     getCount () {
       getUsersCount().then(res => {
         this.total.sale = res.data
+      })
+      getTaskCount().then(res => {
+        this.total.task = res.data
       })
     },
     drawColumnChart () {

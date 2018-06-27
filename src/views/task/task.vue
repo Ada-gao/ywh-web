@@ -56,13 +56,13 @@
 
       <el-table-column align="center" label="任务ID">
         <template slot-scope="scope">
-          <span>{{scope.row.id}}</span>
+          <span>{{scope.row.taskCode}}</span>
         </template>
       </el-table-column>
 
       <el-table-column align="center" label="任务名称">
         <template slot-scope="scope">
-          <span>{{scope.row.taskCode}}</span>
+          <span>{{scope.row.taskName}}</span>
         </template>
       </el-table-column>
 
