@@ -147,8 +147,8 @@
 
       <div v-show="!listLoading" class="pagination-container">
         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-                       :current-page.sync="listQuery.page"
-                       :page-sizes="[10,20,30, 50]" :page-size="listQuery.limit"
+                       :current-page.sync="currentPage"
+                       :page-sizes="[10,20,30, 50]" :page-size="listQuery.pageSize"
                        layout="total, sizes, prev, pager, next, jumper" :total="total">
         </el-pagination>
       </div>
@@ -174,9 +174,10 @@ export default {
       listLoading: true,
       tableKey: 0,
       total: null,
+      currentPage: 1,
       listQuery: {
-        page: 0,
-        limit: 10
+        pageIndex: 0,
+        pageSize: 10
       },
       id: ''
     }
@@ -197,39 +198,25 @@ export default {
         getAdminTaskDetail(this.id).then(response => {
           console.log(response.data)
           this.form = response.data
-          // this.total = response.data.totalElements
+          this.total = response.data.totalElements
           this.listLoading = false
         })
       } else {
         getTaskDetail(this.id).then(response => {
           console.log(response.data)
           this.form = response.data
-          //  this.list = response.data.content
-          //  this.total = response.data.totalElements
+          this.list = response.data.content
+          this.total = response.data.totalElements
           this.listLoading = false
         })
       }
-    },
-    create (formName) {
-      console.log('提交了')
-
-      const set = this.$refs
-      set[formName].validate(valid => {
-        if (valid) {
-          if (this.updateStatus === 'create') {
-          } else {
-          }
-        } else {
-          return false
-        }
-      })
     },
     handleSizeChange (val) {
       this.listQuery.limit = val
       // this.getList()
     },
     handleCurrentChange (val) {
-      this.listQuery.page = val
+      this.listQuery.page = val - 1
       // this.getList()
     }
   }

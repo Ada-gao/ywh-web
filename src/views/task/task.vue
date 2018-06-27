@@ -168,14 +168,12 @@ export default {
     getList () {
       if (this.adminStat) {
         getAdminTasks(this.listQuery).then(response => {
-          console.log(response.data)
           this.list = response.data.content
           this.total = response.data.totalElements
           this.listLoading = false
         })
       } else {
         getTasks(this.listQuery).then(response => {
-          console.log(response.data)
           this.list = response.data.content
           this.total = response.data.totalElements
           this.listLoading = false

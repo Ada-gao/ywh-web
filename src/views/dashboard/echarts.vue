@@ -10,7 +10,7 @@
                             </div>
                             <div class="col-xs-8">
                               <div class="stat-tit">外呼任务/个</div>
-                              <span class="huge">26</span>
+                              <span class="huge">{{total.task}}</span>
                             </div>
                         </div>
                     </div>
@@ -32,7 +32,7 @@
                             </div>
                             <div class="col-xs-8">
                               <div class="stat-tit">销售人数/人</div>
-                              <span class="huge">{{total.sale}}</span>
+                              <span class="huge">{{total.totalSalesCnt}}</span>
                             </div>
                         </div>
                     </div>
@@ -54,7 +54,7 @@
                             </div>
                             <div class="col-xs-8">
                               <div class="stat-tit">任务完成数/个</div>
-                              <span class="huge">12</span>
+                              <span class="huge">{{total.totalTaskCompleteCnt}}</span>
                             </div>
                         </div>
                     </div>
@@ -76,7 +76,7 @@
                             </div>
                             <div class="col-xs-8">
                               <div class="stat-tit">有效通话时长/分钟</div>
-                              <span class="huge">13</span>
+                              <span class="huge">{{total.totalEffectiveDuration}}</span>
                             </div>
                         </div>
                     </div>
@@ -114,7 +114,8 @@
 
 <script>
 import echarts from 'echarts'
-import { getUsersCount, getTaskCount } from '@/api/api'
+// import { getStatistic, getTaskCount } from '@/api/api'
+import { getStatistic } from '@/api/api'
 
 export default {
   data () {
@@ -124,18 +125,31 @@ export default {
       chartLine: null,
       chartPie: null,
       total: {
-        sale: 0,
-        task: 0
+        totalSalesCnt: 0,
+        task: 0,
+        totalEffectiveDuration: 0,
+        totalTaskCompleteCnt: 0
       }
     }
   },
+  computed: {
+    sysUser () {
+      return this.$store.state.sysUser
+    }
+  },
+  created () {
+    this.getCount()
+  },
   methods: {
     getCount () {
-      getUsersCount().then(res => {
-        this.total.sale = res.data
-      })
-      getTaskCount().then(res => {
-        this.total.task = res.data
+      let params = {
+        companyId: this.sysUser.companyId
+      }
+      getStatistic(params).then(res => {
+        this.total.totalEffectiveDuration = res.data.totalEffectiveDuration || 0
+        this.total.totalTaskCompleteCnt = res.data.totalTaskCompleteCnt || 0
+        this.total.totalSalesCnt = res.data.totalSalesCnt || 0
+        // this.total.sale = res.data
       })
     },
     drawColumnChart () {
