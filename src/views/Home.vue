@@ -2,11 +2,12 @@
   <el-row class="container">
     <el-col :span="24" class="header">
       <el-col :span="10" class="logo" :class="collapsed?'logo-collapse-width':'logo-width'">
+        <i class="fa fa-square"></i>
         {{collapsed ? '' : sysName}}
       </el-col>
       <el-col :span="10">
         <div class="tools" @click.prevent="collapse">
-          <i class="fa fa-align-justify"></i>
+          <i class="fa fa-outdent"></i>
         </div>
       </el-col>
       <el-col :span="4" class="userinfo">
@@ -163,8 +164,11 @@ export default {
     .header {
       height: 60px;
       line-height: 60px;
-      background: $color-primary;
-      color: #fff;
+      background: $header-bg;
+      box-shadow: 0 2px 4px 0 rgba(219,219,219,0.50);
+      color: #000;
+      position: fixed;
+      z-index: 1111;
       .userinfo {
         text-align: right;
         padding-right: 35px;
@@ -182,7 +186,7 @@ export default {
         }
       }
       .logo {
-        //width:230px;
+        //width:180px;
         height: 60px;
         font-size: 22px;
         padding-left: 20px;
@@ -200,10 +204,19 @@ export default {
         }
       }
       .logo-width {
-        width: 230px;
+        width: 180px;
+        background: $sidebar-bg;
+        color: $sidebar-item-color;
+        font-family: PingFangSC-Semibold;
+        font-size: 14px;
+        letter-spacing: 0;
+        height: 60px;
+        line-height: 60px;
       }
       .logo-collapse-width {
-        width: 60px
+        width: 60px;
+        background: $sidebar-bg;
+        color: #fff;
       }
       .tools {
         padding: 0px 23px;
@@ -221,13 +234,39 @@ export default {
       bottom: 0px;
       overflow: hidden;
       aside {
-        flex: 0 0 230px;
-        width: 230px;
+        flex: 0 0 180px;
+        width: 180px;
+        background: $sidebar-bg;
+        color: $sidebar-item-color;
+        font-family: PingFangSC-Semibold;
+        font-size: 14px;
+        letter-spacing: 0;
         // position: absolute;
         // top: 0px;
         // bottom: 0px;
         .el-menu {
           height: 100%;
+          background: $sidebar-bg;
+          border-right: 0;
+          .el-menu-item {
+            color: #fff;
+          }
+          .el-menu-item.is-active {
+            background: $sidebar-active-bg;
+            min-width: 56px;
+          }
+          .el-submenu__title i,
+          .el-menu-item i {
+            color: #fff;
+          }
+        }
+        .el-menu--horizontal.el-menu--dark .el-submenu .el-menu-item:hover,
+        .el-menu--horizontal.el-menu--dark .el-submenu .el-submenu-title:hover,
+        .el-menu-item:hover {
+          background: $sidebar-active-bg;
+        }
+        .el-submenu .el-menu-item {
+          min-width: 179px;
         }
         .collapsed {
           width: 60px;
@@ -242,7 +281,9 @@ export default {
             height: auto;
             display: none;
           }
-
+          .el-submenu .el-menu-item {
+            min-width: 60px;
+          }
         }
       }
       .menu-collapsed {
@@ -250,8 +291,8 @@ export default {
         width: 60px;
       }
       .menu-expanded {
-        flex: 0 0 230px;
-        width: 230px;
+        flex: 0 0 180px;
+        width: 180px;
       }
       .content-container {
         // background: #f1f2f7;
@@ -260,7 +301,7 @@ export default {
         // right: 0px;
         // top: 0px;
         // bottom: 0px;
-        // left: 230px;
+        // left: 180px;
         overflow-y: scroll;
         padding: 20px;
         .breadcrumb-container {

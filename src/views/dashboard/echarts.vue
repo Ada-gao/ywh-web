@@ -1,27 +1,26 @@
 <template>
     <section class="chart-container">
-      雷鸣电销系统欢迎您！
-        <el-row>
+        <el-row class="statistic">
             <el-col :span="6">
                 <div class="panel panel-blue">
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-xs-3">
-                                <i class="fa fa-comments fa-5x"></i>
+                                <i class="fa fa-volume-control-phone"></i>
                             </div>
-                            <div class="col-xs-9 text-right">
-                                <span class="huge">26</span>个
-                                <div>外呼任务</div>
+                            <div class="col-xs-8">
+                              <div class="stat-tit">外呼任务/个</div>
+                              <span class="huge">26</span>
                             </div>
                         </div>
                     </div>
-                    <a href="#">
-                        <div class="panel-footer">
-                            <span class="pull-left">View Details</span>
-                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                            <div class="clearfix"></div>
-                        </div>
-                    </a>
+                    <!--<a href="#">-->
+                        <!--<div class="panel-footer">-->
+                            <!--<span class="pull-left">View Details</span>-->
+                            <!--<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>-->
+                            <!--<div class="clearfix"></div>-->
+                        <!--</div>-->
+                    <!--</a>-->
                 </div>
             </el-col>
             <el-col :span="6">
@@ -29,21 +28,21 @@
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-xs-3">
-                                <i class="fa fa-tasks fa-5x"></i>
+                                <i class="fa fa-user"></i>
                             </div>
-                            <div class="col-xs-9 text-right">
-                                <span class="huge">{{total.sale}}</span>人
-                                <div>销售人数</div>
+                            <div class="col-xs-8">
+                              <div class="stat-tit">销售人数/人</div>
+                              <span class="huge">{{total.sale}}</span>
                             </div>
                         </div>
                     </div>
-                    <a href="#">
-                        <div class="panel-footer">
-                            <span class="pull-left">New Orders</span>
-                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                            <div class="clearfix"></div>
-                        </div>
-                    </a>
+                    <!--<a href="#">-->
+                        <!--<div class="panel-footer">-->
+                            <!--<span class="pull-left">New Orders</span>-->
+                            <!--<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>-->
+                            <!--<div class="clearfix"></div>-->
+                        <!--</div>-->
+                    <!--</a>-->
                 </div>
             </el-col>
             <el-col :span="6">
@@ -51,21 +50,21 @@
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-xs-3">
-                                <i class="fa fa-shopping-cart fa-5x"></i>
+                                <i class="fa fa-calendar-check-o"></i>
                             </div>
-                            <div class="col-xs-9 text-right">
-                                <span class="huge">12</span>个
-                                <div>任务完成数</div>
+                            <div class="col-xs-8">
+                              <div class="stat-tit">任务完成数/个</div>
+                              <span class="huge">12</span>
                             </div>
                         </div>
                     </div>
-                    <a href="#">
-                        <div class="panel-footer">
-                            <span class="pull-left">View Details</span>
-                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                            <div class="clearfix"></div>
-                        </div>
-                    </a>
+                    <!--<a href="#">-->
+                        <!--<div class="panel-footer">-->
+                            <!--<span class="pull-left">View Details</span>-->
+                            <!--<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>-->
+                            <!--<div class="clearfix"></div>-->
+                        <!--</div>-->
+                    <!--</a>-->
                 </div>
             </el-col>
             <el-col :span="6">
@@ -73,21 +72,21 @@
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-xs-3">
-                                <i class="fa fa-support fa-5x"></i>
+                                <i class="fa fa-clock-o"></i>
                             </div>
-                            <div class="col-xs-9 text-right">
-                                <span class="huge">13</span>分钟
-                                <div>有效通话时长</div>
+                            <div class="col-xs-8">
+                              <div class="stat-tit">有效通话时长/分钟</div>
+                              <span class="huge">13</span>
                             </div>
                         </div>
                     </div>
-                    <a href="#">
-                        <div class="panel-footer">
-                            <span class="pull-left">View Details</span>
-                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                            <div class="clearfix"></div>
-                        </div>
-                    </a>
+                    <!--<a href="#">-->
+                        <!--<div class="panel-footer">-->
+                            <!--<span class="pull-left">View Details</span>-->
+                            <!--<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>-->
+                            <!--<div class="clearfix"></div>-->
+                        <!--</div>-->
+                    <!--</a>-->
                 </div>
             </el-col>
 
@@ -106,9 +105,9 @@
             <el-col :span="12">
                 <div id="chartPie" style="width:100%; height:400px;"></div>
             </el-col>
-            <el-col :span="24">
-                <a href="http://echarts.baidu.com/examples.html" target="_blank" style="float: right;">more>></a>
-            </el-col>
+            <!--<el-col :span="24">-->
+                <!--<a href="http://echarts.baidu.com/examples.html" target="_blank" style="float: right;">more>></a>-->
+            <!--</el-col>-->
         </el-row>
     </section>
 </template>

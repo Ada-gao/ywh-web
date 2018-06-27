@@ -88,7 +88,13 @@
         <el-row :gutter="20">
           <el-col :span="13">
             <el-form-item label="外呼话术" prop="salesTalk" required>
-              <el-input type="textarea" v-model="taskGroup.salesTalk" placeholder="输入外呼话术"></el-input>
+              <!--<el-input type="textarea" v-model="taskGroup.salesTalk" placeholder="输入外呼话术"></el-input>-->
+              <quill-editor v-model="taskGroup.salesTalk"
+                            ref="myQuillEditor"
+                            class="editer"
+                            placeholder="输入外呼话术"
+                            :options="editorOption">
+              </quill-editor>
             </el-form-item>
           </el-col>
         </el-row>
@@ -159,12 +165,19 @@
 </template>
 
 <script>
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import {quillEditor} from 'vue-quill-editor'
 import { getToken } from '@/common/js/auth'
 import {createTask, getCompanies, getTeams, getNames} from '@/api/api'
 
 export default {
+  components: {
+    quillEditor
+  },
   data () {
     return {
+      editorOption: {},
       taskGroup: {
         team: '',
         outboundNameGroupId: null
@@ -269,13 +282,12 @@ export default {
     },
     create (formName) {
       const set = this.$refs
+      console.log(this.taskGroup)
       set[formName].validate(valid => {
         if (valid) {
           this.taskGroup.interv -= 0
           this.taskGroup.effectiveTasks -= 0
           this.taskGroup.minimumDuration -= 0
-          this.taskGroup.productId = 0
-          this.taskGroup.team = '数赟科技'
           createTask(this.taskGroup)
             .then((res) => {
               console.log(res)

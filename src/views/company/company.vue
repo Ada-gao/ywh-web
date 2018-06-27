@@ -9,7 +9,7 @@
           <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="输入公司名称关键词"
                 v-model="listQuery.companyName">
           </el-input>
-          <el-button class="filter-item" type="primary" icon="search" @click="handleFilter">查询</el-button>
+          <el-button class="filter-item" type="primary" icon="search" @click="handleFilter"><i class="fa fa-search"></i>查询</el-button>
         </el-col>
         <el-col :span="16" style="text-align: right;">
           <el-select v-model="listQuery.companyProvince" placeholder="省份筛选" @change="handleFilter">
@@ -41,7 +41,9 @@
     </div>
     <div class="detail-title">
       <span class="list-tit">公司列表</span>
-      <el-button v-if="sysUser.username==='superadmin'" class="add_btn" @click="handleCreate">新建公司</el-button>
+      <el-button v-if="sysUser.username==='superadmin'" class="add_btn" @click="handleCreate">
+        <i class="fa fa-plus" style="color: #fff;margin-right: 10px"></i>新建公司
+      </el-button>
     </div>
     <el-table :key='tableKey' :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit
               highlight-current-row style="width: 100%">

@@ -1,11 +1,15 @@
 @import './vars.scss';
 @import './elementUI.scss';
 
-a {
+a,
+a:hover {
   text-decoration: none;
 }
-$mainBlue: #0299CC;
-$mainGreen: #18c79c;
+.container {
+  padding: 0;
+}
+//$mainBlue: #0299CC;
+//$mainGreen: #18c79c;
 .app-container {
   padding: 0 20px;
 }
@@ -69,7 +73,53 @@ input {
     width: 4px;
     height: 20px;
     /*background: #0299CC;*/
-    background: $mainGreen;
+    background: $color-primary;
     left: 0;
+  }
+}
+.container {
+  .el-button--primary {
+    border: 1px solid $color-primary;
+    color: $color-primary;
+    background: #ffff;
+    margin-left: 17px;
+  }
+  .el-input__inner {
+    border-color: #C8C8C8;
+    font-family: PingFangSC-Regular;
+    font-size: 14px;
+  }
+  .el-input__inner:focus,
+  .el-input__inner:hover {
+    border-color: $color-primary;
+  }
+  .el-button--primary:focus,
+  .el-button--primary:hover {
+    background: $hover-color;
+    border-color: $hover-color;
+    color: #fff;
+  }
+  .el-pager li.active {
+    background-color: $color-primary;
+    border-color: $color-primary;
+    &:hover {
+      color: #fff;
+    }
+  }
+  .el-pager li:hover {
+    color: $color-primary;
+  }
+  .add_btn {
+    background: $color-primary;
+    color: #fff;
+  }
+  .add_btn:hover {
+    background: $hover-color;
+    color: #fff;
+  }
+  .el-radio__input.is-checked .el-radio__inner,
+  .el-checkbox__input.is-checked .el-checkbox__inner {
+    border-color: $color-primary;
+    background: $color-primary;
   }
 }

@@ -13,7 +13,7 @@
           <el-button class="filter-item"
                      type="primary"
                      icon="search"
-                     @click="handleFilter">查询</el-button>
+                     @click="handleFilter"><i class="fa fa-search"></i>查询</el-button>
         </el-col>
         <el-col :span="16" style="text-align: right;">
           <el-select v-model="listQuery.companyId"
@@ -39,12 +39,11 @@
         </el-col>
       </el-row>
     </div>
-    <div class="table-add-box">
-      <div class="list-table-tit">任务列表</div>
-      <div class="add-box" @click="handleCreate">
-        <i class="fal fa-plus"></i>
-        <span>新建任务</span>
-      </div>
+    <div class="detail-title">
+      <span class="list-tit">任务列表</span>
+      <el-button class="add_btn" @click="handleCreate('import')">
+        <i class="fa fa-plus" style="color: #fff;margin-right: 10px"></i>新建任务
+      </el-button>
     </div>
     <el-table :key='tableKey'
               :data="list"
@@ -62,7 +61,7 @@
 
       <el-table-column align="center" label="任务名称">
         <template slot-scope="scope">
-          <span>{{scope.row.taskName}}</span>
+          <span>{{scope.row.taskTarget}}</span>
         </template>
       </el-table-column>
 
@@ -132,6 +131,7 @@
 <script>
 import {getAdminTasks, getTasks, getCompanies, getProductList} from '@/api/api'
 // import { transformText } from '@/common/js/util'
+import {mapGetters} from 'vuex'
 
 export default {
   components: {},
@@ -153,6 +153,11 @@ export default {
       companies: [],
       products: []
     }
+  },
+  computed: {
+    ...mapGetters([
+      'sysUser'
+    ])
   },
   created () {
     this.adminStat = this.$store.state.adminStat

@@ -13,7 +13,7 @@
           <el-button class="filter-item"
                      type="primary"
                      icon="search"
-                     @click="handleFilter">查询</el-button>
+                     @click="handleFilter"><i class="fa fa-search"></i>查询</el-button>
         </el-col>
         <el-col :span="16" style="text-align: right;">
           <el-select v-model="listQuery.companyId"
@@ -39,15 +39,11 @@
         </el-col>
       </el-row>
     </div>
-    <!--<div style="text-align: right">-->
-    <!--<el-button class="add_btn" @click="handleCreate">新建销售</el-button>-->
-    <!--</div>-->
-    <div class="table-add-box">
-      <div class="list-table-tit">名单列表</div>
-      <div class="add-box" @click="handleCreate">
-        <i class="fal fa-plus"></i>
-        <span>批量导入</span>
-      </div>
+    <div class="detail-title">
+      <span class="list-tit">名单列表</span>
+      <el-button v-if="sysUser.username==='superadmin'" class="add_btn" @click="handleCreate">
+        <i class="fa fa-sign-out" style="color: #fff;margin-right: 10px"></i>批量导入
+      </el-button>
     </div>
     <el-table :key='tableKey'
               :data="list"
@@ -134,6 +130,7 @@
 <script>
 import {getLists, getCompanies} from '@/api/api'
 import { provinceAndCityData } from 'element-china-area-data' // 省市区数据
+import { mapGetters } from 'vuex'
 
 export default {
   components: {},
@@ -154,6 +151,11 @@ export default {
       provinceData: provinceAndCityData,
       currentPage: 1
     }
+  },
+  computed: {
+    ...mapGetters([
+      'sysUser'
+    ])
   },
   created () {
     this.getList()

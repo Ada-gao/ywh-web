@@ -9,7 +9,7 @@
           <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="输入销售姓名"
                 v-model="listQuery.name">
           </el-input>
-          <el-button class="filter-item" type="primary" icon="search" @click="handleFilter">查询</el-button>
+          <el-button class="filter-item" type="primary" icon="search" @click="handleFilter"><i class="fa fa-search"></i>查询</el-button>
         </el-col>
         <el-col :span="16" style="text-align: right;">
           <el-select v-model="listQuery.companyId" placeholder="公司筛选" @change="handleCompany">
@@ -33,8 +33,12 @@
     </div>
     <div class="detail-title">
         <span class="list-tit">销售列表</span>
-        <el-button v-if="sysUser.username!=='sale'" class="add_btn" @click="handleCreate('add')">新建销售</el-button>
-        <el-button v-if="sysUser.username!=='sale'" class="add_btn" @click="handleCreate('import')">批量导入</el-button>
+        <el-button v-if="sysUser.username!=='sale'" class="add_btn" @click="handleCreate('add')">
+          <i class="fa fa-plus" style="color: #fff;margin-right: 10px"></i>新建销售
+        </el-button>
+        <el-button v-if="sysUser.username!=='sale'" class="add_btn" @click="handleCreate('import')">
+          <i class="fa fa-sign-out" style="color: #fff;margin-right: 10px"></i>批量导入
+        </el-button>
       </div>
     <!-- <div style="text-align: right">
       <el-button v-if="sysUser.username!=='sale'" class="add_btn" @click="handleCreate('add')">新建销售</el-button>
