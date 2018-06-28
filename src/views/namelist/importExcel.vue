@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import UploadExcelComponent from '@/components/UploadExcel.vue'
+import UploadExcelComponent from '@/components/uploadExcel.vue'
 import { addNameExcel, getCompanies } from '@/api/api'
 
 export default {
