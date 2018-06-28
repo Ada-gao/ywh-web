@@ -10,7 +10,7 @@
                             </div>
                             <div class="col-xs-8">
                               <div class="stat-tit">外呼任务/个</div>
-                              <span class="huge">{{total.task}}</span>
+                              <span class="huge">{{total.totalTaskCnt}}</span>
                             </div>
                         </div>
                     </div>
@@ -116,6 +116,7 @@
 import echarts from 'echarts'
 // import { getStatistic, getTaskCount } from '@/api/api'
 import { getStatistic } from '@/api/api'
+import {mapGetters} from 'vuex'
 
 export default {
   data () {
@@ -126,30 +127,25 @@ export default {
       chartPie: null,
       total: {
         totalSalesCnt: 0,
-        task: 0,
+        totalTaskCnt: 0,
         totalEffectiveDuration: 0,
         totalTaskCompleteCnt: 0
       }
+      // sysUser: null
     }
   },
   computed: {
-    sysUser () {
-      return this.$store.state.sysUser
-    }
-  },
-  created () {
-    this.getCount()
+    ...mapGetters([
+      'sysUser'
+    ])
   },
   methods: {
-    getCount () {
-      let params = {
-        companyId: this.sysUser.companyId
-      }
+    getCount (params) {
       getStatistic(params).then(res => {
         this.total.totalEffectiveDuration = res.data.totalEffectiveDuration || 0
         this.total.totalTaskCompleteCnt = res.data.totalTaskCompleteCnt || 0
         this.total.totalSalesCnt = res.data.totalSalesCnt || 0
-        // this.total.sale = res.data
+        this.total.totalTaskCnt = res.data.totalTaskCnt || 0
       })
     },
     drawColumnChart () {
@@ -309,8 +305,12 @@ export default {
     }
   },
   mounted: function () {
+    let params = {
+      companyId: this.sysUser.companyId
+    }
+    console.log(params)
+    this.getCount(params)
     this.drawCharts()
-    this.getCount()
   },
   updated: function () {
     this.drawCharts()

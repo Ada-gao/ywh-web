@@ -12,7 +12,10 @@
           <el-button class="filter-item" type="primary" icon="search" @click="handleFilter"><i class="fa fa-search"></i>查询</el-button>
         </el-col>
         <el-col :span="16" style="text-align: right;">
-          <el-select v-model="listQuery.companyProvince" placeholder="省份筛选" @change="handleFilter">
+          <el-select v-model="listQuery.companyProvince"
+                     placeholder="省份筛选"
+                     clearable
+                     @change="handleFilter">
             <el-option
               v-for="item in provinceData"
               :key="item.value"
@@ -20,7 +23,10 @@
               :value="item">
             </el-option>
           </el-select>
-          <el-select v-model="listQuery.industryType" placeholder="行业筛选" @change="handleFilter">
+          <el-select v-model="listQuery.industryType"
+                     placeholder="行业筛选"
+                     clearable
+                     @change="handleFilter">
             <el-option
               v-for="item in industry"
               :key="item.id"
@@ -28,7 +34,10 @@
               :value="item.name">
             </el-option>
           </el-select>
-          <el-select v-model="listQuery.orgSize" placeholder="公司规模筛选" @change="handleFilter">
+          <el-select v-model="listQuery.orgSize"
+                     placeholder="公司规模筛选"
+                     clearable
+                     @change="handleFilter">
             <el-option
               v-for="item in orgSize"
               :key="item.value"
@@ -123,24 +132,6 @@ export default {
       },
       list: null,
       sys_user_add: true,
-      options: [
-        {
-          value: '选项1',
-          label: '黄金糕'
-        }, {
-          value: '选项2',
-          label: '双皮奶'
-        }, {
-          value: '选项3',
-          label: '蚵仔煎'
-        }, {
-          value: '选项4',
-          label: '龙须面'
-        }, {
-          value: '选项5',
-          label: '北京烤鸭'
-        }
-      ],
       value: '',
       provinceData: provinceAndCityData,
       industry: [],
@@ -185,6 +176,18 @@ export default {
       this.getList()
     },
     handleFilter () {
+      if (!this.listQuery.companyProvince) {
+        delete this.listQuery.companyProvince
+      }
+      if (!this.listQuery.industryType) {
+        delete this.listQuery.industryType
+      }
+      if (!this.listQuery.companyName) {
+        delete this.listQuery.companyName
+      }
+      if (!this.listQuery.orgSize) {
+        delete this.listQuery.orgSize
+      }
       if (this.listQuery.companyProvince) {
         this.listQuery.companyProvince = this.listQuery.companyProvince.label
       }

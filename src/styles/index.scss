@@ -39,6 +39,17 @@ input:-webkit-autofill {
 input {
   background-color:transparent;
 }
+.el-input__inner {
+  color: #000;
+  border-radius: 2px;
+}
+.el-button {
+  border-radius: 2px;
+}
+input.el-input__inner::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {
+  color: #babbbb;
+}
 // 标题样式
 .detail-title {
   // margin-top: 30px;
@@ -127,5 +138,26 @@ input {
   }
   .el-loading-spinner .path {
     stroke: $color-primary;
+  }
+  .ql-toolbar.ql-snow + .ql-container.ql-snow {
+    min-height: 100px;
+  }
+  .el-table th,
+  .el-table__fixed-header-wrapper thead div,
+  .el-table__header-wrapper thead div{
+    background: #E0E6ED;
+  }
+  .el-table--border td,
+  .el-table--border th {
+    border-color: rgb(226, 237, 237)
+  }
+  .el-table th:hover {
+    background: #F9FAFC;
+    div {
+      background: #F9FAFC;
+    }
+  }
+  .el-pagination button:hover {
+    color: #c0c4cc;
   }
 }

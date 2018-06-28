@@ -8,7 +8,7 @@
                     style="width: 200px;"
                     class="filter-item"
                     placeholder="输入任务名称"
-                    v-model="listQuery.username">
+                    v-model="listQuery.taskName">
           </el-input>
           <el-button class="filter-item"
                      type="primary"
@@ -16,18 +16,20 @@
                      @click="handleFilter"><i class="fa fa-search"></i>查询</el-button>
         </el-col>
         <el-col :span="16" style="text-align: right;">
-          <el-select v-model="listQuery.companyId"
+          <el-select v-model="listQuery.team"
                      placeholder="销售部门"
+                     clearable
                      @change="handleFilter">
             <el-option
               v-for="item in companies"
-              :key="item.companyCode"
+              :key="item.companyName"
               :label="item.companyName"
-              :value="item.companyCode">
+              :value="item.companyName">
             </el-option>
           </el-select>
-          <el-select v-model="value"
+          <el-select v-model="listQuery.productName"
                      placeholder="产品名称"
+                     clearable
                      @change="handleFilter">
             <el-option
               v-for="item in products"
@@ -55,13 +57,13 @@
 
       <el-table-column align="center" label="任务ID">
         <template slot-scope="scope">
-          <span>{{scope.row.taskCode}}</span>
+          <span>{{scope.row.id}}</span>
         </template>
       </el-table-column>
 
       <el-table-column align="center" label="任务名称">
         <template slot-scope="scope">
-          <span>{{scope.row.taskTarget}}</span>
+          <span>{{scope.row.taskName}}</span>
         </template>
       </el-table-column>
 
@@ -73,13 +75,13 @@
 
       <el-table-column align="center" label="外呼名称">
         <template slot-scope="scope">
-          <span>{{scope.row.salesTalk}}</span>
+          <span>{{scope.row.groupName}}</span>
         </template>
       </el-table-column>
 
       <el-table-column align="center" label="任务数">
         <template slot-scope="scope">
-          <span>{{scope.row.age}}</span>
+          <span>{{scope.row.totalTaskCnt}}</span>
         </template>
       </el-table-column>
 
@@ -87,18 +89,18 @@
                        label="关联销售"
                        show-overflow-tooltip>
         <template slot-scope="scope">
-          <span>{{scope.row.gender}}</span>
+          <span>{{scope.row.team}}</span>
         </template>
       </el-table-column>
 
       <el-table-column align="center" label="完成数">
         <template slot-scope="scope">
-          <span>{{scope.row.gender}}</span>
+          <span>{{scope.row.totalTaskCompleteCnt}}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="完成率">
         <template slot-scope="scope">
-          <span>{{scope.row.source}}</span>
+          <span>{{scope.row.taskCompleteRate}}</span>
         </template>
       </el-table-column>
 
@@ -109,7 +111,7 @@
         <template slot-scope="scope">
           <a size="small"
              @click="handleUpdate(scope.row.id)"
-             class="common_btn">查看</a>
+             class="common_btn">查看详情</a>
         </template>
       </el-table-column>
     </el-table>
@@ -168,14 +170,14 @@ export default {
     getList () {
       if (this.adminStat) {
         getAdminTasks(this.listQuery).then(response => {
-          this.list = response.data.content
-          this.total = response.data.totalElements
+          this.list = response.data
+          this.total = response.data.length
           this.listLoading = false
         })
       } else {
         getTasks(this.listQuery).then(response => {
-          this.list = response.data.content
-          this.total = response.data.totalElements
+          this.list = response.data
+          this.total = response.data.length
           this.listLoading = false
         })
       }
@@ -198,10 +200,21 @@ export default {
     },
     handleFilter () {
       this.listQuery.pageIndex = 0
+      if (!this.listQuery.team) {
+        delete this.listQuery.team
+      }
+      if (!this.listQuery.productName) {
+        delete this.listQuery.productName
+      }
+      if (!this.listQuery.taskName) {
+        delete this.listQuery.taskName
+      }
       this.getList()
     },
     handleCreate () {
-      this.$router.push({path: '/task/newTask'})
+      // this.$router.push({path: '/task/newTask'})
+      let id = 1
+      this.$router.push({path: '/task/detail/' + id})
     },
     handleUpdate (id) {
       this.$router.push({path: '/task/detail/' + id})

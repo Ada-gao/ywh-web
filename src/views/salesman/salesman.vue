@@ -12,7 +12,10 @@
           <el-button class="filter-item" type="primary" icon="search" @click="handleFilter"><i class="fa fa-search"></i>查询</el-button>
         </el-col>
         <el-col :span="16" style="text-align: right;">
-          <el-select v-model="listQuery.companyId" placeholder="公司筛选" @change="handleCompany">
+          <el-select v-model="listQuery.companyId"
+                     placeholder="公司筛选"
+                     clearable
+                     @change="handleCompany">
             <el-option
               v-for="item in companies"
               :key="item.id"
@@ -20,7 +23,10 @@
               :value="item.id">
             </el-option>
           </el-select>
-          <el-select v-model="listQuery.team" placeholder="团队筛选" @change="handleFilter">
+          <el-select v-model="listQuery.team"
+                     placeholder="团队筛选"
+                     clearable
+                     @change="handleFilter">
             <el-option
               v-for="(item, index) in teams"
               :key="index"
@@ -124,9 +130,7 @@ export default {
       listLoading: true,
       listQuery: {
         pageIndex: 0,
-        pageSize: 20,
-        companyId: '',
-        team: null
+        pageSize: 20
       },
       list: null,
       sys_user_add: true,
@@ -148,9 +152,9 @@ export default {
   },
   methods: {
     getList () {
-      if (this.sysUser.username === 'admin') {
-        this.listQuery.companyId = this.sysUser.companyId
-      }
+      // if (this.sysUser.username === 'admin') {
+      //  this.listQuery.companyId = this.sysUser.companyId
+      // }
       getUsers(this.listQuery).then(response => {
         this.list = response.data
         this.total = 11
@@ -182,6 +186,15 @@ export default {
     },
     handleFilter () {
       this.listQuery.pageIndex = 0
+      if (!this.listQuery.team) {
+        delete this.listQuery.team
+      }
+      if (!this.listQuery.name) {
+        delete this.listQuery.name
+      }
+      if (!this.listQuery.companyId) {
+        delete this.listQuery.companyId
+      }
       this.getList()
     },
     handleCreate (status) {
@@ -192,10 +205,14 @@ export default {
       }
     },
     handleCompany (val) {
-      getTeams(val).then(res => {
-        this.teams = res.data
-        this.listQuery.team = null
-      })
+      if (val) {
+        getTeams(val).then(res => {
+          this.teams = res.data
+          this.listQuery.team = null
+        })
+      } else {
+        this.teams = []
+      }
       this.handleFilter()
     }
   }

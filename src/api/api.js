@@ -41,11 +41,10 @@ export const getNames = (companyId) => axios.get('/outboundName/queryNames/' + c
 // file
 export const getFile = id => axios.get('/file/' + id)
 // task
-export const getAdminTasks = params => axios.get('/task/admin/getPage', {params: params})
+export const getAdminTasks = params => axios.get('/task/getGroupPage', {params: params})
 export const getTasks = params => axios.get('/task/getPage', {params: params})
 export const createTask = params => axios.post('/task/createGroup', params)
-export const getTaskDetail = id => axios.get('/task/' + id)
-export const getAdminTaskDetail = id => axios.get('/task/admin/' + id)
+export const getTaskDetail = (id, params) => axios.get('/task/getGroup/' + id, {params: params})
 // export const getTaskCount = () => axios.get('/task/count')
 // product
 export const getProductList = () => axios.get('/product/list')

@@ -18,6 +18,7 @@
         <el-col :span="16" style="text-align: right;">
           <el-select v-model="listQuery.companyId"
                      placeholder="公司筛选"
+                     clearable
                      @change="handleFilter">
             <el-option
               v-for="item in companies"
@@ -28,6 +29,7 @@
           </el-select>
           <el-select v-model="listQuery.residence"
                      placeholder="所在地"
+                     clearable
                      @change="handleFilter">
             <el-option
               v-for="item in provinceData"
@@ -41,7 +43,7 @@
     </div>
     <div class="detail-title">
       <span class="list-tit">名单列表</span>
-      <el-button v-if="sysUser.username==='superadmin'" class="add_btn" @click="handleCreate">
+      <el-button class="add_btn" @click="handleCreate">
         <i class="fa fa-sign-out" style="color: #fff;margin-right: 10px"></i>批量导入
       </el-button>
     </div>
@@ -186,11 +188,15 @@ export default {
     handleFilter () {
       if (this.listQuery.residence) {
         this.listQuery.residence = this.listQuery.residence.label
+      } else {
+        delete this.listQuery.residence
       }
       if (!this.listQuery.contactName) {
         delete this.listQuery.contactName
       }
-      console.log(this.listQuery)
+      if (!this.listQuery.companyId) {
+        delete this.listQuery.companyId
+      }
       this.listQuery.pageIndex = 0
       this.getList()
     },

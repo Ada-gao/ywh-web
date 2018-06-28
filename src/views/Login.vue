@@ -148,6 +148,7 @@ export default {
 <style lang="scss" scoped>
   $dark_gray: #889aa4;
   $light_gray: #00C1DF;
+  $color-primary: #0299cc;
   .login-box {
     position: absolute;
     top: 0;
@@ -222,8 +223,11 @@ export default {
     }
     .el-form-item {
       background: #fff;
-      border-radius: 5px;
+      border-radius: 2px;
       color: #454545;
+    }
+    .el-form-item.is-required {
+      height: 44px;
     }
     .show-pwd {
       position: absolute;
@@ -243,9 +247,11 @@ export default {
   }
   .btn_light {
     background-color: $light_gray;
+    border-radius: 2px;
   }
   .btn_light:hover {
-    background-color: $light_gray;
+    background-color: $color-primary;
+    border-color: $color-primary;
   }
 
 </style>

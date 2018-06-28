@@ -1,25 +1,25 @@
 <template>
   <div class="app-container">
     <div class="detail-title">
-      <span class="tit-text">任务描述</span>
+      <span class="list-tit">任务描述</span>
     </div>
     <div class="margin-line"></div>
     <div class="task-detail">
       <el-form :model="form" class="form-border">
         <el-row :gutter="20">
-          <el-col :span="8">
-            <el-form-item label="所属公司：" prop="name">
-              <span>{{form.id}}</span>
-            </el-form-item>
-          </el-col>
+          <!--<el-col :span="8">-->
+            <!--<el-form-item label="所属公司：" prop="name">-->
+              <!--<span>{{form.id}}</span>-->
+            <!--</el-form-item>-->
+          <!--</el-col>-->
           <el-col :span="8">
             <el-form-item label="外呼名单：" prop="name">
-              <span>{{form.companyName}}</span>
+              <span>{{form.outboundNameGroupId}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="任务名称：" prop="username">
-              <span>{{form.team}}</span>
+              <span>{{form.taskName}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -29,22 +29,30 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="销售数：" prop="gender">
-              <span>{{form.name}}</span>
+              <span>{{salesCnt}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="分配规则：" prop="education">
-              <span>{{form.mobile}}</span>
+              <span>{{form.assignRule}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="任务目标：" prop="idType">
-              <span>{{form.createdDate}}</span>
+              <span>{{form.taskTarget}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="外呼话术：" prop="mobile">
-              <span>{{form.username}}</span>
+              <!--<span>{{form.salesTalk}}</span>-->
+              <span class="blue-color" v-popover:popover>点击查看</span>
+              <el-popover
+                ref="popover"
+                placement="right"
+                width="200"
+                trigger="click"
+                :content="form.salesTalk">
+              </el-popover>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -54,82 +62,87 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="有效通话时长：" prop="mobile">
-              <span>{{form.username}}</span>
+              <span>{{form.minimumDuration}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="有效任务数（通）：通/人：" prop="mobile">
-              <span>{{form.username}}</span>
+              <span>{{form.effectiveTasks}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="下一步行动规则：" prop="mobile">
-              <span>{{form.username}}</span>
+              <span>{{form.nextAction}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="外呼频率（间隔）天：" prop="mobile">
-              <span>{{form.username}}</span>
+              <span>{{form.interv}}</span>
             </el-form-item>
           </el-col>
         </el-row>
       </el-form>
       <div class="detail-title">
-        <span class="tit-text">名单列表</span>
+        <span class="list-tit">名单列表</span>
       </div>
-      <el-table :key='tableKey' :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit
-                highlight-current-row style="width: 100%">
+      <el-table :key='tableKey'
+                :data="list"
+                v-loading="listLoading"
+                element-loading-text="给我一点时间"
+                border fit
+                highlight-current-row
+                style="width: 100%">
 
         <el-table-column align="center" label="任务ID">
           <template slot-scope="scope">
-            <span>{{scope.row.companyCode}}</span>
+            <span>{{scope.row.id}}</span>
           </template>
         </el-table-column>
 
         <el-table-column align="center" label="联系人姓名">
           <template slot-scope="scope">
-            <span>{{scope.row.companyName}}</span>
+            <span>{{scope.row.contactName}}</span>
           </template>
         </el-table-column>
 
         <el-table-column align="center" label="手机号">
           <template slot-scope="scope">
-            <span>{{scope.row.companyCity}}</span>
+            <span>{{scope.row.phoneNo}}</span>
           </template>
         </el-table-column>
 
         <el-table-column align="center" label="年龄">
           <template slot-scope="scope">
-            <span>{{scope.row.companyCity}}</span>
+            <span>{{scope.row.age}}</span>
           </template>
         </el-table-column>
 
         <el-table-column align="center" label="性别">
           <template slot-scope="scope">
-            <span>{{scope.row.companyCity}}</span>
+            <span>{{scope.row.gender}}</span>
           </template>
         </el-table-column>
 
         <el-table-column align="center" label="所在地">
           <template slot-scope="scope">
-            <span>{{scope.row.industryType}}</span>
+            <span>{{scope.row.residence}}</span>
           </template>
         </el-table-column>
 
         <el-table-column align="center" label="外呼次数">
           <template slot-scope="scope">
-            <span>{{scope.row.orgSize}}</span>
+            <span>{{scope.row.callCount}}</span>
           </template>
         </el-table-column>
 
-        <el-table-column align="center" label="最近通话事件">
+        <el-table-column align="center" label="最近通话时间">
           <template slot-scope="scope">
-            <span>{{scope.row.orgSize}}</span>
+            <span>{{scope.row.lastCallDate}}</span>
           </template>
         </el-table-column>
         <el-table-column align="center" label="外呼结果">
           <template slot-scope="scope">
-            <span>{{scope.row.orgSize}}</span>
+            <span>{{scope.row.lastCallResult}}</span>
           </template>
         </el-table-column>
         <el-table-column align="center" label="有效通话时长">
@@ -157,9 +170,9 @@
 </template>
 
 <script>
-import { getToken, getAdminStat } from '@/common/js/auth'
+import { getToken } from '@/common/js/auth'
 // import { addUser, getUserById, updUser } from '@/api/api'
-import {getTaskDetail, getAdminTaskDetail} from '@/api/api'
+import {getTaskDetail} from '@/api/api'
 export default {
   data () {
     return {
@@ -177,47 +190,35 @@ export default {
       currentPage: 1,
       listQuery: {
         pageIndex: 0,
-        pageSize: 10
+        pageSize: 10,
+        taskGroupId: null
       },
-      id: ''
-    }
-  },
-  computed: {
-    adminStat () {
-      return Boolean(getAdminStat())
+      salesCnt: null
     }
   },
   created () {
-    this.id = this.$route.params.id
+    console.log(this.$route.params)
+    this.listQuery.taskGroupId = this.$route.params.id
+    // this.listQuery.taskGroupId = 1
     this.getList()
     this.listLoading = false
   },
   methods: {
     getList () {
-      if (this.adminStat) {
-        getAdminTaskDetail(this.id).then(response => {
-          console.log(response.data)
-          this.form = response.data
-          this.total = response.data.totalElements
-          this.listLoading = false
-        })
-      } else {
-        getTaskDetail(this.id).then(response => {
-          console.log(response.data)
-          this.form = response.data
-          this.list = response.data.content
-          this.total = response.data.totalElements
-          this.listLoading = false
-        })
-      }
+      getTaskDetail(this.listQuery.taskGroupId, this.listQuery).then(res => {
+        this.form = res.data.taskGroup
+        this.list = res.data.nameList.content
+        this.salesCnt = res.data.salesCnt
+        this.total = res.data.nameList.totalElements || 0
+      })
     },
     handleSizeChange (val) {
-      this.listQuery.limit = val
-      // this.getList()
+      this.listQuery.pageSize = val
+      this.getList()
     },
     handleCurrentChange (val) {
-      this.listQuery.page = val - 1
-      // this.getList()
+      this.listQuery.pageIndex = val - 1
+      this.getList()
     }
   }
 }
@@ -239,5 +240,10 @@ export default {
   }
   .task-detail {
     .el-form-item__content {}
+  }
+  .blue-color {
+    font-size: 14px;
+    color: #0299CC;
+    cursor: pointer;
   }
 </style>

@@ -100,7 +100,7 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="6" class="noml">
-            <el-form-item prop="taskStartDate" label="任务事件" required>
+            <el-form-item prop="taskStartDate" label="任务时间" required>
               <el-date-picker type="date" placeholder="选择日期" v-model="taskGroup.taskStartDate"></el-date-picker>
             </el-form-item>
             <!--<span class="divideline">-</span>-->
@@ -180,7 +180,8 @@ export default {
       editorOption: {},
       taskGroup: {
         team: '',
-        outboundNameGroupId: null
+        outboundNameGroupId: null,
+        assignRule: '随机平均分配'
       },
       rules: {
         companyId: [
