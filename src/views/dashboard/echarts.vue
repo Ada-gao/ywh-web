@@ -308,7 +308,6 @@ export default {
     let params = {
       companyId: this.sysUser.companyId
     }
-    console.log(params)
     this.getCount(params)
     this.drawCharts()
   },

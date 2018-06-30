@@ -13,8 +13,8 @@
             <!--</el-form-item>-->
           <!--</el-col>-->
           <el-col :span="8">
-            <el-form-item label="外呼名单：" prop="name">
-              <span>{{form.outboundNameGroupId}}</span>
+            <el-form-item label="外呼名称：" prop="name">
+              <span>{{groupName}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -161,6 +161,7 @@
       <div v-show="!listLoading" class="pagination-container">
         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
                        :current-page.sync="currentPage"
+                       background
                        :page-sizes="[10,20,30, 50]" :page-size="listQuery.pageSize"
                        layout="total, sizes, prev, pager, next, jumper" :total="total">
         </el-pagination>
@@ -193,13 +194,13 @@ export default {
         pageSize: 10,
         taskGroupId: null
       },
-      salesCnt: null
+      salesCnt: null,
+      groupName: ''
     }
   },
   created () {
-    console.log(this.$route.params)
     this.listQuery.taskGroupId = this.$route.params.id
-    // this.listQuery.taskGroupId = 1
+    this.groupName = this.$route.params.name
     this.getList()
     this.listLoading = false
   },

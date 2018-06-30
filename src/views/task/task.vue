@@ -110,7 +110,7 @@
                         width="150">
         <template slot-scope="scope">
           <a size="small"
-             @click="handleUpdate(scope.row.id)"
+             @click="handleUpdate(scope.row.id, scope.row.groupName)"
              class="common_btn">查看详情</a>
         </template>
       </el-table-column>
@@ -121,6 +121,7 @@
                      @current-change="handleCurrentChange"
                      :current-page.sync="currentPage"
                      :page-sizes="[10,20,30, 50]"
+                     background
                      :page-size="listQuery.pageSize"
                      layout="total, sizes, prev, pager, next, jumper"
                      :total="total">
@@ -131,7 +132,8 @@
 </template>
 
 <script>
-import {getAdminTasks, getTasks, getCompanies, getProductList} from '@/api/api'
+// import {getAdminTasks, getTasks, getCompanies, getProductList} from '@/api/api'
+import {getAdminTasks, getCompanies, getProductList} from '@/api/api'
 // import { transformText } from '@/common/js/util'
 import {mapGetters} from 'vuex'
 
@@ -168,19 +170,24 @@ export default {
   },
   methods: {
     getList () {
-      if (this.adminStat) {
-        getAdminTasks(this.listQuery).then(response => {
-          this.list = response.data
-          this.total = response.data.length
-          this.listLoading = false
-        })
-      } else {
-        getTasks(this.listQuery).then(response => {
-          this.list = response.data
-          this.total = response.data.length
-          this.listLoading = false
-        })
-      }
+      getAdminTasks(this.listQuery).then(response => {
+        this.list = response.data
+        this.total = response.data.length
+        this.listLoading = false
+      })
+      // if (this.adminStat) {
+      //   getAdminTasks(this.listQuery).then(response => {
+      //     this.list = response.data
+      //     this.total = response.data.length
+      //     this.listLoading = false
+      //   })
+      // } else {
+      //   getTasks(this.listQuery).then(response => {
+      //     this.list = response.data
+      //     this.total = response.data.length
+      //     this.listLoading = false
+      //   })
+      // }
     },
     getQuery () {
       getCompanies().then(res => {
@@ -212,12 +219,10 @@ export default {
       this.getList()
     },
     handleCreate () {
-      // this.$router.push({path: '/task/newTask'})
-      let id = 1
-      this.$router.push({path: '/task/detail/' + id})
+      this.$router.push({path: '/task/newTask'})
     },
-    handleUpdate (id) {
-      this.$router.push({path: '/task/detail/' + id})
+    handleUpdate (id, name) {
+      this.$router.push({name: 'taskDetail', params: {id: id, name: name}})
     }
   }
 }

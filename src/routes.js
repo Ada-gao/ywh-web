@@ -19,6 +19,11 @@ import companyDetail from './views/company/create.vue'
 import salesmanDetail from './views/salesman/detail.vue'
 import excel from './views/salesman/importExcel.vue'
 
+import trial from './views/trial'
+import trialdetail from './views/trial/detail.vue'
+import feedback from './views/feedback'
+import fddetail from './views/feedback/detail.vue'
+
 let routes = [
   {
     path: '/login',
@@ -37,10 +42,10 @@ let routes = [
     path: '/',
     component: Home,
     name: '',
-    iconCls: 'fa fa-dashboard',
+    iconCls: 'fa fa-home',
     leaf: true,
     children: [
-      {path: '/dashboard', component: dashboard, name: '仪表盘'}
+      {path: '/dashboard', component: dashboard, name: '首页-工作台'}
     ]
   },
   {
@@ -68,7 +73,7 @@ let routes = [
     path: '/',
     component: Home,
     name: '',
-    iconCls: 'fa fa-address-book',
+    iconCls: 'fa fa-users',
     leaf: true, // 只有一个节点
     children: [
       {path: '/salesman', component: salesman, name: '销售管理'},
@@ -80,7 +85,7 @@ let routes = [
     path: '/',
     component: Home,
     name: '',
-    iconCls: 'fa fa-phone-square',
+    iconCls: 'fa fa-list-alt',
     leaf: true, // 只有一个节点
     children: [
       {path: '/list', component: list, name: '名单管理'},
@@ -91,12 +96,34 @@ let routes = [
     path: '/',
     component: Home,
     name: '',
-    iconCls: 'fa fa-phone-square',
+    iconCls: 'fa fa-list-alt',
     leaf: true, // 只有一个节点
     children: [
       {path: '/task', component: task, name: '任务管理'},
       {path: 'task/newTask', component: newTask, name: '新建任务'},
-      {path: 'task/detail/:id', component: tasklist, name: '任务详情'}
+      {path: 'task/detail', component: tasklist, name: 'taskDetail'}
+    ]
+  },
+  {
+    path: '/',
+    component: Home,
+    name: 'trial',
+    iconCls: 'fa fa-list-ul',
+    leaf: true, // 只有一个节点
+    children: [
+      {path: '/trial', component: trial, name: '试用申请'},
+      {path: '/trial/detail', component: trialdetail, name: 'trialDetail'}
+    ]
+  },
+  {
+    path: '/',
+    component: Home,
+    name: 'feedback',
+    iconCls: 'fa fa-question-circle',
+    leaf: true, // 只有一个节点
+    children: [
+      {path: '/feedback', component: feedback, name: '问题反馈'},
+      {path: '/feedback/detail', component: fddetail, name: 'fdDetail'}
     ]
   },
   {
@@ -105,19 +132,19 @@ let routes = [
     name: '参数管理',
     iconCls: 'fa fa-cog',
     children: [
-      {path: '/dict', component: dict, name: '数据字典'},
-      {path: '/parameter', component: parameter, name: '参数设置'}
+      {path: '/dict', component: dict, name: '数据字典', iconCls: 'fa fa-cog'},
+      {path: '/parameter', component: parameter, name: '参数设置', iconCls: 'fa fa-cog'}
     ]
   },
   {
     path: '/',
     component: Home,
     name: '报表统计',
-    iconCls: 'fa fa-wpforms',
+    iconCls: 'fa fa-cog',
     children: [
-      {path: '/workload', component: workload, name: '工作量'},
-      {path: '/reporttask', component: reporttask, name: '外呼任务'},
-      {path: '/reportproduct', component: reportproduct, name: '产品外呼'}
+      {path: '/workload', component: workload, name: '工作量', iconCls: 'fa fa-wpforms'},
+      {path: '/reporttask', component: reporttask, name: '外呼任务', iconCls: 'fa fa-wpforms'},
+      {path: '/reportproduct', component: reportproduct, name: '产品外呼', iconCls: 'fa fa-wpforms'}
     ]
   },
   {

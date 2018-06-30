@@ -55,7 +55,7 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="13">
-            <el-form-item label="关联团队" prop="team" >
+            <el-form-item label="关联团队" prop="team" required>
               <!--<el-input v-model="form.associateteam" placeholder="选择/输入关联团队"></el-input>-->
               <el-select v-model="taskGroup.team" placeholder="选择/输入关联团队" filterable>
                 <el-option
@@ -101,7 +101,9 @@
         <el-row :gutter="20">
           <el-col :span="6" class="noml">
             <el-form-item prop="taskStartDate" label="任务时间" required>
-              <el-date-picker type="date" placeholder="选择日期" v-model="taskGroup.taskStartDate"></el-date-picker>
+              <el-date-picker type="datetime"
+                              placeholder="选择日期"
+                              v-model="taskGroup.taskStartDate"></el-date-picker>
             </el-form-item>
             <!--<span class="divideline">-</span>-->
             <!--<el-form-item prop="taskEndDate" class="nomargin">-->
@@ -111,7 +113,9 @@
           <el-col class="line" style="width: 10px">-</el-col>
           <el-col :span="6" class="noml1">
             <el-form-item prop="taskEndDate">
-              <el-date-picker type="date" placeholder="选择日期" v-model="taskGroup.taskEndDate"></el-date-picker>
+              <el-date-picker type="datetime"
+                              placeholder="选择日期"
+                              v-model="taskGroup.taskEndDate"></el-date-picker>
             </el-form-item>
           </el-col>
         </el-row>
@@ -191,20 +195,20 @@ export default {
           {required: true, message: '请选择分配规则', trigger: 'change'}
         ],
         taskTarget: [
-          {required: true, message: '请输入任务目标', trigger: 'blur'}
+          {required: true, message: '请输入任务目标', trigger: 'change'}
         ],
         salesTalk: [
-          { required: true, message: '请输入外呼话术', trigger: 'blur' }
+          { required: true, message: '请输入外呼话术', trigger: 'change' }
         ],
         outboundNameGroupId: [
           { required: true, message: '请选择/输入关联名单', trigger: 'change' }
         ],
         taskName: [
-          {required: true, message: '请输入任务名称', trigger: 'blur'}
+          {required: true, message: '请输入任务名称', trigger: 'change'}
         ],
-        // team: [
-        //   {required: true, message: '请选择/输入关联团队', trigger: 'change'}
-        // ],
+        team: [
+          {required: true, message: '请选择/输入关联团队', trigger: 'change'}
+        ],
         taskStartDate: [
           { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
         ],
@@ -212,16 +216,16 @@ export default {
           { type: 'date', required: true, message: '请选择时间', trigger: 'change' }
         ],
         minimumDuration: [
-          {required: true, message: '请输入有效通话时长', trigger: 'blur'}
+          {required: true, message: '请输入有效通话时长', trigger: 'change'}
         ],
         effectiveTasks: [
-          {required: true, message: '请输入有效任务数', trigger: 'blur'}
+          {required: true, message: '请输入有效任务数', trigger: 'change'}
         ],
         nextAction: [
           {required: true, message: '请选择下一步行动规则', trigger: 'change'}
         ],
         interv: [
-          {required: true, message: '请输入外呼频率间隔', trigger: 'blur'}
+          {required: true, message: '请输入外呼频率间隔', trigger: 'change'}
         ]
       },
       headers: {

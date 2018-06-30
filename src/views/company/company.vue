@@ -50,7 +50,7 @@
     </div>
     <div class="detail-title">
       <span class="list-tit">公司列表</span>
-      <el-button v-if="sysUser.username==='superadmin'" class="add_btn" @click="handleCreate">
+      <el-button class="add_btn" @click="handleCreate">
         <i class="fa fa-plus" style="color: #fff;margin-right: 10px"></i>新建公司
       </el-button>
     </div>
@@ -89,7 +89,7 @@
 
       <el-table-column align="center" label="公司规模">
         <template slot-scope="scope">
-          <span>{{scope.row.orgSizeText}}</span>
+          <span>{{scope.row.orgSize}}</span>
         </template>
       </el-table-column>
 
@@ -105,6 +105,7 @@
     <div v-show="!listLoading" class="pagination-container">
       <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
                      :current-page.sync="currentPage"
+                     background
                      :page-sizes="[10,20,30, 50]" :page-size="listQuery.pageSize"
                      layout="total, sizes, prev, pager, next, jumper" :total="total">
       </el-pagination>
@@ -156,7 +157,7 @@ export default {
         getOrgSize().then(res => {
           this.orgSize = res.data
           this.list.forEach(item => {
-            item.orgSizeText = transformText(this.orgSize, item.orgSize)
+            item.orgSize = transformText(this.orgSize, item.orgSize)
           })
         })
       })

@@ -8,6 +8,9 @@ a:hover {
 .container {
   padding: 0;
 }
+.common_btn {
+  cursor: pointer;
+}
 //$mainBlue: #0299CC;
 //$mainGreen: #18c79c;
 .app-container {
@@ -51,9 +54,14 @@ textarea::-webkit-input-placeholder {
   color: #babbbb;
 }
 // 标题样式
+.el-icon-arrow-up {
+  line-height: 28px;
+}
 .detail-title {
   // margin-top: 30px;
   margin-bottom: 20px;
+  height: 40px;
+  line-height: 40px;
   // position: relative;
   .upd_btn {
     float: right;
@@ -86,6 +94,7 @@ textarea::-webkit-input-placeholder {
     /*background: #0299CC;*/
     background: $color-primary;
     left: 0;
+    top: 0;
   }
 }
 .container {
@@ -110,16 +119,16 @@ textarea::-webkit-input-placeholder {
     border-color: $hover-color;
     color: #fff;
   }
-  .el-pager li.active {
-    background-color: $color-primary;
-    border-color: $color-primary;
-    &:hover {
-      color: #fff;
-    }
-  }
-  .el-pager li:hover {
-    color: $color-primary;
-  }
+  //.el-pager li.active {
+  //  background-color: $color-primary;
+  //  border-color: $color-primary;
+  //  &:hover {
+  //    color: #fff;
+  //  }
+  //}
+  //.el-pager li:hover {
+  //  color: $color-primary;
+  //}
   .add_btn {
     background: $color-primary;
     color: #fff;
@@ -128,11 +137,11 @@ textarea::-webkit-input-placeholder {
     background: $hover-color;
     color: #fff;
   }
-  .el-radio__input.is-checked .el-radio__inner,
-  .el-checkbox__input.is-checked .el-checkbox__inner {
-    border-color: $color-primary;
-    background: $color-primary;
-  }
+  //.el-radio__input.is-checked .el-radio__inner,
+  //.el-checkbox__input.is-checked .el-checkbox__inner {
+  //  border-color: $color-primary;
+  //  background: $color-primary;
+  //}
   .el-loading-spinner .el-loading-text {
     color: $color-primary;
   }
@@ -145,19 +154,21 @@ textarea::-webkit-input-placeholder {
   .el-table th,
   .el-table__fixed-header-wrapper thead div,
   .el-table__header-wrapper thead div{
-    background: #E0E6ED;
+    background: #f7f8fa;
   }
   .el-table--border td,
   .el-table--border th {
     border-color: rgb(226, 237, 237)
   }
-  .el-table th:hover {
-    background: #F9FAFC;
-    div {
-      background: #F9FAFC;
+  .el-table th {
+    div:hover {
+      background: #f7f8fa;
     }
   }
   .el-pagination button:hover {
     color: #c0c4cc;
+  }
+  .el-table__body tr.current-row>td {
+    background: #f7f8fa;
   }
 }

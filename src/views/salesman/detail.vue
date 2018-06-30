@@ -2,14 +2,18 @@
   <div class="app-container">
     <div class="detail-title">
       <span class="list-tit">{{textMap[updateStatus]}}</span>
-      <span style="float: right">{{value3 ? '启用' : '停用'}}</span>
+      <span style="float: right;color: #0299cc" v-show="updateStatus==='view'">{{value3 ? '启用' : '停用'}}</span>
       <el-switch
          v-show="updateStatus==='view'"
-        style="float: right; margin-left: 30px"
-        v-model="value3"
-        @change="changeMode">
+         v-model="value3"
+         class="switch-btn"
+         @change="changeMode">
       </el-switch>
-      <el-button class="upd_btn" v-show="updateStatus==='view'" @click="updateStatus='update'">修改</el-button>
+      <el-button class="upd_btn"
+                 v-show="updateStatus==='view'"
+                 @click="updateStatus='update'">
+        <i class="fa fa-edit"></i>修改
+      </el-button>
     </div>
     <div class="margin-line"></div>
     <div class="update-detail" v-if="updateStatus==='create'||updateStatus==='update'">
@@ -188,6 +192,7 @@
     <div v-show="!listLoading" class="pagination-container">
       <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
                      :current-page.sync="listQuery.page"
+                     background
                      :page-sizes="[10,20,30, 50]" :page-size="listQuery.limit"
                      layout="total, sizes, prev, pager, next, jumper" :total="total">
       </el-pagination>
@@ -207,49 +212,8 @@ export default {
       headers: {
         Authorization: getToken()
       },
-      options: [
-        {
-          value: 'zhinan',
-          label: '指南',
-          children: [{
-            value: 'shejiyuanze',
-            label: '设计原则',
-            children: [{
-              value: 'yizhi',
-              label: '一致'
-            }, {
-              value: 'fankui',
-              label: '反馈'
-            }, {
-              value: 'xiaolv',
-              label: '效率'
-            }, {
-              value: 'kekong',
-              label: '可控'
-            }]
-          }]
-        }
-      ],
       selectedOptions: [],
       fileList: [],
-      options1: [
-        {
-          value: '选项1',
-          label: '黄金糕'
-        }, {
-          value: '选项2',
-          label: '双皮奶'
-        }, {
-          value: '选项3',
-          label: '蚵仔煎'
-        }, {
-          value: '选项4',
-          label: '龙须面'
-        }, {
-          value: '选项5',
-          label: '北京烤鸭'
-        }
-      ],
       value: '',
       updateStatus: '',
       textMap: {
@@ -354,6 +318,22 @@ export default {
   margin-bottom: 20px;
   .upd_btn {
     float: right;
+    border: none;
+    color: #0299CC;
+    i {
+      margin-right: 2px;
+      vertical-align: text-bottom;
+    }
+    &:hover {
+      background: #ffff;
+    }
+  }
+  .switch-btn {
+    float: right;
+    margin-left: 30px;
+    display: inline-block;
+    line-height: 40px;
+    margin-right: 3px;
   }
 }
 .form-border {

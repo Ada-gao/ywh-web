@@ -92,7 +92,7 @@
 
       <el-table-column align="center" label="公司规模">
         <template slot-scope="scope">
-          <span>{{scope.row[7]}}</span>
+          <span>{{scope.row[6]}}</span>
         </template>
       </el-table-column>
 
@@ -108,6 +108,7 @@
     <div v-show="!listLoading" class="pagination-container">
       <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
                      :current-page.sync="currentPage"
+                     background
                      :page-sizes="[5,10,20,30,50]" :page-size="listQuery.pageSize"
                      layout="total, sizes, prev, pager, next, jumper" :total="total">
       </el-pagination>
@@ -157,13 +158,14 @@ export default {
       // }
       getUsers(this.listQuery).then(response => {
         this.list = response.data
+        console.log(this.list)
         this.total = 11
         this.listLoading = false
         getOrgSize().then(res => {
           this.orgSize = res.data
           this.list.forEach(item => {
-            item[7] = transformText(this.orgSize, item[6])
-            // console.log(item[7])
+            item[6] = transformText(this.orgSize, item[6])
+            console.log(item[6])
           })
         })
       })

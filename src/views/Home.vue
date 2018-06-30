@@ -32,7 +32,7 @@
             <el-submenu :index="index+''" v-if="!item.leaf"  :key="index">
               <template slot="title"><i :class="item.iconCls"></i>{{item.name}}</template>
               <el-menu-item v-for="child in item.children" :index="child.path" :key="child.path" v-if="!child.hidden">
-                {{child.name}}
+                <i :class="item.iconCls"></i>{{child.name}}
               </el-menu-item>
             </el-submenu>
             <el-menu-item v-if="item.leaf&&item.children.length>0"  :key="item.children[0].path" :index="item.children[0].path"><i
@@ -49,8 +49,8 @@
               <ul class="el-menu submenu" :class="'submenu-hook-'+index" @mouseover="showMenu(index,true)"
                   @mouseout="showMenu(index,false)">
                 <li v-for="child in item.children" v-if="!child.hidden" :key="child.path" class="el-menu-item"
-                    style="padding-left: 40px;" :class="$route.path==child.path?'is-active':''"
-                    @click="$router.push(child.path)">{{child.name}}
+                    style="padding-left: 40px;background: #343744" :class="$route.path==child.path?'is-active':''"
+                    @click="$router.push(child.path)"><i :class="item.iconCls"></i>{{child.name}}
                 </li>
               </ul>
             </template>
@@ -141,8 +141,8 @@ export default {
     }
   },
   mounted () {
-    let user = sessionStorage.getItem('token')
-    this.$store.dispatch('GetUser', user)
+    // let user = sessionStorage.getItem('token')
+    // this.$store.dispatch('GetUser', user)
     // if (user) {
     //   getUser().then((res) => {
     //     this.sysUserName = res.data.username
@@ -165,7 +165,7 @@ export default {
       height: 60px;
       line-height: 60px;
       background: $header-bg;
-      box-shadow: 0 2px 4px 0 rgba(219,219,219,0.50);
+      box-shadow: 0 1px 0 0 rgba(219,219,219,0.50);
       color: #000;
       position: fixed;
       z-index: 1111;
@@ -250,6 +250,7 @@ export default {
           border-right: 0;
           .el-menu-item {
             color: #fff;
+            background: #42485B;
           }
           .el-menu-item.is-active {
             background: $sidebar-active-bg;
@@ -267,6 +268,7 @@ export default {
         }
         .el-submenu .el-menu-item {
           min-width: 179px;
+          background: #343744;
         }
         .collapsed {
           width: 60px;
@@ -283,6 +285,7 @@ export default {
           }
           .el-submenu .el-menu-item {
             min-width: 60px;
+            background: #42485B;
           }
         }
       }

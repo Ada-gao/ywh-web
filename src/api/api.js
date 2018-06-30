@@ -1,4 +1,5 @@
 import axios from 'axios'
+import qs from 'qs'
 
 axios.defaults.baseURL = process.env.BASE_API
 axios.defaults.timeout = 15000
@@ -48,3 +49,19 @@ export const getTaskDetail = (id, params) => axios.get('/task/getGroup/' + id, {
 // export const getTaskCount = () => axios.get('/task/count')
 // product
 export const getProductList = () => axios.get('/product/list')
+
+// trial
+export const getTrial = params => axios.get('/trial/getPage', {params: params})
+// export const getTrailDet = (id, data) => axios.put('/trial/updateStatus/' + id, data)
+export function getTrailDet (id, params) {
+  let para = qs.stringify(params)
+  return axios({
+    url: '/trial/updateStatus/' + id,
+    method: 'put',
+    data: para
+  })
+}
+
+// feedback
+export const getFeedback = params => axios.get('/feedback/getPage', {params: params})
+export const getFdDetail = id => axios.get('/feedback/getImg/' + id)

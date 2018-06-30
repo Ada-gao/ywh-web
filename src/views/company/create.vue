@@ -2,7 +2,11 @@
   <div class="app-container">
     <div class="detail-title">
       <span class="list-tit">{{textMap[updateStatus]}}</span>
-      <el-button class="upd_btn" v-show="updateStatus==='view'" @click="updateStatus='update'">修改</el-button>
+      <el-button class="upd_btn"
+                 v-show="updateStatus==='view'"
+                 @click="updateStatus='update'">
+        <i class="fa fa-edit"></i>修改
+      </el-button>
     </div>
     <div class="margin-line"></div>
     <div class="update-detail" v-if="updateStatus==='create'||updateStatus==='update'">
@@ -103,7 +107,10 @@
         <el-row :gutter="20">
           <el-col :span="11">
             <el-form-item label="公司LOGO" prop="logo">
-              <img :src="form.logo" alt="" style="width: 50px; height: 30px;">
+              <img :src="form.logo"
+                   alt=""
+                   v-if="form.logo"
+                   style="width: 50px; height: 30px;">
               <el-upload
                 class="upload-demo"
                 style="display: inline-block"
@@ -173,7 +180,7 @@
           </el-col>
           <el-col :span="11">
             <el-form-item label="公司规模:">
-              <span>{{form.orgSizeText}}</span>
+              <span>{{form.orgSize}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="11">
@@ -193,7 +200,10 @@
           </el-col>
           <el-col :span="11">
             <el-form-item label="公司LOGO:">
-              <img :src="form.logo" alt="" style="width: 50px; height: 30px;">
+              <img :src="form.logo"
+                   alt=""
+                   v-if="form.logo"
+                   style="width: 50px; height: 30px;">
             </el-form-item>
           </el-col>
           <el-col :span="11">
@@ -277,7 +287,7 @@ export default {
       this.form = obj
       getOrgSize().then(res => {
         this.coInfo.orgSize = res.data
-        this.form.orgSizeText = transformText(this.coInfo.orgSize, this.form.orgSize)
+        this.form.orgSize = transformText(this.coInfo.orgSize, this.form.orgSize)
       })
       this.updateStatus = 'view'
     } else {
@@ -292,7 +302,7 @@ export default {
     getOrgSize () {
       getOrgSize().then(res => {
         this.coInfo.orgSize = res.data
-        this.form.orgSizeText = transformText(this.coInfo.orgSize, this.form.orgSize)
+        this.form.orgSize = transformText(this.coInfo.orgSize, this.form.orgSize)
       })
       getAuthDustries().then(res => {
         this.coInfo.industry = res.data
@@ -372,6 +382,13 @@ export default {
 <style lang="scss" scoped>
 .upd_btn {
   float: right;
+  border: none;
+  color: #0299CC;
+  i {
+    margin-right: 2px;
+    vertical-align: text-bottom;
+  }
+
 }
 .form-border {
   border: 1px solid #EFEFEF;

@@ -14,7 +14,7 @@
   .noml,
   .noml1 {
     .el-input__icon {
-      right: -30px!important;
+      //right: -23px!important;
     }
     .el-date-editor.el-input {
       //width: 220px!important;
@@ -55,6 +55,10 @@
       margin-left: 170px!important;
     }
   }
+  .el-form-item.is-success .el-input__inner,
+  .el-form-item.is-success .el-textarea__inner {
+    border-color: #C8C8C8;
+  }
 }
 .el-table {
   margin-bottom: 5px;
@@ -64,6 +68,7 @@
 .main {
   .el-submenu__title {
     color: #fff;
+    background: #42485B;
   }
   .el-submenu .el-menu-item:hover,
   .el-submenu__title:hover {
@@ -127,6 +132,7 @@
   input:-webkit-autofill,
   .el-input__inner {
     border: none;
+    height: 36px;
   }
   .el-col-10 {
     height: 48px;
@@ -161,15 +167,22 @@
 .el-message-box__headerbtn .el-message-box__close {
   position: static;
 }
-.el-select-dropdown__item.selected,
-.el-select-dropdown__item.selected.hover {
-  background: $color-primary;
-}
-.el-pagination__sizes .el-input .el-input__inner:hover {
-  border-color: $color-primary;
-}
-.el-select-dropdown.is-multiple .el-select-dropdown__item.selected.hover,
-.el-select-dropdown__item.hover,
-.el-select-dropdown__item.selected.hover {
-  //background: $hover-color;
+// 反馈页面大图预览
+.fd-dialog {
+  .el-dialog__headerbtn {
+    top: 0;
+    background: rgba(0,0,0,0.40);
+  }
+  .el-dialog__close {
+    font-size: 36px;
+    color: #fff;
+  }
+  .el-dialog {
+    border-radius: 0;
+    box-shadow: none;
+    background: rgba(0, 0, 0, 0);
+  }
+  .el-dialog__body {
+    display: none;
+  }
 }

@@ -122,6 +122,7 @@ export default {
             this.loading = false
             NProgress.done()
             sessionStorage.setItem('token', res.data.token)
+            this.$store.dispatch('GetUser', res.data.token)
             this.$router.push({path: '/dashboard'})
           }).catch(error => {
             this.loading = false
@@ -208,7 +209,7 @@ export default {
     }
     .el-input {
       display: inline-block;
-      height: 47px;
+      height: 36px;
       width: 85%;
     }
     .svg-container {
