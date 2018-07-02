@@ -73,7 +73,7 @@
             <el-form-item label="分配规则" prop="assignRule" required>
               <el-radio-group v-model="taskGroup.assignRule">
                 <el-radio label="随机平均分配"></el-radio>
-                <el-radio label="自定义分配"></el-radio>
+                <el-radio label="自定义分配" disabled></el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>

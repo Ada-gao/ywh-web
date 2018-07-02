@@ -285,6 +285,10 @@ export default {
     this.getOrgSize()
     if (obj) {
       this.form = obj
+      getOrgSize().then(res => {
+        this.coInfo.orgSize = res.data
+        this.form.orgSize = transformText(this.coInfo.orgSize, this.form.orgSize)
+      })
       this.updateStatus = 'view'
     } else {
       if (this.id === '0') {
@@ -298,9 +302,7 @@ export default {
     getOrgSize () {
       getOrgSize().then(res => {
         this.coInfo.orgSize = res.data
-        console.log(this.coInfo.orgSize)
         this.form.orgSize = transformText(this.coInfo.orgSize, this.form.orgSize)
-        console.log(this.form.orgSize)
       })
       getAuthDustries().then(res => {
         this.coInfo.industry = res.data

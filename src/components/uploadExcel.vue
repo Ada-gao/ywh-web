@@ -22,8 +22,7 @@ export default {
         header: null,
         results: null
       },
-      filename: '',
-      downloadUrl: '/static/excel/module.xlsx'
+      filename: ''
     }
   },
   methods: {
