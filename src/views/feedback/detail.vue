@@ -51,7 +51,6 @@ export default {
   },
   created () {
     this.data = this.$route.params
-    console.log(this.data)
     this.getImgList(this.data.feedbackImgPath)
   },
   methods: {
@@ -63,7 +62,6 @@ export default {
     getImgList (uId) {
       if (uId) {
         let uIdArr = uId.split(',')
-        console.log(uIdArr)
         uIdArr.forEach((ele, index) => {
           this.imgList.push(process.env.BASE_API + '/feedback/getImg/' + ele)
         })

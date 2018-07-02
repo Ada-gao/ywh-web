@@ -80,7 +80,7 @@
       <el-col :span="11" slot="footer" class="dialog-footer" style="text-align: center">
         <el-button class="search_btn" @click="cancel('form')">取 消</el-button>
         <el-button v-show="updateStatus==='create'" class="add_btn" @click="create('form')">提 交</el-button>
-        <el-button v-show="updateStatus==='update'" class="add_btn" @click="create('form')">提 交1</el-button>
+        <el-button v-show="updateStatus==='update'" class="add_btn" @click="create('form')">提 交</el-button>
       </el-col>
     </div>
     <div class="read-detail" v-if="updateStatus==='view'">

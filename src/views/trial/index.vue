@@ -98,7 +98,7 @@
       </el-table-column>
       <el-table-column align="center" label="试用状态" >
         <template slot-scope="scope">
-          <div style="cursor:pointer;" @click="showDialog(scope.row.id)">
+          <div style="cursor:pointer;" @click="showDialog(scope.row.id, scope.row.status)">
           <i :class="{
                         'stat-yel': scope.row.status === '新申请',
                         'stat-green': scope.row.status === '试用中',
@@ -154,6 +154,7 @@ export default {
   data () {
     return {
       radio: '',
+      id: '',
       isDialogShow: false,
       tableKey: 0,
       total: null,
@@ -210,17 +211,18 @@ export default {
         })
       })
     },
-    showDialog (id) {
+    showDialog (id) { // 点击item弹出与item.id对应的修改试用状态弹框
+      this.id = ''
       this.isDialogShow = true
+      this.id = id
       this.list.forEach(item => {
         if (item.id === id) {
           this.radio = item.status
-          console.log(this.radio)
           return false
         }
       })
     },
-    converStatus (data) {
+    converStatus (data) { // 将'0'/'1'/'2' 转换为 新申请/试用中/试用结束
       data.forEach((ele, index) => {
         switch (ele.status) {
           case '0':
@@ -235,7 +237,7 @@ export default {
         }
       })
     },
-    converStatus1 (status) {
+    converStatus1 (status) { // 将试用中/试用结束 转换为 '1'/'2'
       switch (status) {
         case '试用中':
           status = '1'
@@ -246,14 +248,27 @@ export default {
       }
       return status
     },
-    updateStatus () {
+    updateTrialText (id, radio) {
+      this.list.forEach((ele, index) => {
+        if (ele.id === id) {
+          ele.status = radio
+          return false
+        }
+      })
+    }, // 更新试用状态时，将对应的文字修改过来
+    updateStatus () { // 更新试用状态
       this.isDialogShow = false
-      this.list.status = this.radio
       let data = {
-        status: this.converStatus1(this.list.status)
+        status: this.converStatus1(this.radio)
       }
-      getTrailDet(this.list.id, data).then(res => {
-        console.log(res)
+      getTrailDet(this.id, data).then(res => {
+        this.updateTrialText(this.id, this.radio)
+        this.$notify({
+          title: '成功',
+          message: '修改成功',
+          type: 'success',
+          duration: 2000
+        })
       })
     },
     handleSizeChange (val) {

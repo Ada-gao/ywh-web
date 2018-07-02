@@ -100,7 +100,12 @@ export default {
         status: this.converStatus(this.list.status)
       }
       getTrailDet(this.list.id, data).then(res => {
-        console.log(res)
+        this.$notify({
+          title: '成功',
+          message: '修改成功',
+          type: 'success',
+          duration: 2000
+        })
       })
     }
   }
