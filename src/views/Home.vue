@@ -286,6 +286,9 @@ export default {
           .el-submenu .el-menu-item {
             min-width: 60px;
             background: #42485B;
+            &:hover {
+              background: #00C1DF;
+            }
           }
         }
       }

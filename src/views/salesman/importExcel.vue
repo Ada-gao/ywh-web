@@ -64,7 +64,7 @@ export default {
       formData: null,
       companies: [],
       form: {},
-      downloadUrl: 'http://10.9.60.142:8888/group1/M00/00/0A/Cgk8jlsV8_yAd5EUAAAssi76hjc78.xlsx',
+      downloadUrl: '/static/excel/module.xlsx',
       rules: {
         companyId: [
           { required: true, message: '请选择所属公司', trigger: 'change' }
