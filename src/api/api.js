@@ -35,6 +35,8 @@ export const updSale = (id, params) => axios.put('/users/updateSales/' + id, par
 export const addBatch = (companyId, params) => axios.post('/users/addBatch?companyId=' + companyId, params)
 export const addUser = params => axios.post('/users', params)
 export const userEnabled = (id, params) => axios.put('/users/enabled/' + id + '?enabled=' + params)
+// user/sale/销售详情页面的任务完成
+export const taskDoneRate = (id) => axios.get('/task/statisBySales?userId=' + id)
 // name
 export const getLists = params => axios.get('/outboundName/getPage', {params: params})
 export const addNameExcel = (query, params) => axios.post('/outboundName/addGroup?companyId=' + query.companyId + '&groupName=' + query.groupName + '&maskPhoneNo=' + query.maskPhoneNo, params)

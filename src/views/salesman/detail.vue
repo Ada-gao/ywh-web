@@ -189,21 +189,21 @@
 
       </el-table>
 
-    <div v-show="!listLoading" class="pagination-container">
-      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-                     :current-page.sync="listQuery.page"
-                     background
-                     :page-sizes="[10,20,30, 50]" :page-size="listQuery.limit"
-                     layout="total, sizes, prev, pager, next, jumper" :total="total">
-      </el-pagination>
-    </div>
+    <!--<div v-show="!listLoading" class="pagination-container">-->
+      <!--<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"-->
+                     <!--:current-page.sync="listQuery.page"-->
+                     <!--background-->
+                     <!--:page-sizes="[10,20,30, 50]" :page-size="listQuery.limit"-->
+                     <!--layout="total, sizes, prev, pager, next, jumper" :total="total">-->
+      <!--</el-pagination>-->
+    <!--</div>-->
     </div>
   </div>
 </template>
 
 <script>
 import { getToken } from '@/common/js/auth'
-import { getUserById, updSale, addUser, getCompanies, userEnabled } from '@/api/api'
+import { getUserById, updSale, addUser, getCompanies, userEnabled, taskDoneRate } from '@/api/api'
 
 export default {
   data () {
@@ -250,6 +250,9 @@ export default {
         this.form = res.data
         // console.log(this.form)
       })
+      taskDoneRate(this.id).then(res => {
+        console.log(res.data)
+      })
     },
     getQuery () {
       getCompanies().then(res => {
@@ -292,7 +295,8 @@ export default {
       })
     },
     cancel (formName) {
-      this.$router.push({path: '/salesman'})
+      // this.$router.push({path: '/salesman'})
+      this.updateStatus = 'view'
     },
     handleChange (value) {
       // console.log(value)

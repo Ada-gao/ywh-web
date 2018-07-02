@@ -4,7 +4,7 @@
       <span class="list-tit">{{textMap[updateStatus]}}</span>
       <el-button class="upd_btn"
                  v-show="updateStatus==='view'"
-                 @click="updateStatus='update'">
+                 @click="modifyStat">
         <i class="fa fa-edit"></i>修改
       </el-button>
     </div>
@@ -282,15 +282,16 @@ export default {
   created () {
     const obj = this.$route.query.item
     this.id = this.$route.params.id
-    this.getOrgSize()
+    // this.getOrgSize()
     if (obj) {
       this.form = obj
-      getOrgSize().then(res => {
-        this.coInfo.orgSize = res.data
-        this.form.orgSize = transformText(this.coInfo.orgSize, this.form.orgSize)
-      })
+      // getOrgSize().then(res => {
+      //  this.coInfo.orgSize = res.data
+      //  this.form.orgSize = transformText(this.coInfo.orgSize, this.form.orgSize)
+      // })
       this.updateStatus = 'view'
     } else {
+      this.getOrgSize()
       if (this.id === '0') {
         this.updateStatus = 'create'
       } else {
@@ -299,6 +300,10 @@ export default {
     }
   },
   methods: {
+    modifyStat () {
+      this.updateStatus = 'update'
+      this.getOrgSize()
+    },
     getOrgSize () {
       getOrgSize().then(res => {
         this.coInfo.orgSize = res.data

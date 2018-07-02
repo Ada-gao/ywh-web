@@ -158,14 +158,12 @@ export default {
       // }
       getUsers(this.listQuery).then(response => {
         this.list = response.data
-        console.log(this.list)
         this.total = 11
         this.listLoading = false
         getOrgSize().then(res => {
           this.orgSize = res.data
           this.list.forEach(item => {
             item[6] = transformText(this.orgSize, item[6])
-            console.log(item[6])
           })
         })
       })
