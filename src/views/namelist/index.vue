@@ -19,7 +19,7 @@
           <el-select v-model="listQuery.companyId"
                      placeholder="公司筛选"
                      clearable
-                     @change="handleFilter">
+                     @change="handleFilter1">
             <el-option
               v-for="item in companies"
               :key="item.id"
@@ -30,7 +30,7 @@
           <el-select v-model="listQuery.residence"
                      placeholder="所在地"
                      clearable
-                     @change="handleFilter">
+                     @change="handleFilter1">
             <el-option
               v-for="item in provinceData"
               :key="item.value"
@@ -57,7 +57,7 @@
 
       <el-table-column align="center" label="名单ID">
         <template slot-scope="scope">
-          <span>{{scope.row.id}}</span>
+          <span>{{scope.row.boundCode}}</span>
         </template>
       </el-table-column>
 
@@ -187,13 +187,23 @@ export default {
       this.getList()
     },
     handleFilter () {
-      if (this.listQuery.residence) {
-        this.listQuery.residence = this.listQuery.residence.label
-      } else {
-        delete this.listQuery.residence
-      }
+      this.listQuery.residence = null
+      this.listQuery.companyId = null
+      delete this.listQuery.residence
+      delete this.listQuery.companyId
       if (!this.listQuery.contactName) {
         delete this.listQuery.contactName
+      }
+      this.listQuery.pageIndex = 0
+      this.getList()
+    },
+    handleFilter1 () {
+      this.listQuery.contactName = ''
+      delete this.listQuery.contactName
+      if (this.listQuery.residence) {
+        this.listQuery.residence = this.listQuery.residence.label || this.listQuery.residence
+      } else {
+        delete this.listQuery.residence
       }
       if (!this.listQuery.companyId) {
         delete this.listQuery.companyId

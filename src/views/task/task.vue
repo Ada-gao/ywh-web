@@ -19,7 +19,7 @@
           <el-select v-model="listQuery.team"
                      placeholder="销售部门"
                      clearable
-                     @change="handleFilter">
+                     @change="handleFilter1">
             <el-option
               v-for="item in companies"
               :key="item.companyName"
@@ -30,7 +30,7 @@
           <el-select v-model="listQuery.productName"
                      placeholder="产品名称"
                      clearable
-                     @change="handleFilter">
+                     @change="handleFilter1">
             <el-option
               v-for="item in products"
               :key="item.companyId"
@@ -207,14 +207,24 @@ export default {
     },
     handleFilter () {
       this.listQuery.pageIndex = 0
+      this.listQuery.team = null
+      this.listQuery.productName = null
+      delete this.listQuery.productName
+      delete this.listQuery.team
+      if (!this.listQuery.taskName) {
+        delete this.listQuery.taskName
+      }
+      this.getList()
+    },
+    handleFilter1 () {
+      this.listQuery.pageIndex = 0
+      this.listQuery.taskName = ''
+      delete this.listQuery.taskName
       if (!this.listQuery.team) {
         delete this.listQuery.team
       }
       if (!this.listQuery.productName) {
         delete this.listQuery.productName
-      }
-      if (!this.listQuery.taskName) {
-        delete this.listQuery.taskName
       }
       this.getList()
     },

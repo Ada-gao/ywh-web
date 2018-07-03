@@ -244,23 +244,23 @@ export default {
       nextActionList: [
         {
           value: 'REFUSE',
-          label: 'REFUSE'
+          label: '无意向拒绝'
         },
         {
           value: 'NO_ANSWER',
-          label: 'NO_ANSWER'
+          label: '无人接听'
         },
         {
           value: 'BUSYING',
-          label: 'BUSYING'
+          label: '占线'
         },
         {
           value: 'NOT_CALL',
-          label: 'NOT_CALL'
+          label: '未外呼'
         },
         {
           value: 'FOLLOW',
-          label: 'FOLLOW'
+          label: '有意向进一步跟进'
         }
       ]
     }

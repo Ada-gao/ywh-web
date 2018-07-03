@@ -72,7 +72,7 @@
         <el-row :gutter="20">
           <el-col :span="11">
             <el-form-item label="公司规模" prop="orgSize">
-              <el-select v-model="form.orgSize" placeholder="请选择规模" style="width: 100%">
+              <el-select v-model="form.orgSize" placeholder="请选择规模" style="width: 100%" @change="changeOrgSize">
                 <el-option
                   v-for="item in coInfo.orgSize"
                   :key="item.value"
@@ -107,7 +107,7 @@
         <el-row :gutter="20">
           <el-col :span="11">
             <el-form-item label="公司LOGO" prop="logo">
-              <img :src="form.logo"
+              <img :src.sync="form.logo"
                    alt=""
                    v-if="form.logo"
                    style="width: 50px; height: 30px;">
@@ -220,7 +220,7 @@
 <script>
 import { getToken } from '@/common/js/auth'
 import { getOrgSize, getAuthDustries, getAuthDustryByType, putCompanies, addCompanies } from '@/api/api'
-import { transformText } from '@/common/js/util'
+// import { transformText } from '@/common/js/util'
 import { provinceAndCityData } from 'element-china-area-data' // 省市区数据
 
 export default {
@@ -279,6 +279,14 @@ export default {
       centerDialogVisible: false
     }
   },
+  watch: {
+    'form.logo': {
+      handler (val, oldVal) {
+        console.log(val)
+      },
+      deep: true
+    }
+  },
   created () {
     const obj = this.$route.query.item
     this.id = this.$route.params.id
@@ -307,7 +315,7 @@ export default {
     getOrgSize () {
       getOrgSize().then(res => {
         this.coInfo.orgSize = res.data
-        this.form.orgSize = transformText(this.coInfo.orgSize, this.form.orgSize)
+        // this.form.orgSize = transformText(this.coInfo.orgSize, this.form.orgSize)
       })
       getAuthDustries().then(res => {
         this.coInfo.industry = res.data
@@ -330,12 +338,13 @@ export default {
     },
     create (formName) {
       const set = this.$refs
+      // console.log(this.form)
       set[formName].validate(valid => {
         if (valid) {
           this.form.companyProvince = this.form.companyProvince.label
           addCompanies(this.form)
             .then(res => {
-              console.log(res.data)
+              // console.log(res.data)
               this.centerDialogVisible = true
             })
         } else {
@@ -366,12 +375,12 @@ export default {
       this.$router.push({path: '/company'})
     },
     handleChange (value) {
-      console.log(value)
+      // console.log(value)
     },
     handleSuccess (fileList) {
-      console.log(fileList)
+      // console.log(fileList)
       this.form.logo = process.env.BASE_API + '/file/' + fileList
-      console.log(this.form.logo)
+      // console.log(this.form.logo)
     },
     dialogRouter (status) {
       if (status === 'view') {
@@ -380,6 +389,9 @@ export default {
       } else {
         this.$router.push({path: '/company'})
       }
+    },
+    changeOrgSize (val) {
+      // console.log(val)
     }
   }
 }

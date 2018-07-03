@@ -31,7 +31,7 @@
           <el-select v-model="listQuery.status"
                      placeholder="试用状态筛选"
                      clearable
-                     @change="handleFilter">
+                     @change="handleFilter1">
             <el-option
               v-for="item in statusList"
               :key="item.label"
@@ -281,11 +281,19 @@ export default {
     },
     handleFilter () {
       this.listQuery.pageIndex = 0
-      if (!this.listQuery.status) {
-        delete this.listQuery.status
-      }
+      this.listQuery.status = null
+      delete this.listQuery.status
       if (!this.listQuery.companyName) {
         delete this.listQuery.companyName
+      }
+      this.getList()
+    },
+    handleFilter1 () {
+      this.listQuery.pageIndex = 0
+      this.listQuery.companyName = ''
+      delete this.listQuery.companyName
+      if (!this.listQuery.status) {
+        delete this.listQuery.status
       }
       this.getList()
     },

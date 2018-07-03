@@ -26,7 +26,7 @@
           <el-select v-model="listQuery.team"
                      placeholder="团队筛选"
                      clearable
-                     @change="handleFilter">
+                     @change="handleFilter1">
             <el-option
               v-for="(item, index) in teams"
               :key="index"
@@ -56,43 +56,43 @@
 
       <el-table-column align="center" label="销售ID">
         <template slot-scope="scope">
-          <span>{{scope.row[0]}}</span>
+          <span>{{scope.row[1]}}</span>
         </template>
       </el-table-column>
 
       <el-table-column align="center" label="销售名称">
         <template slot-scope="scope">
-          <span>{{scope.row[1]}}</span>
+          <span>{{scope.row[2]}}</span>
         </template>
       </el-table-column>
 
       <el-table-column align="center" label="所属部门">
         <template slot-scope="scope">
-          <span>{{scope.row[2]}}</span>
+          <span>{{scope.row[3]}}</span>
         </template>
       </el-table-column>
 
       <el-table-column align="center" label="所属公司">
         <template slot-scope="scope">
-          <span>{{scope.row[3]}}</span>
+          <span>{{scope.row[4]}}</span>
         </template>
       </el-table-column>
 
       <el-table-column align="center" label="所在省份">
         <template slot-scope="scope">
-          <span>{{scope.row[4]}}</span>
+          <span>{{scope.row[5]}}</span>
         </template>
       </el-table-column>
 
       <el-table-column align="center" label="所属行业" show-overflow-tooltip>
         <template slot-scope="scope">
-        <span>{{scope.row[5]}}</span>
+        <span>{{scope.row[6]}}</span>
         </template>
       </el-table-column>
 
       <el-table-column align="center" label="公司规模">
         <template slot-scope="scope">
-          <span>{{scope.row[6]}}</span>
+          <span>{{scope.row[7]}}</span>
         </template>
       </el-table-column>
 
@@ -158,12 +158,12 @@ export default {
       // }
       getUsers(this.listQuery).then(response => {
         this.list = response.data
-        this.total = 11
+        this.total = response.data.length
         this.listLoading = false
         getOrgSize().then(res => {
           this.orgSize = res.data
           this.list.forEach(item => {
-            item[6] = transformText(this.orgSize, item[6])
+            item[7] = transformText(this.orgSize, item[7])
           })
         })
       })
@@ -186,11 +186,21 @@ export default {
     },
     handleFilter () {
       this.listQuery.pageIndex = 0
-      if (!this.listQuery.team) {
-        delete this.listQuery.team
-      }
+      this.listQuery.companyId = null
+      this.listQuery.team = null
+      delete this.listQuery.companyId
+      delete this.listQuery.team
       if (!this.listQuery.name) {
         delete this.listQuery.name
+      }
+      this.getList()
+    },
+    handleFilter1 () {
+      this.listQuery.pageIndex = 0
+      this.listQuery.name = ''
+      delete this.listQuery.name
+      if (!this.listQuery.team) {
+        delete this.listQuery.team
       }
       if (!this.listQuery.companyId) {
         delete this.listQuery.companyId
@@ -213,7 +223,7 @@ export default {
       } else {
         this.teams = []
       }
-      this.handleFilter()
+      this.handleFilter1()
     }
   }
 }

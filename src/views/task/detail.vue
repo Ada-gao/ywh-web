@@ -50,8 +50,8 @@
                 ref="popover"
                 placement="right"
                 width="200"
-                trigger="click"
-                :content="form.salesTalk">
+                trigger="click">
+                <span v-html="form.salesTalk"></span>
               </el-popover>
             </el-form-item>
           </el-col>

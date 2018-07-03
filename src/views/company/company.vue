@@ -15,7 +15,7 @@
           <el-select v-model="listQuery.companyProvince"
                      placeholder="省份筛选"
                      clearable
-                     @change="handleFilter">
+                     @change="handleFilter1">
             <el-option
               v-for="item in provinceData"
               :key="item.value"
@@ -26,7 +26,7 @@
           <el-select v-model="listQuery.industryType"
                      placeholder="行业筛选"
                      clearable
-                     @change="handleFilter">
+                     @change="handleFilter1">
             <el-option
               v-for="item in industry"
               :key="item.id"
@@ -37,7 +37,7 @@
           <el-select v-model="listQuery.orgSize"
                      placeholder="公司规模筛选"
                      clearable
-                     @change="handleFilter">
+                     @change="handleFilter1">
             <el-option
               v-for="item in orgSize"
               :key="item.value"
@@ -177,20 +177,32 @@ export default {
       this.getList()
     },
     handleFilter () {
+      this.listQuery.companyProvince = null
+      this.listQuery.industryType = null
+      this.listQuery.orgSize = null
+      delete this.listQuery.orgSize
+      delete this.listQuery.companyProvince
+      delete this.listQuery.industryType
+      if (!this.listQuery.companyName) {
+        delete this.listQuery.companyName
+      }
+      this.listQuery.pageIndex = 0
+      this.getList()
+    },
+    handleFilter1 () {
+      if (this.listQuery.companyProvince) {
+        this.listQuery.companyProvince = this.listQuery.companyProvince.label || this.listQuery.companyProvince
+      }
+      this.listQuery.companyName = ''
+      delete this.listQuery.companyName
       if (!this.listQuery.companyProvince) {
         delete this.listQuery.companyProvince
       }
       if (!this.listQuery.industryType) {
         delete this.listQuery.industryType
       }
-      if (!this.listQuery.companyName) {
-        delete this.listQuery.companyName
-      }
       if (!this.listQuery.orgSize) {
         delete this.listQuery.orgSize
-      }
-      if (this.listQuery.companyProvince) {
-        this.listQuery.companyProvince = this.listQuery.companyProvince.label
       }
       this.listQuery.pageIndex = 0
       this.getList()
