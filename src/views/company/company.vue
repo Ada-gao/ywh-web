@@ -71,13 +71,13 @@
 
       <el-table-column align="center" label="公司地址">
         <template slot-scope="scope">
-          <span>{{scope.row.companyCity}}</span>
+          <span>{{scope.row.companyAddress}}</span>
         </template>
       </el-table-column>
 
       <el-table-column align="center" label="公司所在省份">
         <template slot-scope="scope">
-          <span>{{scope.row.companyCity}}</span>
+          <span>{{scope.row.companyProvince}}</span>
         </template>
       </el-table-column>
 

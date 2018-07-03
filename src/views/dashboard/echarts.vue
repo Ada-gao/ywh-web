@@ -101,6 +101,7 @@ export default {
     let params = {
       companyId: this.sysUser.companyId
     }
+    console.log(this.sysUser)
     this.getCount(params)
   }
 }

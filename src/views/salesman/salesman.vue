@@ -157,8 +157,8 @@ export default {
       //  this.listQuery.companyId = this.sysUser.companyId
       // }
       getUsers(this.listQuery).then(response => {
-        this.list = response.data
-        this.total = response.data.length
+        this.list = response.data.content
+        this.total = response.data.totalElements
         this.listLoading = false
         getOrgSize().then(res => {
           this.orgSize = res.data

@@ -16,6 +16,16 @@ export const getUser = () => axios.get('/auth/user')
 // company
 export const getCompanies = () => axios.get('/companies')
 export const getTeams = id => axios.get('/companies/queryTeams/' + id)
+export function uploadLogo (file) {
+  return axios({
+    url: '/file/upload',
+    method: 'post',
+    data: file,
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  })
+}
 // export const getAssociateList = id => axios.get('/outboundName/queryNames/' + id)
 export const getCompanyPage = params => axios.get('/companies/companyPage', {params: params})
 export const addCompanies = data => axios.post('/companies', data)

@@ -119,6 +119,7 @@
                 multiple
                 :limit="1"
                 :on-success="handleSuccess"
+                :before-upload="beforeAvatarUpload"
                 :file-list="fileList"
                 :show-file-list="false"
                 accept=".png, .jpg">
@@ -157,7 +158,7 @@
         <el-row :gutter="20">
           <el-col :span="11">
             <el-form-item label="公司ID:">
-              <span>{{form.id}}</span>
+              <span>{{form.companyCode}}</span>
             </el-form-item>
             <el-form-item label="公司名称:">
               <span>{{form.companyName}}</span>
@@ -175,7 +176,7 @@
           </el-col>
           <el-col :span="11">
             <el-form-item label="所属行业:">
-              <span>{{form.industry}}-{{form.industryType}}</span>
+              <span>{{form.industry}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="11">
@@ -214,18 +215,76 @@
         </el-row>
       </el-form>
     </div>
+    <el-dialog :visible.sync="dialogVisible"
+               width="30%">
+      <div class="cropper-content">
+        <div class="cropper">
+          <vueCropper
+            ref="cropper"
+            :img="option.img"
+            :outputSize="option.size"
+            :outputType="option.outputType"
+            :info="true"
+            :full="option.full"
+            :canMove="option.canMove"
+            :canMoveBox="option.canMoveBox"
+            :original="option.original"
+            :autoCrop="option.autoCrop"
+            :autoCropWidth="option.autoCropWidth"
+            :autoCropHeight="option.autoCropHeight"
+            :fixed="option.fixed"
+            :fixedNumber="option.fixedNumber"
+            @realTime="realTime"
+            @imgLoad="imgLoad"
+          ></vueCropper>
+        </div>
+        <div class="show-preview" :style="{'width': previews.w + 'px', 'height': previews.h + 'px',  'overflow': 'hidden', 'margin': '5px'}">
+          <div :style="previews.div" class="preview">
+            <img :src="previews.url" :style="previews.img">
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-btn">
+        <div class="upload-btn">
+          <button  @click="down('blob')">确定</button>
+        </div>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import VueCropper from 'vue-cropper'
 import { getToken } from '@/common/js/auth'
-import { getOrgSize, getAuthDustries, getAuthDustryByType, putCompanies, addCompanies } from '@/api/api'
-// import { transformText } from '@/common/js/util'
+import { getOrgSize, getAuthDustries, getAuthDustryByType, putCompanies, addCompanies, uploadLogo } from '@/api/api'
+import { transformText } from '@/common/js/util'
 import { provinceAndCityData } from 'element-china-area-data' // 省市区数据
 
 export default {
+  components: {
+    VueCropper
+  },
   data () {
     return {
+      crap: false,
+      previews: {},
+      option: {
+        img: '',
+        size: 1,
+        full: false,
+        outputType: 'png',
+        canMove: true,
+        original: false,
+        canMoveBox: true,
+        autoCrop: true,
+        autoCropWidth: 200,
+        autoCropHeight: 200,
+        fixed: true,
+        fixedNumber: [4, 3]
+      },
+      downImg: '#',
+      dialogVisible: false,
       form: {},
       headers: {
         Authorization: getToken()
@@ -276,15 +335,8 @@ export default {
         ]
       },
       uploadUrl: process.env.BASE_API + '/file/upload',
+      imgUrl: process.env.BASE_API + '/file/',
       centerDialogVisible: false
-    }
-  },
-  watch: {
-    'form.logo': {
-      handler (val, oldVal) {
-        console.log(val)
-      },
-      deep: true
     }
   },
   created () {
@@ -298,6 +350,7 @@ export default {
       //  this.form.orgSize = transformText(this.coInfo.orgSize, this.form.orgSize)
       // })
       this.updateStatus = 'view'
+      console.log(this.form)
     } else {
       this.getOrgSize()
       if (this.id === '0') {
@@ -308,6 +361,33 @@ export default {
     }
   },
   methods: {
+    realTime (data) {
+      this.previews = data
+    },
+    down (type) {
+      if (type === 'blob') {
+        this.$refs.cropper.getCropBlob((data) => {
+          this.downImg = window.URL.createObjectURL(data)
+          let formData = new FormData()
+          formData.append('file', data)
+          uploadLogo(formData).then(res => {
+            this.form.logo = this.downImg
+            this.dialogVisible = false
+          })
+        })
+      } else {
+        this.$refs.cropper.getCropData((data) => {
+          this.downImg = data
+          let formData = new FormData()
+          formData.append('file', data)
+          uploadLogo(formData).then(res => {
+            this.form.logo = this.downImg
+            this.dialogVisible = false
+          })
+        })
+      }
+    },
+    imgLoad (msg) { console.log(msg) },
     modifyStat () {
       this.updateStatus = 'update'
       this.getOrgSize()
@@ -338,7 +418,7 @@ export default {
     },
     create (formName) {
       const set = this.$refs
-      // console.log(this.form)
+      console.log(this.form)
       set[formName].validate(valid => {
         if (valid) {
           this.form.companyProvince = this.form.companyProvince.label
@@ -354,13 +434,15 @@ export default {
     },
     update (formName) {
       const set = this.$refs
+      console.log(this.form)
       set[formName].validate(valid => {
         if (valid) {
           putCompanies(this.form.id, this.form)
             .then(() => {
+              console.log(this.form)
               this.$notify({
                 title: '成功',
-                message: '创建成功',
+                message: '修改成功',
                 type: 'success',
                 duration: 2000
               })
@@ -377,14 +459,29 @@ export default {
     handleChange (value) {
       // console.log(value)
     },
-    handleSuccess (fileList) {
-      // console.log(fileList)
-      this.form.logo = process.env.BASE_API + '/file/' + fileList
+    handleSuccess (res, file, fileList) {
+      // this.form.logo = URL.createObjectURL(file.raw)
+      // this.option.img = file.url
+      // this.dialogVisible = true
+      // console.log(res)
+      // console.log(file)
+      // this.form.logo = process.env.BASE_API + '/file/' + fileList
       // console.log(this.form.logo)
+    },
+    beforeAvatarUpload (file) {
+      this.option.img = window.URL.createObjectURL(file)
+      console.log(window.URL.createObjectURL(file))
+      // console.log(file)
+      this.dialogVisible = true
+      return false
+      // this.form.logo = process.env.BASE_API + '/file/' + fileList
     },
     dialogRouter (status) {
       if (status === 'view') {
         this.updateStatus = 'view'
+        this.form.orgSize = transformText(this.coInfo.orgSize, this.form.orgSize)
+        this.form.industry = transformText(this.coInfo.industry, this.form.industry)
+        console.log(this.form)
         this.centerDialogVisible = false
       } else {
         this.$router.push({path: '/company'})
@@ -415,5 +512,78 @@ export default {
   border: 1px solid #EFEFEF;
   border-radius: 5px;
   padding: 20px 30px;
+}
+.cropper-content{
+  display: flex;
+  display: -webkit-flex;
+  justify-content: flex-end;
+  -webkit-justify-content: flex-end;
+  .cropper{
+    width: 350px;
+    height: 300px;
+  }
+}
+
+.cropper-content{
+  display: flex;
+  display: -webkit-flex;
+  justify-content: flex-end;
+  -webkit-justify-content: flex-end;
+  .cropper{
+    width: 350px;
+    height: 300px;
+  }
+  .show-preview{
+    flex: 1;
+    -webkit-flex: 1;
+    display: flex;
+    display: -webkit-flex;
+    justify-content: center;
+    -webkit-justify-content: center;
+    .preview{
+      overflow: hidden;
+      border-radius: 50%;
+      border:1px solid #cccccc;
+      background: #cccccc;
+      margin-left: 40px;
+    }
+  }
+}
+.footer-btn{
+  margin-top: 30px;
+  display: flex;
+  display: -webkit-flex;
+  justify-content: flex-end;
+  -webkit-justify-content: flex-end;
+  .upload-btn{
+    flex: 1;
+    -webkit-flex: 1;
+    display: flex;
+    display: -webkit-flex;
+    justify-content: center;
+    -webkit-justify-content: center;
+  }
+  .btn {
+    outline: none;
+    display: inline-block;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    -webkit-appearance: none;
+    text-align: center;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    outline: 0;
+    margin: 0;
+    -webkit-transition: .1s;
+    transition: .1s;
+    font-weight: 500;
+    padding: 8px 15px;
+    font-size: 12px;
+    border-radius: 3px;
+    color: #fff;
+    background-color: #67c23a;
+    border-color: #67c23a;
+  }
 }
 </style>
