@@ -21,7 +21,10 @@
         <el-row :gutter="20">
           <el-col :span="11">
             <el-form-item label="所在地" prop="companyProvince">
-              <el-select v-model="form.companyProvince" placeholder="请选择省份" @change="changeProvince" style="width: 50%">
+              <el-select v-model="form.companyProvince"
+                         placeholder="请选择省份"
+                         @change="changeProvince"
+                         style="width: 47%;margin-right: 20px">
                 <el-option
                   v-for="item in provinceData"
                   :key="item.value"
@@ -29,7 +32,10 @@
                   :value="item">
                 </el-option>
               </el-select>
-              <el-select v-model="form.companyCity" placeholder="请选择地区" @change="changeCity" style="width: 50%; float: right;">
+              <el-select v-model="form.companyCity"
+                         placeholder="请选择地区"
+                         @change="changeCity"
+                         style="width: 47%; float: right;">
                 <el-option
                   v-for="item in cityData"
                   :key="item.value"
@@ -50,7 +56,9 @@
         <el-row :gutter="20">
           <el-col :span="11">
             <el-form-item label="所属行业" prop="industry">
-              <el-select v-model="form.industry" placeholder="请选择行业大类" @change="changeIndustry" style="width: 50%">
+              <el-select v-model="form.industry"
+                         placeholder="请选择行业大类"
+                         @change="changeIndustry" style="width: 47%;margin-right: 20px;">
                 <el-option
                   v-for="item in coInfo.industry"
                   :key="item.id"
@@ -58,7 +66,9 @@
                   :value="item.id">
                 </el-option>
               </el-select>
-              <el-select v-model="form.industryType" placeholder="请选择行业小类" @change="changeIndustryType" style="width: 50%; float: right;">
+              <el-select v-model="form.industryType"
+                         placeholder="请选择行业小类"
+                         @change="changeIndustryType" style="width: 47%; float: right;">
                 <el-option
                   v-for="item in coInfo.industryType"
                   :key="item.id"

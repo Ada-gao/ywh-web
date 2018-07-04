@@ -56,50 +56,50 @@
 
       <el-table-column align="center" label="销售ID">
         <template slot-scope="scope">
-          <span>{{scope.row[1]}}</span>
+          <span>{{scope.row.userCode}}</span>
         </template>
       </el-table-column>
 
       <el-table-column align="center" label="销售名称">
         <template slot-scope="scope">
-          <span>{{scope.row[2]}}</span>
+          <span>{{scope.row.name}}</span>
         </template>
       </el-table-column>
 
       <el-table-column align="center" label="所属部门">
         <template slot-scope="scope">
-          <span>{{scope.row[3]}}</span>
+          <span>{{scope.row.team}}</span>
         </template>
       </el-table-column>
 
       <el-table-column align="center" label="所属公司">
         <template slot-scope="scope">
-          <span>{{scope.row[4]}}</span>
+          <span>{{scope.row.companyName}}</span>
         </template>
       </el-table-column>
 
       <el-table-column align="center" label="所在省份">
         <template slot-scope="scope">
-          <span>{{scope.row[5]}}</span>
+          <span>{{scope.row.companyProvince}}</span>
         </template>
       </el-table-column>
 
       <el-table-column align="center" label="所属行业" show-overflow-tooltip>
         <template slot-scope="scope">
-        <span>{{scope.row[6]}}</span>
+        <span>{{scope.row.industryType}}</span>
         </template>
       </el-table-column>
 
       <el-table-column align="center" label="公司规模">
         <template slot-scope="scope">
-          <span>{{scope.row[7]}}</span>
+          <span>{{scope.row.orgSize}}</span>
         </template>
       </el-table-column>
 
       <el-table-column align="center" label="操作" fixed="right" width="150">
         <template slot-scope="scope">
           <a size="small" class="common_btn"
-            @click="handleUpdate(scope.row[0])">查看
+            @click="handleUpdate(scope.row.id)">查看
           </a>
         </template>
       </el-table-column>
@@ -163,7 +163,7 @@ export default {
         getOrgSize().then(res => {
           this.orgSize = res.data
           this.list.forEach(item => {
-            item[7] = transformText(this.orgSize, item[7])
+            item.orgSize = transformText(this.orgSize, item.orgSize)
           })
         })
       })

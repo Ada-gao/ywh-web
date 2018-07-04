@@ -36,12 +36,16 @@
           </el-col>
         </el-row>
       </el-form>
-      <div class="dialog-footer" style="text-align: center; margin-top: 20px">
-        <el-button class="add_btn" @click="submit">提 交</el-button>
-      </div>
+      <!--<div class="dialog-footer" style="text-align: center; margin-top: 20px">-->
+        <!--<el-button class="add_btn" @click="submit">提 交</el-button>-->
+      <!--</div>-->
     </div>
     <div class="detail-title">
       <span class="list-tit">销售列表</span>
+      <el-button class="add_btn" @click="submit">
+        <i class="fa fa-arrow-alt-square-up"></i>确认导入
+      </el-button>
+      <span style="float:right;">共有{{tableData.length}}条</span>
     </div>
     <el-table :data="tableData" border highlight-current-row style="width: 100%;margin-top:20px;">
       <el-table-column v-for='item of tableHeader' :prop="item" :label="item" :key='item'>

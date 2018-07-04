@@ -8,12 +8,13 @@
       <el-col :span="10">
         <div class="tools" @click.prevent="collapse">
           <i class="fa fa-outdent"></i>
+          你好，{{sysUser.username}}
         </div>
       </el-col>
       <el-col :span="4" class="userinfo">
         <el-dropdown trigger="hover">
           <!-- <span class="el-dropdown-link userinfo-inner"><img src="../assets/user.png"/> {{sysUserName}}</span> -->
-          <span class="el-dropdown-link userinfo-inner"><img src="../assets/user.png"/> {{sysUser.username}}</span>
+          <span class="el-dropdown-link userinfo-inner"><img src="../assets/user.png"/> </span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>我的消息</el-dropdown-item>
             <el-dropdown-item>设置</el-dropdown-item>
@@ -108,7 +109,14 @@ export default {
   computed: {
     ...mapGetters([
       'sysUser'
-    ])
+    ]),
+    adminStat () {
+      if (this.$store.state.adminStat === 0) {
+        return 1
+      } else {
+        return 0
+      }
+    }
   },
   methods: {
     onSubmit () {
@@ -220,7 +228,7 @@ export default {
       }
       .tools {
         padding: 0px 23px;
-        width: 14px;
+        // width: 14px;
         height: 60px;
         line-height: 60px;
         cursor: pointer;

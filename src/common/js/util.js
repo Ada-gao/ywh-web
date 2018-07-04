@@ -26,15 +26,15 @@ export function transformText (source, k) {
 export function nextActionList () {
   return [
     {
-      value: 'REFUSE',
+      value: 'GIVE_UP',
       label: '放弃跟进'
     },
     {
-      value: 'BUSYING',
+      value: 'INFO_ERROR',
       label: '信息有误'
     },
     {
-      value: 'NOT_CALL',
+      value: 'CUSTOMER_TRANSFORM',
       label: '客户转到其他部门'
     },
     {

@@ -42,7 +42,7 @@
       </el-row>
     </div>
     <div class="detail-title">
-      <span class="list-tit">任务列表</span>
+      <span class="list-tit">任务组列表</span>
       <el-button class="add_btn" @click="handleCreate('import')">
         <i class="fa fa-plus" style="color: #fff;margin-right: 10px"></i>新建任务
       </el-button>

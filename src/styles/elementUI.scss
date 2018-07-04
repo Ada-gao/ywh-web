@@ -186,3 +186,25 @@
     display: none;
   }
 }
+
+// UI RESET
+.update-detail {
+  .el-form {
+    .el-row:not(:last-child) {
+      .el-form-item {
+        margin-bottom: 20px;
+      }
+    }
+    .el-row:last-child {
+      .el-form-item {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+.dialog-footer {
+  margin-top: 40px;
+}
+label {
+  margin-bottom: 0;
+}
