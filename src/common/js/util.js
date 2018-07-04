@@ -2,7 +2,6 @@ export default {
   getLocalTime: function (nS) {
     return new Date(parseInt(nS)).toLocaleString().replace(/:\d{1,2}$/, ' ')
   }
-
 }
 export const validate = {
   isPositiveNum (num) {
@@ -43,4 +42,11 @@ export function nextActionList () {
       label: '继续跟进'
     }
   ]
+}
+export function replaceKey (target, change) {
+  for (let key in target) {
+    target[change[key]] = target[key]
+    delete target[key]
+  }
+  return target
 }

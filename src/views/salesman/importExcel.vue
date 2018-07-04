@@ -53,6 +53,7 @@
 <script>
 import UploadExcelComponent from '@/components/uploadExcel.vue'
 import { addBatch, getCompanies } from '@/api/api'
+import { replaceKey } from '@/common/js/util'
 
 export default {
   name: 'uploadExcel',
@@ -90,6 +91,16 @@ export default {
       this.form.filename = data.filename
     },
     submit () {
+      let keyMap = {
+        销售姓名: 'name',
+        所属团队: 'team',
+        手机号: 'mobile',
+        用户名: 'username',
+        密码: 'password'
+      }
+      this.tableData.forEach(item => {
+        replaceKey(item, keyMap)
+      })
       addBatch(this.form.companyId, this.tableData).then(res => {
         if (res.status === 200) {
           this.$notify({
