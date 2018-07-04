@@ -50,7 +50,7 @@
     </div>
     <div class="detail-title">
       <span class="list-tit">公司列表</span>
-      <el-button class="add_btn" @click="handleCreate">
+      <el-button class="add_btn" @click="handleCreate" v-if="sysUser.username === 'superadmin'">
         <i class="fa fa-plus" style="color: #fff;margin-right: 10px"></i>新建公司
       </el-button>
     </div>

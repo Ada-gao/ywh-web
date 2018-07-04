@@ -131,13 +131,13 @@
 
         <el-table-column align="center" label="外呼次数">
           <template slot-scope="scope">
-            <span>{{scope.row.callCount}}</span>
+            <span>{{scope.row.callCount || 0}}</span>
           </template>
         </el-table-column>
 
         <el-table-column align="center" label="最近通话时间">
           <template slot-scope="scope">
-            <span>{{scope.row.lastCallDate}}</span>
+            <span>{{scope.row.lastCallDate || 0}}</span>
           </template>
         </el-table-column>
         <el-table-column align="center" label="外呼结果">
@@ -147,12 +147,12 @@
         </el-table-column>
         <el-table-column align="center" label="有效通话时长">
           <template slot-scope="scope">
-            <span>{{scope.row.orgSize}}</span>
+            <span>{{scope.row.orgSize || 0}}</span>
           </template>
         </el-table-column>
         <el-table-column align="center" label="下一步行动计划">
           <template slot-scope="scope">
-            <span>{{scope.row.orgSize}}</span>
+            <span>{{scope.row.nextAction}}</span>
           </template>
         </el-table-column>
 
@@ -205,10 +205,31 @@ export default {
     this.listLoading = false
   },
   methods: {
+    changeActionText (status) {
+      switch (status) {
+        case 'FOLLOW':
+          status = '继续跟进'
+          break
+        case 'CUSTOMER_TRANSFORM':
+          status = '客户转到其他部门'
+          break
+        case 'INFO_ERROR':
+          status = '信息有误'
+          break
+        case 'GIVE_UP':
+          status = '放弃跟进'
+          break
+      }
+      return status
+    },
     getList () {
       getTaskDetail(this.listQuery.taskGroupId, this.listQuery).then(res => {
         this.form = res.data.taskGroup
+        this.form.nextAction = this.changeActionText(this.form.nextAction)
         this.list = res.data.nameList.content
+        this.list.forEach((ele, index) => {
+          ele.gender = ele.gender === 'GENTLEMAN' ? '男' : '女'
+        })
         this.salesCnt = res.data.salesCnt
         this.total = res.data.nameList.totalElements || 0
       })

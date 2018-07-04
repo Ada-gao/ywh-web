@@ -10,6 +10,10 @@ a:hover {
 }
 .common_btn {
   cursor: pointer;
+  color: $color-primary;
+  &:hover {
+    color: $hover-color;
+  }
 }
 //$mainBlue: #0299CC;
 //$mainGreen: #18c79c;
@@ -173,5 +177,15 @@ textarea::-webkit-input-placeholder {
   }
   .el-pagination.is-background .el-pager li:not(.disabled).active {
     background: $color-primary;
+  }
+  .el-form-item {
+    margin-bottom: 26px;
+  }
+  .read-detail,
+  .task-detail {
+    .el-form-item__label,
+    .el-form-item__content {
+      line-height: 14px;
+    }
   }
 }

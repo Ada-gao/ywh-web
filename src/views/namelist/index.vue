@@ -169,6 +169,9 @@ export default {
       console.log(this.listQuery)
       getLists(this.listQuery).then(response => {
         this.list = response.data.content
+        this.list.forEach((ele, index) => {
+          ele.gender = ele.gender === 'GENTLEMAN' ? '男' : '女'
+        })
         this.total = response.data.totalElements
         this.listLoading = false
       })

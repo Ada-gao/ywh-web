@@ -29,7 +29,7 @@
                   v-for="item in provinceData"
                   :key="item.value"
                   :label="item.label"
-                  :value="item">
+                  :value="item.label">
                 </el-option>
               </el-select>
               <el-select v-model="form.companyCity"
@@ -304,8 +304,8 @@ export default {
       updateStatus: '',
       textMap: {
         create: '新建公司',
-        update: '修改公司详情',
-        view: '查看公司详情'
+        update: '修改公司详情页',
+        view: '公司详情页'
       },
       coInfo: {
         orgSize: [],
@@ -319,9 +319,9 @@ export default {
         companyName: [
           {required: true, trigger: 'blur', message: '请输入公司名称'}
         ],
-        // companyProvince: [
-        //   {required: false, trigger: 'change', message: '请选择公司所属地区'},
-        // ],
+        companyProvince: [
+          {required: true, trigger: 'blur', message: '请选择公司所属地区'}
+        ],
         companyAddress: [
           {required: true, trigger: 'blur', message: '请输入公司详细地址'}
         ],
@@ -412,7 +412,11 @@ export default {
       })
     },
     changeProvince (val) {
-      this.cityData = val.children
+      console.log(val)
+      let idx = this.provinceData.findIndex((item, index) => {
+        return item.label === val
+      })
+      this.cityData = this.provinceData[idx].children
       this.form.companyCity = null
     },
     changeCity (val) {

@@ -134,7 +134,7 @@
         </el-row>
       </el-form>
       <div class="detail-title">
-        <span class="tit-text">任务完成情况</span>
+        <span class="list-tit">任务完成情况</span>
       </div>
       <el-table :key='tableKey' :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit
                 highlight-current-row style="width: 100%">
@@ -248,6 +248,7 @@ export default {
     getList () {
       getUserById(this.id).then(res => {
         this.form = res.data
+        this.form.createdDate = new Date(this.form.createdDate).toISOString()
         console.log(this.form)
       })
       taskDoneRate(this.id).then(res => {
@@ -320,7 +321,6 @@ export default {
 
 <style lang="scss" scoped>
 .detail-title {
-  margin-top: 30px;
   margin-bottom: 20px;
   .upd_btn {
     float: right;
