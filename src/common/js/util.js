@@ -21,3 +21,26 @@ export function transformText (source, k) {
   k = obj[k]
   return k
 }
+/**
+ * 获取新建任务时的下一步行动规则列表
+ */
+export function nextActionList () {
+  return [
+    {
+      value: 'REFUSE',
+      label: '放弃跟进'
+    },
+    {
+      value: 'BUSYING',
+      label: '信息有误'
+    },
+    {
+      value: 'NOT_CALL',
+      label: '客户转到其他部门'
+    },
+    {
+      value: 'FOLLOW',
+      label: '继续跟进'
+    }
+  ]
+}

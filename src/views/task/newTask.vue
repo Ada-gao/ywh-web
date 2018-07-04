@@ -173,6 +173,7 @@ import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import {quillEditor} from 'vue-quill-editor'
 import { getToken } from '@/common/js/auth'
+import { nextActionList } from '@/common/js/util'
 import {createTask, getCompanies, getTeams, getNames} from '@/api/api'
 
 export default {
@@ -241,32 +242,12 @@ export default {
       tableKey: 0,
       total: null,
       companies: [],
-      nextActionList: [
-        {
-          value: 'REFUSE',
-          label: '无意向拒绝'
-        },
-        {
-          value: 'NO_ANSWER',
-          label: '无人接听'
-        },
-        {
-          value: 'BUSYING',
-          label: '占线'
-        },
-        {
-          value: 'NOT_CALL',
-          label: '未外呼'
-        },
-        {
-          value: 'FOLLOW',
-          label: '有意向进一步跟进'
-        }
-      ]
+      nextActionList: null
     }
   },
   created () {
     this.listLoading = false
+    this.nextActionList = nextActionList()
     this.getQuery()
   },
   methods: {

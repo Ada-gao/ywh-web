@@ -141,19 +141,19 @@
 
         <el-table-column align="center" label="总任务完成数">
           <template slot-scope="scope">
-            <span>{{scope.row.totalTaskCnt}}</span>
+            <span>{{scope.row.totalTaskCompleteCnt || 0}}</span>
           </template>
         </el-table-column>
 
         <el-table-column align="center" label="总有效通话时长">
           <template slot-scope="scope">
-            <span>{{scope.row.totalEffectiveDuration}}</span>
+            <span>{{scope.row.totalEffectiveDuration || 0}}</span>
           </template>
         </el-table-column>
 
         <el-table-column align="center" label="平均通话时长">
           <template slot-scope="scope">
-            <span>{{scope.row.avgDuration}}</span>
+            <span>{{scope.row.avgDuration || 0}}</span>
           </template>
         </el-table-column>
 
@@ -165,25 +165,25 @@
 
         <el-table-column align="center" label="今日任务数">
           <template slot-scope="scope">
-            <span>{{scope.row.dailyTaskCnt}}</span>
+            <span>{{scope.row.dailyTaskCnt || 0}}</span>
           </template>
         </el-table-column>
 
         <el-table-column align="center" label="今日完成数">
           <template slot-scope="scope">
-          <span>{{scope.row.dailyTaskCompleteCnt}}</span>
+          <span>{{scope.row.dailyTaskCompleteCnt || 0}}</span>
           </template>
         </el-table-column>
 
         <el-table-column align="center" label="今日有效通话时长">
           <template slot-scope="scope">
-            <span>{{scope.row.dailyEffectiveDuration}}</span>
+            <span>{{scope.row.dailyEffectiveDuration || 0}}</span>
           </template>
         </el-table-column>
 
         <el-table-column align="center" label="今日团队排名">
           <template slot-scope="scope">
-            <span>{{scope.row.rank}}</span>
+            <span>{{scope.row.rank || 0}}</span>
           </template>
         </el-table-column>
 
