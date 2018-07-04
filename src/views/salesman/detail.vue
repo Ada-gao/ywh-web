@@ -88,7 +88,7 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item label="销售ID:" prop="name">
-              <span>{{form.id}}</span>
+              <span>{{form.userCode}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -141,19 +141,19 @@
 
         <el-table-column align="center" label="总任务完成数">
           <template slot-scope="scope">
-            <span>{{scope.row.companyCode}}</span>
+            <span>{{scope.row.totalTaskCnt}}</span>
           </template>
         </el-table-column>
 
         <el-table-column align="center" label="总有效通话时长">
           <template slot-scope="scope">
-            <span>{{scope.row.companyName}}</span>
+            <span>{{scope.row.totalEffectiveDuration}}</span>
           </template>
         </el-table-column>
 
         <el-table-column align="center" label="平均通话时长">
           <template slot-scope="scope">
-            <span>{{scope.row.companyCity}}</span>
+            <span>{{scope.row.avgDuration}}</span>
           </template>
         </el-table-column>
 
@@ -165,25 +165,25 @@
 
         <el-table-column align="center" label="今日任务数">
           <template slot-scope="scope">
-            <span>{{scope.row.companyCity}}</span>
+            <span>{{scope.row.dailyTaskCnt}}</span>
           </template>
         </el-table-column>
 
         <el-table-column align="center" label="今日完成数">
           <template slot-scope="scope">
-          <span>{{scope.row.industryType}}</span>
+          <span>{{scope.row.dailyTaskCompleteCnt}}</span>
           </template>
         </el-table-column>
 
         <el-table-column align="center" label="今日有效通话时长">
           <template slot-scope="scope">
-            <span>{{scope.row.orgSize}}</span>
+            <span>{{scope.row.dailyEffectiveDuration}}</span>
           </template>
         </el-table-column>
 
         <el-table-column align="center" label="今日团队排名">
           <template slot-scope="scope">
-            <span>{{scope.row.orgSize}}</span>
+            <span>{{scope.row.rank}}</span>
           </template>
         </el-table-column>
 
@@ -248,10 +248,12 @@ export default {
     getList () {
       getUserById(this.id).then(res => {
         this.form = res.data
-        // console.log(this.form)
+        console.log(this.form)
       })
       taskDoneRate(this.id).then(res => {
-        console.log(res.data)
+        // this.list = res.data
+        this.list = []
+        this.list.push(res.data)
       })
     },
     getQuery () {
