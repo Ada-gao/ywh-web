@@ -61,6 +61,7 @@
 <script>
 import UploadExcelComponent from '@/components/uploadExcel.vue'
 import { addNameExcel, getCompanies } from '@/api/api'
+import { replaceKey } from '@/common/js/util'
 
 export default {
   name: 'uploadExcel',
@@ -105,9 +106,19 @@ export default {
       // console.log(this.tableHeader)
       // console.log(this.tableData)
       // this.formData = data.formData
-      console.log(data)
     },
     submit () {
+      let keyMap = {
+        联系人姓名: 'contactName',
+        手机号: 'phoneNo',
+        年龄: 'age',
+        性别: 'gender',
+        所在地: 'residence',
+        名单来源: 'source'
+      }
+      this.tableData.forEach(item => {
+        replaceKey(item, keyMap)
+      })
       addNameExcel(this.form, this.tableData).then(res => {
         if (res.status === 200) {
           this.$notify({
