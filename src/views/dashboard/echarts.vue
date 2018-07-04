@@ -88,8 +88,8 @@ export default {
     ])
   },
   methods: {
-    getCount (params) {
-      getStatistic(params).then(res => {
+    getCount () {
+      getStatistic().then(res => {
         this.total.totalEffectiveDuration = res.data.totalEffectiveDuration || 0
         this.total.totalTaskCompleteCnt = res.data.totalTaskCompleteCnt || 0
         this.total.totalSalesCnt = res.data.totalSalesCnt || 0
@@ -98,11 +98,11 @@ export default {
     }
   },
   mounted: function () {
-    let params = {
-      companyId: this.sysUser.companyId
-    }
-    console.log(this.sysUser)
-    this.getCount(params)
+    // let params = {
+    //  companyId: this.sysUser.companyId
+    // }
+    // console.log(this.sysUser)
+    this.getCount()
   }
 }
 </script>
