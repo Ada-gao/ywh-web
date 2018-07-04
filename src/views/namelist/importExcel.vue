@@ -1,5 +1,15 @@
 <template>
   <div class="app-container">
+    <el-dialog
+      title="提示"
+      :visible.sync="dialogVisible"
+      width="30%">
+      <span>确定要导入这些数据吗？</span>
+      <span slot="footer" class="dialog-footer">
+    <el-button @click="dialogVisible = false">取 消</el-button>
+    <el-button type="primary" @click="submit">确 定</el-button>
+  </span>
+    </el-dialog>
     <div class="detail-title">
       <span class="list-tit">批量导入</span>
     </div>
@@ -44,12 +54,17 @@
           </el-col>
         </el-row>
       </el-form>
-      <div class="dialog-footer" style="text-align: center; margin-top: 20px">
-        <el-button class="add_btn" @click="submit">提 交</el-button>
-      </div>
+      <!--<div class="dialog-footer" style="text-align: center; margin-top: 20px">-->
+        <!--<el-button class="add_btn" @click="submit">提 交</el-button>-->
+      <!--</div>-->
     </div>
     <div class="detail-title">
-      <span class="list-tit">名单列表</span>
+      <span class="list-tit">销售列表</span>
+      <el-button :class="tableData.length > 0 ? 'add_btn' : 'insert_btn'" @click="showDialog">
+        <i class="fa fa-sign-out" style="margin-right: 10px"></i>确认导入
+      </el-button>
+
+      <span style="float:right;">共有<i style="color:#0299CC;font-style: normal;">{{tableData.length}}</i>条</span>
     </div>
     <el-table :data="tableData" border highlight-current-row style="width: 100%;margin-top:20px;">
       <el-table-column v-for='item of tableHeader' :prop="item" :label="item" :key='item'>
@@ -68,6 +83,7 @@ export default {
   components: { UploadExcelComponent },
   data () {
     return {
+      dialogVisible: false,
       tableData: [],
       tableHeader: [],
       formData: null,
@@ -107,7 +123,11 @@ export default {
       // console.log(this.tableData)
       // this.formData = data.formData
     },
+    showDialog () {
+      this.dialogVisible = true
+    },
     submit () {
+      this.dialogVisible = false
       let keyMap = {
         联系人姓名: 'contactName',
         手机号: 'phoneNo',
@@ -134,3 +154,19 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+  .app-container {
+    .insert_btn {
+      background: #EFF2F7;
+      color: #C0CCDA;
+      border: none;
+      padding: 12px;
+      cursor: not-allowed;
+    }
+    .add_btn {
+      padding: 12px;
+      border:none;
+    }
+  }
+</style>

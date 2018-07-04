@@ -171,4 +171,7 @@ textarea::-webkit-input-placeholder {
   .el-table__body tr.current-row>td {
     background: #f7f8fa;
   }
+  .el-pagination.is-background .el-pager li:not(.disabled).active {
+    background: $color-primary;
+  }
 }
