@@ -50,3 +50,14 @@ export function replaceKey (target, change) {
   }
   return target
 }
+/**
+ * 创建公司提交时，将所属行业大类由数字转为对应的文字
+ * @param id
+ * @param arr
+ */
+export function transferIndustry (id, arr) {
+  let idx = arr.findIndex((item, index) => {
+    return item.id === id
+  })
+  return arr[idx].name
+}

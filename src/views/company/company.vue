@@ -83,7 +83,7 @@
 
       <el-table-column align="center" label="公司行业" show-overflow-tooltip>
         <template slot-scope="scope">
-        <span>{{scope.row.industryType}}</span>
+        <span>{{scope.row.industry}}</span>
         </template>
       </el-table-column>
 
@@ -118,7 +118,7 @@
 import { getCompanyPage, getAuthDustries, getOrgSize } from '@/api/api'
 import { provinceAndCityData } from 'element-china-area-data' // 省市区数据
 import { mapGetters } from 'vuex'
-import { transformText } from '@/common/js/util'
+// import { transformText } from '@/common/js/util'
 
 export default {
   components: {},
@@ -157,7 +157,7 @@ export default {
         getOrgSize().then(res => {
           this.orgSize = res.data
           this.list.forEach(item => {
-            item.orgSize = transformText(this.orgSize, item.orgSize)
+            // item.orgSize = transformText(this.orgSize, item.orgSize)
           })
         })
       })

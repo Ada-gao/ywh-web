@@ -87,7 +87,7 @@
                   v-for="item in coInfo.orgSize"
                   :key="item.value"
                   :label="item.label"
-                  :value="item.value">
+                  :value="item.label">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -168,7 +168,7 @@
         <el-row :gutter="20">
           <el-col :span="11">
             <el-form-item label="公司ID:">
-              <span>{{form.companyCode}}</span>
+              <span>{{form.companyCode || companyCode}}</span>
             </el-form-item>
             <el-form-item label="公司名称:">
               <span>{{form.companyName}}</span>
@@ -268,7 +268,7 @@
 import VueCropper from 'vue-cropper'
 import { getToken } from '@/common/js/auth'
 import { getOrgSize, getAuthDustries, getAuthDustryByType, putCompanies, addCompanies, uploadLogo } from '@/api/api'
-import { transformText } from '@/common/js/util'
+import { transferIndustry } from '@/common/js/util'
 import { provinceAndCityData } from 'element-china-area-data' // 省市区数据
 
 export default {
@@ -296,6 +296,8 @@ export default {
       downImg: '#',
       dialogVisible: false,
       form: {},
+      companyCode: '',
+      companyId: null,
       headers: {
         Authorization: getToken()
       },
@@ -352,15 +354,9 @@ export default {
   created () {
     const obj = this.$route.query.item
     this.id = this.$route.params.id
-    // this.getOrgSize()
     if (obj) {
       this.form = obj
-      // getOrgSize().then(res => {
-      //  this.coInfo.orgSize = res.data
-      //  this.form.orgSize = transformText(this.coInfo.orgSize, this.form.orgSize)
-      // })
       this.updateStatus = 'view'
-      console.log(this.form)
     } else {
       this.getOrgSize()
       if (this.id === '0') {
@@ -405,14 +401,12 @@ export default {
     getOrgSize () {
       getOrgSize().then(res => {
         this.coInfo.orgSize = res.data
-        // this.form.orgSize = transformText(this.coInfo.orgSize, this.form.orgSize)
       })
       getAuthDustries().then(res => {
         this.coInfo.industry = res.data
       })
     },
     changeProvince (val) {
-      console.log(val)
       let idx = this.provinceData.findIndex((item, index) => {
         return item.label === val
       })
@@ -432,13 +426,14 @@ export default {
     },
     create (formName) {
       const set = this.$refs
-      console.log(this.form)
+      this.form.industry = transferIndustry(this.form.industry, this.coInfo.industry)
       set[formName].validate(valid => {
         if (valid) {
-          this.form.companyProvince = this.form.companyProvince.label
+          // this.form.companyProvince = this.form.companyProvince.label
           addCompanies(this.form)
             .then(res => {
-              // console.log(res.data)
+              this.companyCode = res.data.companyCode
+              this.companyId = res.data.id
               this.centerDialogVisible = true
             })
         } else {
@@ -448,10 +443,11 @@ export default {
     },
     update (formName) {
       const set = this.$refs
-      console.log(this.form)
+      let id = this.form.id || this.companyId
+      this.form.companyCode = this.form.companyCode || this.companyCode
       set[formName].validate(valid => {
         if (valid) {
-          putCompanies(this.form.id, this.form)
+          putCompanies(id, this.form)
             .then(() => {
               console.log(this.form)
               this.$notify({
@@ -484,7 +480,6 @@ export default {
     },
     beforeAvatarUpload (file) {
       this.option.img = window.URL.createObjectURL(file)
-      console.log(window.URL.createObjectURL(file))
       // console.log(file)
       this.dialogVisible = true
       return false
@@ -493,9 +488,8 @@ export default {
     dialogRouter (status) {
       if (status === 'view') {
         this.updateStatus = 'view'
-        this.form.orgSize = transformText(this.coInfo.orgSize, this.form.orgSize)
-        this.form.industry = transformText(this.coInfo.industry, this.form.industry)
-        console.log(this.form)
+        // this.form.orgSize = transformText(this.coInfo.orgSize, this.form.orgSize)
+        // this.form.industry = transformText(this.coInfo.industry, this.form.industry)
         this.centerDialogVisible = false
       } else {
         this.$router.push({path: '/company'})

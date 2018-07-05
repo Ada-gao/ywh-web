@@ -166,7 +166,6 @@ export default {
   },
   methods: {
     getList () {
-      console.log(this.listQuery)
       getLists(this.listQuery).then(response => {
         this.list = response.data.content
         this.list.forEach((ele, index) => {
