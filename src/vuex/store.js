@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import * as actions from './actions'
 // import * as getters from './getters'
 import getters from './getters'
+import routesMap from '../routes'
 
 Vue.use(Vuex)
 
@@ -10,7 +11,9 @@ Vue.use(Vuex)
 const state = {
   count: 10,
   sysUser: '',
-  adminStat: null
+  adminStat: null,
+  menuIds: null,
+  routers: routesMap
 }
 
 // 定义所需的 mutations
@@ -26,6 +29,12 @@ const mutations = {
   },
   SET_ADMIN_STAT: (state, payload) => {
     state.adminStat = payload
+  },
+  SET_MENU_ID: (state, menuIds) => {
+    state.menuIds = menuIds
+  },
+  SET_ROUTERS: (state, routers) => {
+    state.routers = routers
   }
 }
 

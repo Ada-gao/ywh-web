@@ -33,9 +33,12 @@ router.beforeEach((to, from, next) => {
     sessionStorage.removeItem('token')
   }
   let user = sessionStorage.getItem('token')
+  console.log(user)
   if (!user && to.path !== '/login') {
     next({ path: '/login' })
   } else {
+    console.log('shuaxin')
+    store.dispatch('GetUser', user)
     next()
   }
 })
