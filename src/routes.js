@@ -26,12 +26,14 @@ import fddetail from './views/feedback/detail.vue'
 
 let routes = [
   {
+    menuId: 1,
     path: '/login',
     component: Login,
     name: '',
     hidden: true
   },
   {
+    menuId: 2,
     path: '/404',
     component: NotFound,
     name: '',
@@ -39,24 +41,26 @@ let routes = [
   },
   // { path: '/main', component: Main },
   {
+    menuId: 3,
     path: '/',
     component: Home,
     name: '',
     iconCls: 'fa fa-home',
     leaf: true,
     children: [
-      {path: '/dashboard', component: dashboard, name: '首页-工作台'}
+      {menuId: 31, path: '/dashboard', component: dashboard, name: '首页-工作台'}
     ]
   },
   {
+    menuId: 4,
     path: '/',
     component: Home,
     name: '',
     iconCls: 'fa fa-sitemap',
     leaf: true,
     children: [
-      {path: '/company', component: company, name: '公司管理'},
-      {path: '/company/detail/:id', component: companyDetail, name: '新建公司'}
+      {menuId: 41, path: '/company', component: company, name: '公司管理'},
+      {menuId: 42, path: '/company/detail/:id', component: companyDetail, name: '新建公司'}
     ]
   },
   // {
@@ -70,81 +74,88 @@ let routes = [
   //   ]
   // },
   {
+    menuId: 5,
     path: '/',
     component: Home,
-    name: '',
+    name: 'sale',
     iconCls: 'fa fa-users',
     leaf: true, // 只有一个节点
     children: [
-      {path: '/salesman', component: salesman, name: '销售管理'},
-      {path: '/salesman/detail/:id', component: salesmanDetail, name: '新建销售'},
-      {path: '/salesman/excel', component: excel, name: '销售批量导入'}
+      {menuId: 51, path: '/salesman', component: salesman, name: '销售管理'},
+      {menuId: 52, path: '/salesman/detail/:id', component: salesmanDetail, name: '新建销售'},
+      {menuId: 53, path: '/salesman/excel', component: excel, name: '销售批量导入'}
     ]
   },
   {
+    menuId: 6,
     path: '/',
     component: Home,
-    name: '',
+    name: 'namelist',
     iconCls: 'fa fa-list-alt',
     leaf: true, // 只有一个节点
     children: [
-      {path: '/list', component: list, name: '名单管理'},
-      {path: '/list/excel', component: nameexcel, name: '名单批量导入'}
+      {menuId: 61, path: '/list', component: list, name: '名单管理'},
+      {menuId: 62, path: '/list/excel', component: nameexcel, name: '名单批量导入'}
     ]
   },
   {
+    menuId: 7,
     path: '/',
     component: Home,
-    name: '',
+    name: 'task',
     iconCls: 'fa fa-list-alt',
     leaf: true, // 只有一个节点
     children: [
-      {path: '/task', component: task, name: '任务管理'},
-      {path: 'task/newTask', component: newTask, name: '新建任务'},
-      {path: 'task/detail', component: tasklist, name: 'taskDetail'}
+      {menuId: 71, path: '/task', component: task, name: '任务管理'},
+      {menuId: 72, path: 'task/newTask', component: newTask, name: '新建任务'},
+      {menuId: 73, path: 'task/detail', component: tasklist, name: 'taskDetail'}
     ]
   },
   {
+    menuId: 8,
     path: '/',
     component: Home,
     name: 'trial',
     iconCls: 'fa fa-list-ul',
     leaf: true, // 只有一个节点
     children: [
-      {path: '/trial', component: trial, name: '试用申请'},
-      {path: '/trial/detail', component: trialdetail, name: 'trialDetail'}
+      {menuId: 81, path: '/trial', component: trial, name: '试用申请'},
+      {menuId: 82, path: '/trial/detail', component: trialdetail, name: 'trialDetail'}
     ]
   },
   {
+    menuId: 9,
     path: '/',
     component: Home,
     name: 'feedback',
     iconCls: 'fa fa-question-circle',
     leaf: true, // 只有一个节点
     children: [
-      {path: '/feedback', component: feedback, name: '问题反馈'},
-      {path: '/feedback/detail', component: fddetail, name: 'fdDetail'}
+      {menuId: 91, path: '/feedback', component: feedback, name: '问题反馈'},
+      {menuId: 92, path: '/feedback/detail', component: fddetail, name: 'fdDetail'}
     ]
   },
   {
+    menuId: 10,
     path: '/',
     component: Home,
     name: '参数管理',
     iconCls: 'fa fa-cog',
     children: [
-      {path: '/dict', component: dict, name: '数据字典', iconCls: 'fa fa-cog'},
-      {path: '/parameter', component: parameter, name: '参数设置', iconCls: 'fa fa-cog'}
+      {menuId: 101, path: '/dict', component: dict, name: '数据字典', iconCls: 'fa fa-cog'},
+      {menuId: 102, path: '/parameter', component: parameter, name: '参数设置', iconCls: 'fa fa-cog'}
     ]
   },
   {
+    menuId: 11,
     path: '/',
     component: Home,
     name: '报表统计',
     iconCls: 'fa fa-cog',
     children: [
-      {path: '/workload', component: workload, name: '工作量', iconCls: 'fa fa-wpforms'},
-      {path: '/reporttask', component: reporttask, name: '外呼任务', iconCls: 'fa fa-wpforms'},
-      {path: '/reportproduct', component: reportproduct, name: '产品外呼', iconCls: 'fa fa-wpforms'}
+      {menuId: 111, path: '/workload', component: workload, name: '工作量', iconCls: 'fa fa-wpforms'},
+      {menuId: 112, path: '/reporttask', component: reporttask, name: '外呼任务', iconCls: 'fa fa-wpforms'},
+      {menuId: 113, path: '/reportproduct', component: reportproduct, name: '产品外呼', iconCls: 'fa fa-wpforms'}
     ]
   },
   {
