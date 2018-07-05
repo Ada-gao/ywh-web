@@ -216,7 +216,7 @@ export default {
     },
     handleCompany (val) {
       if (val) {
-        getTeams(val).then(res => {
+        getTeams({companyId: val}).then(res => {
           this.teams = res.data
           this.listQuery.team = null
         })

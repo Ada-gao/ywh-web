@@ -254,7 +254,7 @@ export default {
     changeCompany (value) {
       this.taskGroup.team = ''
       this.taskGroup.outboundNameGroupId = null
-      getTeams(value).then(res => {
+      getTeams({companyId: value}).then(res => {
         this.teamList = res.data
       })
       getNames(value).then(res => {

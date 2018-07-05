@@ -276,6 +276,13 @@ export default {
     VueCropper
   },
   data () {
+    const validatePass = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error('不能为空'))
+      } else {
+        callback()
+      }
+    }
     return {
       crap: false,
       previews: {},
@@ -322,7 +329,7 @@ export default {
           {required: true, trigger: 'blur', message: '请输入公司名称'}
         ],
         companyProvince: [
-          {required: true, trigger: 'blur', message: '请选择公司所属地区'}
+          {required: true, trigger: 'blur', message: '请选择公司所属地区', validator: validatePass}
         ],
         companyAddress: [
           {required: true, trigger: 'blur', message: '请输入公司详细地址'}
@@ -340,7 +347,7 @@ export default {
           {required: true, trigger: 'blur', message: '请输入对应职务'}
         ],
         contactMobile: [
-          {required: true, trigger: 'blur', message: '请输入联系电话'}
+          {required: true, trigger: 'blur', message: '请输入联系电话', validator: validatePass}
         ],
         logo: [
           {required: false, trigger: 'blur', message: '请上传公司logo'}
@@ -404,6 +411,7 @@ export default {
       })
       getAuthDustries().then(res => {
         this.coInfo.industry = res.data
+        console.log(this.coInfo.industry)
       })
     },
     changeProvince (val) {
@@ -419,6 +427,7 @@ export default {
     changeIndustry (val) {
       getAuthDustryByType(val).then(res => {
         this.coInfo.industryType = res.data
+        console.log(this.coInfo.industryType)
       })
     },
     changeIndustryType (val) {
@@ -426,7 +435,10 @@ export default {
     },
     create (formName) {
       const set = this.$refs
-      this.form.industry = transferIndustry(this.form.industry, this.coInfo.industry)
+      if (this.form.industry) {
+        this.form.industry = transferIndustry(this.form.industry, this.coInfo.industry)
+      }
+      console.log(this.form)
       set[formName].validate(valid => {
         if (valid) {
           // this.form.companyProvince = this.form.companyProvince.label
