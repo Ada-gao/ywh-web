@@ -81,7 +81,7 @@ export default {
       formData: null,
       companies: [],
       form: {},
-      downloadUrl: '/static/excel/sale_module.xlsx',
+      downloadUrl: '/static/excel/销售人员导入模版.xlsx',
       rules: {
         companyId: [
           { required: true, message: '请选择所属公司', trigger: 'change' }

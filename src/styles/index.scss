@@ -189,3 +189,13 @@ textarea::-webkit-input-placeholder {
     }
   }
 }
+
+.el-form-item.is-success .el-input__inner,
+.el-form-item.is-success .el-textarea__inner {
+  border-color: #c8c8c8;
+}
+
+.el-form-item.is-success .el-input__inner:focus,
+.el-form-item.is-success .el-textarea__inner:focus {
+  border-color: $color-primary;
+}

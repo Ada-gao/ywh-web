@@ -91,7 +91,7 @@ export default {
         maskPhoneNo: true
       },
       companies: [],
-      downloadUrl: '/static/excel/call_module.xlsx',
+      downloadUrl: '/static/excel/外呼名单导入模版.xlsx',
       rules: {
         companyId: [
           { required: true, message: '请选择所属公司', trigger: 'change' }
