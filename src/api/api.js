@@ -15,7 +15,7 @@ export const requestLogin = params => axios.post('/auth/login', params)
 export const getUser = () => axios.get('/auth/user')
 // company
 export const getCompanies = () => axios.get('/companies')
-export const getTeams = id => axios.get('/companies/queryTeams/' + id)
+export const getTeams = params => axios.get('/companies/queryTeams', {params: params})
 export function uploadLogo (file) {
   return axios({
     url: '/file/upload',
@@ -46,7 +46,7 @@ export const addBatch = (companyId, params) => axios.post('/users/addBatch?compa
 export const addUser = params => axios.post('/users', params)
 export const userEnabled = (id, params) => axios.put('/users/enabled/' + id + '?enabled=' + params)
 // user/sale/销售详情页面的任务完成
-export const taskDoneRate = (id) => axios.get('/task/statisBySales?userId=' + id)
+export const taskDoneRate = (id) => axios.get('/task/statisTeamRankBySales?userId=' + id)
 // name
 export const getLists = params => axios.get('/outboundName/getPage', {params: params})
 export const addNameExcel = (query, params) => axios.post('/outboundName/addGroup?companyId=' + query.companyId + '&groupName=' + query.groupName + '&maskPhoneNo=' + query.maskPhoneNo, params)

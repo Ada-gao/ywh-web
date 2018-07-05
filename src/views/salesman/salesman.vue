@@ -99,7 +99,7 @@
       <el-table-column align="center" label="操作" fixed="right" width="150">
         <template slot-scope="scope">
           <a size="small" class="common_btn"
-            @click="handleUpdate(scope.row.id)">查看详情
+            @click="handleUpdate(scope.row)">查看详情
           </a>
         </template>
       </el-table-column>
@@ -119,7 +119,7 @@
 
 <script>
 import { getUsers, getCompanies, getOrgSize, getTeams } from '@/api/api'
-import { transformText } from '@/common/js/util'
+// import { transformText } from '@/common/js/util'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -163,7 +163,7 @@ export default {
         getOrgSize().then(res => {
           this.orgSize = res.data
           this.list.forEach(item => {
-            item.orgSize = transformText(this.orgSize, item.orgSize)
+            // item.orgSize = transformText(this.orgSize, item.orgSize)
           })
         })
       })
@@ -173,8 +173,8 @@ export default {
         this.companies = res.data
       })
     },
-    handleUpdate (id) {
-      this.$router.push({path: '/salesman/detail/' + id})
+    handleUpdate (item) {
+      this.$router.push({name: 'salesmanDetail', params: item})
     },
     handleSizeChange (val) {
       this.listQuery.pageSize = val
@@ -209,7 +209,7 @@ export default {
     },
     handleCreate (status) {
       if (status === 'add') {
-        this.$router.push({path: '/salesman/detail/0'})
+        this.$router.push({name: 'salesmanDetail', query: { id: '0' }})
       } else {
         this.$router.push({path: '/salesman/excel'})
       }

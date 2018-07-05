@@ -78,9 +78,9 @@
         </el-row>
       </el-form>
       <el-col :span="11" slot="footer" class="dialog-footer" style="text-align: center">
-        <el-button class="search_btn" @click="cancel('form')">取 消</el-button>
         <el-button v-show="updateStatus==='create'" class="add_btn" @click="create('form')">提 交</el-button>
         <el-button v-show="updateStatus==='update'" class="add_btn" @click="create('form')">提 交</el-button>
+        <el-button class="search_btn" @click="cancel('form')">取 消</el-button>
       </el-col>
     </div>
     <div class="read-detail" v-if="updateStatus==='view'">
@@ -93,7 +93,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="所属公司:" prop="name">
-              <span>{{form.companyName}}</span>
+              <span>{{companyName}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -122,12 +122,12 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="登陆账号:" prop="mobile">
+            <el-form-item label="登录账号:" prop="mobile">
               <span>{{form.username}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="登陆密码:" prop="resumeUrl">
+            <el-form-item label="登录密码:" prop="resumeUrl">
               <span>{{form.password}}</span>
             </el-form-item>
           </el-col>
@@ -159,7 +159,7 @@
 
         <el-table-column align="center" label="总完成率">
           <template slot-scope="scope">
-            <span>{{scope.row.companyCity}}</span>
+            <span>{{scope.row.completeRate}}</span>
           </template>
         </el-table-column>
 
@@ -203,6 +203,7 @@
 
 <script>
 import { getToken } from '@/common/js/auth'
+import {formatDateTime} from '@/common/js/util'
 import { getUserById, updSale, addUser, getCompanies, userEnabled, taskDoneRate } from '@/api/api'
 
 export default {
@@ -230,12 +231,14 @@ export default {
         limit: 20
       },
       companies: [],
+      companyName: '',
       value3: true
     }
   },
   created () {
     this.id = this.$route.params.id
-    if (this.id === '0') {
+    this.companyName = this.$route.params.companyName
+    if (this.$route.query.id === '0') {
       this.updateStatus = 'create'
     } else {
       this.updateStatus = 'view'
@@ -248,19 +251,30 @@ export default {
     getList () {
       getUserById(this.id).then(res => {
         this.form = res.data
-        this.form.createdDate = new Date(this.form.createdDate).toISOString()
-        console.log(this.form)
+        this.form.createdDate = formatDateTime(this.form.createdDate)
       })
       taskDoneRate(this.id).then(res => {
         // this.list = res.data
         this.list = []
         this.list.push(res.data)
+        if (this.list.length > 0) {
+          if (this.list[0].totalTaskCompleteCnt &&
+            this.list[0].totalTaskCompleteCnt > 0 &&
+            this.list[0].totalTaskCnt &&
+            this.list[0].totalTaskCnt > 0) {
+            this.list[0].completeRate = this.list[0].totalTaskCompleteCnt / this.list[0].totalTaskCnt
+          } else {
+            this.list[0].completeRate = 0
+          }
+        }
       })
     },
     getQuery () {
-      getCompanies().then(res => {
-        this.companies = res.data
-      })
+      if (this.updateStatus !== 'view') {
+        getCompanies().then(res => {
+          this.companies = res.data
+        })
+      }
     },
     create (formName) {
       const set = this.$refs

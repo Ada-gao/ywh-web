@@ -13,7 +13,8 @@ const state = {
   sysUser: '',
   adminStat: null,
   menuIds: null,
-  routers: routesMap
+  routers: routesMap,
+  userInfo: null
 }
 
 // 定义所需的 mutations
@@ -35,6 +36,9 @@ const mutations = {
   },
   SET_ROUTERS: (state, routers) => {
     state.routers = routers
+  },
+  SET_USERINFO: (state, payload) => {
+    state.userInfo = payload
   }
 }
 

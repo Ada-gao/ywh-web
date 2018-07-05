@@ -104,6 +104,7 @@ export default {
     selected (data) {
       this.tableHeader = data.header
       this.tableData = data.results
+      console.log(this.tableData)
       this.form.filename = data.filename
     },
     showDialog () {
@@ -121,8 +122,10 @@ export default {
       this.tableData.forEach(item => {
         replaceKey(item, keyMap)
       })
+      console.log(this.tableData)
       addBatch(this.form.companyId, this.tableData).then(res => {
         if (res.status === 200) {
+          console.log(res)
           this.$notify({
             title: '成功',
             message: '导入成功',

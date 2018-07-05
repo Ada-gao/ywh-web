@@ -17,14 +17,14 @@
         </el-col>
         <el-col :span="16" style="text-align: right;">
           <el-select v-model="listQuery.team"
-                     placeholder="销售部门"
+                     placeholder="销售团队"
                      clearable
                      @change="handleFilter1">
             <el-option
-              v-for="item in companies"
-              :key="item.companyName"
-              :label="item.companyName"
-              :value="item.companyName">
+              v-for="item in teams"
+              :key="item"
+              :label="item"
+              :value="item">
             </el-option>
           </el-select>
           <el-select v-model="listQuery.productName"
@@ -86,7 +86,7 @@
       </el-table-column>
 
       <el-table-column align="center"
-                       label="关联销售"
+                       label="关联团队"
                        show-overflow-tooltip>
         <template slot-scope="scope">
           <span>{{scope.row.team}}</span>
@@ -133,7 +133,7 @@
 
 <script>
 // import {getAdminTasks, getTasks, getCompanies, getProductList} from '@/api/api'
-import {getAdminTasks, getCompanies, getProductList} from '@/api/api'
+import {getAdminTasks, getTeams, getProductList} from '@/api/api'
 // import { transformText } from '@/common/js/util'
 import {mapGetters} from 'vuex'
 
@@ -152,19 +152,18 @@ export default {
       list: null,
       sys_user_add: true,
       value: '',
-      adminStat: null,
       orgSize: [],
-      companies: [],
+      teams: [],
       products: []
     }
   },
   computed: {
     ...mapGetters([
-      'sysUser'
+      'getUserInfo'
     ])
   },
   created () {
-    this.adminStat = this.$store.state.adminStat
+    console.log(this.getUserInfo)
     this.getList()
     this.getQuery()
   },
@@ -190,8 +189,11 @@ export default {
       // }
     },
     getQuery () {
-      getCompanies().then(res => {
-        this.companies = res.data
+      let params = {
+        companyId: this.getUserInfo.companyId
+      }
+      getTeams(params).then(res => {
+        this.teams = res.data
       })
       getProductList().then(res => {
         this.products = res.data

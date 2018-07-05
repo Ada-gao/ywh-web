@@ -37,7 +37,7 @@ service.interceptors.response.use(
       // 错误处理
 
     } else if (res.status === 401) {
-      message('登陆时间过期，请重新登陆', 'error')
+      message('登录时间过期，请重新登录', 'error')
     } else if (res.status === 403) {
       message('管理权限不足，请联系管理员')
     } else if (res.status === 500) {

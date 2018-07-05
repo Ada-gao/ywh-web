@@ -45,8 +45,9 @@ export const decrement = ({commit}) => {
 export const GetUser = ({commit}, token) => {
   console.log('token')
   if (token) {
-    console.log('token')
+    // console.log('token')
     getUser().then(res => {
+      const userInfo = res.data
       const userData = res.data.authorities
       let sysUser = ''
       let menuIds = []
@@ -60,7 +61,8 @@ export const GetUser = ({commit}, token) => {
         menuIds = [1, 2, 3, 4, 5, 6, 7, 31, 41, 42, 51, 52, 53, 61, 62, 71, 72, 73]
         accessedRouters = filterAsyncRouter(routesMap, menuIds)
       }
-      console.log(accessedRouters)
+      // console.log(accessedRouters)
+      commit('SET_USERINFO', userInfo)
       commit('SET_SYS_USER', sysUser)
       commit('SET_MENU_ID', menuIds)
       commit('SET_ROUTERS', accessedRouters)

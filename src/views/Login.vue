@@ -3,7 +3,7 @@
   <el-form :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left" label-width="0px"
            class="demo-loginForm login-container">
     <div class="title">
-      <span class="China-tit">用户登陆</span>
+      <span class="China-tit">用户登录</span>
       <span class="foreign-tit">User login</span>
     </div>
     <div class="sepa"></div>

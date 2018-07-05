@@ -57,7 +57,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="任务时间：" prop="resumeUrl">
-              <span>{{form.password}}</span>
+              <span>{{form.taskStartDate}} - {{form.taskEndDate}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -174,6 +174,7 @@
 import { getToken } from '@/common/js/auth'
 // import { addUser, getUserById, updUser } from '@/api/api'
 import {getTaskDetail} from '@/api/api'
+import {formatDateTime} from '@/common/js/util'
 export default {
   data () {
     return {
@@ -225,7 +226,9 @@ export default {
     getList () {
       getTaskDetail(this.listQuery.taskGroupId, this.listQuery).then(res => {
         this.form = res.data.taskGroup
-        this.form.nextAction = this.changeActionText(this.form.nextAction)
+        this.form.nextAction = this.changeActionText(this.form.nextActionRule)
+        this.form.taskStartDate = formatDateTime(this.form.taskStartDate)
+        this.form.taskEndDate = formatDateTime(this.form.taskEndDate)
         this.list = res.data.nameList.content
         this.list.forEach((ele, index) => {
           ele.gender = ele.gender === 'GENTLEMAN' ? '男' : '女'

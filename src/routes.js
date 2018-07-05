@@ -82,7 +82,7 @@ let routes = [
     leaf: true, // 只有一个节点
     children: [
       {menuId: 51, path: '/salesman', component: salesman, name: '销售管理'},
-      {menuId: 52, path: '/salesman/detail/:id', component: salesmanDetail, name: '新建销售'},
+      {menuId: 52, path: '/salesman/detail', component: salesmanDetail, name: 'salesmanDetail'},
       {menuId: 53, path: '/salesman/excel', component: excel, name: '销售批量导入'}
     ]
   },
