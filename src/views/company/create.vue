@@ -257,7 +257,7 @@
 
       <div class="footer-btn">
         <div class="upload-btn">
-          <button  @click="down('blob')">确定</button>
+          <button  @click="down('blob')" class="el-button add_btn el-button--default">确 定</button>
         </div>
       </div>
     </el-dialog>

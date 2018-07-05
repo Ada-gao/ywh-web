@@ -138,8 +138,8 @@
         </el-row>
         <el-row :gutter="20" class="define-rule-box">
           <el-col :span="7">
-            <el-form-item label="下一步行动规则" prop="nextAction">
-              <el-select v-model="taskGroup.nextAction" placeholder="下一步行动规则">
+            <el-form-item label="下一步行动规则" prop="nextActionRule">
+              <el-select v-model="taskGroup.nextActionRule" placeholder="下一步行动规则">
                 <el-option
                   v-for="item in nextActionList"
                   :key="item.value"
@@ -222,7 +222,7 @@ export default {
         effectiveTasks: [
           {required: true, message: '请输入有效任务数', trigger: 'change'}
         ],
-        nextAction: [
+        nextActionRule: [
           {required: true, message: '请选择下一步行动规则', trigger: 'change'}
         ],
         interv: [
