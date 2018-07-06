@@ -297,9 +297,9 @@ export default {
         this.form.createdDate = new Date(this.form.createdDate).toLocaleDateString()
       })
       taskDoneRate(this.id).then(res => {
-        // this.list = res.data
-        this.list = []
-        this.list.push(res.data)
+        this.list = res.data
+        // this.list = []
+        // this.list.push(res.data)
         if (this.list.length > 0) {
           if (this.list[0].totalTaskCompleteCnt &&
             this.list[0].totalTaskCompleteCnt > 0 &&
