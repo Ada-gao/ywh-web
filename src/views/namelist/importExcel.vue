@@ -58,7 +58,7 @@
         <!--<el-button class="add_btn" @click="submit">提 交</el-button>-->
       <!--</div>-->
     </div>
-    <div class="detail-title">
+    <div class="detail-title" style="margin-top: 30px">
       <span class="list-tit">销售列表</span>
       <el-button :class="tableData.length > 0 ? 'add_btn' : 'insert_btn'" @click="showDialog">
         <i class="fa fa-sign-out" style="margin-right: 10px"></i>确认导入
@@ -66,7 +66,7 @@
 
       <span style="float:right;">共有<i style="color:#0299CC;font-style: normal;">{{tableData.length}}</i>条</span>
     </div>
-    <el-table :data="tableData" border highlight-current-row style="width: 100%;margin-top:20px;">
+    <el-table :data="tableData" border highlight-current-row style="width: 100%;margin-top:10px;">
       <el-table-column v-for='item of tableHeader' :prop="item" :label="item" :key='item'>
       </el-table-column>
     </el-table>

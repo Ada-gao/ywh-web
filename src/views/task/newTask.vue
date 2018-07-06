@@ -7,7 +7,7 @@
     <div class="update-detail">
       <el-form :model="taskGroup" ref="taskGroup" label-width="100px" :rules="rules">
         <el-row :gutter="20">
-          <el-col :span="13">
+          <el-col :span="17">
             <el-form-item label="所属公司" prop="companyId" required>
               <!--<el-input v-model="form.name" placeholder="选择/输入公司名称"></el-input>-->
               <el-select v-model="taskGroup.companyId"
@@ -25,7 +25,7 @@
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="13">
+          <el-col :span="17">
             <el-form-item label="关联名单" prop="outboundNameGroupId" required>
               <!--<el-input v-model="form.empNo" placeholder="选择/输入关联名单"></el-input>-->
               <el-select v-model="taskGroup.outboundNameGroupId" placeholder="选择/输入关联名单" filterable>
@@ -40,21 +40,21 @@
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="13">
+          <el-col :span="17">
             <el-form-item label="任务名称" prop="taskName" required>
               <el-input v-model="taskGroup.taskName" placeholder="输入任务名称"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="13">
+          <el-col :span="17">
             <el-form-item label="推广产品">
               <el-input v-model="taskGroup.productName" placeholder="输入产品名称"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="13">
+          <el-col :span="17">
             <el-form-item label="关联团队" prop="team" required>
               <!--<el-input v-model="form.associateteam" placeholder="选择/输入关联团队"></el-input>-->
               <el-select v-model="taskGroup.team" placeholder="选择/输入关联团队" filterable>
@@ -69,7 +69,7 @@
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="13">
+          <el-col :span="17">
             <el-form-item label="分配规则" prop="assignRule" required>
               <el-radio-group v-model="taskGroup.assignRule">
                 <el-radio label="随机平均分配"></el-radio>
@@ -79,14 +79,14 @@
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="13">
+          <el-col :span="17">
             <el-form-item label="任务目标" prop="taskTarget" required>
               <el-input v-model="taskGroup.taskTarget" placeholder="输入任务目标"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="13">
+          <el-col :span="17">
             <el-form-item label="外呼话术" prop="salesTalk" required>
               <!--<el-input type="textarea" v-model="taskGroup.salesTalk" placeholder="输入外呼话术"></el-input>-->
               <quill-editor v-model="taskGroup.salesTalk"
@@ -99,7 +99,7 @@
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="6" class="noml">
+          <el-col :span="9" class="noml">
             <el-form-item prop="taskStartDate" label="任务时间" required>
               <el-date-picker type="datetime"
                               placeholder="选择日期"
@@ -111,7 +111,7 @@
             <!--</el-form-item>-->
           </el-col>
           <el-col class="line" style="width: 10px">-</el-col>
-          <el-col :span="6" class="noml1">
+          <el-col :span="9" class="noml1">
             <el-form-item prop="taskEndDate">
               <el-date-picker type="datetime"
                               placeholder="选择日期"
@@ -125,19 +125,19 @@
           </el-col>
         </el-row>
         <el-row :gutter="20" class="define-rule-box">
-          <el-col :span="7">
+          <el-col :span="8">
             <el-form-item label="有效通话时长" prop="minimumDuration">
               <el-input placeholder="有效通话时长" v-model="taskGroup.minimumDuration"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="7">
+          <el-col :span="8">
             <el-form-item label="有效任务数（通）：通/人" prop="effectiveTasks">
               <el-input placeholder="有效任务数" v-model="taskGroup.effectiveTasks"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20" class="define-rule-box">
-          <el-col :span="7">
+          <el-col :span="8">
             <el-form-item label="下一步行动规则" prop="nextActionRule">
               <el-select v-model="taskGroup.nextActionRule" placeholder="下一步行动规则">
                 <el-option
@@ -149,7 +149,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="7">
+          <el-col :span="8">
             <el-form-item label="外呼频率（间隔）天" prop="interv">
               <el-input placeholder="外呼频率间隔" v-model="taskGroup.interv"></el-input>
             </el-form-item>
@@ -160,7 +160,7 @@
           <!--<el-button class="add_btn" @click="create('taskGroup')">提交</el-button>-->
         <!--</el-form-item>-->
       </el-form>
-      <el-col :span="11" slot="footer" class="dialog-footer" style="text-align: center">
+      <el-col :span="17" slot="footer" class="dialog-footer" style="text-align: center">
         <el-button class="add_btn" @click="create('taskGroup')">提 交</el-button>
         <el-button class="search_btn" @click="cancel('taskGroup')">取 消</el-button>
       </el-col>
@@ -317,8 +317,8 @@ export default {
     display: block;
   }
   .detail-title {
-    margin-top: 30px;
-    margin-bottom: 20px;
+    /*margin-top: 30px;*/
+    /*margin-bottom: 20px;*/
     .upd_btn {
       float: right;
     }

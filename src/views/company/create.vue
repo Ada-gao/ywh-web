@@ -5,21 +5,23 @@
       <el-button class="upd_btn"
                  v-show="updateStatus==='view'"
                  @click="modifyStat">
-        <i class="fa fa-edit"></i>修改
+        <i class="fa fa-edit"
+           style="font-size: 22px;margin-right: 5px;vertical-align: middle;"></i>
+        <i style="font-style: normal;">修改</i>
       </el-button>
     </div>
     <div class="margin-line"></div>
     <div class="update-detail" v-if="updateStatus==='create'||updateStatus==='update'">
       <el-form :model="form" :rules="rules" ref="form" label-width="100px">
         <el-row :gutter="20">
-          <el-col :span="11">
+          <el-col :span="17">
             <el-form-item label="公司名称" prop="companyName">
               <el-input v-model="form.companyName" placeholder="请输入公司名称"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="11">
+          <el-col :span="17">
             <el-form-item label="所在地" prop="companyProvince">
               <el-select v-model="form.companyProvince"
                          placeholder="请选择省份"
@@ -47,14 +49,14 @@
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="11">
+          <el-col :span="17">
             <el-form-item label="公司地址" prop="companyAddress">
               <el-input v-model="form.companyAddress" placeholder="请输入公司地址"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="11">
+          <el-col :span="17">
             <el-form-item label="所属行业" prop="industry">
               <el-select v-model="form.industry"
                          placeholder="请选择行业大类"
@@ -80,7 +82,7 @@
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="11">
+          <el-col :span="17">
             <el-form-item label="公司规模" prop="orgSize">
               <el-select v-model="form.orgSize" placeholder="请选择规模" style="width: 100%" @change="changeOrgSize">
                 <el-option
@@ -94,28 +96,28 @@
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="11">
+          <el-col :span="17">
             <el-form-item label="联系人" prop="contact">
-              <el-input v-model="form.contact" :maxlength="11" placeholder="请输入联系人姓名"></el-input>
+              <el-input v-model="form.contact" :maxlength="17" placeholder="请输入联系人姓名"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="11">
+          <el-col :span="17">
             <el-form-item label="职务" prop="occupation">
-              <el-input v-model="form.occupation" :maxlength="11" placeholder="请输入联系人职务"></el-input>
+              <el-input v-model="form.occupation" :maxlength="17" placeholder="请输入联系人职务"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="11">
+          <el-col :span="17">
             <el-form-item label="联系手机" prop="contactMobile">
-              <el-input v-model="form.contactMobile" :maxlength="11" placeholder="请输入手机号码"></el-input>
+              <el-input v-model="form.contactMobile" :maxlength="17" placeholder="请输入手机号码"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="11">
+          <el-col :span="17">
             <el-form-item label="公司LOGO" prop="logo">
               <img :src.sync="form.logo"
                    alt=""
@@ -139,14 +141,14 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="11">
+          <el-col :span="17">
             <el-form-item label="备注" prop="remark">
               <el-input type="textarea" v-model="form.remark"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
       </el-form>
-      <el-col :span="11" slot="footer" class="dialog-footer" style="text-align: center">
+      <el-col :span="17" slot="footer" class="dialog-footer" style="text-align: center">
         <el-button class="add_btn" v-show="updateStatus==='create'" @click="create('form')">提 交</el-button>
         <el-button class="add_btn" v-show="updateStatus==='update'" @click="update('form')">提 交</el-button>
         <el-button class="search_btn" @click="cancel('form')">取 消</el-button>

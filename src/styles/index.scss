@@ -25,7 +25,7 @@ a:hover {
 }
 .margin-line {
   border-bottom: 1px solid #efefef;
-  margin: 20px 0;
+  margin: 10px 0 20px;
 }
 // .tit-text::before {
 //   content: '';
@@ -63,7 +63,7 @@ textarea::-webkit-input-placeholder {
 }
 .detail-title {
   // margin-top: 30px;
-  margin-bottom: 20px;
+  //margin-bottom: 20px;
   height: 40px;
   line-height: 40px;
   // position: relative;
@@ -186,6 +186,19 @@ textarea::-webkit-input-placeholder {
     .el-form-item__label,
     .el-form-item__content {
       line-height: 14px;
+    }
+  }
+  .read-detail,
+  .task-detail {
+    .el-form-item__label {
+      font-weight: normal;
+      color: #252525;
+    }
+    .el-form-item__content {
+      span {
+        font-weight: 500;
+        color: #000;
+      }
     }
   }
 }

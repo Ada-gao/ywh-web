@@ -103,7 +103,7 @@ let routes = [
     path: '/',
     component: Home,
     name: 'task',
-    iconCls: 'fa fa-list-alt',
+    iconCls: 'fa fa-phone',
     leaf: true, // 只有一个节点
     children: [
       {menuId: 71, path: '/task', component: task, name: '任务管理'},

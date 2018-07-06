@@ -1,8 +1,10 @@
 <template>
   <section>
     <div class="filter-container">
-      <div class="list-tit">任务查询</div>
-      <el-row>
+      <div class="detail-title">
+        <span class="list-tit">任务查询</span>
+      </div>
+      <el-row style="margin-top: 10px">
         <el-col :span="8">
           <el-input @keyup.enter.native="handleFilter"
                     style="width: 200px;"

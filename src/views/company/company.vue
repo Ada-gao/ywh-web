@@ -4,7 +4,7 @@
       <div class="detail-title">
         <span class="list-tit">公司查询</span>
       </div>
-      <el-row>
+      <el-row style="margin-top: 10px">
         <el-col :span="8">
           <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="输入公司名称关键词"
                 v-model="listQuery.companyName">

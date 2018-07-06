@@ -5,7 +5,7 @@
     </div>
     <div class="margin-line"></div>
     <div class="task-detail">
-      <el-form :model="form" class="form-border">
+      <el-form :model="form" class="form-border" style="margin-bottom: 20px">
         <el-row :gutter="20">
           <!--<el-col :span="8">-->
             <!--<el-form-item label="所属公司：" prop="name">-->
@@ -251,8 +251,8 @@ export default {
 
 <style lang="scss" scoped>
   .detail-title {
-    margin-top: 30px;
-    margin-bottom: 20px;
+    /*margin-top: 30px;*/
+    /*margin-bottom: 20px;*/
     .upd_btn {
       float: right;
     }
@@ -266,7 +266,7 @@ export default {
   .task-detail {
     .el-form-item__content {}
   }
-  .blue-color {
+  .container .task-detail .el-form-item__content span.blue-color {
     font-size: 14px;
     color: #0299CC;
     cursor: pointer;

@@ -81,3 +81,9 @@ export function formatDateTime (inputTime) {
   second = second < 10 ? ('0' + second) : second
   return y + '-' + m + '-' + d + ' ' + h + ':' + minute + ':' + second
 }
+export function transferCompById (id, arr) {
+  let idx = arr.findIndex((item, index) => {
+    return item.id === id
+  })
+  return arr[idx].companyName
+}

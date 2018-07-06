@@ -11,16 +11,18 @@
       </el-switch>
       <el-button class="upd_btn"
                  v-show="updateStatus==='view'"
-                 @click="updateStatus='update'">
-        <i class="fa fa-edit"></i>修改
+                 @click="updateStat">
+        <i class="fa fa-edit"
+           style="font-size: 22px;margin-right: 5px;vertical-align: middle;"></i>
+        <i style="font-style: normal;">修改</i>
       </el-button>
     </div>
     <div class="margin-line"></div>
     <div class="update-detail" v-if="updateStatus==='create'||updateStatus==='update'">
-      <el-form :model="form" ref="form" label-width="100px">
+      <el-form :model="form" :rules="rules" ref="form" label-width="100px">
         <el-row :gutter="20">
-          <el-col :span="11">
-            <el-form-item label="所属公司" prop="name">
+          <el-col :span="17">
+            <el-form-item label="所属公司" prop="companyId">
               <el-select v-model="form.companyId"
                 placeholder="请选择公司"
                 style="width: 100%">
@@ -35,56 +37,56 @@
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="11">
-            <el-form-item label="所属团队" prop="username">
+          <el-col :span="17">
+            <el-form-item label="所属团队" prop="team">
               <el-input v-model="form.team" placeholder="请输入所属团队"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="11">
-            <el-form-item label="销售名称" prop="empNo">
+          <el-col :span="17">
+            <el-form-item label="销售名称" prop="name">
               <el-input v-model="form.name" placeholder="请输入销售名称"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="11">
-            <el-form-item label="对应职级" prop="employeeDate">
+          <el-col :span="17">
+            <el-form-item label="对应职级" prop="level">
               <el-input v-model="form.level" placeholder="请输入对应职级"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20" v-if="updateStatus==='create'">
-          <el-col :span="11">
-            <el-form-item label="登录账号" prop="employeeDate">
+          <el-col :span="17">
+            <el-form-item label="登录账号" prop="username">
               <el-input v-model="form.username" placeholder="请输入登录账号"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20" v-if="updateStatus==='create'">
-          <el-col :span="11">
-            <el-form-item label="登录密码" prop="employeeDate">
+          <el-col :span="17">
+            <el-form-item label="登录密码" prop="password">
               <el-input v-model="form.password" placeholder="请输入登录密码"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="11">
-            <el-form-item label="联系手机" prop="education">
-              <el-input v-model="form.mobile" :maxlength="11" placeholder="请输入联系手机"></el-input>
+          <el-col :span="17">
+            <el-form-item label="联系手机" prop="mobile">
+              <el-input v-model="form.mobile" :maxlength="17" placeholder="请输入联系手机"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
       </el-form>
-      <el-col :span="11" slot="footer" class="dialog-footer" style="text-align: center">
+      <el-col :span="17" slot="footer" class="dialog-footer" style="text-align: center">
         <el-button v-show="updateStatus==='create'" class="add_btn" @click="create('form')">提 交</el-button>
         <el-button v-show="updateStatus==='update'" class="add_btn" @click="create('form')">提 交</el-button>
         <el-button class="search_btn" @click="cancel('form')">取 消</el-button>
       </el-col>
     </div>
     <div class="read-detail" v-if="updateStatus==='view'">
-      <el-form :model="form" class="form-border">
+      <el-form :model="form" class="form-border" style="margin-bottom: 20px">
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item label="销售ID:" prop="name">
@@ -128,7 +130,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="登录密码:" prop="resumeUrl">
-              <span>{{form.password}}</span>
+              <span style="display: inline-block;width:100px;overflow: hidden;text-overflow: ellipsis;">{{form.password}}</span>
             </el-form-item>
           </el-col>
         </el-row>
@@ -203,12 +205,42 @@
 
 <script>
 import { getToken } from '@/common/js/auth'
-import {formatDateTime} from '@/common/js/util'
+import {formatDateTime, transferCompById} from '@/common/js/util'
 import { getUserById, updSale, addUser, getCompanies, userEnabled, taskDoneRate } from '@/api/api'
 
 export default {
   data () {
+    const validatePass = (rule, value, callback) => {
+      if (!value || value.length < 6) {
+        callback(new Error('密码不能少于6位'))
+      } else {
+        callback()
+      }
+    }
     return {
+      rules: {
+        companyId: [
+          {required: true, trigger: 'blur', message: '请选择公司'}
+        ],
+        team: [
+          {required: true, trigger: 'blur', message: '请输入所属团队'}
+        ],
+        name: [
+          {required: true, trigger: 'blur', message: '请输入销售名称'}
+        ],
+        level: [
+          {required: true, trigger: 'blur', message: '请输入对应职级'}
+        ],
+        username: [
+          {required: true, trigger: 'blur', message: '请输入登录账号'}
+        ],
+        password: [
+          {required: true, trigger: 'blur', message: '请输入登录密码', validator: validatePass}
+        ],
+        mobile: [
+          {required: true, trigger: 'blur', message: '请输入正确的联系手机号'}
+        ]
+      },
       form: {},
       headers: {
         Authorization: getToken()
@@ -276,16 +308,17 @@ export default {
         })
       }
     },
+    updateStat () {
+      this.updateStatus = 'update'
+      this.getQuery()
+    },
     create (formName) {
       const set = this.$refs
       set[formName].validate(valid => {
         if (valid) {
           if (this.updateStatus === 'create') {
-            // console.log(this.form)
             addUser(this.form)
               .then((res) => {
-                // this.form = res.data
-                // this.updateStatus = 'view'
                 this.$notify({
                   title: '成功',
                   message: '创建成功',
@@ -297,6 +330,7 @@ export default {
           } else {
             updSale(this.form.id, this.form).then(res => {
               this.updateStatus = 'view'
+              this.companyName = transferCompById(this.form.companyId, this.companies)
             })
           }
         } else {
@@ -312,8 +346,8 @@ export default {
       })
     },
     cancel (formName) {
-      // this.$router.push({path: '/salesman'})
-      this.updateStatus = 'view'
+      this.$router.push({path: '/salesman'})
+      // this.updateStatus = 'view'
     },
     handleChange (value) {
       // console.log(value)
@@ -335,7 +369,7 @@ export default {
 
 <style lang="scss" scoped>
 .detail-title {
-  margin-bottom: 20px;
+  /*margin-bottom: 20px;*/
   .upd_btn {
     float: right;
     border: none;

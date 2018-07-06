@@ -166,7 +166,7 @@ export default {
     background: rgba(0, 0, 0, .25);
     border-radius: 2px;
     position: absolute;
-    right: 200px;
+    right: 14%;
     .title {
       font-size: 0;
       span {

@@ -52,7 +52,9 @@
               <span>{{list.status}}</span>
               <el-button class="upd_btn"
                          @click="isDialogShow = true">
-                <i class="fa fa-edit"></i>修改
+                <i class="fa fa-edit"
+                   style="font-size: 22px;margin-left: 5px;vertical-align: middle;"></i>
+                <i style="font-style: normal;">修改</i>
               </el-button>
             </el-form-item>
           </el-col>
@@ -114,10 +116,14 @@ export default {
 
 <style lang="scss" scoped>
   .upd_btn {
+    padding: 0;
     border: none;
     color: #0299CC;
     &:hover {
       background: #fff;
     }
+  }
+  .container .read-detail .el-form-item__content .upd_btn span {
+    color: #0299CC;
   }
 </style>

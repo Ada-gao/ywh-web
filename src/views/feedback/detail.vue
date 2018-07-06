@@ -85,10 +85,16 @@ export default {
       display: inline-block;
       text-align: right;
       width: 82px;
+      color: #252525;
     }
   }
   .fd-item {
     margin: 20px 0;
+    i {
+      color: #000;
+      font-weight: 500;
+      font-style: normal;
+    }
   }
   .img-ul {
     vertical-align: text-top;
@@ -101,6 +107,9 @@ export default {
       border: 0 solid #D2D2D2;
       width: 100px;
       height: 175px;
+      -webkit-box-shadow: 0 1px 4px 1px rgba(7, 17, 27, 0.1);
+      -moz-box-shadow: 0 1px 4px 1px rgba(7, 17, 27, 0.1);
+      box-shadow: 0 1px 4px 1px rgba(7, 17, 27, 0.1);
       .mask {
         position: absolute;
         cursor: pointer;

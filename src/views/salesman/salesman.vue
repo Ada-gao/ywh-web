@@ -4,7 +4,7 @@
       <div class="detail-title">
         <span class="list-tit">销售查询</span>
       </div>
-      <el-row>
+      <el-row style="margin-top: 10px">
         <el-col :span="8">
           <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="输入销售姓名"
                 v-model="listQuery.name">
@@ -66,7 +66,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="所属部门">
+      <el-table-column align="center" label="所属团队">
         <template slot-scope="scope">
           <span>{{scope.row.team}}</span>
         </template>

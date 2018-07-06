@@ -1,8 +1,10 @@
 <template>
   <section>
     <div class="filter-container">
-      <div class="list-tit">任务查询</div>
-      <el-row>
+      <div class="detail-title">
+        <span class="list-tit">反馈查询</span>
+      </div>
+      <el-row style="margin-top: 10px">
         <el-col :span="8">
           <el-input @keyup.enter.native="handleFilter"
                     style="width: 200px;"
@@ -18,7 +20,7 @@
       </el-row>
     </div>
     <div class="detail-title">
-      <span class="list-tit">任务列表</span>
+      <span class="list-tit">反馈列表</span>
     </div>
     <el-table :key='tableKey'
               :data="list"
@@ -81,6 +83,7 @@
 
 <script>
 import {getFeedback} from '@/api/api'
+import {formatDateTime} from '@/common/js/util'
 import {mapGetters} from 'vuex'
 
 export default {
@@ -117,6 +120,9 @@ export default {
     getList () {
       getFeedback(this.listQuery).then(response => {
         this.list = response.data.content
+        this.list.forEach((item, index) => {
+          item.createTime = formatDateTime(item.createTime)
+        })
         this.total = response.data.totalElements
         this.listLoading = false
       })
