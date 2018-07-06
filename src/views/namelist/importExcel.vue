@@ -60,7 +60,7 @@
     </div>
     <div class="detail-title" style="margin-top: 30px">
       <span class="list-tit">销售列表</span>
-      <el-button :class="tableData.length > 0 ? 'add_btn' : 'insert_btn'" @click="showDialog">
+      <el-button :class="form.maskPhoneNo && form.companyId && tableData.length > 0 ? 'add_btn' : 'insert_btn'" @click="showDialog">
         <i class="fa fa-sign-out" style="margin-right: 10px"></i>确认导入
       </el-button>
 
@@ -94,13 +94,13 @@ export default {
       downloadUrl: '/static/excel/外呼名单导入模版.xlsx',
       rules: {
         companyId: [
-          { required: true, message: '请选择所属公司', trigger: 'change' }
+          { required: true, message: '请选择所属公司', trigger: 'blur' }
         ],
         groupName: [
-          { required: true, message: '请输入名单名称', trigger: 'change' }
+          { required: true, message: '请输入名单名称', trigger: 'blur' }
         ],
         filename: [
-          { required: true, message: '请选择上传文件', trigger: 'change' }
+          { required: true, message: '请选择上传文件', trigger: 'blur' }
         ]
       },
       filename: ''
@@ -124,6 +124,7 @@ export default {
       // this.formData = data.formData
     },
     showDialog () {
+      console.log(11111)
       if (this.form.maskPhoneNo &&
           this.form.companyId &&
           this.tableData.length > 0) {

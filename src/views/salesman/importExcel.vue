@@ -52,7 +52,7 @@
     </div>
     <div class="detail-title" style="margin-top:30px">
       <span class="list-tit">销售列表</span>
-      <el-button :class="tableData.length > 0 ? 'add_btn' : 'insert_btn'" @click="showDialog">
+      <el-button :class="tableData.length > 0 && form.companyId ? 'add_btn' : 'insert_btn'" @click="showDialog">
         <i class="fa fa-sign-out" style="margin-right: 10px"></i>确认导入
       </el-button>
 
