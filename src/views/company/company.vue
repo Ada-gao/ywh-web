@@ -42,7 +42,7 @@
               v-for="item in orgSize"
               :key="item.value"
               :label="item.label"
-              :value="item.value">
+              :value="item.label">
             </el-option>
           </el-select>
         </el-col>

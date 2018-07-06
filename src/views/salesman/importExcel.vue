@@ -84,10 +84,10 @@ export default {
       downloadUrl: '/static/excel/销售人员导入模版.xlsx',
       rules: {
         companyId: [
-          { required: true, message: '请选择所属公司', trigger: 'change' }
+          { required: true, message: '请选择所属公司', trigger: 'blur' }
         ],
         filename: [
-          { required: true, message: '请选择上传文件', trigger: 'change' }
+          { required: true, message: '请选择上传文件', trigger: 'blur' }
         ]
       }
     }
@@ -108,7 +108,9 @@ export default {
       this.form.filename = data.filename
     },
     showDialog () {
-      this.dialogVisible = true
+      if (this.form.companyId && this.tableData.length > 0) {
+        this.dialogVisible = true
+      }
     },
     submit () {
       this.dialogVisible = false

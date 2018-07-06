@@ -83,7 +83,6 @@
 
 <script>
 import {getFeedback} from '@/api/api'
-import {formatDateTime} from '@/common/js/util'
 import {mapGetters} from 'vuex'
 
 export default {
@@ -121,7 +120,7 @@ export default {
       getFeedback(this.listQuery).then(response => {
         this.list = response.data.content
         this.list.forEach((item, index) => {
-          item.createTime = formatDateTime(item.createTime)
+          item.createTime = new Date(item.createTime).toLocaleDateString()
         })
         this.total = response.data.totalElements
         this.listLoading = false

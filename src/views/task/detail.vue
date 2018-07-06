@@ -66,7 +66,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="有效任务数（通）：通/人：" prop="mobile">
+            <el-form-item label="有效任务数（通）：通/人/天：" prop="mobile">
               <span>{{form.effectiveTasks}}</span>
             </el-form-item>
           </el-col>
@@ -152,7 +152,7 @@
         </el-table-column>
         <el-table-column align="center" label="下一步行动计划">
           <template slot-scope="scope">
-            <span>{{scope.row.nextAction}}</span>
+            <span>{{form.nextAction}}</span>
           </template>
         </el-table-column>
 
@@ -174,7 +174,6 @@
 import { getToken } from '@/common/js/auth'
 // import { addUser, getUserById, updUser } from '@/api/api'
 import {getTaskDetail} from '@/api/api'
-import {formatDateTime} from '@/common/js/util'
 export default {
   data () {
     return {
@@ -227,8 +226,8 @@ export default {
       getTaskDetail(this.listQuery.taskGroupId, this.listQuery).then(res => {
         this.form = res.data.taskGroup
         this.form.nextAction = this.changeActionText(this.form.nextActionRule)
-        this.form.taskStartDate = formatDateTime(this.form.taskStartDate)
-        this.form.taskEndDate = formatDateTime(this.form.taskEndDate)
+        this.form.taskStartDate = new Date(this.form.taskStartDate).toLocaleDateString()
+        this.form.taskEndDate = new Date(this.form.taskEndDate).toLocaleDateString()
         this.list = res.data.nameList.content
         this.list.forEach((ele, index) => {
           ele.gender = ele.gender === 'GENTLEMAN' ? '男' : '女'

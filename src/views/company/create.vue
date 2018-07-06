@@ -98,14 +98,14 @@
         <el-row :gutter="20">
           <el-col :span="17">
             <el-form-item label="联系人" prop="contact">
-              <el-input v-model="form.contact" :maxlength="17" placeholder="请输入联系人姓名"></el-input>
+              <el-input v-model="form.contact" placeholder="请输入联系人姓名"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="17">
             <el-form-item label="职务" prop="occupation">
-              <el-input v-model="form.occupation" :maxlength="17" placeholder="请输入联系人职务"></el-input>
+              <el-input v-model="form.occupation" placeholder="请输入联系人职务"></el-input>
             </el-form-item>
           </el-col>
         </el-row>

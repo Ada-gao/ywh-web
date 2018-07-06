@@ -11,6 +11,10 @@
   }
 }
 .newtask {
+  .el-date-editor.el-input,
+  .el-date-editor.el-input__inner {
+    width: 100%;
+  }
   .noml,
   .noml1 {
     .el-input__icon {
@@ -24,13 +28,21 @@
     }
   }
   .line {
-    margin-left: 15px;
+    //margin-left: 15px;
+    margin-left: -15px;
     padding-top: 7px;
+  }
+  .noml {
+    //margin-left: 75px;
+    .el-form-item__content {
+      width: calc(100%);
+    }
   }
   .noml1 {
     //margin-left: 75px;
     .el-form-item__content {
       margin-left: 0 !important;
+      width: calc(100% - 100px);
     }
   }
   .last-item {
@@ -49,10 +61,10 @@
   .define-rule-box {
     margin-left: -50px!important;
     .el-form-item__label {
-      width: 170px!important;
+      width: 190px!important;
     }
     .el-form-item__content {
-      margin-left: 170px!important;
+      margin-left: 190px!important;
     }
   }
   .el-form-item.is-success .el-input__inner,

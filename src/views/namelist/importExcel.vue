@@ -124,7 +124,11 @@ export default {
       // this.formData = data.formData
     },
     showDialog () {
-      this.dialogVisible = true
+      if (this.form.maskPhoneNo &&
+          this.form.companyId &&
+          this.tableData.length > 0) {
+        this.dialogVisible = true
+      }
     },
     submit () {
       this.dialogVisible = false

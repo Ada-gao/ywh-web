@@ -74,7 +74,9 @@
         <el-row :gutter="20">
           <el-col :span="17">
             <el-form-item label="联系手机" prop="mobile">
-              <el-input v-model="form.mobile" :maxlength="17" placeholder="请输入联系手机"></el-input>
+              <el-input v-model="form.mobile"
+                        type="number"
+                        :maxlength="11" placeholder="请输入联系手机"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -205,7 +207,7 @@
 
 <script>
 import { getToken } from '@/common/js/auth'
-import {formatDateTime, transferCompById} from '@/common/js/util'
+import {transferCompById} from '@/common/js/util'
 import { getUserById, updSale, addUser, getCompanies, userEnabled, taskDoneRate } from '@/api/api'
 
 export default {
@@ -213,6 +215,15 @@ export default {
     const validatePass = (rule, value, callback) => {
       if (!value || value.length < 6) {
         callback(new Error('密码不能少于6位'))
+      } else {
+        callback()
+      }
+    }
+    const validatePass1 = (rule, value, callback) => {
+      let reg = /^((1[3-8][0-9])+\d{8})$/
+      let flag = reg.test(value)
+      if (!value || !flag) {
+        callback(new Error('请输入正确的手机号'))
       } else {
         callback()
       }
@@ -238,7 +249,7 @@ export default {
           {required: true, trigger: 'blur', message: '请输入登录密码', validator: validatePass}
         ],
         mobile: [
-          {required: true, trigger: 'blur', message: '请输入正确的联系手机号'}
+          {required: true, trigger: 'blur', message: '请输入正确的联系手机号', validator: validatePass1}
         ]
       },
       form: {},
@@ -283,7 +294,7 @@ export default {
     getList () {
       getUserById(this.id).then(res => {
         this.form = res.data
-        this.form.createdDate = formatDateTime(this.form.createdDate)
+        this.form.createdDate = new Date(this.form.createdDate).toLocaleDateString()
       })
       taskDoneRate(this.id).then(res => {
         // this.list = res.data
