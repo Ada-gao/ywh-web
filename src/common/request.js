@@ -38,6 +38,10 @@ service.interceptors.response.use(
 
     } else if (res.status === 401) {
       message('登录时间过期，请重新登录', 'error')
+      router.replace({
+        path: '/login',
+        query: {redirect: router.fullPath}
+      })
     } else if (res.status === 403) {
       message('管理权限不足，请联系管理员')
     } else if (res.status === 500) {
