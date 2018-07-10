@@ -69,6 +69,7 @@
 <script>
 import { getStatistic } from '@/api/api'
 import {mapGetters} from 'vuex'
+import moment from 'moment/moment.js'
 
 export default {
   data () {
@@ -90,7 +91,7 @@ export default {
   methods: {
     getCount () {
       getStatistic().then(res => {
-        this.total.totalEffectiveDuration = res.data.totalEffectiveDuration || 0
+        this.total.totalEffectiveDuration = moment(res.data.totalEffectiveDuration || 0).format('mm')
         this.total.totalTaskCompleteCnt = res.data.totalTaskCompleteCnt || 0
         this.total.totalSalesCnt = res.data.totalSalesCnt || 0
         this.total.totalTaskCnt = res.data.totalTaskCnt || 0

@@ -145,49 +145,49 @@
 
         <el-table-column align="center" label="总任务完成数">
           <template slot-scope="scope">
-            <span>{{scope.row.totalTaskCompleteCnt || 0}}</span>
+            <span>{{scope.totalTaskCompleteCnt || 0}}</span>
           </template>
         </el-table-column>
 
         <el-table-column align="center" label="总有效通话时长">
           <template slot-scope="scope">
-            <span>{{scope.row.totalEffectiveDuration || 0}}</span>
+            <span>{{scope.totalEffectiveDuration || 0}}</span>
           </template>
         </el-table-column>
 
         <el-table-column align="center" label="平均通话时长">
           <template slot-scope="scope">
-            <span>{{scope.row.avgDuration || 0}}</span>
+            <span>{{scope.avgDuration || 0}}</span>
           </template>
         </el-table-column>
 
         <el-table-column align="center" label="总完成率">
           <template slot-scope="scope">
-            <span>{{scope.row.completeRate}}</span>
+            <span>{{scope.completeRate}}</span>
           </template>
         </el-table-column>
 
         <el-table-column align="center" label="今日任务数">
           <template slot-scope="scope">
-            <span>{{scope.row.dailyTaskCnt || 0}}</span>
+            <span>{{scope.dailyTaskCnt || 0}}</span>
           </template>
         </el-table-column>
 
         <el-table-column align="center" label="今日完成数">
           <template slot-scope="scope">
-          <span>{{scope.row.dailyTaskCompleteCnt || 0}}</span>
+          <span>{{scope.dailyTaskCompleteCnt || 0}}</span>
           </template>
         </el-table-column>
 
         <el-table-column align="center" label="今日有效通话时长">
           <template slot-scope="scope">
-            <span>{{scope.row.dailyEffectiveDuration || 0}}</span>
+            <span>{{scope.dailyEffectiveDuration || 0}}</span>
           </template>
         </el-table-column>
 
         <el-table-column align="center" label="今日团队排名">
           <template slot-scope="scope">
-            <span>{{scope.row.rank || 0}}</span>
+            <span>{{scope.rank || 0}}</span>
           </template>
         </el-table-column>
 
@@ -298,6 +298,7 @@ export default {
       })
       taskDoneRate(this.id).then(res => {
         this.list = res.data
+        // console.log(this.list)
         // this.list = []
         // this.list.push(res.data)
         if (this.list.length > 0) {

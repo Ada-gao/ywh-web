@@ -112,7 +112,7 @@
         <el-row :gutter="20">
           <el-col :span="17">
             <el-form-item label="联系手机" prop="contactMobile">
-              <el-input v-model="form.contactMobile" :maxlength="17" placeholder="请输入手机号码"></el-input>
+              <el-input v-model="form.contactMobile" :maxlength="11" placeholder="请输入手机号码"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
