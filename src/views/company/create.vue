@@ -75,7 +75,7 @@
                   v-for="item in coInfo.industry"
                   :key="item.id"
                   :label="item.name"
-                  :value="item.name">
+                  :value="item.id">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -270,7 +270,7 @@
 import VueCropper from 'vue-cropper'
 import { getToken } from '@/common/js/auth'
 import { getOrgSize, getAuthDustries, getAuthDustryByType, putCompanies, addCompanies, uploadLogo } from '@/api/api'
-import { transferIndustry } from '@/common/js/util'
+import { transferIndustry, retransfer } from '@/common/js/util'
 import { provinceAndCityData } from 'element-china-area-data' // 省市区数据
 
 export default {
@@ -423,6 +423,16 @@ export default {
       getAuthDustries().then(res => {
         this.coInfo.industryType = res.data
         console.log(this.coInfo.industryType)
+        if (this.updateStatus === 'update') {
+          let transferId = retransfer(this.form.industryType, this.coInfo.industryType)
+          getAuthDustryByType(transferId).then(res => {
+            this.coInfo.industry = res.data
+          })
+          let idx = this.provinceData.findIndex((item, index) => {
+            return item.label === this.form.companyProvince
+          })
+          this.cityData = this.provinceData[idx].children
+        }
       })
     },
     changeProvince (val) {
@@ -436,12 +446,14 @@ export default {
       this.cityData = this.cityData.slice(0)
     },
     changeIndustry (val) {
+      this.form.industry = ''
       getAuthDustryByType(val).then(res => {
         this.coInfo.industry = res.data
-        console.log(this.coInfo.industry)
       })
     },
     changeIndustryType (val) {
+      this.coInfo.industry = this.coInfo.industry.slice(0)
+      this.form.industry = transferIndustry(val, this.coInfo.industry)
       // this.coInfo.industryType = this.coInfo.industryType.slice(0)
     },
     create (formName) {
@@ -449,7 +461,6 @@ export default {
       if (this.form.industryType) {
         this.form.industryType = transferIndustry(this.form.industryType, this.coInfo.industryType)
       }
-      console.log(this.form)
       set[formName].validate(valid => {
         if (valid) {
           // this.form.companyProvince = this.form.companyProvince.label
@@ -468,7 +479,7 @@ export default {
       const set = this.$refs
       let id = this.form.id || this.companyId
       this.form.companyCode = this.form.companyCode || this.companyCode
-      if (this.form.industryType) {
+      if (window.Boolean(this.form.industryType - 0)) {
         this.form.industryType = transferIndustry(this.form.industryType, this.coInfo.industryType)
       }
       set[formName].validate(valid => {

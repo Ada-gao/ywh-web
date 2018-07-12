@@ -61,6 +61,12 @@ export function transferIndustry (id, arr) {
   })
   return arr[idx].name
 }
+export function retransfer (name, arr) {
+  let idx = arr.findIndex((item, index) => {
+    return item.name === name
+  })
+  return arr[idx].id
+}
 /**
  * 将时间戳转为年月日时分秒
  * @param inputTime
