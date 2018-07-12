@@ -422,7 +422,6 @@ export default {
       })
       getAuthDustries().then(res => {
         this.coInfo.industryType = res.data
-        console.log(this.coInfo.industryType)
       })
     },
     changeProvince (val) {
@@ -438,7 +437,7 @@ export default {
     changeIndustry (val) {
       getAuthDustryByType(val).then(res => {
         this.coInfo.industry = res.data
-        console.log(this.coInfo.industry)
+        // console.log(this.coInfo.industry)
       })
     },
     changeIndustryType (val) {

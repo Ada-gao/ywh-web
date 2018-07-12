@@ -47,6 +47,7 @@ let routes = [
     name: '',
     iconCls: 'fa fa-home',
     leaf: true,
+    redirect: '/dashboard',
     children: [
       {menuId: 31, path: '/dashboard', component: dashboard, name: '首页-工作台'}
     ]
