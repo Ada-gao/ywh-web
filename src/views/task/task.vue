@@ -35,9 +35,9 @@
                      @change="handleFilter1">
             <el-option
               v-for="item in products"
-              :key="item.companyId"
-              :label="item.productName"
-              :value="item.companyId">
+              :key="item"
+              :label="item"
+              :value="item">
             </el-option>
           </el-select>
         </el-col>
@@ -135,7 +135,7 @@
 
 <script>
 // import {getAdminTasks, getTasks, getCompanies, getProductList} from '@/api/api'
-import {getAdminTasks, getTeams, getProductList} from '@/api/api'
+import {getAdminTasks, getTeams, getProductList, getTeam} from '@/api/api'
 // import { transformText } from '@/common/js/util'
 import {mapGetters} from 'vuex'
 
@@ -231,6 +231,10 @@ export default {
         delete this.listQuery.productName
       }
       this.getList()
+      getTeam(this.listQuery.team).then((res) => {
+        this.products = res.data
+        console.log(res)
+      })
     },
     handleCreate () {
       this.$router.push({path: '/task/newTask'})

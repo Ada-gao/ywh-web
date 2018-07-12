@@ -12,6 +12,7 @@ import routes from './routes'
 // import Mock from './mock'
 import 'font-awesome/css/font-awesome.min.css'
 import timestamp from './common/js/util'
+import { getToken } from '@/common/js/auth'
 
 // Mock.bootstrap()
 
@@ -29,18 +30,36 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   NProgress.start()
-  if (to.path === '/login') {
-    sessionStorage.removeItem('token')
-  }
-  let user = sessionStorage.getItem('token')
-  console.log(user)
-  if (!user && to.path !== '/login') {
-    next({ path: '/login' })
+  if (getToken()) {
+    if (to.path === '/login') {
+      next({ path: '/' })
+      NProgress.done()
+    } else {
+      if (store.getters.sysUser === '') {
+        store.dispatch('GetUser', getToken()).then(res => {
+          // 每次请求的回调
+        })
+      }
+      next()
+    }
   } else {
-    console.log('shuaxin')
-    store.dispatch('GetUser', user)
-    next()
+    if (to.path === '/login') { // 去往登陆页
+      next()
+    } else {
+      next('/login')
+    }
   }
+  // if (to.path === '/login') {
+  //   sessionStorage.removeItem('token')
+  // }
+  // let user = sessionStorage.getItem('token')
+  // // console.log(user)
+  // if (!user && to.path !== '/login') {
+  //   next({ path: '/login' })
+  // } else {
+  //   store.dispatch('GetUser', user)
+  //   next()
+  // }
 })
 
 router.afterEach(transition => {

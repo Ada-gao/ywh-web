@@ -83,7 +83,7 @@
 
       <el-table-column align="center" label="公司行业" show-overflow-tooltip>
         <template slot-scope="scope">
-        <span>{{scope.row.industry}}</span>
+        <span>{{scope.row.industryType}}</span>
         </template>
       </el-table-column>
 

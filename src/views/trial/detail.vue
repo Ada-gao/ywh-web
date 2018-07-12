@@ -39,12 +39,12 @@
           </el-col>
           <el-col :span="11">
             <el-form-item label="所属行业:">
-              <span>{{list.industry}}</span>
+              <span>{{list.industryType}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="11">
             <el-form-item label="公司规模:">
-              <span>{{list.orgZize}}</span>
+              <span>{{list.orgSize}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="11">

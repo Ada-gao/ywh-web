@@ -77,3 +77,4 @@ export function getTrailDet (id, params) {
 // feedback
 export const getFeedback = params => axios.get('/feedback/getPage', {params: params})
 export const getFdDetail = id => axios.get('/feedback/getImg/' + id)
+export const getTeam = team => axios.get('/task/getProductByTeam?team=' + team)

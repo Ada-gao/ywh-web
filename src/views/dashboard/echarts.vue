@@ -9,8 +9,8 @@
                                 <i class="fa fa-volume-control-phone"></i>
                             </div>
                             <div class="col-xs-8">
-                              <div class="stat-tit">外呼任务/个</div>
-                              <span class="huge">{{total.totalTaskCnt}}</span>
+                              <div class="stat-tit">外呼任务</div>
+                              <span class="huge">{{total.totalTaskCnt}}<small style="font-size: 60%">个</small></span>
                             </div>
                         </div>
                     </div>
@@ -24,8 +24,8 @@
                                 <i class="fa fa-user"></i>
                             </div>
                             <div class="col-xs-8">
-                              <div class="stat-tit">销售人数/人</div>
-                              <span class="huge">{{total.totalSalesCnt}}</span>
+                              <div class="stat-tit">销售人数</div>
+                              <span class="huge">{{total.totalSalesCnt}}<small style="font-size: 60%">人</small></span>
                             </div>
                         </div>
                     </div>
@@ -39,8 +39,8 @@
                                 <i class="fa fa-calendar-check-o"></i>
                             </div>
                             <div class="col-xs-8">
-                              <div class="stat-tit">任务完成数/个</div>
-                              <span class="huge">{{total.totalTaskCompleteCnt}}</span>
+                              <div class="stat-tit">任务完成数</div>
+                              <span class="huge">{{total.totalTaskCompleteCnt}}<small style="font-size: 60%">个</small></span>
                             </div>
                         </div>
                     </div>
@@ -54,7 +54,7 @@
                                 <i class="fa fa-clock-o"></i>
                             </div>
                             <div class="col-xs-8">
-                              <div class="stat-tit">有效通话时长/分钟</div>
+                              <div class="stat-tit">有效通话时长</div>
                               <span class="huge">{{total.totalEffectiveDuration}}</span>
                             </div>
                         </div>
@@ -69,7 +69,6 @@
 <script>
 import { getStatistic } from '@/api/api'
 import {mapGetters} from 'vuex'
-import moment from 'moment/moment.js'
 
 export default {
   data () {
@@ -91,7 +90,22 @@ export default {
   methods: {
     getCount () {
       getStatistic().then(res => {
-        this.total.totalEffectiveDuration = moment(res.data.totalEffectiveDuration || 0).format('mm')
+        // this.total.totalEffectiveDuration = res.data.totalEffectiveDuration || 0
+        if (res.data.totalEffectiveDuration === null) {
+          this.total.totalEffectiveDuration = '0'
+        } else {
+          let theTime = parseInt(res.data.totalEffectiveDuration)
+          let theTime1 = 0
+          if (theTime > 60) {
+            theTime1 = parseInt(theTime / 60)
+            theTime = parseInt(theTime % 60)
+          }
+          var result = parseInt(theTime) + '秒'
+          if (theTime1 > 0) {
+            result = parseInt(theTime1) + '分' + result
+          }
+          this.total.totalEffectiveDuration = result
+        }
         this.total.totalTaskCompleteCnt = res.data.totalTaskCompleteCnt || 0
         this.total.totalSalesCnt = res.data.totalSalesCnt || 0
         this.total.totalTaskCnt = res.data.totalTaskCnt || 0

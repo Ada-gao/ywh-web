@@ -149,7 +149,7 @@
 <script>
 import {getTrial, getOrgSize, getTrailDet} from '@/api/api'
 import {mapGetters} from 'vuex'
-import { transformText } from '@/common/js/util'
+// import { transformText } from '@/common/js/util'
 
 export default {
   components: {},
@@ -199,8 +199,9 @@ export default {
   },
   methods: {
     getList () {
-      getTrial(this.listQuery).then(response => {
+      getTrial(this.listQuery).then((response) => {
         this.list = response.data.content
+        console.log(this.list.content)
         this.converStatus(this.list)
         this.total = response.data.totalElements
         this.listLoading = false
@@ -208,7 +209,7 @@ export default {
           this.orgSize = res.data
           this.list.forEach(item => {
             item.createTime = new Date(item.createTime).toLocaleString()
-            item.orgSize = transformText(this.orgSize, item.orgSize)
+            // item.orgSize = transformText(this.orgSize, item.orgSize)
           })
         })
       })
