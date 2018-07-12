@@ -156,7 +156,9 @@
         </el-table-column>
         <el-table-column align="center" label="下一步行动计划">
           <template slot-scope="scope">
-            <span>{{form.nextAction}}</span>
+            <span v-if="scope.row.status === 'CALL_AGAIN'">再次外呼</span>
+            <span v-if="scope.row.status === 'GIVE_UP'">放弃外呼</span>
+            <span v-if="scope.row.status === 'FOLLOW'">继续跟进</span>
           </template>
         </el-table-column>
 

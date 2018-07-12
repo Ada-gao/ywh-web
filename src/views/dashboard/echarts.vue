@@ -9,8 +9,8 @@
                                 <i class="fa fa-volume-control-phone"></i>
                             </div>
                             <div class="col-xs-8">
-                              <div class="stat-tit">外呼任务/个</div>
-                              <span class="huge">{{total.totalTaskCnt}}</span>
+                              <div class="stat-tit">外呼任务</div>
+                              <span class="huge">{{total.totalTaskCnt}}<small style="font-size: 60%">个</small></span>
                             </div>
                         </div>
                     </div>
@@ -24,8 +24,8 @@
                                 <i class="fa fa-user"></i>
                             </div>
                             <div class="col-xs-8">
-                              <div class="stat-tit">销售人数/人</div>
-                              <span class="huge">{{total.totalSalesCnt}}</span>
+                              <div class="stat-tit">销售人数</div>
+                              <span class="huge">{{total.totalSalesCnt}}<small style="font-size: 60%">人</small></span>
                             </div>
                         </div>
                     </div>
@@ -39,8 +39,8 @@
                                 <i class="fa fa-calendar-check-o"></i>
                             </div>
                             <div class="col-xs-8">
-                              <div class="stat-tit">任务完成数/个</div>
-                              <span class="huge">{{total.totalTaskCompleteCnt}}</span>
+                              <div class="stat-tit">任务完成数</div>
+                              <span class="huge">{{total.totalTaskCompleteCnt}}<small style="font-size: 60%">个</small></span>
                             </div>
                         </div>
                     </div>
@@ -54,7 +54,7 @@
                                 <i class="fa fa-clock-o"></i>
                             </div>
                             <div class="col-xs-8">
-                              <div class="stat-tit">有效通话时长/分钟</div>
+                              <div class="stat-tit">有效通话时长</div>
                               <span class="huge">{{total.totalEffectiveDuration}}</span>
                             </div>
                         </div>
