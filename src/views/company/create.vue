@@ -58,21 +58,21 @@
         <el-row :gutter="20">
           <el-col :span="17">
             <el-form-item label="所属行业" prop="industry">
-              <el-select v-model="form.industry"
+              <el-select v-model="form.industryType"
                          placeholder="请选择行业大类"
                          @change="changeIndustry" style="width: 47%;margin-right: 20px;">
                 <el-option
-                  v-for="item in coInfo.industry"
+                  v-for="item in coInfo.industryType"
                   :key="item.id"
                   :label="item.name"
                   :value="item.id">
                 </el-option>
               </el-select>
-              <el-select v-model="form.industryType"
+              <el-select v-model="form.industry"
                          placeholder="请选择行业小类"
                          @change="changeIndustryType" style="width: 47%; float: right;">
                 <el-option
-                  v-for="item in coInfo.industryType"
+                  v-for="item in coInfo.industry"
                   :key="item.id"
                   :label="item.name"
                   :value="item.name">
@@ -188,7 +188,7 @@
           </el-col>
           <el-col :span="11">
             <el-form-item label="所属行业:">
-              <span>{{form.industry}}</span>
+              <span>{{form.industryType}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="11">
@@ -285,6 +285,15 @@ export default {
         callback()
       }
     }
+    const validatePass1 = (rule, value, callback) => {
+      let reg = /^((1[3-8][0-9])+\d{8})$/
+      let flag = reg.test(value)
+      if (!value || !flag) {
+        callback(new Error('请输入正确的手机号'))
+      } else {
+        callback()
+      }
+    }
     return {
       crap: false,
       previews: {},
@@ -323,7 +332,7 @@ export default {
         industry: [],
         industryType: []
       },
-      industry: [],
+      industryType: [],
       provinceData: provinceAndCityData,
       cityData: [],
       rules: {
@@ -336,7 +345,7 @@ export default {
         companyAddress: [
           {required: true, trigger: 'blur', message: '请输入公司详细地址'}
         ],
-        industry: [
+        industryType: [
           {required: true, trigger: 'blur', message: '请选择公司行业'}
         ],
         orgSize: [
@@ -349,7 +358,7 @@ export default {
           {required: true, trigger: 'blur', message: '请输入对应职务'}
         ],
         contactMobile: [
-          {required: true, trigger: 'blur', message: '请输入联系电话', validator: validatePass}
+          {required: true, trigger: 'blur', message: '请输入正确的手机号码', validator: validatePass1}
         ],
         logo: [
           {required: false, trigger: 'blur', message: '请上传公司logo'}
@@ -412,8 +421,8 @@ export default {
         this.coInfo.orgSize = res.data
       })
       getAuthDustries().then(res => {
-        this.coInfo.industry = res.data
-        console.log(this.coInfo.industry)
+        this.coInfo.industryType = res.data
+        console.log(this.coInfo.industryType)
       })
     },
     changeProvince (val) {
@@ -428,8 +437,8 @@ export default {
     },
     changeIndustry (val) {
       getAuthDustryByType(val).then(res => {
-        this.coInfo.industryType = res.data
-        console.log(this.coInfo.industryType)
+        this.coInfo.industry = res.data
+        console.log(this.coInfo.industry)
       })
     },
     changeIndustryType (val) {
@@ -437,8 +446,8 @@ export default {
     },
     create (formName) {
       const set = this.$refs
-      if (this.form.industry) {
-        this.form.industry = transferIndustry(this.form.industry, this.coInfo.industry)
+      if (this.form.industryType) {
+        this.form.industryType = transferIndustry(this.form.industryType, this.coInfo.industryType)
       }
       console.log(this.form)
       set[formName].validate(valid => {
@@ -459,6 +468,9 @@ export default {
       const set = this.$refs
       let id = this.form.id || this.companyId
       this.form.companyCode = this.form.companyCode || this.companyCode
+      if (this.form.industryType) {
+        this.form.industryType = transferIndustry(this.form.industryType, this.coInfo.industryType)
+      }
       set[formName].validate(valid => {
         if (valid) {
           putCompanies(id, this.form)

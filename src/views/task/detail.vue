@@ -142,7 +142,11 @@
         </el-table-column>
         <el-table-column align="center" label="外呼结果">
           <template slot-scope="scope">
-            <span>{{scope.row.lastCallResult}}</span>
+            <span v-if="scope.row.lastCallResult === 'FOLLOW'">进一步跟进</span>
+            <span v-if="scope.row.lastCallResult === 'REFUSE'">无意向拒绝</span>
+            <span v-if="scope.row.lastCallResult === 'NO_ANSWER'">无人接听</span>
+            <span v-if="scope.row.lastCallResult === 'NOT_CALL'">未外呼</span>
+            <span v-if="scope.row.lastCallResult === 'BUSYING'">占线</span>
           </template>
         </el-table-column>
         <el-table-column align="center" label="有效通话时长">
@@ -229,6 +233,7 @@ export default {
         this.form.taskStartDate = new Date(this.form.taskStartDate).toLocaleDateString()
         this.form.taskEndDate = new Date(this.form.taskEndDate).toLocaleDateString()
         this.list = res.data.nameList.content
+        // this.list.lastCallDate = moment(res.data.nameList.content.lastCallDate).format('mm:ss')
         this.list.forEach((ele, index) => {
           ele.gender = ele.gender === 'GENTLEMAN' ? '男' : '女'
         })

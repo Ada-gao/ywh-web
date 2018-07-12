@@ -75,7 +75,6 @@
           <el-col :span="17">
             <el-form-item label="联系手机" prop="mobile">
               <el-input v-model="form.mobile"
-                        type="number"
                         :maxlength="11" placeholder="请输入联系手机"></el-input>
             </el-form-item>
           </el-col>
@@ -145,49 +144,49 @@
 
         <el-table-column align="center" label="总任务完成数">
           <template slot-scope="scope">
-            <span>{{scope.totalTaskCompleteCnt || 0}}</span>
+            <span>{{scope.row.totalTaskCompleteCnt || 0}}</span>
           </template>
         </el-table-column>
 
         <el-table-column align="center" label="总有效通话时长">
           <template slot-scope="scope">
-            <span>{{scope.totalEffectiveDuration || 0}}</span>
+            <span>{{scope.row.totalEffectiveDuration || 0}}</span>
           </template>
         </el-table-column>
 
         <el-table-column align="center" label="平均通话时长">
           <template slot-scope="scope">
-            <span>{{scope.avgDuration || 0}}</span>
+            <span>{{scope.row.avgDuration || 0}}</span>
           </template>
         </el-table-column>
 
         <el-table-column align="center" label="总完成率">
           <template slot-scope="scope">
-            <span>{{scope.completeRate}}</span>
+            <span>{{scope.row.completeRate}}</span>
           </template>
         </el-table-column>
 
         <el-table-column align="center" label="今日任务数">
           <template slot-scope="scope">
-            <span>{{scope.dailyTaskCnt || 0}}</span>
+            <span>{{scope.row.dailyTaskCnt || 0}}</span>
           </template>
         </el-table-column>
 
         <el-table-column align="center" label="今日完成数">
           <template slot-scope="scope">
-          <span>{{scope.dailyTaskCompleteCnt || 0}}</span>
+          <span>{{scope.row.dailyTaskCompleteCnt || 0}}</span>
           </template>
         </el-table-column>
 
         <el-table-column align="center" label="今日有效通话时长">
           <template slot-scope="scope">
-            <span>{{scope.dailyEffectiveDuration || 0}}</span>
+            <span>{{scope.row.dailyEffectiveDuration || 0}}</span>
           </template>
         </el-table-column>
 
         <el-table-column align="center" label="今日团队排名">
           <template slot-scope="scope">
-            <span>{{scope.rank || 0}}</span>
+            <span>{{scope.row.rank || 0}}</span>
           </template>
         </el-table-column>
 
@@ -297,8 +296,8 @@ export default {
         this.form.createdDate = new Date(this.form.createdDate).toLocaleDateString()
       })
       taskDoneRate(this.id).then(res => {
-        this.list = res.data
-        // console.log(this.list)
+        this.list.push(res.data)
+        console.log(this.list)
         // this.list = []
         // this.list.push(res.data)
         if (this.list.length > 0) {
@@ -306,7 +305,7 @@ export default {
             this.list[0].totalTaskCompleteCnt > 0 &&
             this.list[0].totalTaskCnt &&
             this.list[0].totalTaskCnt > 0) {
-            this.list[0].completeRate = this.list[0].totalTaskCompleteCnt / this.list[0].totalTaskCnt
+            this.list[0].completeRate = parseInt(this.list[0].totalTaskCompleteCnt / this.list[0].totalTaskCnt * 100) + '%'
           } else {
             this.list[0].completeRate = 0
           }
