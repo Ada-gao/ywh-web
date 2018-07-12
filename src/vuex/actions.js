@@ -43,7 +43,6 @@ export const decrement = ({commit}) => {
   commit('DECREMENT')
 }
 export const GetUser = ({commit}, token) => {
-  console.log('token')
   if (token) {
     // console.log('token')
     getUser().then(res => {

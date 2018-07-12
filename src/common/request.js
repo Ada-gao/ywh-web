@@ -2,7 +2,7 @@ import axios from 'axios'
 import router from '../routes'
 import { Message } from 'element-ui'
 // import store from '../store'
-import { getToken } from './js/auth'
+import { getToken, removeToken } from './js/auth'
 
 // axios.defaults.baseURL = process.env.BASE_API
 // axios.defaults.timeout = 15000
@@ -38,6 +38,7 @@ service.interceptors.response.use(
 
     } else if (res.status === 401) {
       message('登录时间过期，请重新登录', 'error')
+      removeToken()
       router.replace({
         path: '/login',
         query: {redirect: router.fullPath}
