@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import App from './App'
+import moment from 'moment'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 // import './assets/theme/theme-green/index.css'
@@ -64,6 +65,10 @@ router.beforeEach((to, from, next) => {
 
 router.afterEach(transition => {
   NProgress.done()
+})
+
+Vue.filter('moment', function (dataStr, pattern = 'YYYY-MM-DD HH:mm:ss') {
+  return moment(dataStr).format(pattern)
 })
 
 new Vue({

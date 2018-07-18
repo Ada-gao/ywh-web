@@ -296,6 +296,7 @@ export default {
     }
     return {
       crap: false,
+      imgurl: '',
       previews: {},
       option: {
         img: '',
@@ -371,9 +372,12 @@ export default {
   },
   created () {
     const obj = this.$route.query.item
+    // let logo = (obj.logo).split('/')[1]
+    // console.log(logo)
     this.id = this.$route.params.id
     if (obj) {
       this.form = obj
+      this.form.logo = process.env.BASE_API + '/file/' + this.form.logo
       this.updateStatus = 'view'
     } else {
       this.getOrgSize()
@@ -389,13 +393,17 @@ export default {
       this.previews = data
     },
     down (type) {
+      console.log('type' + type)
       if (type === 'blob') {
         this.$refs.cropper.getCropBlob((data) => {
           this.downImg = window.URL.createObjectURL(data)
+          let cc = this.downImg.lastIndexOf('/')
+          this.downImg = this.downImg.substring(cc + 1, this.downImg.length)
           let formData = new FormData()
           formData.append('file', data)
           uploadLogo(formData).then(res => {
-            this.form.logo = this.downImg
+            this.imgurl = res.data
+            this.form.logo = res.data
             this.dialogVisible = false
           })
         })
@@ -405,7 +413,8 @@ export default {
           let formData = new FormData()
           formData.append('file', data)
           uploadLogo(formData).then(res => {
-            this.form.logo = this.downImg
+            this.imgurl = res.data
+            this.form.logo = res.data
             this.dialogVisible = false
           })
         })
@@ -463,8 +472,9 @@ export default {
       }
       set[formName].validate(valid => {
         if (valid) {
+          console.log(this.imgurl)
           // this.form.companyProvince = this.form.companyProvince.label
-          addCompanies(this.form)
+          addCompanies(this.imgurl)
             .then(res => {
               this.companyCode = res.data.companyCode
               this.companyId = res.data.id

@@ -151,7 +151,7 @@
         </el-table-column>
         <el-table-column align="center" label="有效通话时长">
           <template slot-scope="scope">
-            <span>{{scope.row.orgSize || 0}}</span>
+            <span>{{scope.row.duration || 0}}</span>
           </template>
         </el-table-column>
         <el-table-column align="center" label="下一步行动计划">
@@ -228,6 +228,19 @@ export default {
       }
       return status
     },
+    Datetime (date) {
+      let theTime = parseInt(date)
+      let theTime1 = 0
+      if (theTime > 60) {
+        theTime1 = parseInt(theTime / 60)
+        theTime = parseInt(theTime % 60)
+      }
+      let result = parseInt(theTime) + '秒'
+      if (theTime1 > 0) {
+        result = parseInt(theTime1) + '分' + result
+      }
+      return result
+    },
     getList () {
       getTaskDetail(this.listQuery.taskGroupId, this.listQuery).then(res => {
         this.form = res.data.taskGroup
@@ -235,9 +248,13 @@ export default {
         this.form.taskStartDate = new Date(this.form.taskStartDate).toLocaleDateString()
         this.form.taskEndDate = new Date(this.form.taskEndDate).toLocaleDateString()
         this.list = res.data.nameList.content
+        console.log(this.list)
         // this.list.lastCallDate = moment(res.data.nameList.content.lastCallDate).format('mm:ss')
         this.list.forEach((ele, index) => {
           ele.gender = ele.gender === 'GENTLEMAN' ? '男' : '女'
+          ele.duration = this.Datetime(ele.duration)
+          // ele.lastCallDate = this.moment('mm:ss')
+          // ele.duration
         })
         this.salesCnt = res.data.salesCnt
         this.total = res.data.nameList.totalElements || 0

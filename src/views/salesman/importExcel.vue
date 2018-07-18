@@ -117,6 +117,7 @@ export default {
       let keyMap = {
         销售姓名: 'name',
         所属团队: 'team',
+        对应职级: 'level',
         手机号: 'mobile',
         用户名: 'username',
         密码: 'password'
