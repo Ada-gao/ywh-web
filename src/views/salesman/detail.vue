@@ -251,7 +251,13 @@ export default {
           {required: true, trigger: 'blur', message: '请输入正确的联系手机号', validator: validatePass1}
         ]
       },
-      form: {},
+      form: {
+        authorities: [
+          {
+            name: 'ROLE_SALE'
+          }
+        ]
+      },
       headers: {
         Authorization: getToken()
       },
