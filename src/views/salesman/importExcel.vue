@@ -137,6 +137,13 @@ export default {
           })
           this.$router.push({path: '/salesman'})
         }
+      }).catch((message) => {
+        this.$notify({
+          title: '失败',
+          message: '导入失败',
+          // type: 'success',
+          duration: 2000
+        })
       })
     }
   }

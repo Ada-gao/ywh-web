@@ -346,7 +346,7 @@ export default {
         companyAddress: [
           {required: true, trigger: 'blur', message: '请输入公司详细地址'}
         ],
-        industryType: [
+        industry: [
           {required: true, trigger: 'blur', message: '请选择公司行业'}
         ],
         orgSize: [

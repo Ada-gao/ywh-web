@@ -48,7 +48,7 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="17">
-            <el-form-item label="推广产品">
+            <el-form-item label="推广产品" prop="productName" required>
               <el-input v-model="taskGroup.productName" placeholder="输入产品名称"></el-input>
             </el-form-item>
           </el-col>
@@ -197,6 +197,9 @@ export default {
         ],
         taskTarget: [
           {required: true, message: '请输入任务目标', trigger: 'blur'}
+        ],
+        productName: [
+          {required: true, message: '请输入产品名称', trigger: 'blur'}
         ],
         salesTalk: [
           { required: true, message: '请输入外呼话术', trigger: 'blur' }
