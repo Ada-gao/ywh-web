@@ -38,6 +38,8 @@ router.beforeEach((to, from, next) => {
     } else {
       if (store.getters.sysUser === '') {
         store.dispatch('GetUser', getToken()).then(res => {
+          console.log('测试' + res)
+          console.log(res)
           // 每次请求的回调
         })
       }

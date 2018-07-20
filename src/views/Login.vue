@@ -123,6 +123,7 @@ export default {
             NProgress.done()
             sessionStorage.setItem('token', res.data.token)
             this.$store.dispatch('GetUser', res.data.token)
+            // console.log(this.$router)
             this.$router.push({path: '/dashboard'})
           }).catch(error => {
             this.loading = false

@@ -474,7 +474,7 @@ export default {
         if (valid) {
           console.log(this.imgurl)
           // this.form.companyProvince = this.form.companyProvince.label
-          addCompanies(this.imgurl)
+          addCompanies(this.form)
             .then(res => {
               this.companyCode = res.data.companyCode
               this.companyId = res.data.id

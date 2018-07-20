@@ -56,11 +56,19 @@ export const GetUser = ({commit}, token) => {
         menuIds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 31, 41, 42, 51, 52, 53, 61, 62, 71, 72, 73, 81, 82, 91, 92, 101, 102, 111, 112, 113]
         accessedRouters = routesMap
       } else {
+        if (userData[0].authority === 'ROLE_SALE') {
+          console.log('dd')
+          return
+        }
         sysUser = userData[0].authority === 'ROLE_ADMIN' ? 'admin' : 'sale'
         menuIds = [1, 2, 3, 4, 5, 6, 7, 31, 41, 42, 51, 52, 53, 61, 62, 71, 72, 73]
         accessedRouters = filterAsyncRouter(routesMap, menuIds)
       }
+      // console.log(123)
       // console.log(accessedRouters)
+      // console.log(routesMap)
+      // routesMap.push({path: '/dashboard'})
+      // routesMap.$router.log(accessedRouters)
       commit('SET_USERINFO', userInfo)
       commit('SET_SYS_USER', sysUser)
       commit('SET_MENU_ID', menuIds)
