@@ -239,7 +239,20 @@
         <el-table-column align="center" label="姓名" prop="name"/>
         <el-table-column align="center" label="职务" prop="level"/>
         <el-table-column align="center" label="联系手机" prop="mobile"/>
-        <el-table-column align="center" label="状态"/>
+        <el-table-column align="center" label="状态">
+          <template slot-scope="scope">
+            <div class="switch">
+              <el-switch
+                v-model="scope.row.enabled"
+                active-color="#0299CC"
+                inactive-color="#C0CCDA"
+                @change="changeMode(scope.row.id, scope.row.enabled)">
+              </el-switch>
+              <div v-if="scope.row.enabled" class="switch-open">开启</div>
+              <div v-else class="switch-close">停用</div>
+           </div>
+          </template>
+        </el-table-column>
         <el-table-column align="center" label="操作">
           <template slot-scope="scope">
             <a size="small" class="common_btn"
@@ -385,7 +398,8 @@
             @imgLoad="imgLoad"
           ></vueCropper>
         </div>
-        <div class="show-preview" :style="{'width': previews.w + 'px', 'height': previews.h + 'px',  'overflow': 'hidden', 'margin': '5px'}">
+        <div class="show-preview"
+             :style="{'width': previews.w + 'px', 'height': previews.h + 'px',  'overflow': 'hidden', 'margin': '5px'}">
           <div :style="previews.div" class="preview">
             <img :src="previews.url" :style="previews.img">
           </div>
@@ -394,7 +408,7 @@
 
       <div class="footer-btn">
         <div class="upload-btn">
-          <button  @click="down('blob')" class="el-button add_btn el-button--default">确 定</button>
+          <button @click="down('blob')" class="el-button add_btn el-button--default">确 定</button>
         </div>
       </div>
     </el-dialog>
@@ -403,10 +417,20 @@
 
 <script>
 import VueCropper from 'vue-cropper'
-import { getToken } from '@/common/js/auth'
-import { getUsers, addUser, getOrgSize, getAuthDustries, getAuthDustryByType, putCompanies, addCompanies, uploadLogo } from '@/api/api'
-import { transferIndustry, retransfer } from '@/common/js/util'
-import { provinceAndCityData } from 'element-china-area-data' // 省市区数据
+import {getToken} from '@/common/js/auth'
+import {
+  userEnabled,
+  addCompanies,
+  addUser,
+  getAuthDustries,
+  getAuthDustryByType,
+  getOrgSize,
+  getUsers,
+  putCompanies,
+  uploadLogo
+} from '@/api/api'
+import {retransfer, transferIndustry} from '@/common/js/util'
+import {provinceAndCityData} from 'element-china-area-data' // 省市区数据
 
 export default {
   components: {
@@ -522,7 +546,8 @@ export default {
         authorities: [{
           'name': 'ROLE_ADMIN'
         }],
-        companyId: 0
+        companyId: 0,
+        enabled: null
       },
       listLoading: null,
       list: null,
@@ -561,6 +586,16 @@ export default {
   },
   methods: {
     /* --------------- 管理员 start ---------------- */
+    changeMode (id, enabled) {
+      userEnabled(id, enabled).then(res => {
+        this.$notify({
+          title: '成功',
+          message: '操作成功',
+          type: 'success',
+          duration: 2000
+        })
+      })
+    },
     getList () {
       this.listLoading = true
       getUsers(this.listQuery).then(response => {
@@ -581,6 +616,11 @@ export default {
       this.updateStatus = 'createManager'
     },
     cancelManager () {
+      this.manager.name = null
+      this.manager.level = null
+      this.manager.mobile = null
+      this.manager.username = null
+      this.manager.password = null
       this.updateStatus = 'view'
     },
     newManager (formName) {
@@ -637,7 +677,9 @@ export default {
         })
       }
     },
-    imgLoad (msg) { console.log(msg) },
+    imgLoad (msg) {
+      console.log(msg)
+    },
     modifyStat () {
       this.updateStatus = 'update'
       this.getOrgSize()
@@ -767,95 +809,118 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.upd_btn {
-  float: right;
-  border: none;
-  color: #0299CC;
-  &:hover {
-    background: #ffff;
+  /* ---------------- 管理员 start ------------------ */
+  .switch{
+    display: inline-flex;
+    margin-top: 5px;
   }
-  i {
-    margin-right: 2px;
-    vertical-align: text-bottom;
+  .switch-open {
+    font-size: 6px;
+    margin-left: -38px;
+    color: #ffffff;
+    z-index: 999;
+    pointer-events: none;
+  }
+  .switch-close {
+    margin-left: -24px;
+    font-size: 6px;
+    color: #ffffff;
+    z-index: 999;
+    pointer-events: none;
+  }
+  /* ---------------- 管理员 end ------------------ */
+  .upd_btn {
+    float: right;
+    border: none;
+    color: #0299CC;
+    &:hover {
+      background: #ffff;
+    }
+    i {
+      margin-right: 2px;
+      vertical-align: text-bottom;
+    }
+
   }
 
-}
-.form-border {
-  border: 1px solid #EFEFEF;
-  border-radius: 5px;
-  padding: 20px 30px;
-}
-.cropper-content{
-  display: flex;
-  display: -webkit-flex;
-  justify-content: flex-end;
-  -webkit-justify-content: flex-end;
-  .cropper{
-    width: 350px;
-    height: 300px;
+  .form-border {
+    border: 1px solid #EFEFEF;
+    border-radius: 5px;
+    padding: 20px 30px;
   }
-}
 
-.cropper-content{
-  display: flex;
-  display: -webkit-flex;
-  justify-content: flex-end;
-  -webkit-justify-content: flex-end;
-  .cropper{
-    width: 350px;
-    height: 300px;
-  }
-  .show-preview{
-    flex: 1;
-    -webkit-flex: 1;
+  .cropper-content {
     display: flex;
     display: -webkit-flex;
-    justify-content: center;
-    -webkit-justify-content: center;
-    .preview{
-      overflow: hidden;
-      border-radius: 50%;
-      border:1px solid #cccccc;
-      background: #cccccc;
-      margin-left: 40px;
+    justify-content: flex-end;
+    -webkit-justify-content: flex-end;
+    .cropper {
+      width: 350px;
+      height: 300px;
     }
   }
-}
-.footer-btn{
-  margin-top: 30px;
-  display: flex;
-  display: -webkit-flex;
-  justify-content: flex-end;
-  -webkit-justify-content: flex-end;
-  .upload-btn{
-    flex: 1;
-    -webkit-flex: 1;
+
+  .cropper-content {
     display: flex;
     display: -webkit-flex;
-    justify-content: center;
-    -webkit-justify-content: center;
+    justify-content: flex-end;
+    -webkit-justify-content: flex-end;
+    .cropper {
+      width: 350px;
+      height: 300px;
+    }
+    .show-preview {
+      flex: 1;
+      -webkit-flex: 1;
+      display: flex;
+      display: -webkit-flex;
+      justify-content: center;
+      -webkit-justify-content: center;
+      .preview {
+        overflow: hidden;
+        border-radius: 50%;
+        border: 1px solid #cccccc;
+        background: #cccccc;
+        margin-left: 40px;
+      }
+    }
   }
-  .btn {
-    outline: none;
-    display: inline-block;
-    line-height: 1;
-    white-space: nowrap;
-    cursor: pointer;
-    -webkit-appearance: none;
-    text-align: center;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    outline: 0;
-    margin: 0;
-    -webkit-transition: .1s;
-    transition: .1s;
-    font-weight: 500;
-    padding: 8px 15px;
-    font-size: 12px;
-    border-radius: 3px;
-    color: #fff;
-    background-color: #67c23a;
-    border-color: #67c23a;
+
+  .footer-btn {
+    margin-top: 30px;
+    display: flex;
+    display: -webkit-flex;
+    justify-content: flex-end;
+    -webkit-justify-content: flex-end;
+    .upload-btn {
+      flex: 1;
+      -webkit-flex: 1;
+      display: flex;
+      display: -webkit-flex;
+      justify-content: center;
+      -webkit-justify-content: center;
+    }
+    .btn {
+      outline: none;
+      display: inline-block;
+      line-height: 1;
+      white-space: nowrap;
+      cursor: pointer;
+      -webkit-appearance: none;
+      text-align: center;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      outline: 0;
+      margin: 0;
+      -webkit-transition: .1s;
+      transition: .1s;
+      font-weight: 500;
+      padding: 8px 15px;
+      font-size: 12px;
+      border-radius: 3px;
+      color: #fff;
+      background-color: #67c23a;
+      border-color: #67c23a;
+    }
   }
-}
 </style>
