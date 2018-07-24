@@ -45,6 +45,8 @@ export const updSale = (id, params) => axios.put('/users/updateUsers/' + id, par
 export const addBatch = (companyId, params) => axios.post('/users/addBatch?companyId=' + companyId, params)
 export const addUser = params => axios.post('/users', params)
 export const userEnabled = (id, params) => axios.put('/users/enabled/' + id + '?enabled=' + params)
+export const resetPWD = (id, newPWD) => axios.put('/users/resetPWD/' + id + '?newPWD=' + newPWD)
+export const updateUsers = (id, params) => axios.put('/users/updateUsers/' + id, params)
 // user/sale/销售详情页面的任务完成
 export const taskDoneRate = (id) => axios.get('/task/statisBySales?userId=' + id)
 // name
