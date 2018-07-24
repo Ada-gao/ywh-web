@@ -648,14 +648,14 @@ export default {
       this.getList()
     },
     createManager () {
-      this.updateStatus = 'createManager'
-    },
-    cancelManager () {
       this.manager.name = null
       this.manager.level = null
       this.manager.mobile = null
       this.manager.username = null
       this.manager.password = null
+      this.updateStatus = 'createManager'
+    },
+    cancelManager () {
       this.updateStatus = 'view'
     },
     newManager (formName) {
