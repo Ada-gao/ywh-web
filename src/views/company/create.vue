@@ -256,11 +256,11 @@
         <el-table-column align="center" label="操作">
           <template slot-scope="scope">
             <a size="small" class="common_btn"
-               @click="updateInfoDialog = true">修改信息
+               @click="updateInfoDialog = true;updateInfo = scope.row">修改信息
             </a>
             |
             <a size="small" class="common_btn"
-               @click="updatePwdDialog = true">修改密码
+               @click="updatePwdDialog = true;updateInfo = scope.row">修改密码
             </a>
           </template>
         </el-table-column>
@@ -274,47 +274,47 @@
         </el-pagination>
       </div>
       <el-dialog title="修改信息" :visible.sync="updateInfoDialog" width="30%">
-        <el-form :model="manager" :rules="rules" ref="manager" label-width="100px">
+        <el-form :model="updateInfo" :rules="rules" ref="updateInfo" label-width="100px">
           <el-row :gutter="20">
             <el-col :span="20">
               <el-form-item label="姓名" prop="name">
-                <el-input v-model="manager.name" placeholder="输入管理员姓名"></el-input>
+                <el-input v-model="updateInfo.name" placeholder="输入管理员姓名"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row :gutter="20">
             <el-col :span="20">
               <el-form-item label="职务">
-                <el-input v-model="manager.occupation" placeholder="输入职务"></el-input>
+                <el-input v-model="updateInfo.level" placeholder="输入职务"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row :gutter="20">
             <el-col :span="20">
               <el-form-item label="联系手机">
-                <el-input v-model="manager.mobile" placeholder="请输入联系电话"></el-input>
+                <el-input v-model="updateInfo.mobile" placeholder="请输入联系电话"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="updateInfoDialog = false">取 消</el-button>
-          <el-button type="primary" @click="updateInfoDialog = false">确 定</el-button>
+          <el-button type="primary" @click="updateUsers()">确 定</el-button>
         </div>
       </el-dialog>
       <el-dialog title="修改密码" :visible.sync="updatePwdDialog" width="30%">
-        <el-form :model="manager" :rules="rules" ref="manager" label-width="100px">
+        <el-form :model="updateInfo" :rules="rules" ref="updateInfo" label-width="100px">
           <el-row :gutter="20">
             <el-col :span="20">
               <el-form-item label="新密码" prop="password">
-                <el-input v-model="manager.password" placeholder="输入登录密码"></el-input>
+                <el-input v-model="updateInfo.password" placeholder="输入登录密码"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="updatePwdDialog = false">取 消</el-button>
-          <el-button type="primary" @click="updatePwdDialog = false">确 定</el-button>
+          <el-button type="primary" @click="resetPassword(updateInfo.password)">确 定</el-button>
         </div>
       </el-dialog>
       <!----------------- 管理员 end ------------------->
@@ -421,6 +421,8 @@ import {getToken} from '@/common/js/auth'
 import {
   userEnabled,
   addCompanies,
+  resetPWD,
+  updateUsers,
   addUser,
   getAuthDustries,
   getAuthDustryByType,
@@ -558,7 +560,8 @@ export default {
         authorityName: 'ROLE_ADMIN',
         pageIndex: 0,
         pageSize: 20
-      }
+      },
+      updateInfo: {}
       /* --------------- 管理员 end ---------------- */
     }
   },
@@ -594,6 +597,38 @@ export default {
           type: 'success',
           duration: 2000
         })
+      })
+    },
+    resetPassword (newPWD) {
+      resetPWD(this.updateInfo.id, newPWD).then(res => {
+        this.$notify({
+          title: '成功',
+          message: '操作成功',
+          type: 'success',
+          duration: 2000
+        })
+        this.updatePwdDialog = false
+        this.updateInfo.password = null
+      })
+    },
+    updateUsers () {
+      this.manager.companyId = this.form.id
+      this.manager.level = this.updateInfo.level
+      this.manager.name = this.updateInfo.name
+      this.manager.mobile = this.updateInfo.mobile
+      this.manager.userName = this.updateInfo.userName
+      this.manager.userCode = this.updateInfo.userCode
+      this.manager.enabled = this.updateInfo.enabled
+      console.log(this.manager)
+      updateUsers(this.updateInfo.id, this.manager).then(res => {
+        this.$notify({
+          title: '成功',
+          message: '操作成功',
+          type: 'success',
+          duration: 2000
+        })
+        this.updateInfoDialog = false
+        this.updateInfo.password = null
       })
     },
     getList () {
