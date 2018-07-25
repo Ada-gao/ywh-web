@@ -245,12 +245,13 @@
               <el-switch
                 v-model="scope.row.enabled"
                 active-color="#0299CC"
+                width=50
                 inactive-color="#C0CCDA"
                 @change="changeMode(scope.row.id, scope.row.enabled)">
               </el-switch>
               <div v-if="scope.row.enabled" class="switch-open">开启</div>
               <div v-else class="switch-close">停用</div>
-           </div>
+            </div>
           </template>
         </el-table-column>
         <el-table-column align="center" label="操作">
@@ -274,47 +275,33 @@
         </el-pagination>
       </div>
       <el-dialog title="修改信息" :visible.sync="updateInfoDialog" width="30%">
-        <el-form :model="updateInfo" :rules="rules" ref="updateInfo" label-width="100px">
-          <el-row :gutter="20">
-            <el-col :span="20">
-              <el-form-item label="姓名" prop="name">
-                <el-input v-model="updateInfo.name" placeholder="输入管理员姓名"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row :gutter="20">
-            <el-col :span="20">
-              <el-form-item label="职务">
-                <el-input v-model="updateInfo.level" placeholder="输入职务"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row :gutter="20">
-            <el-col :span="20">
-              <el-form-item label="联系手机">
-                <el-input v-model="updateInfo.mobile" placeholder="请输入联系电话"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
+        <el-form :model="updateInfo" :rules="rulesManager" ref="updateInfo" label-width="80px"
+                 style="margin-right: 20px;">
+          <el-form-item label="姓名" prop="name">
+            <el-input v-model="updateInfo.name" placeholder="输入管理员姓名"></el-input>
+          </el-form-item>
+          <el-form-item label="职务">
+            <el-input v-model="updateInfo.level" placeholder="输入职务"></el-input>
+          </el-form-item>
+          <el-form-item label="联系手机">
+            <el-input v-model="updateInfo.mobile" placeholder="请输入联系电话"></el-input>
+          </el-form-item>
         </el-form>
-        <div slot="footer" class="dialog-footer">
-          <el-button @click="updateInfoDialog = false">取 消</el-button>
-          <el-button type="primary" @click="updateUsers()">确 定</el-button>
+        <div style="text-align: right">
+          <el-button class="search_btn" @click="updateInfoDialog = false">取 消</el-button>
+          <el-button class="add_btn" type="primary" @click="updateUsers()">确 定</el-button>
         </div>
       </el-dialog>
       <el-dialog title="修改密码" :visible.sync="updatePwdDialog" width="30%">
-        <el-form :model="updateInfo" :rules="rules" ref="updateInfo" label-width="100px">
-          <el-row :gutter="20">
-            <el-col :span="20">
-              <el-form-item label="新密码" prop="password">
-                <el-input v-model="updateInfo.password" placeholder="输入登录密码"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
+        <el-form :model="updateInfo" :rules="rulesManager" ref="updateInfo" label-width="80px"
+                 style="margin-right: 20px;">
+          <el-form-item label="新密码" prop="password">
+            <el-input v-model="updateInfo.password" placeholder="输入登录密码"></el-input>
+          </el-form-item>
         </el-form>
-        <div slot="footer" class="dialog-footer">
-          <el-button @click="updatePwdDialog = false">取 消</el-button>
-          <el-button type="primary" @click="resetPassword(updateInfo.password)">确 定</el-button>
+        <div style="text-align: right">
+          <el-button class="search_btn" @click="updatePwdDialog = false">取 消</el-button>
+          <el-button class="add_btn" type="primary" @click="resetPassword(updateInfo.password)">确 定</el-button>
         </div>
       </el-dialog>
       <!----------------- 管理员 end ------------------->
@@ -419,17 +406,17 @@
 import VueCropper from 'vue-cropper'
 import {getToken} from '@/common/js/auth'
 import {
-  userEnabled,
   addCompanies,
-  resetPWD,
-  updateUsers,
   addUser,
   getAuthDustries,
   getAuthDustryByType,
   getOrgSize,
   getUsers,
   putCompanies,
-  uploadLogo
+  resetPWD,
+  updateUsers,
+  uploadLogo,
+  userEnabled
 } from '@/api/api'
 import {retransfer, transferIndustry} from '@/common/js/util'
 import {provinceAndCityData} from 'element-china-area-data' // 省市区数据
@@ -856,24 +843,32 @@ export default {
 
 <style lang="scss" scoped>
   /* ---------------- 管理员 start ------------------ */
-  .switch{
+  .switch {
     display: inline-flex;
     margin-top: 5px;
   }
   .switch-open {
-    font-size: 6px;
-    margin-left: -38px;
+    font-size: 10px;
+    width: 50px;
     color: #ffffff;
     z-index: 999;
     pointer-events: none;
+    padding-left: 10px;
+    text-align: left;
+    margin-left: -50px;
   }
+
   .switch-close {
-    margin-left: -24px;
-    font-size: 6px;
+    font-size: 10px;
+    width: 50px;
+    margin-left: -50px;
+    text-align: right;
     color: #ffffff;
+    padding-right: 10px;
     z-index: 999;
     pointer-events: none;
   }
+
   /* ---------------- 管理员 end ------------------ */
   .upd_btn {
     float: right;
