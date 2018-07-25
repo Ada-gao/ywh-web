@@ -555,8 +555,7 @@ export default {
   created () {
     let obj = this.$route.query.item
     // let logo = (obj.logo).split('/')[1]
-    console.log(this.$route.query.id)
-    this.id = this.$route.query.id
+    this.id = this.$route.params.id
     if (obj) {
       /* --------------- 管理员 start ---------------- */
       this.listQuery.companyId = obj.id

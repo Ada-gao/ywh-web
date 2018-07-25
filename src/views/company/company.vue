@@ -166,7 +166,7 @@ export default {
       })
     },
     handleUpdate (obj) {
-      this.$router.push({name: '/company/detail', query: {item: obj, id: obj.companyCode}})
+      this.$router.push({path: '/company/detail/' + obj.companyCode, query: {item: obj}})
     },
     handleSizeChange (val) {
       this.listQuery.pageSize = val
@@ -208,7 +208,7 @@ export default {
       this.getList()
     },
     handleCreate () {
-      this.$router.push({name: '/company/detail', query: {id: 0}})
+      this.$router.push({path: '/company/detail/0'})
     }
   }
 }

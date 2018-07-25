@@ -61,7 +61,7 @@ let routes = [
     leaf: true,
     children: [
       {menuId: 41, path: '/company', component: company, name: '公司管理'},
-      {menuId: 42, path: '/company/detail', name: '/company/detail', component: companyDetail}
+      {menuId: 42, path: '/company/detail/:id', component: companyDetail}
     ]
   },
   // {
