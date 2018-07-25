@@ -242,10 +242,9 @@
         <el-table-column align="center" label="状态">
           <template slot-scope="scope">
             <div class="switch">
-              <el-switch
+              <el-switch class="sw"
                 v-model="scope.row.enabled"
                 active-color="#0299CC"
-                width=50
                 inactive-color="#C0CCDA"
                 @change="changeMode(scope.row.id, scope.row.enabled)">
               </el-switch>
@@ -277,13 +276,13 @@
       <el-dialog title="修改信息" :visible.sync="updateInfoDialog" width="30%">
         <el-form :model="updateInfo" :rules="rulesManager" ref="updateInfo" label-width="80px"
                  style="margin-right: 20px;">
-          <el-form-item label="姓名" prop="name">
+          <el-form-item label="姓名" prop="name" class="txt">
             <el-input v-model="updateInfo.name" placeholder="输入管理员姓名"></el-input>
           </el-form-item>
-          <el-form-item label="职务">
+          <el-form-item label="职务" class="txt">
             <el-input v-model="updateInfo.level" placeholder="输入职务"></el-input>
           </el-form-item>
-          <el-form-item label="联系手机">
+          <el-form-item label="联系手机" class="txt">
             <el-input v-model="updateInfo.mobile" placeholder="请输入联系电话"></el-input>
           </el-form-item>
         </el-form>
@@ -295,7 +294,7 @@
       <el-dialog title="修改密码" :visible.sync="updatePwdDialog" width="30%">
         <el-form :model="updateInfo" :rules="rulesManager" ref="updateInfo" label-width="80px"
                  style="margin-right: 20px;">
-          <el-form-item label="新密码" prop="password">
+          <el-form-item label="新密码" prop="password" class="txt">
             <el-input v-model="updateInfo.password" placeholder="输入登录密码"></el-input>
           </el-form-item>
         </el-form>
@@ -840,7 +839,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   /* ---------------- 管理员 start ------------------ */
   .switch {
     display: inline-flex;
@@ -869,6 +868,12 @@ export default {
   }
 
   /* ---------------- 管理员 end ------------------ */
+.txt>.el-form-item__label{
+    line-height: 3rem!important;
+  }
+  .sw>.el-switch__core{
+    width: 50px!important;
+  }
   .upd_btn {
     float: right;
     border: none;
