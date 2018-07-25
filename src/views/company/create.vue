@@ -541,7 +541,7 @@ export default {
           {required: true, trigger: 'blur', message: '请输入登录账号'}
         ],
         password: [
-          {required: true, trigger: 'blur', message: '请输入输入登录密码'}
+          {required: true, trigger: 'blur', message: '请输入登录密码'}
         ]
       },
       manager: {
@@ -566,10 +566,10 @@ export default {
     }
   },
   created () {
-    const obj = this.$route.query.item
+    let obj = this.$route.query.item
     // let logo = (obj.logo).split('/')[1]
-    // console.log(logo)
-    this.id = this.$route.params.id
+    console.log(this.$route.query.id)
+    this.id = this.$route.query.id
     if (obj) {
       /* --------------- 管理员 start ---------------- */
       this.listQuery.companyId = obj.id

@@ -205,8 +205,8 @@ export default {
     }
   },
   created () {
-    this.listQuery.taskGroupId = this.$route.params.id
-    this.groupName = this.$route.params.name
+    this.listQuery.taskGroupId = this.$route.query.id
+    this.groupName = this.$route.query.name
     this.getList()
     this.listLoading = false
   },
@@ -241,6 +241,15 @@ export default {
       }
       return result
     },
+    timestampToTime (timestamp) {
+      let date = new Date(timestamp)
+      let M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '月'
+      let D = date.getDate() + '日'
+      let h = date.getHours() + ':'
+      let m = date.getMinutes()
+      let time = M + D + h + m
+      return time
+    },
     getList () {
       getTaskDetail(this.listQuery.taskGroupId, this.listQuery).then(res => {
         this.form = res.data.taskGroup
@@ -257,7 +266,11 @@ export default {
           } else {
             ele.duration = this.Datetime(ele.duration)
           }
-          // ele.lastCallDate = this.moment('mm:ss')
+          if (ele.lastCallDate === null) {
+            ele.lastCallDate = 0
+          } else {
+            ele.lastCallDate = this.timestampToTime(ele.lastCallDate)
+          }
           // ele.duration
         })
         this.salesCnt = res.data.salesCnt

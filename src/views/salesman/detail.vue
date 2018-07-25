@@ -284,8 +284,8 @@ export default {
     }
   },
   created () {
-    this.id = this.$route.params.id
-    this.companyName = this.$route.params.companyName
+    this.id = this.$route.query.id
+    this.companyName = this.$route.query.companyName
     if (this.$route.query.id === '0') {
       this.updateStatus = 'create'
     } else {

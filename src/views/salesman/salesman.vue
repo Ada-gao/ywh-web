@@ -175,7 +175,7 @@ export default {
       })
     },
     handleUpdate (item) {
-      this.$router.push({name: 'salesmanDetail', params: item})
+      this.$router.push({name: 'salesmanDetail', query: item})
     },
     handleSizeChange (val) {
       this.listQuery.pageSize = val
