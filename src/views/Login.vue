@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import { requestLogin } from '../api/api'
+import { requestLogin, getUser } from '../api/api'
 import NProgress from 'nprogress'
 
 export default {
@@ -122,9 +122,18 @@ export default {
             this.loading = false
             NProgress.done()
             sessionStorage.setItem('token', res.data.token)
-            this.$store.dispatch('GetUser', res.data.token)
-            // console.log(this.$router)
-            this.$router.push({path: '/dashboard'})
+            // this.$store.dispatch('GetUser', res.data.token)
+            getUser().then(res => {
+              // console.log(res.data.authorities[0].authority)
+              if (res.data.authorities[0].authority === 'ROLE_SALE') {
+                sessionStorage.removeItem('token')
+                alert('管理权限不足，请联系管理员')
+              } else {
+                this.$router.push({path: '/dashboard'})
+              }
+            })
+            // this.$router.push({path: '/dashboard'})
+            // console.log(this.$router.currentRoute.path)
           }).catch(error => {
             this.loading = false
             // this.refreshCode()

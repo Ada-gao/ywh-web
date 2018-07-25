@@ -41,14 +41,14 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="17">
-            <el-form-item label="任务名称" prop="taskName" required>
+            <el-form-item label="任务名称" prop="taskName">
               <el-input v-model="taskGroup.taskName" placeholder="输入任务名称"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="17">
-            <el-form-item label="推广产品" prop="productName" required>
+            <el-form-item label="推广产品" prop="productName">
               <el-input v-model="taskGroup.productName" placeholder="输入产品名称"></el-input>
             </el-form-item>
           </el-col>
@@ -80,7 +80,7 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="17">
-            <el-form-item label="任务目标" prop="taskTarget" required>
+            <el-form-item label="任务目标" prop="taskTarget">
               <el-input v-model="taskGroup.taskTarget" placeholder="输入任务目标"></el-input>
             </el-form-item>
           </el-col>

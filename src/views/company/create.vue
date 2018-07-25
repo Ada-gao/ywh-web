@@ -564,6 +564,7 @@ export default {
       /* --------------- 管理员 end ---------------- */
       this.form = obj
       this.form.logo = process.env.BASE_API + '/file/' + this.form.logo
+      console.log(this.form.logo)
       this.updateStatus = 'view'
     } else {
       this.getOrgSize()
@@ -682,7 +683,8 @@ export default {
           formData.append('file', data)
           uploadLogo(formData).then(res => {
             this.imgurl = res.data
-            this.form.logo = res.data
+            this.form.logo = process.env.BASE_API + '/file/' + res.data
+            console.log(this.form.logo)
             this.dialogVisible = false
           })
         })
@@ -693,7 +695,7 @@ export default {
           formData.append('file', data)
           uploadLogo(formData).then(res => {
             this.imgurl = res.data
-            this.form.logo = res.data
+            this.form.logo = process.env.BASE_API + '/file/' + res.data
             this.dialogVisible = false
           })
         })
@@ -747,6 +749,9 @@ export default {
       // this.coInfo.industryType = this.coInfo.industryType.slice(0)
     },
     create (formName) {
+      let str = this.form.logo
+      let index = str.lastIndexOf('/')
+      this.form.logo = str.substring(index + 1, str.length)
       const set = this.$refs
       if (this.form.industryType) {
         this.form.industryType = transferIndustry(this.form.industryType, this.coInfo.industryType)
@@ -759,7 +764,8 @@ export default {
             .then(res => {
               this.companyCode = res.data.companyCode
               this.companyId = res.data.id
-              this.centerDialogVisible = true
+              this.$router.push({path: '/company'})
+              // this.centerDialogVisible = true
             })
         } else {
           return false
@@ -767,7 +773,11 @@ export default {
       })
     },
     update (formName) {
+      let str = this.form.logo
+      let index = str.lastIndexOf('/')
+      this.form.logo = str.substring(index + 1, str.length)
       const set = this.$refs
+      // console.log('截取后' + tt)
       let id = this.form.id || this.companyId
       this.form.companyCode = this.form.companyCode || this.companyCode
       if (window.Boolean(this.form.industryType - 0)) {
@@ -784,7 +794,8 @@ export default {
                 type: 'success',
                 duration: 2000
               })
-              this.updateStatus = 'view'
+              // this.updateStatus = 'view'
+              this.$router.push({path: '/company'})
             })
         } else {
           return false
