@@ -140,7 +140,7 @@ export default {
       }).catch((message) => {
         this.$notify({
           title: '失败',
-          message: '导入失败',
+          message: '存在重复用户，请核对后再导入',
           // type: 'success',
           duration: 2000
         })

@@ -252,7 +252,11 @@ export default {
         // this.list.lastCallDate = moment(res.data.nameList.content.lastCallDate).format('mm:ss')
         this.list.forEach((ele, index) => {
           ele.gender = ele.gender === 'GENTLEMAN' ? '男' : '女'
-          ele.duration = this.Datetime(ele.duration)
+          if (ele.duration === null) {
+            ele.duration = 0
+          } else {
+            ele.duration = this.Datetime(ele.duration)
+          }
           // ele.lastCallDate = this.moment('mm:ss')
           // ele.duration
         })
