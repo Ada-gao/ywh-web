@@ -747,16 +747,15 @@ export default {
       // this.coInfo.industryType = this.coInfo.industryType.slice(0)
     },
     create (formName) {
-      let str = this.form.logo
-      let index = str.lastIndexOf('/')
-      this.form.logo = str.substring(index + 1, str.length)
       const set = this.$refs
       if (this.form.industryType) {
         this.form.industryType = transferIndustry(this.form.industryType, this.coInfo.industryType)
       }
       set[formName].validate(valid => {
         if (valid) {
-          console.log(this.imgurl)
+          let str = this.form.logo
+          let index = str.lastIndexOf('/')
+          this.form.logo = str.substring(index + 1, str.length)
           // this.form.companyProvince = this.form.companyProvince.label
           addCompanies(this.form)
             .then(res => {
@@ -771,9 +770,6 @@ export default {
       })
     },
     update (formName) {
-      let str = this.form.logo
-      let index = str.lastIndexOf('/')
-      this.form.logo = str.substring(index + 1, str.length)
       const set = this.$refs
       // console.log('截取后' + tt)
       let id = this.form.id || this.companyId
@@ -783,6 +779,9 @@ export default {
       }
       set[formName].validate(valid => {
         if (valid) {
+          let str = this.form.logo
+          let index = str.lastIndexOf('/')
+          this.form.logo = str.substring(index + 1, str.length)
           putCompanies(id, this.form)
             .then(() => {
               console.log(this.form)

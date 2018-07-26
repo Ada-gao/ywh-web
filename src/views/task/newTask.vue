@@ -93,12 +93,9 @@
                             ref="myQuillEditor"
                             class="editer"
                             placeholder="输入外呼话术"
-                            :options="editorOption"
-                            @blur="onEditorBlur($event)"
-                            @focus="onEditorFocus($event)"
-                            @change="onEditorChange($event)">
+                            :options="editorOption">
               </quill-editor>
-              <!--<div class="limit">当前已输入 <span>{{nowLength}}</span> 个字符，您还可以输入 <span>{{SurplusLength}}</span> 个字符。</div>-->
+              <!--<div class="limit">当前已输入 <span>{{textLength}}</span> 个字符，您还可以输入 <span>{{SurplusLength}}</span> 个字符。</div>-->
             </el-form-item>
           </el-col>
         </el-row>
@@ -249,7 +246,9 @@ export default {
       tableKey: 0,
       total: null,
       companies: [],
-      nextActionList: null
+      nextActionList: null,
+      textLength: '',
+      SurplusLength: ''
     }
   },
   created () {
