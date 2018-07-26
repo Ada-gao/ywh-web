@@ -42,14 +42,14 @@
         <el-row :gutter="20">
           <el-col :span="17">
             <el-form-item label="任务名称" prop="taskName">
-              <el-input v-model="taskGroup.taskName" placeholder="输入任务名称"></el-input>
+              <el-input v-model="taskGroup.taskName" placeholder="输入任务名称" maxlength="50"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="17">
             <el-form-item label="推广产品" prop="productName">
-              <el-input v-model="taskGroup.productName" placeholder="输入产品名称"></el-input>
+              <el-input v-model="taskGroup.productName" placeholder="输入产品名称" maxlength="50"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -81,7 +81,7 @@
         <el-row :gutter="20">
           <el-col :span="17">
             <el-form-item label="任务目标" prop="taskTarget">
-              <el-input v-model="taskGroup.taskTarget" placeholder="输入任务目标"></el-input>
+              <el-input v-model="taskGroup.taskTarget" placeholder="输入任务目标" maxlength="100"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -93,8 +93,12 @@
                             ref="myQuillEditor"
                             class="editer"
                             placeholder="输入外呼话术"
-                            :options="editorOption">
+                            :options="editorOption"
+                            @blur="onEditorBlur($event)"
+                            @focus="onEditorFocus($event)"
+                            @change="onEditorChange($event)">
               </quill-editor>
+              <!--<div class="limit">当前已输入 <span>{{nowLength}}</span> 个字符，您还可以输入 <span>{{SurplusLength}}</span> 个字符。</div>-->
             </el-form-item>
           </el-col>
         </el-row>
@@ -316,6 +320,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .limit {
+    height: 30px;
+    border: 1px solid #ccc;
+    line-height: 30px;
+    text-align: right;
+
+    span {
+      color: #ee2a7b;
+    }
+  }
   .el-select {
     display: block;
   }

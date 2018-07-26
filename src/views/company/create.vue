@@ -868,7 +868,7 @@ export default {
   }
 
   /* ---------------- 管理员 end ------------------ */
-.txt>.el-form-item__label{
+  .txt>.el-form-item__label{
     line-height: 3rem!important;
   }
   .sw>.el-switch__core{

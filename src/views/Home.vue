@@ -113,6 +113,10 @@ export default {
       'routers'
     ])
   },
+  created () {
+    let token = sessionStorage.getItem('token')
+    this.$store.dispatch('GetUser', token)
+  },
   methods: {
     onSubmit () {
       console.log('submit!')
