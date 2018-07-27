@@ -85,6 +85,7 @@
         <el-table-column align="center" label="姓名" prop="name"/>
         <el-table-column align="center" label="职务" prop="level"/>
         <el-table-column align="center" label="联系手机" prop="mobile"/>
+        <el-table-column align="center" label="登录账号" prop="userName"/>
         <el-table-column align="center" label="状态">
           <template slot-scope="scope">
             <div class="switch">
@@ -102,7 +103,7 @@
         <el-table-column align="center" label="操作">
           <template slot-scope="scope">
             <a size="small" class="common_btn"
-               @click="updateInfoDialog = true;updateInfo = scope.row">修改信息
+               @click="updateInfoDialog = true;updateInfo = scope.row;updateForm.name = updateInfo.name;updateForm.level = updateInfo.level;updateForm.mobile = updateInfo.mobile;">修改信息
             </a>
             |
             <a size="small" class="common_btn"
@@ -120,33 +121,33 @@
         </el-pagination>
       </div>
       <el-dialog title="修改信息" :visible.sync="updateInfoDialog" width="30%">
-        <el-form :model="updateInfo" :rules="rulesManager" ref="updateInfo" label-width="80px"
+        <el-form :model="updateForm" :rules="rulesManager" ref="updateForm" label-width="80px"
                  style="margin-right: 20px;">
           <el-form-item label="姓名" prop="name" class="txt">
-            <el-input v-model="updateInfo.name" placeholder="输入管理员姓名"></el-input>
+            <el-input v-model="updateForm.name" placeholder="输入管理员姓名"></el-input>
           </el-form-item>
-          <el-form-item label="职务" class="txt">
-            <el-input v-model="updateInfo.level" placeholder="输入职务"></el-input>
+          <el-form-item label="职务" class="txt" prop="level">
+            <el-input v-model="updateForm.level" placeholder="输入职务"/>
           </el-form-item>
-          <el-form-item label="联系手机" class="txt">
-            <el-input v-model="updateInfo.mobile" placeholder="请输入联系电话"></el-input>
+          <el-form-item label="联系手机" class="txt" prop="mobile">
+            <el-input v-model="updateForm.mobile" placeholder="请输入联系电话" maxlength="11"/>
           </el-form-item>
         </el-form>
         <div style="text-align: right">
-          <el-button class="search_btn" @click="updateInfoDialog = false">取 消</el-button>
-          <el-button class="add_btn" type="primary" @click="updateUsers()">确 定</el-button>
+          <el-button class="search_btn" @click="cancelUpdateUsers('updateForm')">取 消</el-button>
+          <el-button class="add_btn" type="primary" @click="updateUsers('updateForm')">确 定</el-button>
         </div>
       </el-dialog>
       <el-dialog title="修改密码" :visible.sync="updatePwdDialog" width="30%">
-        <el-form :model="updateInfo" :rules="rulesManager" ref="updateInfo" label-width="80px"
+        <el-form :model="pwdForm" :rules="rulesManager" ref="pwdForm" label-width="80px"
                  style="margin-right: 20px;">
           <el-form-item label="新密码" prop="password" class="txt">
-            <el-input v-model="updateInfo.password" placeholder="输入登录密码"></el-input>
+            <el-input v-model="pwdForm.password" placeholder="输入登录密码"></el-input>
           </el-form-item>
         </el-form>
         <div style="text-align: right">
-          <el-button class="search_btn" @click="updatePwdDialog = false">取 消</el-button>
-          <el-button class="add_btn" type="primary" @click="resetPassword(updateInfo.password)">确 定</el-button>
+          <el-button class="search_btn" @click="cancelResetPassword('pwdForm')">取 消</el-button>
+          <el-button class="add_btn" type="primary" @click="resetPassword('pwdForm')">确 定</el-button>
         </div>
       </el-dialog>
       <!----------------- 管理员 end ------------------->
@@ -163,14 +164,14 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="17">
-            <el-form-item label="职务">
+            <el-form-item label="职务" prop="level">
               <el-input v-model="manager.level" placeholder="输入职务"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="17">
-            <el-form-item label="联系手机">
+            <el-form-item label="联系手机" prop="mobile">
               <el-input v-model="manager.mobile" placeholder="请输入联系电话"></el-input>
             </el-form-item>
           </el-col>
@@ -251,26 +252,24 @@
 import {getToken} from '@/common/js/auth'
 import {
   addUser,
-  getAuthDustries,
-  getAuthDustryByType,
-  getOrgSize,
   getUsers,
   resetPWD,
   updateUsers,
   userEnabled
 } from '@/api/api'
-import {retransfer} from '@/common/js/util'
 
 export default {
   data () {
     const validatePass = (rule, value, callback) => {
       if (!value) {
-        callback(new Error('不能为空'))
+        callback(new Error('请输入登录密码'))
+      } else if (value.length < 6) {
+        callback(new Error('密码不能少于6位'))
       } else {
         callback()
       }
     }
-    const validatePass1 = (rule, value, callback) => {
+    const validateMobile = (rule, value, callback) => {
       let reg = /^((1[3-8][0-9])+\d{8})$/
       let flag = reg.test(value)
       if (!value || !flag) {
@@ -281,7 +280,6 @@ export default {
     }
     return {
       crap: false,
-      imgurl: '',
       previews: {},
       option: {
         img: '',
@@ -297,11 +295,8 @@ export default {
         fixed: true,
         fixedNumber: [4, 3]
       },
-      downImg: '#',
       dialogVisible: false,
       form: {},
-      companyCode: '',
-      companyId: null,
       headers: {
         Authorization: getToken()
       },
@@ -311,42 +306,6 @@ export default {
       textMap: {
         createManager: '新建管理员',
         view: '公司详情页'
-      },
-      coInfo: {
-        orgSize: [],
-        industry: [],
-        industryType: []
-      },
-      industryType: [],
-      cityData: [],
-      rules: {
-        companyName: [
-          {required: true, trigger: 'blur', message: '请输入公司名称'}
-        ],
-        companyProvince: [
-          {required: true, trigger: 'blur', message: '请选择公司所属地区', validator: validatePass}
-        ],
-        companyAddress: [
-          {required: true, trigger: 'blur', message: '请输入公司详细地址'}
-        ],
-        industry: [
-          {required: true, trigger: 'blur', message: '请选择公司行业'}
-        ],
-        orgSize: [
-          {required: true, trigger: 'blur', message: '请选择公司规模'}
-        ],
-        contact: [
-          {required: true, trigger: 'blur', message: '请输入联系人'}
-        ],
-        occupation: [
-          {required: true, trigger: 'blur', message: '请输入对应职务'}
-        ],
-        contactMobile: [
-          {required: true, trigger: 'blur', message: '请输入正确的手机号码', validator: validatePass1}
-        ],
-        logo: [
-          {required: false, trigger: 'blur', message: '请上传公司logo'}
-        ]
       },
       uploadUrl: process.env.BASE_API + '/file/upload',
       imgUrl: process.env.BASE_API + '/file/',
@@ -358,11 +317,17 @@ export default {
         name: [
           {required: true, trigger: 'blur', message: '请输入管理员姓名'}
         ],
+        level: [
+          {required: true, trigger: 'blur', message: '请输入职务'}
+        ],
         username: [
           {required: true, trigger: 'blur', message: '请输入登录账号'}
         ],
         password: [
-          {required: true, trigger: 'blur', message: '请输入登录密码'}
+          {required: true, trigger: 'blur', validator: validatePass}
+        ],
+        mobile: [
+          {required: true, trigger: 'blur', validator: validateMobile}
         ]
       },
       manager: {
@@ -382,7 +347,13 @@ export default {
         pageIndex: 0,
         pageSize: 20
       },
-      updateInfo: {}
+      updateInfo: {},
+      pwdForm: {
+        password: null
+      },
+      updateForm: {
+
+      }
       /* --------------- 管理员 end ---------------- */
     }
   },
@@ -394,7 +365,6 @@ export default {
     /* --------------- 管理员 end ---------------- */
     this.form = obj
     this.form.logo = process.env.BASE_API + '/file/' + this.form.logo
-    console.log(this.form.logo)
     this.updateStatus = 'view'
   },
   methods: {
@@ -409,36 +379,58 @@ export default {
         })
       })
     },
-    resetPassword (newPWD) {
-      resetPWD(this.updateInfo.id, newPWD).then(res => {
-        this.$notify({
-          title: '成功',
-          message: '操作成功',
-          type: 'success',
-          duration: 2000
-        })
-        this.updatePwdDialog = false
-        this.updateInfo.password = null
+    cancelResetPassword (formName) {
+      this.updateInfo = null
+      this.updatePwdDialog = false
+      this.$refs[formName].resetFields()
+    },
+    resetPassword (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          resetPWD(this.updateInfo.id, this.pwdForm.password).then(res => {
+            this.$notify({
+              title: '成功',
+              message: '操作成功',
+              type: 'success',
+              duration: 2000
+            })
+            this.updatePwdDialog = false
+            this.$refs[formName].resetFields()
+          })
+        } else {
+          return false
+        }
       })
     },
-    updateUsers () {
-      this.manager.companyId = this.form.id
-      this.manager.level = this.updateInfo.level
-      this.manager.name = this.updateInfo.name
-      this.manager.mobile = this.updateInfo.mobile
-      this.manager.userName = this.updateInfo.userName
-      this.manager.userCode = this.updateInfo.userCode
-      this.manager.enabled = this.updateInfo.enabled
-      console.log(this.manager)
-      updateUsers(this.updateInfo.id, this.manager).then(res => {
-        this.$notify({
-          title: '成功',
-          message: '操作成功',
-          type: 'success',
-          duration: 2000
-        })
-        this.updateInfoDialog = false
-        this.updateInfo.password = null
+    cancelUpdateUsers (formName) {
+      this.updateInfo = null
+      this.updateInfoDialog = false
+      this.$refs[formName].resetFields()
+    },
+    updateUsers (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.manager.companyId = this.form.id
+          this.manager.level = this.updateInfo.level
+          this.manager.name = this.updateForm.name
+          this.manager.mobile = this.updateForm.mobile
+          this.manager.userName = this.updateForm.userName
+          this.manager.userCode = this.updateInfo.userCode
+          this.manager.enabled = this.updateInfo.enabled
+          updateUsers(this.updateInfo.id, this.manager).then(res => {
+            this.$notify({
+              title: '成功',
+              message: '操作成功',
+              type: 'success',
+              duration: 2000
+            })
+            this.updateInfoDialog = false
+            this.$refs[formName].resetFields()
+            this.getList()
+          })
+        } else {
+          return false
+        }
       })
     },
     getList () {
@@ -493,33 +485,10 @@ export default {
     /* --------------- 管理员 end ---------------- */
     modifyStat () {
       this.$router.push({path: '/company/create', query: {item: this.form}})
-      // this.updateStatus = 'update'
-      // this.getOrgSize()
-    },
-    getOrgSize () {
-      getOrgSize().then(res => {
-        this.coInfo.orgSize = res.data
-      })
-      getAuthDustries().then(res => {
-        this.coInfo.industryType = res.data
-        console.log(this.coInfo.industryType)
-        if (this.updateStatus === 'update') {
-          let transferId = retransfer(this.form.industryType, this.coInfo.industryType)
-          getAuthDustryByType(transferId).then(res => {
-            this.coInfo.industry = res.data
-          })
-          let idx = this.provinceData.findIndex((item, index) => {
-            return item.label === this.form.companyProvince
-          })
-          this.cityData = this.provinceData[idx].children
-        }
-      })
     },
     dialogRouter (status) {
       if (status === 'view') {
         this.updateStatus = 'view'
-        // this.form.orgSize = transformText(this.coInfo.orgSize, this.form.orgSize)
-        // this.form.industry = transformText(this.coInfo.industry, this.form.industry)
         this.centerDialogVisible = false
       } else {
         this.$router.push({path: '/company'})
@@ -584,78 +553,4 @@ export default {
     padding: 20px 30px;
   }
 
-  .cropper-content {
-    display: flex;
-    display: -webkit-flex;
-    justify-content: flex-end;
-    -webkit-justify-content: flex-end;
-    .cropper {
-      width: 350px;
-      height: 300px;
-    }
-  }
-
-  .cropper-content {
-    display: flex;
-    display: -webkit-flex;
-    justify-content: flex-end;
-    -webkit-justify-content: flex-end;
-    .cropper {
-      width: 350px;
-      height: 300px;
-    }
-    .show-preview {
-      flex: 1;
-      -webkit-flex: 1;
-      display: flex;
-      display: -webkit-flex;
-      justify-content: center;
-      -webkit-justify-content: center;
-      .preview {
-        overflow: hidden;
-        border-radius: 50%;
-        border: 1px solid #cccccc;
-        background: #cccccc;
-        margin-left: 40px;
-      }
-    }
-  }
-
-  .footer-btn {
-    margin-top: 30px;
-    display: flex;
-    display: -webkit-flex;
-    justify-content: flex-end;
-    -webkit-justify-content: flex-end;
-    .upload-btn {
-      flex: 1;
-      -webkit-flex: 1;
-      display: flex;
-      display: -webkit-flex;
-      justify-content: center;
-      -webkit-justify-content: center;
-    }
-    .btn {
-      outline: none;
-      display: inline-block;
-      line-height: 1;
-      white-space: nowrap;
-      cursor: pointer;
-      -webkit-appearance: none;
-      text-align: center;
-      -webkit-box-sizing: border-box;
-      box-sizing: border-box;
-      outline: 0;
-      margin: 0;
-      -webkit-transition: .1s;
-      transition: .1s;
-      font-weight: 500;
-      padding: 8px 15px;
-      font-size: 12px;
-      border-radius: 3px;
-      color: #fff;
-      background-color: #67c23a;
-      border-color: #67c23a;
-    }
-  }
 </style>
