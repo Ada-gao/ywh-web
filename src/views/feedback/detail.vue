@@ -50,7 +50,7 @@ export default {
     }
   },
   created () {
-    this.data = this.$route.params
+    this.data = this.$route.query
     this.getImgList(this.data.feedbackImgPath)
   },
   methods: {

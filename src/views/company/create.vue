@@ -16,13 +16,13 @@
         <el-row :gutter="20">
           <el-col :span="17">
             <el-form-item label="公司名称" prop="companyName">
-              <el-input v-model="form.companyName" placeholder="请输入公司名称"></el-input>
+              <el-input v-model="form.companyName" placeholder="请输入公司名称" maxlength="50"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="17">
-            <el-form-item label="所在地" prop="companyProvince">
+            <el-form-item label="所在地" prop="companyCity">
               <el-select v-model="form.companyProvince"
                          placeholder="请选择省份"
                          @change="changeProvince"
@@ -51,7 +51,7 @@
         <el-row :gutter="20">
           <el-col :span="17">
             <el-form-item label="公司地址" prop="companyAddress">
-              <el-input v-model="form.companyAddress" placeholder="请输入公司地址"></el-input>
+              <el-input v-model="form.companyAddress" placeholder="请输入公司地址" maxlength="200"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -98,14 +98,14 @@
         <el-row :gutter="20">
           <el-col :span="17">
             <el-form-item label="联系人" prop="contact">
-              <el-input v-model="form.contact" placeholder="请输入联系人姓名"></el-input>
+              <el-input v-model="form.contact" placeholder="请输入联系人姓名" maxlength="10"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="17">
             <el-form-item label="职务" prop="occupation">
-              <el-input v-model="form.occupation" placeholder="请输入联系人职务"></el-input>
+              <el-input v-model="form.occupation" placeholder="请输入联系人职务" maxlength="10"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -143,7 +143,7 @@
         <el-row>
           <el-col :span="17">
             <el-form-item label="备注" prop="remark">
-              <el-input type="textarea" v-model="form.remark"></el-input>
+              <el-input type="textarea" v-model="form.remark" maxlength="200"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -425,13 +425,13 @@ export default {
     VueCropper
   },
   data () {
-    const validatePass = (rule, value, callback) => {
-      if (!value) {
-        callback(new Error('不能为空'))
-      } else {
-        callback()
-      }
-    }
+    // const validatePass = (rule, value, callback) => {
+    //   if (!value) {
+    //     callback(new Error('不能为空'))
+    //   } else {
+    //     callback()
+    //   }
+    // }
     const validatePass1 = (rule, value, callback) => {
       let reg = /^((1[3-8][0-9])+\d{8})$/
       let flag = reg.test(value)
@@ -488,8 +488,8 @@ export default {
         companyName: [
           {required: true, trigger: 'blur', message: '请输入公司名称'}
         ],
-        companyProvince: [
-          {required: true, trigger: 'blur', message: '请选择公司所属地区', validator: validatePass}
+        companyCity: [
+          {required: true, trigger: 'blur', message: '请选择公司所属地区'}
         ],
         companyAddress: [
           {required: true, trigger: 'blur', message: '请输入公司详细地址'}
@@ -748,15 +748,21 @@ export default {
     },
     create (formName) {
       const set = this.$refs
-      if (this.form.industryType) {
+      console.log(set)
+      console.log(this.form)
+      let str = this.form.logo
+      if (str !== undefined) {
+        let index = str.lastIndexOf('/')
+        this.form.logo = str.substring(index + 1, str.length)
+      }
+      if (typeof this.form.industryType === 'number') {
+        console.log(this.form.industryType)
         this.form.industryType = transferIndustry(this.form.industryType, this.coInfo.industryType)
       }
       set[formName].validate(valid => {
         if (valid) {
-          let str = this.form.logo
-          let index = str.lastIndexOf('/')
-          this.form.logo = str.substring(index + 1, str.length)
           // this.form.companyProvince = this.form.companyProvince.label
+          console.log(valid)
           addCompanies(this.form)
             .then(res => {
               this.companyCode = res.data.companyCode
@@ -773,15 +779,17 @@ export default {
       const set = this.$refs
       // console.log('截取后' + tt)
       let id = this.form.id || this.companyId
+      let str = this.form.logo
+      if (str !== undefined) {
+        let index = str.lastIndexOf('/')
+        this.form.logo = str.substring(index + 1, str.length)
+      }
       this.form.companyCode = this.form.companyCode || this.companyCode
       if (window.Boolean(this.form.industryType - 0)) {
         this.form.industryType = transferIndustry(this.form.industryType, this.coInfo.industryType)
       }
       set[formName].validate(valid => {
         if (valid) {
-          let str = this.form.logo
-          let index = str.lastIndexOf('/')
-          this.form.logo = str.substring(index + 1, str.length)
           putCompanies(id, this.form)
             .then(() => {
               console.log(this.form)
