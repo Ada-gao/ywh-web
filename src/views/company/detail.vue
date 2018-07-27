@@ -523,23 +523,22 @@ export default {
   /* ---------------- 管理员 start ------------------ */
   .switch {
     display: inline-flex;
-    margin-top: 5px;
   }
   .switch-open {
     font-size: 10px;
-    width: 50px;
+    width: 55px;
     color: #ffffff;
     z-index: 999;
     pointer-events: none;
     padding-left: 10px;
     text-align: left;
-    margin-left: -50px;
+    margin-left: -55px;
   }
 
   .switch-close {
     font-size: 10px;
-    width: 50px;
-    margin-left: -50px;
+    width: 55px;
+    margin-left: -55px;
     text-align: right;
     color: #ffffff;
     padding-right: 10px;
@@ -552,7 +551,7 @@ export default {
     line-height: 3rem!important;
   }
   .sw>.el-switch__core{
-    width: 50px!important;
+    width: 55px!important;
   }
   .upd_btn {
     float: right;
