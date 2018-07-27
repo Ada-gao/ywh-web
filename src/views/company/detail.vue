@@ -347,7 +347,7 @@ export default {
           {required: true, trigger: 'blur', validator: validatePass}
         ],
         mobile: [
-          {required: true, trigger: 'blur', validator: validateMobile}
+          {required: false, trigger: 'blur', validator: validateMobile}
         ]
       },
       manager: {
