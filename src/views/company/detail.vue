@@ -270,7 +270,7 @@ export default {
     const validateUser = (rule, value, callback) => {
       if (!value) {
         callback(new Error('请输入登录账号'))
-      } else if (value.length < 64) {
+      } else if (value.length < 4) {
         callback(new Error('登录账号不能少于4位'))
       } else {
         callback()
