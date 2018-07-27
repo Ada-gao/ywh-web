@@ -126,7 +126,7 @@
           <el-form-item label="姓名" prop="name" class="txt">
             <el-input v-model="updateForm.name" placeholder="输入管理员姓名"></el-input>
           </el-form-item>
-          <el-form-item label="职务" class="txt" prop="level">
+          <el-form-item label="职务" class="txt">
             <el-input v-model="updateForm.level" placeholder="输入职务"/>
           </el-form-item>
           <el-form-item label="联系手机" class="txt" prop="mobile">
@@ -164,7 +164,7 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="17">
-            <el-form-item label="职务" prop="level">
+            <el-form-item label="职务">
               <el-input v-model="manager.level" placeholder="输入职务"></el-input>
             </el-form-item>
           </el-col>
@@ -286,10 +286,14 @@ export default {
       }
     }
     const validateMobile = (rule, value, callback) => {
-      let reg = /^((1[3-8][0-9])+\d{8})$/
-      let flag = reg.test(value)
-      if (!value || !flag) {
-        callback(new Error('请输入正确的手机号'))
+      if (value) {
+        let reg = /^((1[3-8][0-9])+\d{8})$/
+        let flag = reg.test(value)
+        if (!flag) {
+          callback(new Error('请输入正确的手机号'))
+        } else {
+          callback()
+        }
       } else {
         callback()
       }
