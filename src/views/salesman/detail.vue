@@ -209,7 +209,7 @@
           </el-form-item>
         </el-form>
         <div style="text-align: right">
-          <el-button class="search_btn" @click="updatePwdDialog = false">取 消</el-button>
+          <el-button class="search_btn" @click="cancelResetPassword('ruleForm')">取 消</el-button>
           <el-button class="add_btn" type="primary" @click="resetPassword('ruleForm')">确 定</el-button>
         </div>
       </el-dialog>
@@ -305,6 +305,10 @@ export default {
           return false
         }
       })
+    },
+    cancelResetPassword (formName) {
+      this.updatePwdDialog = false
+      this.$refs[formName].resetFields()
     },
     getList () {
       getUserById(this.id).then(res => {
