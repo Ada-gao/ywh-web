@@ -142,7 +142,7 @@
         <el-form :model="pwdForm" :rules="rulesManager" ref="pwdForm" label-width="80px"
                  style="margin-right: 20px;">
           <el-form-item label="新密码" prop="password" class="txt">
-            <el-input v-model="pwdForm.password" placeholder="输入登录密码"></el-input>
+            <el-input v-model="pwdForm.password" placeholder="输入登录密码" maxlength="12"></el-input>
           </el-form-item>
         </el-form>
         <div style="text-align: right">
