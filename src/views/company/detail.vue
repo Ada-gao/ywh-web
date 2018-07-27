@@ -172,27 +172,27 @@
         <el-row :gutter="20">
           <el-col :span="17">
             <el-form-item label="联系手机" prop="mobile">
-              <el-input v-model="manager.mobile" placeholder="请输入联系电话"></el-input>
+              <el-input v-model="manager.mobile" placeholder="请输入联系电话" maxlength="11"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="17">
             <el-form-item label="登录账号" prop="username">
-              <el-input v-model="manager.username" placeholder="输入登录账号"></el-input>
+              <el-input v-model="manager.username" placeholder="输入登录账号" maxlength="50"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="17">
             <el-form-item label="登录密码" prop="password">
-              <el-input v-model="manager.password" placeholder="输入登录密码"></el-input>
+              <el-input v-model="manager.password" placeholder="输入登录密码" maxlength="12"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-col :span="17" class="dialog-footer" style="text-align: center">
           <el-button class="add_btn" @click="newManager('manager')">提 交</el-button>
-          <el-button class="search_btn" @click="cancelManager">取 消</el-button>
+          <el-button class="search_btn" @click="cancelManager('manager')">取 消</el-button>
         </el-col>
       </el-form>
       <el-dialog
@@ -260,6 +260,22 @@ import {
 
 export default {
   data () {
+    const validateName = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error('请输入管理员姓名'))
+      } else {
+        callback()
+      }
+    }
+    const validateUser = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error('请输入登录账号'))
+      } else if (value.length < 64) {
+        callback(new Error('登录账号不能少于4位'))
+      } else {
+        callback()
+      }
+    }
     const validatePass = (rule, value, callback) => {
       if (!value) {
         callback(new Error('请输入登录密码'))
@@ -315,13 +331,13 @@ export default {
       updatePwdDialog: false,
       rulesManager: {
         name: [
-          {required: true, trigger: 'blur', message: '请输入管理员姓名'}
+          {required: true, trigger: 'blur', validator: validateName}
         ],
         level: [
           {required: true, trigger: 'blur', message: '请输入职务'}
         ],
         username: [
-          {required: true, trigger: 'blur', message: '请输入登录账号'}
+          {required: true, trigger: 'blur', validator: validateUser}
         ],
         password: [
           {required: true, trigger: 'blur', validator: validatePass}
@@ -402,6 +418,28 @@ export default {
         }
       })
     },
+    newManager (formName) {
+      console.log(this.manager.name)
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.manager.companyId = this.form.id
+          addUser(this.manager)
+            .then((res) => {
+              this.$notify({
+                title: '成功',
+                message: '创建成功',
+                type: 'success',
+                duration: 2000
+              })
+              this.$refs[formName].resetFields()
+              this.updateStatus = 'view'
+              this.getList()
+            })
+        } else {
+          return false
+        }
+      })
+    },
     cancelUpdateUsers (formName) {
       this.updateInfo = null
       this.updateInfoDialog = false
@@ -457,30 +495,9 @@ export default {
       this.manager.password = null
       this.updateStatus = 'createManager'
     },
-    cancelManager () {
+    cancelManager (formName) {
+      this.$refs[formName].resetFields()
       this.updateStatus = 'view'
-    },
-    newManager (formName) {
-      const set = this.$refs
-      this.manager.companyId = this.form.id
-      console.log(this.manager)
-      set[formName].validate(valid => {
-        if (valid) {
-          addUser(this.manager)
-            .then((res) => {
-              this.$notify({
-                title: '成功',
-                message: '创建成功',
-                type: 'success',
-                duration: 2000
-              })
-              this.updateStatus = 'view'
-              this.getList()
-            })
-        } else {
-          return false
-        }
-      })
     },
     /* --------------- 管理员 end ---------------- */
     modifyStat () {
