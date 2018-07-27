@@ -12,8 +12,7 @@
       <el-button class="upd_btn"
                  v-show="updateStatus==='view'"
                  @click="updateStat">
-        <i class="fa fa-edit"
-           style="font-size: 22px;margin-right: 5px;vertical-align: middle;"></i>
+        <i class="fa fa-edit" style="font-size: 22px;margin-right: 5px;vertical-align: middle;"></i>
         <i style="font-style: normal;">修改</i>
       </el-button>
     </div>
@@ -127,13 +126,17 @@
           <el-col :span="8">
             <el-form-item label="登录账号:" prop="mobile">
               <span>{{form.username}}</span>
+              <a @click="updatePwdDialog = true" style="margin-left: 20px">
+                <i class="fa fa-unlock-alt" style="font-size: 14px;margin-right: 5px;vertical-align: middle;"></i>
+                <span style="font-size: 14px;color: #0299CC;">修改密码</span>
+              </a>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
-            <el-form-item label="登录密码:" prop="resumeUrl">
-              <span style="display: inline-block;width:100px;overflow: hidden;text-overflow: ellipsis;">{{form.password}}</span>
-            </el-form-item>
-          </el-col>
+          <!--<el-col :span="8">-->
+            <!--<el-form-item label="登录密码:" prop="resumeUrl">-->
+              <!--<span style="display: inline-block;width:100px;overflow: hidden;text-overflow: ellipsis;">{{form.password}}</span>-->
+            <!--</el-form-item>-->
+          <!--</el-col>-->
         </el-row>
       </el-form>
       <div class="detail-title">
@@ -191,7 +194,6 @@
         </el-table-column>
 
       </el-table>
-
     <!--<div v-show="!listLoading" class="pagination-container">-->
       <!--<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"-->
                      <!--:current-page.sync="listQuery.page"-->
@@ -200,6 +202,17 @@
                      <!--layout="total, sizes, prev, pager, next, jumper" :total="total">-->
       <!--</el-pagination>-->
     <!--</div>-->
+      <el-dialog title="修改密码" :visible.sync="updatePwdDialog" width="30%">
+        <el-form ref="ruleForm" :model="ruleForm"  :rules="rules" label-width="80px" style="margin-right: 20px;">
+          <el-form-item label="新密码" prop="password" class="txt">
+            <el-input v-model="ruleForm.password" placeholder="输入登录密码" maxlength="12"></el-input>
+          </el-form-item>
+        </el-form>
+        <div style="text-align: right">
+          <el-button class="search_btn" @click="cancelResetPassword('ruleForm')">取 消</el-button>
+          <el-button class="add_btn" type="primary" @click="resetPassword('ruleForm')">确 定</el-button>
+        </div>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -207,48 +220,23 @@
 <script>
 import { getToken } from '@/common/js/auth'
 import {transferCompById} from '@/common/js/util'
-import { getUserById, updSale, addUser, getCompanies, userEnabled, taskDoneRate } from '@/api/api'
+import { resetPWD, getUserById, updSale, addUser, getCompanies, userEnabled, taskDoneRate } from '@/api/api'
 
 export default {
   data () {
     const validatePass = (rule, value, callback) => {
-      if (!value || value.length < 6) {
+      if (!value) {
+        callback(new Error('请输入登录密码'))
+      } else if (value.length < 6) {
         callback(new Error('密码不能少于6位'))
-      } else {
-        callback()
-      }
-    }
-    const validatePass1 = (rule, value, callback) => {
-      let reg = /^((1[3-8][0-9])+\d{8})$/
-      let flag = reg.test(value)
-      if (!value || !flag) {
-        callback(new Error('请输入正确的手机号'))
       } else {
         callback()
       }
     }
     return {
       rules: {
-        companyId: [
-          {required: true, trigger: 'blur', message: '请选择公司'}
-        ],
-        team: [
-          {required: true, trigger: 'blur', message: '请输入所属团队'}
-        ],
-        name: [
-          {required: true, trigger: 'blur', message: '请输入销售名称'}
-        ],
-        level: [
-          {required: true, trigger: 'blur', message: '请输入对应职级'}
-        ],
-        username: [
-          {required: true, trigger: 'blur', message: '请输入登录账号'}
-        ],
         password: [
-          {required: true, trigger: 'blur', message: '请输入登录密码', validator: validatePass}
-        ],
-        mobile: [
-          {required: true, trigger: 'blur', message: '请输入正确的联系手机号', validator: validatePass1}
+          {required: true, trigger: 'blur', validator: validatePass}
         ]
       },
       form: {
@@ -280,7 +268,11 @@ export default {
       },
       companies: [],
       companyName: '',
-      value3: true
+      value3: true,
+      updatePwdDialog: false,
+      ruleForm: {
+        password: null
+      }
     }
   },
   created () {
@@ -296,6 +288,28 @@ export default {
     this.listLoading = false
   },
   methods: {
+    resetPassword (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          resetPWD(this.id, this.ruleForm.password).then(res => {
+            this.$notify({
+              title: '成功',
+              message: '操作成功',
+              type: 'success',
+              duration: 2000
+            })
+            this.updatePwdDialog = false
+            this.$refs[formName].resetFields()
+          })
+        } else {
+          return false
+        }
+      })
+    },
+    cancelResetPassword (formName) {
+      this.updatePwdDialog = false
+      this.$refs[formName].resetFields()
+    },
     getList () {
       getUserById(this.id).then(res => {
         this.form = res.data
