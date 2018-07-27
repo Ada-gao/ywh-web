@@ -15,7 +15,8 @@ import parameter from './views/parameter/parameter.vue'
 import workload from './views/report/workload.vue'
 import reporttask from './views/report/task.vue'
 import reportproduct from './views/report/product.vue'
-import companyDetail from './views/company/create.vue'
+import companyCreate from './views/company/create.vue'
+import companyDetail from './views/company/detail.vue'
 import salesmanDetail from './views/salesman/detail.vue'
 import excel from './views/salesman/importExcel.vue'
 
@@ -61,7 +62,8 @@ let routes = [
     leaf: true,
     children: [
       {menuId: 41, path: '/company', component: company, name: '公司管理'},
-      {menuId: 42, path: '/company/detail/:id', component: companyDetail}
+      {menuId: 42, path: '/company/create', component: companyCreate},
+      {menuId: 43, path: '/company/detail', component: companyDetail}
     ]
   },
   // {
