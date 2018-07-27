@@ -126,25 +126,29 @@ export default {
         replaceKey(item, keyMap)
       })
       console.log(this.tableData)
-      addBatch(this.form.companyId, this.tableData).then(res => {
-        if (res.status === 200) {
-          console.log(res)
+      if (this.tableData[0].undefined) {
+        alert('导入失败，请按照正确模板格式导入')
+      } else {
+        addBatch(this.form.companyId, this.tableData).then(res => {
+          if (res.status === 200) {
+            console.log(res)
+            this.$notify({
+              title: '成功',
+              message: '导入成功',
+              type: 'success',
+              duration: 2000
+            })
+            this.$router.push({path: '/salesman'})
+          }
+        }).catch((message) => {
           this.$notify({
-            title: '成功',
-            message: '导入成功',
-            type: 'success',
+            title: '失败',
+            message: '存在重复用户，请核对后再导入',
+            // type: 'success',
             duration: 2000
           })
-          this.$router.push({path: '/salesman'})
-        }
-      }).catch((message) => {
-        this.$notify({
-          title: '失败',
-          message: '存在重复用户，请核对后再导入',
-          // type: 'success',
-          duration: 2000
         })
-      })
+      }
     }
   }
 }

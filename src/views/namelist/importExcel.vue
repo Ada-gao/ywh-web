@@ -32,7 +32,7 @@
         <el-row :gutter="20">
           <el-col :span="11" :offset="6">
             <el-form-item label="名单名称" prop="groupName">
-              <el-input v-model="form.groupName" placeholder="请输入名单名称" required></el-input>
+              <el-input v-model="form.groupName" placeholder="请输入名单名称" required maxlength="50"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -59,8 +59,8 @@
       <!--</div>-->
     </div>
     <div class="detail-title" style="margin-top: 30px">
-      <span class="list-tit">销售列表</span>
-      <el-button :class="form.maskPhoneNo && form.companyId && tableData.length > 0 ? 'add_btn' : 'insert_btn'" @click="showDialog">
+      <span class="list-tit">名单列表</span>
+      <el-button :class="form.companyId && tableData.length > 0 ? 'add_btn' : 'insert_btn'" @click="showDialog">
         <i class="fa fa-sign-out" style="margin-right: 10px"></i>确认导入
       </el-button>
 
@@ -125,8 +125,7 @@ export default {
     },
     showDialog () {
       console.log(11111)
-      if (this.form.maskPhoneNo &&
-          this.form.companyId &&
+      if (this.form.companyId &&
           this.tableData.length > 0) {
         this.dialogVisible = true
       }
@@ -144,17 +143,21 @@ export default {
       this.tableData.forEach(item => {
         replaceKey(item, keyMap)
       })
-      addNameExcel(this.form, this.tableData).then(res => {
-        if (res.status === 200) {
-          this.$notify({
-            title: '成功',
-            message: '导入成功',
-            type: 'success',
-            duration: 2000
-          })
-          this.$router.push({path: '/list'})
-        }
-      })
+      if (this.tableData[0].undefined) {
+        alert('导入失败，请按照正确模板格式导入')
+      } else {
+        addNameExcel(this.form, this.tableData).then(res => {
+          if (res.status === 200) {
+            this.$notify({
+              title: '成功',
+              message: '导入成功',
+              type: 'success',
+              duration: 2000
+            })
+            this.$router.push({path: '/list'})
+          }
+        })
+      }
     }
   }
 }

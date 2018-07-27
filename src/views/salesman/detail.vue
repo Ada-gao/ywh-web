@@ -38,14 +38,14 @@
         <el-row :gutter="20">
           <el-col :span="17">
             <el-form-item label="所属团队" prop="team">
-              <el-input v-model="form.team" placeholder="请输入所属团队"></el-input>
+              <el-input v-model="form.team" placeholder="请输入所属团队" maxlength="20"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="17">
             <el-form-item label="销售名称" prop="name">
-              <el-input v-model="form.name" placeholder="请输入销售名称"></el-input>
+              <el-input v-model="form.name" placeholder="请输入销售名称" maxlength="50"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -59,14 +59,14 @@
         <el-row :gutter="20" v-if="updateStatus==='create'">
           <el-col :span="17">
             <el-form-item label="登录账号" prop="username">
-              <el-input v-model="form.username" placeholder="请输入登录账号"></el-input>
+              <el-input v-model="form.username" placeholder="请输入登录账号" maxlength="50" minlength="4"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20" v-if="updateStatus==='create'">
           <el-col :span="17">
             <el-form-item label="登录密码" prop="password">
-              <el-input v-model="form.password" placeholder="请输入登录密码"></el-input>
+              <el-input v-model="form.password" placeholder="请输入登录密码" maxlength="12" minlength="6"></el-input>
             </el-form-item>
           </el-col>
         </el-row>

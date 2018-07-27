@@ -301,7 +301,7 @@ export default {
       this.getList()
     },
     handleUpdate (params) {
-      this.$router.push({name: 'trialDetail', params: params})
+      this.$router.push({name: 'trialDetail', query: params})
     }
   }
 }

@@ -141,8 +141,8 @@ export default {
       }
       this.getList()
     },
-    handleUpdate (params) {
-      this.$router.push({name: 'fdDetail', params})
+    handleUpdate (query) {
+      this.$router.push({name: 'fdDetail', query})
     }
   }
 }
