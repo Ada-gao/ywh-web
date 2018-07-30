@@ -470,6 +470,7 @@ export default {
   }
   .sw>.el-switch__core{
     width: 55px!important;
+    line-height: 40px!important;
   }
   .upd_btn {
     float: right;
