@@ -152,9 +152,9 @@
       </el-dialog>
       <!----------------- 管理员 end ------------------->
     </div>
-    <!----------------- 管理员 start ------------------>
     <div class="update-detail" v-if="updateStatus==='createManager'">
       <el-form :model="manager" :rules="rulesManager" ref="manager" label-width="100px">
+        <el-row v-show="false"/>
         <el-row :gutter="20">
           <el-col :span="17">
             <el-form-item label="姓名" prop="name">
@@ -195,56 +195,7 @@
           <el-button class="search_btn" @click="cancelManager('manager')">取 消</el-button>
         </el-col>
       </el-form>
-      <el-dialog
-        title="操作成功"
-        :visible.sync="centerDialogVisible"
-        width="30%"
-        center>
-        <span>{{this.form.companyName}}新建成功</span>
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="dialogRouter('view')">查看详情</el-button>
-          <el-button type="primary" @click="dialogRouter('')">返回列表</el-button>
-        </span>
-      </el-dialog>
     </div>
-    <!----------------- 管理员 end ------------------->
-    <el-dialog :visible.sync="dialogVisible"
-               width="30%">
-      <div class="cropper-content">
-        <div class="cropper">
-          <vueCropper
-            ref="cropper"
-            :img="option.img"
-            :outputSize="option.size"
-            :outputType="option.outputType"
-            :info="true"
-            :full="option.full"
-            :canMove="option.canMove"
-            :canMoveBox="option.canMoveBox"
-            :original="option.original"
-            :autoCrop="option.autoCrop"
-            :autoCropWidth="option.autoCropWidth"
-            :autoCropHeight="option.autoCropHeight"
-            :fixed="option.fixed"
-            :fixedNumber="option.fixedNumber"
-            @realTime="realTime"
-            @imgLoad="imgLoad"
-          ></vueCropper>
-        </div>
-        <div class="show-preview"
-             :style="{'width': previews.w + 'px', 'height': previews.h + 'px',  'overflow': 'hidden', 'margin': '5px'}">
-          <div :style="previews.div" class="preview">
-            <img :src="previews.url" :style="previews.img">
-          </div>
-        </div>
-      </div>
-
-      <div class="footer-btn">
-        <div class="upload-btn">
-          <button @click="down('blob')" class="el-button add_btn el-button--default">确 定</button>
-        </div>
-      </div>
-    </el-dialog>
   </div>
 </template>
 
@@ -261,6 +212,7 @@ import {
 export default {
   data () {
     const validateName = (rule, value, callback) => {
+      console.log('validateName' + value)
       if (!value) {
         callback(new Error('请输入管理员姓名'))
       } else {
@@ -268,6 +220,7 @@ export default {
       }
     }
     const validateUser = (rule, value, callback) => {
+      console.log('validateUser' + value)
       if (!value) {
         callback(new Error('请输入登录账号'))
       } else if (value.length < 4) {
@@ -277,6 +230,7 @@ export default {
       }
     }
     const validatePass = (rule, value, callback) => {
+      console.log('validatePass' + value)
       if (!value) {
         callback(new Error('请输入登录密码'))
       } else if (value.length < 6) {
@@ -299,46 +253,23 @@ export default {
       }
     }
     return {
-      crap: false,
-      previews: {},
-      option: {
-        img: '',
-        size: 1,
-        full: false,
-        outputType: 'png',
-        canMove: true,
-        original: false,
-        canMoveBox: true,
-        autoCrop: true,
-        autoCropWidth: 200,
-        autoCropHeight: 200,
-        fixed: true,
-        fixedNumber: [4, 3]
-      },
       dialogVisible: false,
       form: {},
       headers: {
         Authorization: getToken()
       },
-      fileList: [],
       value: '',
       updateStatus: '',
       textMap: {
         createManager: '新建管理员',
         view: '公司详情页'
       },
-      uploadUrl: process.env.BASE_API + '/file/upload',
-      imgUrl: process.env.BASE_API + '/file/',
       centerDialogVisible: false,
-      /* --------------- 管理员 start ---------------- */
       updateInfoDialog: false,
       updatePwdDialog: false,
       rulesManager: {
         name: [
           {required: true, trigger: 'blur', validator: validateName}
-        ],
-        level: [
-          {required: true, trigger: 'blur', message: '请输入职务'}
         ],
         username: [
           {required: true, trigger: 'blur', validator: validateUser}
@@ -374,21 +305,17 @@ export default {
       updateForm: {
 
       }
-      /* --------------- 管理员 end ---------------- */
     }
   },
   created () {
     let obj = this.$route.query.item
-    /* --------------- 管理员 start ---------------- */
     this.listQuery.companyId = obj.id
     this.getList()
-    /* --------------- 管理员 end ---------------- */
     this.form = obj
     this.form.logo = process.env.BASE_API + '/file/' + this.form.logo
     this.updateStatus = 'view'
   },
   methods: {
-    /* --------------- 管理员 start ---------------- */
     changeMode (id, enabled) {
       userEnabled(id, enabled).then(res => {
         this.$notify({
@@ -423,7 +350,6 @@ export default {
       })
     },
     newManager (formName) {
-      console.log(this.manager.name)
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.manager.companyId = this.form.id
@@ -503,7 +429,6 @@ export default {
       this.$refs[formName].resetFields()
       this.updateStatus = 'view'
     },
-    /* --------------- 管理员 end ---------------- */
     modifyStat () {
       this.$router.push({path: '/company/create', query: {item: this.form}})
     },
@@ -520,7 +445,6 @@ export default {
 </script>
 
 <style lang="scss">
-  /* ---------------- 管理员 start ------------------ */
   .switch {
     display: inline-flex;
   }
@@ -546,7 +470,6 @@ export default {
     pointer-events: none;
   }
 
-  /* ---------------- 管理员 end ------------------ */
   .txt>.el-form-item__label{
     line-height: 3rem!important;
   }
