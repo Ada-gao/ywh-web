@@ -233,10 +233,37 @@ export default {
         callback()
       }
     }
+    const validatePass1 = (rule, value, callback) => {
+      let reg = /^((1[3-8][0-9])+\d{8})$/
+      let flag = reg.test(value)
+      if (!value || !flag) {
+        callback(new Error('请输入正确的手机号'))
+      } else {
+        callback()
+      }
+    }
     return {
       rules: {
+        companyId: [
+          {required: true, trigger: 'blur', message: '请选择公司'}
+        ],
+        team: [
+          {required: true, trigger: 'blur', message: '请输入所属团队'}
+        ],
+        name: [
+          {required: true, trigger: 'blur', message: '请输入销售名称'}
+        ],
+        level: [
+          {required: true, trigger: 'blur', message: '请输入对应职级'}
+        ],
+        username: [
+          {required: true, trigger: 'blur', message: '请输入登录账号'}
+        ],
         password: [
           {required: true, trigger: 'blur', validator: validatePass}
+        ],
+        mobile: [
+          {required: true, trigger: 'blur', message: '请输入正确的联系手机号', validator: validatePass1}
         ]
       },
       form: {
