@@ -212,7 +212,6 @@ import {
 export default {
   data () {
     const validateName = (rule, value, callback) => {
-      console.log('validateName' + value)
       if (!value) {
         callback(new Error('请输入管理员姓名'))
       } else {
@@ -220,7 +219,6 @@ export default {
       }
     }
     const validateUser = (rule, value, callback) => {
-      console.log('validateUser' + value)
       if (!value) {
         callback(new Error('请输入登录账号'))
       } else if (value.length < 4) {
@@ -230,7 +228,6 @@ export default {
       }
     }
     const validatePass = (rule, value, callback) => {
-      console.log('validatePass' + value)
       if (!value) {
         callback(new Error('请输入登录密码'))
       } else if (value.length < 6) {
@@ -471,7 +468,7 @@ export default {
   }
 
   .txt>.el-form-item__label{
-    line-height: 3rem!important;
+    line-height: 40px!important;
   }
   .sw>.el-switch__core{
     width: 55px!important;
