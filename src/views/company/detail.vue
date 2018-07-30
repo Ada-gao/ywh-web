@@ -15,50 +15,50 @@
       <el-form :model="form" class="form-border">
         <el-row :gutter="20">
           <el-col :span="11">
-            <el-form-item label="公司ID:">
+            <el-form-item label="公司ID:" label-width="100px">
               <span>{{form.companyCode || companyCode}}</span>
             </el-form-item>
-            <el-form-item label="公司名称:">
+            <el-form-item label="公司名称:" label-width="100px">
               <span>{{form.companyName}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="11">
-            <el-form-item label="所在地:">
+            <el-form-item label="所在地:" label-width="100px">
               <span>{{form.companyProvince}}-{{form.companyCity}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="11">
-            <el-form-item label="公司地址:">
+            <el-form-item label="公司地址:" label-width="100px">
               <span>{{form.companyAddress}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="11">
-            <el-form-item label="所属行业:">
+            <el-form-item label="所属行业:" label-width="100px">
               <span>{{form.industryType}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="11">
-            <el-form-item label="公司规模:">
+            <el-form-item label="公司规模:" label-width="100px">
               <span>{{form.orgSize}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="11">
-            <el-form-item label="联系人:">
+            <el-form-item label="联系人:" label-width="100px">
               <span>{{form.contact}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="11">
-            <el-form-item label="职务:">
+            <el-form-item label="职务:" label-width="100px">
               <span>{{form.occupation}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="11">
-            <el-form-item label="联系手机:">
+            <el-form-item label="联系手机:" label-width="100px">
               <span>{{form.contactMobile}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="11">
-            <el-form-item label="公司LOGO:">
+            <el-form-item label="公司LOGO:" label-width="100px">
               <img :src="form.logo"
                    alt=""
                    v-if="form.logo"
@@ -66,13 +66,12 @@
             </el-form-item>
           </el-col>
           <el-col :span="11">
-            <el-form-item label="备注:">
+            <el-form-item label="备注:" label-width="100px">
               <span>{{form.remark}}</span>
             </el-form-item>
           </el-col>
         </el-row>
       </el-form>
-      <!----------------- 管理员 start ------------------>
       <div class="detail-title" style="margin-top: 22px;">
         <span class="list-tit">管理员列表</span>
         <el-button class="add_btn" @click="createManager">
@@ -150,7 +149,6 @@
           <el-button class="add_btn" type="primary" @click="resetPassword('pwdForm')">确 定</el-button>
         </div>
       </el-dialog>
-      <!----------------- 管理员 end ------------------->
     </div>
     <div class="update-detail" v-if="updateStatus==='createManager'">
       <el-form :model="manager" :rules="rulesManager" ref="manager" label-width="100px">

@@ -89,7 +89,7 @@
       <el-form :model="form" class="form-border" style="margin-bottom: 20px">
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item label="销售ID:" prop="name">
+            <el-form-item label="销售ID:" prop="name" label-width="70px">
               <span>{{form.userCode}}</span>
             </el-form-item>
           </el-col>
