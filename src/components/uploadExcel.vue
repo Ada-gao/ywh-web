@@ -62,6 +62,7 @@ export default {
       let formData = new FormData()
       formData.append('file', itemFile)
       this.readerData(itemFile, formData)
+      document.getElementById('excel-upload-input').value = ''
     },
     readerData (itemFile, formData) {
       const reader = new FileReader()

@@ -427,10 +427,8 @@ export default {
     },
     create (formName) {
       const set = this.$refs
-      console.log(set)
-      console.log(this.form)
       let str = this.form.logo
-      if (str !== undefined) {
+      if (str && str !== undefined) {
         let index = str.lastIndexOf('/')
         this.form.logo = str.substring(index + 1, str.length)
       }
