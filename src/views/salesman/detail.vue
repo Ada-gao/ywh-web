@@ -349,6 +349,7 @@ export default {
     getList () {
       getUserById(this.id).then(res => {
         this.form = res.data
+        this.value3 = res.data.enabled
         this.form.createdDate = new Date(this.form.createdDate).toLocaleDateString()
       })
       taskDoneRate(this.id).then(res => {
@@ -409,7 +410,8 @@ export default {
       console.log(val)
       // val = val ? 1 : 0
       userEnabled(this.form.id, val).then(res => {
-        console.log(res)
+        this.value3 = val
+        // console.log(res)
       })
     },
     cancel (formName) {
