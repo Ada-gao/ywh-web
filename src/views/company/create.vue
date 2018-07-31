@@ -456,19 +456,19 @@ export default {
       // console.log('截取后' + tt)
       let id = this.form.id || this.companyId
       let str = this.form.logo
-      if (str !== undefined) {
-        let index = str.lastIndexOf('/')
-        this.form.logo = str.substring(index + 1, str.length)
-      }
       this.form.companyCode = this.form.companyCode || this.companyCode
       if (window.Boolean(this.form.industryType - 0)) {
         this.form.industryType = transferIndustry(this.form.industryType, this.coInfo.industryType)
       }
       set[formName].validate(valid => {
         if (valid) {
+          if (str) {
+            let index = str.lastIndexOf('/')
+            this.form.logo = str.substring(index + 1, str.length)
+          }
           putCompanies(id, this.form)
             .then(() => {
-              console.log(this.form)
+              // console.log(this.form)
               this.$notify({
                 title: '成功',
                 message: '修改成功',
