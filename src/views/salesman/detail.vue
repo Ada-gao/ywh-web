@@ -224,6 +224,15 @@ import { resetPWD, getUserById, updSale, addUser, getCompanies, userEnabled, tas
 
 export default {
   data () {
+    const validateUser = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error('请输入登录账号'))
+      } else if (value.length < 4) {
+        callback(new Error('登录账号不能少于4位'))
+      } else {
+        callback()
+      }
+    }
     const validatePass = (rule, value, callback) => {
       if (!value) {
         callback(new Error('请输入登录密码'))
@@ -233,7 +242,7 @@ export default {
         callback()
       }
     }
-    const validatePass1 = (rule, value, callback) => {
+    const validateMobile = (rule, value, callback) => {
       let reg = /^((1[3-8][0-9])+\d{8})$/
       let flag = reg.test(value)
       if (!value || !flag) {
@@ -257,13 +266,13 @@ export default {
           {required: true, trigger: 'blur', message: '请输入对应职级'}
         ],
         username: [
-          {required: true, trigger: 'blur', message: '请输入登录账号'}
+          {required: true, trigger: 'blur', validator: validateUser}
         ],
         password: [
           {required: true, trigger: 'blur', validator: validatePass}
         ],
         mobile: [
-          {required: true, trigger: 'blur', message: '请输入正确的联系手机号', validator: validatePass1}
+          {required: true, trigger: 'blur', validator: validateMobile}
         ]
       },
       form: {
