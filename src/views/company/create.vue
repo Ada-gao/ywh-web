@@ -426,20 +426,19 @@ export default {
       // this.coInfo.industryType = this.coInfo.industryType.slice(0)
     },
     create (formName) {
-      const set = this.$refs
       let str = this.form.logo
-      if (str && str !== undefined) {
-        let index = str.lastIndexOf('/')
-        this.form.logo = str.substring(index + 1, str.length)
-      }
       if (typeof this.form.industryType === 'number') {
-        console.log(this.form.industryType)
+        // console.log(this.form.industryType)
         this.form.industryType = transferIndustry(this.form.industryType, this.coInfo.industryType)
       }
-      set[formName].validate(valid => {
+      this.$refs[formName].validate(valid => {
         if (valid) {
           // this.form.companyProvince = this.form.companyProvince.label
-          console.log(valid)
+          // console.log(valid)
+          if (str) {
+            let index = str.lastIndexOf('/')
+            this.form.logo = str.substring(index + 1, str.length)
+          }
           addCompanies(this.form)
             .then(res => {
               this.companyCode = res.data.companyCode
