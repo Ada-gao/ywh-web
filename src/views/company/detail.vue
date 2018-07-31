@@ -16,7 +16,7 @@
         <el-row :gutter="20">
           <el-col :span="11">
             <el-form-item label="公司ID:" label-width="100px">
-              <span>{{form.companyCode || companyCode}}</span>
+              <span>{{form.companyCode}}</span>
             </el-form-item>
             <el-form-item label="公司名称:" label-width="100px">
               <span>{{form.companyName}}</span>
@@ -80,11 +80,21 @@
       </div>
       <el-table :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit
                 highlight-current-row style="width: 100%;">
-        <el-table-column align="center" label="序号" prop="userCode"/>
-        <el-table-column align="center" label="姓名" prop="name"/>
-        <el-table-column align="center" label="职务" prop="level"/>
-        <el-table-column align="center" label="联系手机" prop="mobile"/>
-        <el-table-column align="center" label="登录账号" prop="userName"/>
+        <el-table-column align="center" label="序号">
+          <template slot-scope="scope">{{scope.row.userCode}}</template>
+        </el-table-column>
+        <el-table-column align="center" label="姓名">
+          <template slot-scope="scope">{{scope.row.name}}</template>
+        </el-table-column>
+        <el-table-column align="center" label="职务">
+          <template slot-scope="scope">{{scope.row.level}}</template>
+        </el-table-column>
+        <el-table-column align="center" label="联系手机">
+          <template slot-scope="scope">{{scope.row.mobile}}</template>
+        </el-table-column>
+        <el-table-column align="center" label="登录账号">
+          <template slot-scope="scope">{{scope.row.userName}}</template>
+        </el-table-column>
         <el-table-column align="center" label="状态">
           <template slot-scope="scope">
             <div class="switch">
@@ -249,7 +259,9 @@ export default {
     }
     return {
       dialogVisible: false,
-      form: {},
+      form: {
+        companyCode: null
+      },
       headers: {
         Authorization: getToken()
       },
@@ -303,12 +315,17 @@ export default {
     }
   },
   created () {
+    console.log('created')
     let obj = this.$route.query.item
+    console.log(obj)
     this.listQuery.companyId = obj.id
     this.getList()
     this.form = obj
-    this.form.logo = process.env.BASE_API + '/file/' + this.form.logo
+    if (this.form.logo) {
+      this.form.logo = process.env.BASE_API + '/file/' + this.form.logo
+    }
     this.updateStatus = 'view'
+    console.log('created2')
   },
   methods: {
     changeMode (id, enabled) {
