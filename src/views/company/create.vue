@@ -314,7 +314,7 @@ export default {
   },
   created () {
     let obj = this.$route.query
-    if (obj) {
+    if (obj && obj.id) {
       this.form = obj
       // this.form.logo = process.env.BASE_API + '/file/' + this.form.logo
       console.log(this.form.logo)
