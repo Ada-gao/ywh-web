@@ -313,7 +313,7 @@ export default {
     }
   },
   created () {
-    let obj = this.$route.query.item
+    let obj = this.$route.query
     if (obj) {
       this.form = obj
       // this.form.logo = process.env.BASE_API + '/file/' + this.form.logo

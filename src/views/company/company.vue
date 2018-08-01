@@ -166,7 +166,7 @@ export default {
       })
     },
     handleUpdate (obj) {
-      this.$router.push({path: '/company/detail', query: {item: obj}})
+      this.$router.push({name: 'detail', query: obj})
     },
     handleSizeChange (val) {
       this.listQuery.pageSize = val

@@ -316,7 +316,7 @@ export default {
   },
   created () {
     console.log('created')
-    let obj = this.$route.query.item
+    let obj = this.$route.query
     console.log(obj)
     this.listQuery.companyId = obj.id
     this.getList()
@@ -442,7 +442,7 @@ export default {
       this.updateStatus = 'view'
     },
     modifyStat () {
-      this.$router.push({path: '/company/create', query: {item: this.form}})
+      this.$router.push({name: 'create', query: this.form})
     },
     dialogRouter (status) {
       if (status === 'view') {
