@@ -182,6 +182,39 @@ export default {
     quillEditor
   },
   data () {
+    const checkNumber = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error('请输入有效通话时长'))
+      } else {
+        if (!/^[0-9]+$/.test(value)) {
+          callback(new Error('请输入数字值'))
+        } else {
+          callback()
+        }
+      }
+    }
+    const checkNumber2 = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error('请输入有效任务数'))
+      } else {
+        if (!/^[0-9]+$/.test(value)) {
+          callback(new Error('请输入数字值'))
+        } else {
+          callback()
+        }
+      }
+    }
+    const checkNumber3 = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error('请输入外呼频率间隔'))
+      } else {
+        if (!/^[0-9]+$/.test(value)) {
+          callback(new Error('请输入数字值'))
+        } else {
+          callback()
+        }
+      }
+    }
     return {
       editorOption: {},
       taskGroup: {
@@ -221,16 +254,16 @@ export default {
           { type: 'date', required: true, message: '请选择时间', trigger: 'blur' }
         ],
         minimumDuration: [
-          {required: true, message: '请输入有效通话时长', trigger: 'blur'}
+          {required: true, trigger: 'blur', validator: checkNumber}
         ],
         effectiveTasks: [
-          {required: true, message: '请输入有效任务数', trigger: 'blur'}
+          {required: true, trigger: 'blur', validator: checkNumber2}
         ],
         nextActionRule: [
           {required: true, message: '请选择下一步行动规则', trigger: 'blur'}
         ],
         interv: [
-          {required: true, message: '请输入外呼频率间隔', trigger: 'blur'}
+          {required: true, trigger: 'blur', validator: checkNumber3}
         ]
       },
       headers: {
