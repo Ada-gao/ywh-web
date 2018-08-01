@@ -60,7 +60,7 @@
     </div>
     <div class="detail-title" style="margin-top: 30px">
       <span class="list-tit">名单列表</span>
-      <el-button :class="form.companyId && tableData.length > 0 ? 'add_btn' : 'insert_btn'" @click="showDialog">
+      <el-button :class="form.companyId && form.groupName &&tableData.length > 0 ? 'add_btn' : 'insert_btn'" @click="showDialog">
         <i class="fa fa-sign-out" style="margin-right: 10px"></i>确认导入
       </el-button>
 
@@ -124,9 +124,7 @@ export default {
       // this.formData = data.formData
     },
     showDialog () {
-      console.log(11111)
-      if (this.form.companyId &&
-          this.tableData.length > 0) {
+      if (this.form.companyId && this.form.groupName && this.tableData.length > 0) {
         this.dialogVisible = true
       }
     },
