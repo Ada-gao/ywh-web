@@ -321,6 +321,9 @@ export default {
       this.value3 = this.$route.query.enabled
       this.getList()
     }
+    if(this.$route.query.updateStatus && this.$route.query.updateStatus == 'update'){
+      this.updateStatus = 'update';
+    }
     this.getQuery()
     this.listLoading = false
   },
@@ -378,6 +381,7 @@ export default {
     },
     updateStat () {
       this.updateStatus = 'update'
+      this.$router.replace({path:this.$route.fullPath, query: {updateStatus:this.updateStatus}});
       this.getQuery()
     },
     create (formName) {
