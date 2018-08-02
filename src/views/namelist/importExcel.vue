@@ -137,7 +137,7 @@ export default {
     },
     checkTelphone (value) {
       if (value) {
-        return /^(0[0-9]{2,3}\-)([2-9][0-9]{6,7})+$/.test(value)
+        return /^(0[0-9]{2,3}-)([2-9][0-9]{6,7})+$/.test(value)
       }
       return false
     },
@@ -198,11 +198,6 @@ export default {
             })
             this.$router.push({path: '/list'})
           }
-        }).catch(error => {
-          this.$message({
-            message: error.response.data.error,
-            type: 'error'
-          })
         })
       }
     }
