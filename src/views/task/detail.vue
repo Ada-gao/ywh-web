@@ -289,7 +289,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   .detail-title {
     /*margin-top: 30px;*/
     /*margin-bottom: 20px;*/
@@ -311,4 +311,5 @@ export default {
     color: #0299CC;
     cursor: pointer;
   }
+  .el-popover{ max-height: 360px; overflow: auto; word-break: break-all;}
 </style>
