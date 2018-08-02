@@ -89,13 +89,15 @@
           <el-col :span="17">
             <el-form-item label="外呼话术" prop="salesTalk" required>
               <!--<el-input type="textarea" v-model="taskGroup.salesTalk" placeholder="输入外呼话术"></el-input>-->
-              <quill-editor v-model="taskGroup.salesTalk"
+              <!-- <quill-editor v-model="taskGroup.salesTalk"
                             ref="myQuillEditor"
                             class="editer"
                             placeholder="输入外呼话术"
                             :options="editorOption">
-              </quill-editor>
+              </quill-editor> -->
               <!--<div class="limit">当前已输入 <span>{{textLength}}</span> 个字符，您还可以输入 <span>{{SurplusLength}}</span> 个字符。</div>-->
+              <textarea class="sales_talk" maxlength="1000" v-model="taskGroup.salesTalk" placeholder="输入外呼话术"></textarea>
+              <div class="limit" v-if="taskGroup.salesTalk">当前已输入 <span>{{taskGroup.salesTalk.length}}</span> 个字符，您还可以输入 <span>{{1000 - taskGroup.salesTalk.length}}</span> 个字符。</div>
             </el-form-item>
           </el-col>
         </el-row>
@@ -352,16 +354,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .limit {
-    height: 30px;
-    border: 1px solid #ccc;
-    line-height: 30px;
-    text-align: right;
-
-    span {
-      color: #ee2a7b;
-    }
-  }
   .el-select {
     display: block;
   }
@@ -388,4 +380,8 @@ export default {
       margin-left: -100px;
     }
   }
+  //外呼样式
+.sales_talk{ border:1px solid #C8C8C8; outline:none; background:none; appearance:none; -webkit-appearance:none; width: 100%; line-height: 24px; padding:10px 15px;}
+.limit { position:relative; top: -15px; height: 25px; text-align: right;}
+.limit span {color: #ee2a7b; }
 </style>
