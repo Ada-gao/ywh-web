@@ -65,4 +65,9 @@ body {
 .fade-leave-active {
   opacity: 0;
 }
+
+.container .el-button--primary{
+  background: #ffffff;
+}
+
 </style>

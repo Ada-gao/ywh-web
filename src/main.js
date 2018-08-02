@@ -1,4 +1,7 @@
 import Vue from 'vue'
+import 'babel-polyfill'
+import 'es6-promise-polyfill'
+import 'es6-promise'
 import App from './App'
 import moment from 'moment'
 import ElementUI from 'element-ui'
