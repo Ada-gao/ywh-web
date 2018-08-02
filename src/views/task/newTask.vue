@@ -87,38 +87,20 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="17">
-            <el-form-item label="外呼话术" prop="salesTalk" required>
-              <!--<el-input type="textarea" v-model="taskGroup.salesTalk" placeholder="输入外呼话术"></el-input>-->
-              <!-- <quill-editor v-model="taskGroup.salesTalk"
-                            ref="myQuillEditor"
-                            class="editer"
-                            placeholder="输入外呼话术"
-                            :options="editorOption">
-              </quill-editor> -->
-              <!--<div class="limit">当前已输入 <span>{{textLength}}</span> 个字符，您还可以输入 <span>{{SurplusLength}}</span> 个字符。</div>-->
-              <textarea class="sales_talk" maxlength="1000" v-model="taskGroup.salesTalk" placeholder="输入外呼话术"></textarea>
+            <el-form-item label="外呼话术" prop="salesTalk">
+              <el-input type="textarea" :rows="3" maxlength="1000" v-model="taskGroup.salesTalk" placeholder="输入外呼话术"></el-input>
               <div class="limit" v-if="taskGroup.salesTalk">当前已输入 <span>{{taskGroup.salesTalk.length}}</span> 个字符，您还可以输入 <span>{{1000 - taskGroup.salesTalk.length}}</span> 个字符。</div>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="9" class="noml">
-            <el-form-item prop="taskStartDate" label="任务时间" required>
-              <el-date-picker type="date"
-                              placeholder="选择日期"
-                              v-model="taskGroup.taskStartDate"></el-date-picker>
-            </el-form-item>
-            <!--<span class="divideline">-</span>-->
-            <!--<el-form-item prop="taskEndDate" class="nomargin">-->
-              <!--<el-date-picker type="date" placeholder="选择日期" v-model="taskGroup.taskEndDate"></el-date-picker>-->
-            <!--</el-form-item>-->
-          </el-col>
-          <el-col class="line" style="width: 10px">-</el-col>
-          <el-col :span="9" class="noml1">
-            <el-form-item prop="taskEndDate">
-              <el-date-picker type="date"
-                              placeholder="选择日期"
-                              v-model="taskGroup.taskEndDate"></el-date-picker>
+          <el-col :span="17">
+            <el-form-item prop="taskDate" label="任务时间" >
+              <el-date-picker type="daterange"
+                              start-placeholder="开始日期"
+                              end-placeholder="结束日期"
+                              :default-time="['00:00:00', '23:59:59']"
+                              v-model="taskGroup.taskDate"></el-date-picker>
             </el-form-item>
           </el-col>
         </el-row>
@@ -220,6 +202,7 @@ export default {
     return {
       editorOption: {},
       taskGroup: {
+        taskDate: [],
         team: '',
         outboundNameGroupId: null,
         assignRule: '随机平均分配'
@@ -249,11 +232,8 @@ export default {
         team: [
           {required: true, message: '请选择/输入关联团队', trigger: 'blur'}
         ],
-        taskStartDate: [
-          { type: 'date', required: true, message: '请选择日期', trigger: 'blur' }
-        ],
-        taskEndDate: [
-          { type: 'date', required: true, message: '请选择时间', trigger: 'blur' }
+        taskDate: [
+          {required: true, message: '请选择日期', trigger: 'blur'}
         ],
         minimumDuration: [
           {required: true, trigger: 'blur', validator: checkNumber}
@@ -309,9 +289,13 @@ export default {
     },
     create (formName) {
       const set = this.$refs
-      console.log(this.taskGroup)
       set[formName].validate(valid => {
         if (valid) {
+          this.taskGroup.taskStartDate = this.taskGroup.taskDate[0]
+          this.taskGroup.taskEndDate = this.taskGroup.taskDate[1]
+          // console.log(this.taskGroup.taskDate)
+          // console.log(this.taskGroup.taskStartDate)
+          // console.log(this.taskGroup.taskEndDate)
           this.taskGroup.interv -= 0
           this.taskGroup.effectiveTasks -= 0
           this.taskGroup.minimumDuration -= 0
@@ -381,7 +365,7 @@ export default {
     }
   }
   //外呼样式
-.sales_talk{ border:1px solid #C8C8C8; outline:none; background:none; appearance:none; -webkit-appearance:none; width: 100%; line-height: 24px; padding:10px 15px;}
-.limit { position:relative; top: -15px; height: 25px; text-align: right;}
+/*.sales_talk{ border:1px solid #C8C8C8; outline:none; background:none; appearance:none; -webkit-appearance:none; width: 100%; line-height: 24px; padding:10px 15px;}*/
+.limit { position:relative; height: 25px; text-align: right;}
 .limit span {color: #ee2a7b; }
 </style>
