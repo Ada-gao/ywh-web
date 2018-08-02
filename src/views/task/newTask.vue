@@ -127,7 +127,7 @@
         </el-row>
         <el-row :gutter="20" class="define-rule-box">
           <el-col :span="8">
-            <el-form-item label="有效通话时长" prop="minimumDuration">
+            <el-form-item label="有效通话时长（秒）" prop="minimumDuration">
               <el-input placeholder="有效通话时长" v-model="taskGroup.minimumDuration"></el-input>
             </el-form-item>
           </el-col>
@@ -187,7 +187,7 @@ export default {
         return callback(new Error('请输入有效通话时长'))
       } else {
         if (!/^[0-9]+$/.test(value)) {
-          callback(new Error('请输入数字值'))
+          callback(new Error('请输入数字'))
         } else {
           callback()
         }
@@ -198,7 +198,7 @@ export default {
         return callback(new Error('请输入有效任务数'))
       } else {
         if (!/^[0-9]+$/.test(value)) {
-          callback(new Error('请输入数字值'))
+          callback(new Error('请输入数字'))
         } else {
           callback()
         }
@@ -209,7 +209,7 @@ export default {
         return callback(new Error('请输入外呼频率间隔'))
       } else {
         if (!/^[0-9]+$/.test(value)) {
-          callback(new Error('请输入数字值'))
+          callback(new Error('请输入数字'))
         } else {
           callback()
         }
