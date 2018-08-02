@@ -30,11 +30,7 @@ service.interceptors.response.use(
     return response
   },
   error => {
-    console.log('error')
-    console.log(error)
     const res = error.response
-    console.log(res.data)
-
     if (res.status === 400) {
       // 错误处理
 
