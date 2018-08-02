@@ -52,7 +52,7 @@
         <el-row :gutter="20">
           <el-col :span="17">
             <el-form-item label="对应职级" prop="level">
-              <el-input v-model="form.level" placeholder="请输入对应职级"></el-input>
+              <el-input v-model="form.level" placeholder="请输入对应职级" maxlength="255"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -304,7 +304,7 @@ export default {
       },
       companies: [],
       companyName: '',
-      value3: true,
+      value3: null,
       updatePwdDialog: false,
       ruleForm: {
         password: null
@@ -318,6 +318,7 @@ export default {
       this.updateStatus = 'create'
     } else {
       this.updateStatus = 'view'
+      this.value3 = this.$route.query.enabled
       this.getList()
     }
     this.getQuery()
@@ -349,12 +350,11 @@ export default {
     getList () {
       getUserById(this.id).then(res => {
         this.form = res.data
-        this.value3 = res.data.enabled
         this.form.createdDate = new Date(this.form.createdDate).toLocaleDateString()
       })
       taskDoneRate(this.id).then(res => {
         this.list.push(res.data)
-        console.log(this.list)
+        // console.log(this.list)
         // this.list = []
         // this.list.push(res.data)
         if (this.list.length > 0) {
@@ -394,6 +394,11 @@ export default {
                   duration: 2000
                 })
                 this.$router.push({path: '/salesman'})
+              }).catch(error => {
+                this.$message({
+                  message: error.response.data.error,
+                  type: 'error'
+                })
               })
           } else {
             updSale(this.form.id, this.form).then(res => {

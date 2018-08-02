@@ -121,35 +121,24 @@ export default {
     },
     submit () {
       this.dialogVisible = false
-      let keyMap = {
-        销售姓名: 'name',
-        所属团队: 'team',
-        对应职级: 'level',
-        手机号: 'mobile',
-        用户名: 'username',
-        密码: 'password'
-      }
-      this.tableData.forEach(item => {
-        replaceKey(item, keyMap)
-      })
       this.error = ''
       for (let i = 0; i < this.tableData.length; i++) {
-        if (!this.tableData[i].name || this.tableData[i].name.length > 50) {
+        if (!this.tableData[i].销售姓名 || this.tableData[i].销售姓名.length > 50) {
           this.error += '‘销售姓名’'
         }
-        if (!this.tableData[i].team || this.tableData[i].team.length > 20) {
+        if (!this.tableData[i].所属团队 || this.tableData[i].所属团队.length > 20) {
           this.error += '‘所属团队’'
         }
-        if (!this.tableData[i].level) {
+        if (!this.tableData[i].对应职级 || this.tableData[i].对应职级.length > 255) {
           this.error += '‘对应职级’'
         }
-        if (!this.checkMobile(this.tableData[i].mobile)) {
+        if (!this.checkMobile(this.tableData[i].手机号)) {
           this.error += '‘手机号’'
         }
-        if (!this.tableData[i].username || this.tableData[i].username.length < 4 || this.tableData[i].username.length > 50) {
+        if (!this.tableData[i].用户名 || this.tableData[i].用户名.length < 4 || this.tableData[i].用户名.length > 50) {
           this.error += '‘用户名’'
         }
-        if (!this.tableData[i].password || this.tableData[i].password.length < 6 || this.tableData[i].password.length > 12) {
+        if (!this.tableData[i].密码 || this.tableData[i].密码.length < 6 || this.tableData[i].密码.length > 12) {
           this.error += '‘密码’'
         }
         if (this.error) {
@@ -164,6 +153,17 @@ export default {
           duration: 5000
         })
       } else {
+        let keyMap = {
+          销售姓名: 'name',
+          所属团队: 'team',
+          对应职级: 'level',
+          手机号: 'mobile',
+          用户名: 'username',
+          密码: 'password'
+        }
+        this.tableData.forEach(item => {
+          replaceKey(item, keyMap)
+        })
         addBatch(this.form.companyId, this.tableData).then(res => {
           if (res.status === 200) {
             console.log(res)
@@ -175,12 +175,10 @@ export default {
             })
             this.$router.push({path: '/salesman'})
           }
-        }).catch((message) => {
-          this.$notify({
-            title: '失败',
-            message: '存在重复用户，请核对后再导入',
-            // type: 'success',
-            duration: 2000
+        }).catch(error => {
+          this.$message({
+            message: error.response.data.error,
+            type: 'error'
           })
         })
       }

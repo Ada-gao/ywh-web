@@ -103,7 +103,8 @@ export default {
           { required: true, message: '请选择上传文件', trigger: 'blur' }
         ]
       },
-      filename: ''
+      filename: '',
+      error: null
     }
   },
   created () {
@@ -128,22 +129,57 @@ export default {
         this.dialogVisible = true
       }
     },
+    checkMobile (value) {
+      if (value) {
+        return /^((1[3-8][0-9])+\d{8})$/.test(value)
+      }
+      return false
+    },
     submit () {
       this.dialogVisible = false
-      let keyMap = {
-        联系人姓名: 'contactName',
-        手机号: 'phoneNo',
-        年龄: 'age',
-        性别: 'gender',
-        所在地: 'residence',
-        名单来源: 'source'
+      this.error = ''
+      for (let i = 0; i < this.tableData.length; i++) {
+        if (this.tableData[i].联系人姓名 && this.tableData[i].联系人姓名.length > 50) {
+          this.error += '‘联系人姓名’'
+        }
+        if (!this.checkMobile(this.tableData[i].手机号)) {
+          this.error += '‘手机号’'
+        }
+        if (!this.tableData[i].年龄) {
+          this.error += '‘年龄’'
+        }
+        if (!this.tableData[i].性别) {
+          this.error += '‘性别’'
+        }
+        if (!this.tableData[i].所在地) {
+          this.error += '‘所在地’'
+        }
+        if (!this.tableData[i].名单来源) {
+          this.error += '‘名单来源’'
+        }
+        if (this.error) {
+          this.error = '第' + (i + 1) + '行' + this.error + '格式有误'
+          break
+        }
       }
-      this.tableData.forEach(item => {
-        replaceKey(item, keyMap)
-      })
-      if (this.tableData[0].undefined) {
-        alert('导入失败，请按照正确模板格式导入')
+      if (this.error) {
+        this.$notify.error({
+          title: '错误',
+          message: this.error,
+          duration: 2000
+        })
       } else {
+        let keyMap = {
+          联系人姓名: 'contactName',
+          手机号: 'phoneNo',
+          年龄: 'age',
+          性别: 'gender',
+          所在地: 'residence',
+          名单来源: 'source'
+        }
+        this.tableData.forEach(item => {
+          replaceKey(item, keyMap)
+        })
         addNameExcel(this.form, this.tableData).then(res => {
           if (res.status === 200) {
             this.$notify({
@@ -154,6 +190,11 @@ export default {
             })
             this.$router.push({path: '/list'})
           }
+        }).catch(error => {
+          this.$message({
+            message: error.response.data.error,
+            type: 'error'
+          })
         })
       }
     }
