@@ -51,7 +51,7 @@ service.interceptors.response.use(
       message('管理权限不足，请联系管理员')
     } else if (res.status === 500) {
       // alert(this.$router.currentRoute.path)
-      message(res.data.message, 'error')
+      message(res.data.error, 'error')
     } else {
       message('服务器被吃了⊙﹏⊙∥', 'error')
       router.replace({

@@ -175,11 +175,6 @@ export default {
             })
             this.$router.push({path: '/salesman'})
           }
-        }).catch(error => {
-          this.$message({
-            message: error.response.data.error,
-            type: 'error'
-          })
         })
       }
     }

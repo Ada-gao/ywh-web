@@ -355,11 +355,6 @@ export default {
             })
             this.updatePwdDialog = false
             this.$refs[formName].resetFields()
-          }).catch(error => {
-            this.$message({
-              message: error.response.data.error,
-              type: 'error'
-            })
           })
         } else {
           return false
@@ -381,11 +376,6 @@ export default {
               this.$refs[formName].resetFields()
               this.updateStatus = 'view'
               this.getList()
-            }).catch(error => {
-              this.$message({
-                message: error.response.data.error,
-                type: 'error'
-              })
             })
         } else {
           return false
