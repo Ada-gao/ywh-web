@@ -89,7 +89,8 @@ export default {
         filename: [
           { required: true, message: '请选择上传文件', trigger: 'blur' }
         ]
-      }
+      },
+      error: ''
     }
   },
   created () {
@@ -112,6 +113,12 @@ export default {
         this.dialogVisible = true
       }
     },
+    checkMobile (value) {
+      if (value) {
+        return /^((1[3-8][0-9])+\d{8})$/.test(value)
+      }
+      return false
+    },
     submit () {
       this.dialogVisible = false
       let keyMap = {
@@ -125,9 +132,37 @@ export default {
       this.tableData.forEach(item => {
         replaceKey(item, keyMap)
       })
-      console.log(this.tableData)
-      if (this.tableData[0].undefined) {
-        alert('导入失败，请按照正确模板格式导入')
+      this.error = ''
+      for (let i = 0; i < this.tableData.length; i++) {
+        if (!this.tableData[i].name || this.tableData[i].name.length > 50) {
+          this.error += '‘销售姓名’'
+        }
+        if (!this.tableData[i].team || this.tableData[i].team.length > 20) {
+          this.error += '‘所属团队’'
+        }
+        if (!this.tableData[i].level) {
+          this.error += '‘对应职级’'
+        }
+        if (!this.checkMobile(this.tableData[i].mobile)) {
+          this.error += '‘手机号’'
+        }
+        if (!this.tableData[i].username || this.tableData[i].username.length < 4 || this.tableData[i].username.length > 50) {
+          this.error += '‘用户名’'
+        }
+        if (!this.tableData[i].password || this.tableData[i].password.length < 6 || this.tableData[i].password.length > 12) {
+          this.error += '‘密码’'
+        }
+        if (this.error) {
+          this.error = '第' + (i + 1) + '行' + this.error + '格式有误'
+          break
+        }
+      }
+      if (this.error) {
+        this.$notify.error({
+          title: '错误',
+          message: this.error,
+          duration: 5000
+        })
       } else {
         addBatch(this.form.companyId, this.tableData).then(res => {
           if (res.status === 200) {
