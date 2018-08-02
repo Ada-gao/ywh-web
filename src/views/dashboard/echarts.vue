@@ -55,7 +55,7 @@
                             </div>
                             <div class="col-xs-8">
                               <div class="stat-tit">有效通话时长</div>
-                              <span class="huge">{{total.totalEffectiveDuration}}</span>
+                              <span class="huge" style="font-size: 20px;">{{total.totalEffectiveDuration}}</span>
                             </div>
                         </div>
                     </div>
