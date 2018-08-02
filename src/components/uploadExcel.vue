@@ -58,7 +58,7 @@ export default {
       const files = e.target.files
       const itemFile = files[0] // only use files[0]
       this.filename = itemFile.name
-      console.log(this.filename)
+      // console.log(this.filename)
       let formData = new FormData()
       formData.append('file', itemFile)
       this.readerData(itemFile, formData)
