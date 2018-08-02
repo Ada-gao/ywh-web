@@ -144,31 +144,23 @@ export default {
     submit () {
       this.dialogVisible = false
       this.error = ''
-      for (let i = 0; i < this.tableData.length; i++) {
-        if (this.tableData[i].联系人姓名 && this.tableData[i].联系人姓名.length > 50) {
-          this.error += '‘联系人姓名’'
-        }
-        if (this.checkMobile(this.tableData[i].手机号) || this.checkTelphone(this.tableData[i].手机号)) {
+      if (this.tableHeader[0] === '联系人姓名' && this.tableHeader[1] === '手机号' && this.tableHeader[2] === '年龄' && this.tableHeader[3] === '性别' && this.tableHeader[4] === '所在地' && this.tableHeader[5] === '名单来源'){
+        for (let i = 0; i < this.tableData.length; i++) {
+          if (this.tableData[i].联系人姓名 && this.tableData[i].联系人姓名.length > 50) {
+            this.error += '‘联系人姓名’'
+          }
+          if (this.checkMobile(this.tableData[i].手机号) || this.checkTelphone(this.tableData[i].手机号)) {
 
-        } else {
-          this.error += '‘手机号’'
+          } else {
+            this.error += '‘手机号’'
+          }
+          if (this.error) {
+            this.error = '第' + (i + 1) + '行' + this.error + '格式有误'
+            break
+          }
         }
-        // if (!this.tableData[i].年龄) {
-        //   this.error += '‘年龄’'
-        // }
-        // if (!this.tableData[i].性别) {
-        //   this.error += '‘性别’'
-        // }
-        // if (!this.tableData[i].所在地) {
-        //   this.error += '‘所在地’'
-        // }
-        // if (!this.tableData[i].名单来源) {
-        //   this.error += '‘名单来源’'
-        // }
-        if (this.error) {
-          this.error = '第' + (i + 1) + '行' + this.error + '格式有误'
-          break
-        }
+      } else {
+        this.error = '导入的模版不正确，请核对后重新导入'
       }
       if (this.error) {
         this.$notify.error({

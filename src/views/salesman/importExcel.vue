@@ -122,29 +122,33 @@ export default {
     submit () {
       this.dialogVisible = false
       this.error = ''
-      for (let i = 0; i < this.tableData.length; i++) {
-        if (!this.tableData[i].销售姓名 || this.tableData[i].销售姓名.length > 50) {
-          this.error += '‘销售姓名’'
+      if (this.tableHeader[0] === '销售姓名' && this.tableHeader[1] === '所属团队' && this.tableHeader[2] === '对应职级' && this.tableHeader[3] === '手机号' && this.tableHeader[4] === '用户名' && this.tableHeader[5] === '密码'){
+        for (let i = 0; i < this.tableData.length; i++) {
+          if (!this.tableData[i].销售姓名 || this.tableData[i].销售姓名.length > 50) {
+            this.error += '‘销售姓名’'
+          }
+          if (!this.tableData[i].所属团队 || this.tableData[i].所属团队.length > 20) {
+            this.error += '‘所属团队’'
+          }
+          if (!this.tableData[i].对应职级 || this.tableData[i].对应职级.length > 255) {
+            this.error += '‘对应职级’'
+          }
+          if (!this.checkMobile(this.tableData[i].手机号)) {
+            this.error += '‘手机号’'
+          }
+          if (!this.tableData[i].用户名 || this.tableData[i].用户名.length < 4 || this.tableData[i].用户名.length > 50) {
+            this.error += '‘用户名’'
+          }
+          if (!this.tableData[i].密码 || this.tableData[i].密码.length < 6 || this.tableData[i].密码.length > 12) {
+            this.error += '‘密码’'
+          }
+          if (this.error) {
+            this.error = '第' + (i + 1) + '行' + this.error + '格式有误'
+            break
+          }
         }
-        if (!this.tableData[i].所属团队 || this.tableData[i].所属团队.length > 20) {
-          this.error += '‘所属团队’'
-        }
-        if (!this.tableData[i].对应职级 || this.tableData[i].对应职级.length > 255) {
-          this.error += '‘对应职级’'
-        }
-        if (!this.checkMobile(this.tableData[i].手机号)) {
-          this.error += '‘手机号’'
-        }
-        if (!this.tableData[i].用户名 || this.tableData[i].用户名.length < 4 || this.tableData[i].用户名.length > 50) {
-          this.error += '‘用户名’'
-        }
-        if (!this.tableData[i].密码 || this.tableData[i].密码.length < 6 || this.tableData[i].密码.length > 12) {
-          this.error += '‘密码’'
-        }
-        if (this.error) {
-          this.error = '第' + (i + 1) + '行' + this.error + '格式有误'
-          break
-        }
+      } else {
+        this.error = '导入的模版不正确，请核对后重新导入'
       }
       if (this.error) {
         this.$notify.error({
