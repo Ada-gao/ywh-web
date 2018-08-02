@@ -38,11 +38,11 @@ service.interceptors.response.use(
     } else if (res.status === 401) {
       message('登录时间过期，请重新登录', 'error')
       removeToken()
-      // router.replace({
-      //   path: '/login',
-      //   query: {redirect: router.fullPath}
-      // })
-      window.location.href = window.location.protocol + '//' + window.location.host + '/login'
+      router.replace({
+        path: '/login',
+        query: {redirect: router.fullPath}
+      })
+      //window.location.href = window.location.protocol + '//' + window.location.host + '/login'
     } else if (res.status === 403) {
       console.log(333)
       this.$router.push({path: '/login'})
