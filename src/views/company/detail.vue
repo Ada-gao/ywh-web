@@ -133,7 +133,7 @@
         <el-form :model="updateForm" :rules="rulesManager" ref="updateForm" label-width="80px"
                  style="margin-right: 20px;">
           <el-form-item label="姓名" prop="name" class="txt">
-            <el-input v-model="updateForm.name" placeholder="输入管理员姓名"></el-input>
+            <el-input v-model="updateForm.name" placeholder="输入管理员姓名"/>
           </el-form-item>
           <el-form-item label="职务" class="txt">
             <el-input v-model="updateForm.level" placeholder="输入职务"/>
@@ -166,14 +166,14 @@
         <el-row :gutter="20">
           <el-col :span="17">
             <el-form-item label="姓名" prop="name">
-              <el-input v-model="manager.name" placeholder="输入管理员姓名"></el-input>
+              <el-input v-model="manager.name" placeholder="输入管理员姓名" maxlength="50"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="17">
             <el-form-item label="职务">
-              <el-input v-model="manager.level" placeholder="输入职务"></el-input>
+              <el-input v-model="manager.level" placeholder="输入职务" maxlength="255"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
