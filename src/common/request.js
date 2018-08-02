@@ -30,6 +30,7 @@ service.interceptors.response.use(
     return response
   },
   error => {
+    console.log(error,'99999')
     const res = error.response
     if (res.status === 400) {
       // 错误处理
@@ -41,7 +42,7 @@ service.interceptors.response.use(
       //   path: '/login',
       //   query: {redirect: router.fullPath}
       // })
-      window.location.href = window.location.host + '/login'
+      window.location.href = window.location.protocol + '//' + window.location.host + '/login'
     } else if (res.status === 403) {
       console.log(333)
       this.$router.push({path: '/login'})
