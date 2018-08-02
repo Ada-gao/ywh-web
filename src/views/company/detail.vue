@@ -144,7 +144,7 @@
         </el-form>
         <div style="text-align: right">
           <el-button class="search_btn" @click="cancelUpdateUsers('updateForm')">取 消</el-button>
-          <el-button class="add_btn" type="primary" @click="updateUsers('updateForm')">确 定</el-button>
+          <el-button class="add_btn" @click="updateUsers('updateForm')">确 定</el-button>
         </div>
       </el-dialog>
       <el-dialog title="修改密码" :visible.sync="updatePwdDialog" width="30%">
@@ -156,7 +156,7 @@
         </el-form>
         <div style="text-align: right">
           <el-button class="search_btn" @click="cancelResetPassword('pwdForm')">取 消</el-button>
-          <el-button class="add_btn" type="primary" @click="resetPassword('pwdForm')">确 定</el-button>
+          <el-button class="add_btn" @click="resetPassword('pwdForm')">确 定</el-button>
         </div>
       </el-dialog>
     </div>

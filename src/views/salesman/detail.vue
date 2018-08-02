@@ -210,7 +210,7 @@
         </el-form>
         <div style="text-align: right">
           <el-button class="search_btn" @click="cancelResetPassword('ruleForm')">取 消</el-button>
-          <el-button class="add_btn" type="primary" @click="resetPassword('ruleForm')">确 定</el-button>
+          <el-button class="add_btn" @click="resetPassword('ruleForm')">确 定</el-button>
         </div>
       </el-dialog>
     </div>
@@ -394,11 +394,6 @@ export default {
                   duration: 2000
                 })
                 this.$router.push({path: '/salesman'})
-              }).catch(error => {
-                this.$message({
-                  message: error.response.data.error,
-                  type: 'error'
-                })
               })
           } else {
             updSale(this.form.id, this.form).then(res => {
