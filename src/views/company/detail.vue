@@ -133,10 +133,10 @@
         <el-form :model="updateForm" :rules="rulesManager" ref="updateForm" label-width="80px"
                  style="margin-right: 20px;">
           <el-form-item label="姓名" prop="name" class="txt">
-            <el-input v-model="updateForm.name" placeholder="输入管理员姓名"/>
+            <el-input v-model="updateForm.name" placeholder="输入管理员姓名" maxlength="50"/>
           </el-form-item>
           <el-form-item label="职务" class="txt">
-            <el-input v-model="updateForm.level" placeholder="输入职务"/>
+            <el-input v-model="updateForm.level" placeholder="输入职务" maxlength="255"/>
           </el-form-item>
           <el-form-item label="联系手机" class="txt" prop="mobile">
             <el-input v-model="updateForm.mobile" placeholder="请输入联系电话" maxlength="11"/>
