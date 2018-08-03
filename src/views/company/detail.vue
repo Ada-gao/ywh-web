@@ -315,9 +315,7 @@ export default {
     }
   },
   created () {
-    console.log('created')
     let obj = this.$route.query
-    console.log(obj)
     this.listQuery.companyId = obj.id
     this.getList()
     this.form = obj
@@ -325,7 +323,6 @@ export default {
       this.form.logo = process.env.BASE_API + '/file/' + this.form.logo
     }
     this.updateStatus = 'view'
-    console.log('created2')
   },
   methods: {
     changeMode (id, enabled) {

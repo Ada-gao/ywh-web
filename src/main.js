@@ -42,7 +42,6 @@ router.beforeEach((to, from, next) => {
     } else {
       if (store.getters.sysUser === '') {
         store.dispatch('GetUser', getToken()).then(res => {
-          console.log('测试' + res)
           // 每次请求的回调
         })
       }
@@ -59,7 +58,6 @@ router.beforeEach((to, from, next) => {
   //   sessionStorage.removeItem('token')
   // }
   // let user = sessionStorage.getItem('token')
-  // // console.log(user)
   // if (!user && to.path !== '/login') {
   //   next({ path: '/login' })
   // } else {

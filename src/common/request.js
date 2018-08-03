@@ -30,7 +30,6 @@ service.interceptors.response.use(
     return response
   },
   error => {
-    console.log(error,'99999')
     const res = error.response
     if (res.status === 400) {
       // 错误处理
@@ -44,7 +43,6 @@ service.interceptors.response.use(
       })
       //window.location.href = window.location.protocol + '//' + window.location.host + '/login'
     } else if (res.status === 403) {
-      console.log(333)
       this.$router.push({path: '/login'})
       message('管理权限不足，请联系管理员')
     } else if (res.status === 500) {

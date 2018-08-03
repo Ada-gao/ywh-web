@@ -58,7 +58,6 @@ export default {
       const files = e.target.files
       const itemFile = files[0] // only use files[0]
       this.filename = itemFile.name
-      // console.log(this.filename)
       let formData = new FormData()
       formData.append('file', itemFile)
       this.readerData(itemFile, formData)
@@ -79,10 +78,7 @@ export default {
         //   if(item.indexOf('UNKNOWN') === -1) {
         //     // debugger
         //     // header.split(index, 1)
-        //     // console.log(index)
-        //     // console.log(item)
         //     headerList.push(item)
-        //     // console.log(headerList)
         //   }
         // })
         const results = XLSX.utils.sheet_to_json(worksheet)

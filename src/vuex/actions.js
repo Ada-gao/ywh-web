@@ -44,7 +44,6 @@ export const decrement = ({commit}) => {
 }
 export const GetUser = ({commit}, token) => {
   if (token) {
-    // console.log('token')
     getUser().then(res => {
       const userInfo = res.data
       const userData = res.data.authorities

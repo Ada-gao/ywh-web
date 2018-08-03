@@ -317,7 +317,6 @@ export default {
     if (obj && obj.id) {
       this.form = obj
       // this.form.logo = process.env.BASE_API + '/file/' + this.form.logo
-      console.log(this.form.logo)
       this.updateStatus = 'update'
     } else {
       this.updateStatus = 'create'
@@ -334,7 +333,6 @@ export default {
   //     /* --------------- 管理员 end ---------------- */
   //     this.form = obj
   //     this.form.logo = process.env.BASE_API + '/file/' + this.form.logo
-  //     console.log(this.form.logo)
   //     this.updateStatus = 'view'
   //   } else {
   //     this.getOrgSize()
@@ -350,7 +348,6 @@ export default {
       this.previews = data
     },
     down (type) {
-      console.log('type' + type)
       if (type === 'blob') {
         this.$refs.cropper.getCropBlob((data) => {
           this.downImg = window.URL.createObjectURL(data)
@@ -361,7 +358,6 @@ export default {
           uploadLogo(formData).then(res => {
             this.imgurl = res.data
             this.form.logo = process.env.BASE_API + '/file/' + res.data
-            console.log(this.form.logo)
             this.dialogVisible = false
           })
         })
@@ -378,9 +374,7 @@ export default {
         })
       }
     },
-    imgLoad (msg) {
-      console.log(msg)
-    },
+    imgLoad (msg) {},
     modifyStat () {
       this.updateStatus = 'update'
       this.getOrgSize()
@@ -391,7 +385,6 @@ export default {
       })
       getAuthDustries().then(res => {
         this.coInfo.industryType = res.data
-        console.log(this.coInfo.industryType)
         if (this.updateStatus === 'update') {
           let transferId = retransfer(this.form.industryType, this.coInfo.industryType)
           getAuthDustryByType(transferId).then(res => {
@@ -428,13 +421,11 @@ export default {
     create (formName) {
       let str = this.form.logo
       if (typeof this.form.industryType === 'number') {
-        // console.log(this.form.industryType)
         this.form.industryType = transferIndustry(this.form.industryType, this.coInfo.industryType)
       }
       this.$refs[formName].validate(valid => {
         if (valid) {
           // this.form.companyProvince = this.form.companyProvince.label
-          // console.log(valid)
           if (str) {
             let index = str.lastIndexOf('/')
             this.form.logo = str.substring(index + 1, str.length)
@@ -453,7 +444,6 @@ export default {
     },
     update (formName) {
       const set = this.$refs
-      // console.log('截取后' + tt)
       let id = this.form.id || this.companyId
       let str = this.form.logo
       this.form.companyCode = this.form.companyCode || this.companyCode
@@ -468,7 +458,6 @@ export default {
           }
           putCompanies(id, this.form)
             .then(() => {
-              // console.log(this.form)
               this.$notify({
                 title: '成功',
                 message: '修改成功',
@@ -487,20 +476,15 @@ export default {
       this.$router.push({path: '/company'})
     },
     handleChange (value) {
-      // console.log(value)
     },
     handleSuccess (res, file, fileList) {
       // this.form.logo = URL.createObjectURL(file.raw)
       // this.option.img = file.url
       // this.dialogVisible = true
-      // console.log(res)
-      // console.log(file)
       // this.form.logo = process.env.BASE_API + '/file/' + fileList
-      // console.log(this.form.logo)
     },
     beforeAvatarUpload (file) {
       this.option.img = window.URL.createObjectURL(file)
-      // console.log(file)
       this.dialogVisible = true
       return false
       // this.form.logo = process.env.BASE_API + '/file/' + fileList
@@ -515,9 +499,7 @@ export default {
         this.$router.push({path: '/company'})
       }
     },
-    changeOrgSize (val) {
-      // console.log(val)
-    }
+    changeOrgSize (val) {}
   }
 }
 </script>

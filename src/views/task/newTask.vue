@@ -293,15 +293,11 @@ export default {
         if (valid) {
           this.taskGroup.taskStartDate = this.taskGroup.taskDate[0]
           this.taskGroup.taskEndDate = this.taskGroup.taskDate[1]
-          // console.log(this.taskGroup.taskDate)
-          // console.log(this.taskGroup.taskStartDate)
-          // console.log(this.taskGroup.taskEndDate)
           this.taskGroup.interv -= 0
           this.taskGroup.effectiveTasks -= 0
           this.taskGroup.minimumDuration -= 0
           createTask(this.taskGroup)
             .then((res) => {
-              console.log(res)
               // this.getList()
               this.$notify({
                 title: '成功',
@@ -320,10 +316,8 @@ export default {
       this.$router.push({path: '/task'})
     },
     handleChange (value) {
-      console.log(value)
     },
     handleSuccess (fileList) {
-      console.log(fileList)
     },
     handleSizeChange (z) {
       this.listQuery.limit = z
