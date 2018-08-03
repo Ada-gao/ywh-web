@@ -373,7 +373,14 @@ export default {
       let idx = this.provinceData.findIndex((item, index) => {
         return item.label === val
       })
-      this.cityData = this.provinceData[idx].children
+      var cityarr = []
+      if(!this.provinceData[idx].children || typeof this.provinceData[idx].children.length == 'undefined' || this.provinceData[idx].children.length == 0){
+        cityarr.label = '市辖区'
+      }
+      this.cityData = this.provinceData[idx].children;
+      if(!this.cityData.length){
+        this.cityData[0] = cityarr
+      }
       this.form.companyCity = null
     },
     changeCity (val) {
