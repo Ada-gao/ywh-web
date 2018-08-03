@@ -91,7 +91,6 @@ export default {
         ]
       },
       error: '',
-      table: ''
     }
   },
   created () {
@@ -106,7 +105,6 @@ export default {
     selected (data) {
       this.tableHeader = data.header
       this.tableData = data.results
-      console.log(this.tableData)
       this.form.filename = data.filename
     },
     showDialog () {
@@ -166,11 +164,11 @@ export default {
           用户名: 'username',
           密码: 'password'
         }
-        this.table = this.tableData
-        this.table.forEach(item => {
+        let table = JSON.parse(JSON.stringify(this.tableData))
+        table.forEach(item => {
           replaceKey(item, keyMap)
         })
-        addBatch(this.form.companyId, this.table).then(res => {
+        addBatch(this.form.companyId, table).then(res => {
             this.$notify({
               title: '成功',
               message: '导入成功',

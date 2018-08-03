@@ -105,7 +105,6 @@ export default {
       },
       filename: '',
       error: '',
-      table: ''
     }
   },
   created () {
@@ -176,11 +175,11 @@ export default {
           所在地: 'residence',
           名单来源: 'source'
         }
-        this.table = this.tableData
-        this.table.forEach(item => {
+        let table = JSON.parse(JSON.stringify(this.tableData))
+        table.forEach(item => {
           replaceKey(item, keyMap)
         })
-        addNameExcel(this.form, this.table).then(res => {
+        addNameExcel(this.form, table).then(res => {
             this.$notify({
               title: '成功',
               message: '导入成功',
