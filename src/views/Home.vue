@@ -7,7 +7,7 @@
       </el-col>
       <el-col :span="10">
         <div class="tools" @click.prevent="collapse">
-          <i class="iconfont" :class="collapsed ? 'icon-zhankaicaidan' : 'icon-shouqicaidan'"></i>你好，{{sysUser}}
+          <i class="iconfont" :class="collapsed ? 'icon-zhankaicaidan' : 'icon-shouqicaidan'" style="margin-right:10px;"></i>你好，{{sysUser}}
         </div>
       </el-col>
       <el-col :span="4" class="userinfo">
