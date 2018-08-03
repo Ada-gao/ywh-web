@@ -32,9 +32,15 @@ service.interceptors.response.use(
   error => {
     console.log(error,'99999')
     const res = error.response
+    console.log(res.status)
+    console.log(res.status)
     if (res.status === 400) {
       // 错误处理
-
+      if (res.data.message){
+        message(res.data.message, 'error')
+      } else {
+        message(res.data.error, 'error')
+      }
     } else if (res.status === 401) {
       message('登录时间过期，请重新登录', 'error')
       removeToken()
@@ -44,12 +50,16 @@ service.interceptors.response.use(
       })
       //window.location.href = window.location.protocol + '//' + window.location.host + '/login'
     } else if (res.status === 403) {
-      console.log(333)
+      console.log(403)
       this.$router.push({path: '/login'})
       message('管理权限不足，请联系管理员')
     } else if (res.status === 500) {
       // alert(this.$router.currentRoute.path)
-      message(res.data.message, 'error')
+      if (res.data.message){
+        message(res.data.message, 'error')
+      } else {
+        message(res.data.error, 'error')
+      }
     } else {
       message('服务器被吃了⊙﹏⊙∥', 'error')
       router.replace({

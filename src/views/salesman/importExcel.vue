@@ -90,7 +90,8 @@ export default {
           { required: true, message: '请选择上传文件', trigger: 'blur' }
         ]
       },
-      error: ''
+      error: '',
+      table: ''
     }
   },
   created () {
@@ -165,12 +166,11 @@ export default {
           用户名: 'username',
           密码: 'password'
         }
-        this.tableData.forEach(item => {
+        this.table = this.tableData
+        this.table.forEach(item => {
           replaceKey(item, keyMap)
         })
-        addBatch(this.form.companyId, this.tableData).then(res => {
-          if (res.status === 200) {
-            console.log(res)
+        addBatch(this.form.companyId, this.table).then(res => {
             this.$notify({
               title: '成功',
               message: '导入成功',
@@ -178,7 +178,6 @@ export default {
               duration: 2000
             })
             this.$router.push({path: '/salesman'})
-          }
         })
       }
     }

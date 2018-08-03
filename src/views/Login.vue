@@ -82,10 +82,6 @@ export default {
           }).catch(error => {
             this.loading = false
             NProgress.done()
-            this.$message({
-              message: error.response.data.error,
-              type: 'error'
-            })
           })
         } else {
           return false
