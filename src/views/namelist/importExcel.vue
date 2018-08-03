@@ -120,7 +120,6 @@ export default {
       this.tableHeader = data.header
       this.tableData = data.results
       this.form.filename = data.filename
-      // this.formData = data.formData
     },
     showDialog () {
       if (this.form.companyId && this.form.groupName && this.tableData.length > 0) {

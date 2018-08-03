@@ -86,7 +86,6 @@
 </template>
 
 <script>
-// import { getUser } from '../api/api'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -130,7 +129,6 @@ export default {
     logout: function () {
       let _this = this
       this.$confirm('确认退出吗?', '提示', {
-        // type: 'warning'
       }).then(() => {
         sessionStorage.removeItem('token')
         _this.$router.push('/login')
@@ -147,18 +145,7 @@ export default {
     }
   },
   mounted () {
-    // let user = sessionStorage.getItem('token')
-    // this.$store.dispatch('GetUser', user)
-    // if (user) {
-    //   getUser().then((res) => {
-    //     this.sysUserName = res.data.username
-    //   })
-    // }
-    // this.$router.options.routes.forEach(item => {
-    //   if (this.sysUser === 'superadmin') {
-    //   } else {
-    //   }
-    // })
+    
   }
 }
 
@@ -197,7 +184,6 @@ export default {
         }
       }
       .logo {
-        //width:180px;
         height: 60px;
         font-size: 22px;
         padding-left: 20px;
@@ -231,7 +217,6 @@ export default {
       }
       .tools {
         padding: 0px 23px;
-        // width: 14px;
         height: 60px;
         line-height: 60px;
         cursor: pointer;
@@ -239,7 +224,6 @@ export default {
     }
     .main {
       display: flex;
-      // background: #324057;
       position: absolute;
       top: 60px;
       bottom: 0px;
@@ -252,9 +236,6 @@ export default {
         font-family: PingFangSC-Semibold;
         font-size: 14px;
         letter-spacing: 0;
-        // position: absolute;
-        // top: 0px;
-        // bottom: 0px;
         .el-menu {
           height: 100%;
           background: $sidebar-bg;
@@ -312,13 +293,7 @@ export default {
         width: 180px;
       }
       .content-container {
-        // background: #f1f2f7;
         flex: 1;
-        // position: absolute;
-        // right: 0px;
-        // top: 0px;
-        // bottom: 0px;
-        // left: 180px;
         overflow-y: scroll;
         padding: 20px;
         .breadcrumb-container {

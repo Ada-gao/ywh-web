@@ -217,13 +217,6 @@ export default {
     VueCropper
   },
   data () {
-    // const validatePass = (rule, value, callback) => {
-    //   if (!value) {
-    //     callback(new Error('不能为空'))
-    //   } else {
-    //     callback()
-    //   }
-    // }
     const validatePass1 = (rule, value, callback) => {
       let reg = /^((1[3-8][0-9])+\d{8})$/
       let flag = reg.test(value)
@@ -316,32 +309,11 @@ export default {
     let obj = this.$route.query
     if (obj && obj.id) {
       this.form = obj
-      // this.form.logo = process.env.BASE_API + '/file/' + this.form.logo
       this.updateStatus = 'update'
     } else {
       this.updateStatus = 'create'
     }
     this.getOrgSize()
-  // created () {
-  //   let obj = this.$route.query.item
-  //   // let logo = (obj.logo).split('/')[1]
-  //   this.id = this.$route.params.id
-  //   if (obj) {
-  //     /* --------------- 管理员 start ---------------- */
-  //     this.listQuery.companyId = obj.id
-  //     this.getList()
-  //     /* --------------- 管理员 end ---------------- */
-  //     this.form = obj
-  //     this.form.logo = process.env.BASE_API + '/file/' + this.form.logo
-  //     this.updateStatus = 'view'
-  //   } else {
-  //     this.getOrgSize()
-  //     if (this.id === '0') {
-  //       this.updateStatus = 'create'
-  //     } else {
-  //       this.updateStatus = 'update'
-  //     }
-  //   }
   },
   methods: {
     realTime (data) {
@@ -416,7 +388,6 @@ export default {
     changeIndustryType (val) {
       this.coInfo.industry = this.coInfo.industry.slice(0)
       this.form.industry = transferIndustry(val, this.coInfo.industry)
-      // this.coInfo.industryType = this.coInfo.industryType.slice(0)
     },
     create (formName) {
       let str = this.form.logo
@@ -425,7 +396,6 @@ export default {
       }
       this.$refs[formName].validate(valid => {
         if (valid) {
-          // this.form.companyProvince = this.form.companyProvince.label
           if (str) {
             let index = str.lastIndexOf('/')
             this.form.logo = str.substring(index + 1, str.length)
@@ -435,7 +405,6 @@ export default {
               this.companyCode = res.data.companyCode
               this.companyId = res.data.id
               this.$router.push({path: '/company'})
-              // this.centerDialogVisible = true
             })
         } else {
           return false
@@ -464,7 +433,6 @@ export default {
                 type: 'success',
                 duration: 2000
               })
-              // this.updateStatus = 'view'
               this.$router.push({path: '/company'})
             })
         } else {
@@ -478,22 +446,15 @@ export default {
     handleChange (value) {
     },
     handleSuccess (res, file, fileList) {
-      // this.form.logo = URL.createObjectURL(file.raw)
-      // this.option.img = file.url
-      // this.dialogVisible = true
-      // this.form.logo = process.env.BASE_API + '/file/' + fileList
     },
     beforeAvatarUpload (file) {
       this.option.img = window.URL.createObjectURL(file)
       this.dialogVisible = true
       return false
-      // this.form.logo = process.env.BASE_API + '/file/' + fileList
     },
     dialogRouter (status) {
       if (status === 'view') {
         this.updateStatus = 'view'
-        // this.form.orgSize = transformText(this.coInfo.orgSize, this.form.orgSize)
-        // this.form.industry = transformText(this.coInfo.industry, this.form.industry)
         this.centerDialogVisible = false
       } else {
         this.$router.push({path: '/company'})

@@ -134,9 +134,7 @@
 </template>
 
 <script>
-// import {getAdminTasks, getTasks, getCompanies, getProductList} from '@/api/api'
 import {getAdminTasks, getTeams, getProductList, getTeam} from '@/api/api'
-// import { transformText } from '@/common/js/util'
 import {mapGetters} from 'vuex'
 
 export default {
@@ -175,19 +173,6 @@ export default {
         this.total = response.data.length
         this.listLoading = false
       })
-      // if (this.adminStat) {
-      //   getAdminTasks(this.listQuery).then(response => {
-      //     this.list = response.data
-      //     this.total = response.data.length
-      //     this.listLoading = false
-      //   })
-      // } else {
-      //   getTasks(this.listQuery).then(response => {
-      //     this.list = response.data
-      //     this.total = response.data.length
-      //     this.listLoading = false
-      //   })
-      // }
     },
     getQuery () {
       let params = {

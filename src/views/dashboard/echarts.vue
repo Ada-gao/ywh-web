@@ -79,7 +79,6 @@ export default {
         totalEffectiveDuration: 0,
         totalTaskCompleteCnt: 0
       }
-      // sysUser: null
     }
   },
   computed: {
@@ -90,7 +89,6 @@ export default {
   methods: {
     getCount () {
       getStatistic().then(res => {
-        // this.total.totalEffectiveDuration = res.data.totalEffectiveDuration || 0
         if (res.data.totalEffectiveDuration === null) {
           this.total.totalEffectiveDuration = '0'
         } else {
@@ -113,9 +111,6 @@ export default {
     }
   },
   mounted: function () {
-    // let params = {
-    //  companyId: this.sysUser.companyId
-    // }
     this.getCount()
   }
 }

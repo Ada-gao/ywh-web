@@ -208,7 +208,6 @@ export default {
           this.orgSize = res.data
           this.list.forEach(item => {
             item.createTime = new Date(item.createTime).toLocaleString()
-            // item.orgSize = transformText(this.orgSize, item.orgSize)
           })
         })
       })

@@ -178,7 +178,6 @@
 
 <script>
 import { getToken } from '@/common/js/auth'
-// import { addUser, getUserById, updUser } from '@/api/api'
 import {getTaskDetail} from '@/api/api'
 export default {
   data () {
@@ -257,7 +256,6 @@ export default {
         this.form.taskStartDate = new Date(this.form.taskStartDate).toLocaleDateString()
         this.form.taskEndDate = new Date(this.form.taskEndDate).toLocaleDateString()
         this.list = res.data.nameList.content
-        // this.list.lastCallDate = moment(res.data.nameList.content.lastCallDate).format('mm:ss')
         this.list.forEach((ele, index) => {
           ele.gender = ele.gender === 'GENTLEMAN' ? '男' : '女'
           if (ele.duration === null) {
@@ -270,7 +268,6 @@ export default {
           } else {
             ele.lastCallDate = this.timestampToTime(ele.lastCallDate)
           }
-          // ele.duration
         })
         this.salesCnt = res.data.salesCnt
         this.total = res.data.nameList.totalElements || 0

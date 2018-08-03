@@ -2,7 +2,6 @@ import Login from './views/Login.vue'
 import NotFound from './views/404.vue'
 import Home from './views/Home.vue'
 import company from './views/company/company.vue'
-// import product from './views/product/product.vue'
 import salesman from './views/salesman/salesman.vue'
 import dashboard from './views/dashboard/echarts.vue'
 import list from './views/namelist'
@@ -40,7 +39,6 @@ let routes = [
     name: '',
     hidden: true
   },
-  // { path: '/main', component: Main },
   {
     menuId: 3,
     path: '/',
@@ -66,16 +64,6 @@ let routes = [
       {menuId: 43, path: '/company/detail', name: 'detail', component: companyDetail}
     ]
   },
-  // {
-  //   path: '/',
-  //   component: Home,
-  //   name: '',
-  //   iconCls: 'fa fa-globe',
-  //   leaf: true,
-  //   children: [
-  //     {path: '/product', component: product, name: '产品管理'}
-  //   ]
-  // },
   {
     menuId: 5,
     path: '/',

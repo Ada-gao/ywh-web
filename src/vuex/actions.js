@@ -51,12 +51,10 @@ export const GetUser = ({commit}, token) => {
       let menuIds = []
       let accessedRouters
       if (userData.length > 1) {
-        // sysUser = 'superadmin'
         sysUser = userInfo.username
         menuIds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 31, 41, 42, 51, 52, 53, 61, 62, 71, 72, 73, 81, 82, 91, 92, 101, 102, 111, 112, 113]
         accessedRouters = routesMap
       } else {
-        // sysUser = userData[0].authority === 'ROLE_ADMIN' ? 'admin' : 'sale'
         sysUser = userInfo.username
         menuIds = [1, 2, 3, 4, 5, 6, 7, 31, 41, 42, 51, 52, 53, 61, 62, 71, 72, 73]
         accessedRouters = filterAsyncRouter(routesMap, menuIds)

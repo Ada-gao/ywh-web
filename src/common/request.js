@@ -1,12 +1,8 @@
 import axios from 'axios'
 import router from '../routes'
 import { Message } from 'element-ui'
-// import store from '../store'
 import { getToken, removeToken } from './js/auth'
 
-// axios.defaults.baseURL = process.env.BASE_API
-// axios.defaults.timeout = 15000
-// 创建axios实例
 const service = axios.create({
   baseURL: process.env.BASE_API, // api的base_url
   timeout: 15000 // 请求超时时间

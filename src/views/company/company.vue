@@ -118,7 +118,6 @@
 import { getCompanyPage, getAuthDustries, getOrgSize } from '@/api/api'
 import { provinceAndCityData } from 'element-china-area-data' // 省市区数据
 import { mapGetters } from 'vuex'
-// import { transformText } from '@/common/js/util'
 
 export default {
   components: {},
@@ -157,7 +156,6 @@ export default {
         getOrgSize().then(res => {
           this.orgSize = res.data
           this.list.forEach(item => {
-            // item.orgSize = transformText(this.orgSize, item.orgSize)
           })
         })
       })

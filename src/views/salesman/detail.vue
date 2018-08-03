@@ -194,14 +194,6 @@
         </el-table-column>
 
       </el-table>
-    <!--<div v-show="!listLoading" class="pagination-container">-->
-      <!--<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"-->
-                     <!--:current-page.sync="listQuery.page"-->
-                     <!--background-->
-                     <!--:page-sizes="[10,20,30, 50]" :page-size="listQuery.limit"-->
-                     <!--layout="total, sizes, prev, pager, next, jumper" :total="total">-->
-      <!--</el-pagination>-->
-    <!--</div>-->
       <el-dialog title="修改密码" :visible.sync="updatePwdDialog" width="30%">
         <el-form ref="ruleForm" :model="ruleForm"  :rules="rules" label-width="80px" style="margin-right: 20px;">
           <el-form-item label="新密码" prop="password" class="txt">
@@ -357,8 +349,6 @@ export default {
       })
       taskDoneRate(this.id).then(res => {
         this.list.push(res.data)
-        // this.list = []
-        // this.list.push(res.data)
         if (this.list.length > 0) {
           if (this.list[0].totalTaskCompleteCnt &&
             this.list[0].totalTaskCompleteCnt > 0 &&
@@ -410,25 +400,21 @@ export default {
       })
     },
     changeMode (val) {
-      // val = val ? 1 : 0
       userEnabled(this.form.id, val).then(res => {
         this.value3 = val
       })
     },
     cancel (formName) {
       this.$router.push({path: '/salesman'})
-      // this.updateStatus = 'view'
     },
     handleChange (value) {},
     handleSuccess (fileList) {
     },
     handleSizeChange (val) {
       this.listQuery.limit = val
-      // this.getList()
     },
     handleCurrentChange (val) {
       this.listQuery.page = val
-      // this.getList()
     }
   }
 }

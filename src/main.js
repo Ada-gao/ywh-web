@@ -6,27 +6,21 @@ import App from './App'
 import moment from 'moment'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-// import './assets/theme/theme-green/index.css'
 import VueRouter from 'vue-router'
 import store from './vuex/store'
 import Vuex from 'vuex'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import routes from './routes'
-// import Mock from './mock'
 import 'font-awesome/css/font-awesome.min.css'
 import timestamp from './common/js/util'
 import { getToken } from '@/common/js/auth'
-
-// Mock.bootstrap()
 
 Vue.filter('timestamp', timestamp.getLocalTime)
 
 Vue.use(ElementUI)
 Vue.use(VueRouter)
 Vue.use(Vuex)
-
-// NProgress.configure({ showSpinner: false });
 
 const router = new VueRouter({
   mode: 'history',
@@ -54,16 +48,6 @@ router.beforeEach((to, from, next) => {
       next('/login')
     }
   }
-  // if (to.path === '/login') {
-  //   sessionStorage.removeItem('token')
-  // }
-  // let user = sessionStorage.getItem('token')
-  // if (!user && to.path !== '/login') {
-  //   next({ path: '/login' })
-  // } else {
-  //   store.dispatch('GetUser', user)
-  //   next()
-  // }
 })
 
 router.afterEach(transition => {
@@ -75,10 +59,7 @@ Vue.filter('moment', function (dataStr, pattern = 'YYYY-MM-DD HH:mm:ss') {
 })
 
 new Vue({
-  // el: '#app',
-  // template: '<App/>',
   router,
   store,
-  // components: { App }
   render: h => h(App)
 }).$mount('#app')

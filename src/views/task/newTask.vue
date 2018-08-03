@@ -298,7 +298,6 @@ export default {
           this.taskGroup.minimumDuration -= 0
           createTask(this.taskGroup)
             .then((res) => {
-              // this.getList()
               this.$notify({
                 title: '成功',
                 message: '创建成功',
@@ -321,11 +320,8 @@ export default {
     },
     handleSizeChange (z) {
       this.listQuery.limit = z
-      // this.getList()
     },
     handleCurrentChange () {
-      // this.listQuery.page
-      // this.getList()
     }
   }
 }
@@ -336,8 +332,6 @@ export default {
     display: block;
   }
   .detail-title {
-    /*margin-top: 30px;*/
-    /*margin-bottom: 20px;*/
     .upd_btn {
       float: right;
     }
@@ -359,7 +353,6 @@ export default {
     }
   }
   //外呼样式
-/*.sales_talk{ border:1px solid #C8C8C8; outline:none; background:none; appearance:none; -webkit-appearance:none; width: 100%; line-height: 24px; padding:10px 15px;}*/
 .limit { position:relative; height: 25px; text-align: right;}
 .limit span {color: #ee2a7b; }
 </style>

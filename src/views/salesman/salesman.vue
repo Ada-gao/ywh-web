@@ -119,7 +119,6 @@
 
 <script>
 import { getUsers, getCompanies, getOrgSize, getTeams } from '@/api/api'
-// import { transformText } from '@/common/js/util'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -154,9 +153,6 @@ export default {
   },
   methods: {
     getList () {
-      // if (this.sysUser.username === 'admin') {
-      //  this.listQuery.companyId = this.sysUser.companyId
-      // }
       getUsers(this.listQuery).then(response => {
         this.list = response.data.content
         this.total = response.data.totalElements
@@ -164,7 +160,6 @@ export default {
         getOrgSize().then(res => {
           this.orgSize = res.data
           this.list.forEach(item => {
-            // item.orgSize = transformText(this.orgSize, item.orgSize)
           })
         })
       })
