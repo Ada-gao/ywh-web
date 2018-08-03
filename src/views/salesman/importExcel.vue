@@ -122,7 +122,7 @@ export default {
     submit () {
       this.dialogVisible = false
       this.error = ''
-      if (this.tableHeader[0] === '销售姓名' && this.tableHeader[1] === '所属团队' && this.tableHeader[2] === '对应职级' && this.tableHeader[3] === '手机号' && this.tableHeader[4] === '用户名' && this.tableHeader[5] === '密码'){
+      if (this.tableHeader[0] === '销售姓名' && this.tableHeader[1] === '所属团队' && this.tableHeader[2] === '对应职级' && this.tableHeader[3] === '手机号' && this.tableHeader[4] === '用户名' && this.tableHeader[5] === '密码') {
         for (let i = 0; i < this.tableData.length; i++) {
           if (!this.tableData[i].销售姓名 || this.tableData[i].销售姓名.length > 50) {
             this.error += '‘销售姓名’'

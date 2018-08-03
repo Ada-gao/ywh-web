@@ -144,7 +144,7 @@ export default {
     submit () {
       this.dialogVisible = false
       this.error = ''
-      if (this.tableHeader[0] === '联系人姓名' && this.tableHeader[1] === '手机号' && this.tableHeader[2] === '年龄' && this.tableHeader[3] === '性别' && this.tableHeader[4] === '所在地' && this.tableHeader[5] === '名单来源'){
+      if (this.tableHeader[0] === '联系人姓名' && this.tableHeader[1] === '手机号' && this.tableHeader[2] === '年龄' && this.tableHeader[3] === '性别' && this.tableHeader[4] === '所在地' && this.tableHeader[5] === '名单来源') {
         for (let i = 0; i < this.tableData.length; i++) {
           if (this.tableData[i].联系人姓名 && this.tableData[i].联系人姓名.length > 50) {
             this.error += '‘联系人姓名’'
@@ -177,11 +177,11 @@ export default {
           所在地: 'residence',
           名单来源: 'source'
         }
-        this.tableData.forEach(item => {
+        var table = this.tableData
+        table.forEach(item => {
           replaceKey(item, keyMap)
         })
-        addNameExcel(this.form, this.tableData).then(res => {
-          if (res.status === 200) {
+        addNameExcel(this.form, table).then(res => {
             this.$notify({
               title: '成功',
               message: '导入成功',
@@ -189,7 +189,6 @@ export default {
               duration: 2000
             })
             this.$router.push({path: '/list'})
-          }
         })
       }
     }
