@@ -30,10 +30,7 @@ service.interceptors.response.use(
     return response
   },
   error => {
-    console.log(error,'99999')
     const res = error.response
-    console.log(res.status)
-    console.log(res.status)
     if (res.status === 400) {
       // 错误处理
       if (res.data.message){
@@ -44,17 +41,15 @@ service.interceptors.response.use(
     } else if (res.status === 401) {
       message('登录时间过期，请重新登录', 'error')
       removeToken()
-      router.replace({
-        path: '/login',
-        query: {redirect: router.fullPath}
-      })
-      //window.location.href = window.location.protocol + '//' + window.location.host + '/login'
+      setTimeout(()=>{
+        window.location.href = window.location.protocol + '//' + window.location.host + '/login'
+      },2000)
     } else if (res.status === 403) {
-      console.log(403)
-      this.$router.push({path: '/login'})
       message('管理权限不足，请联系管理员')
+      setTimeout(()=>{
+        window.location.href = window.location.protocol + '//' + window.location.host + '/login'
+      },2000)
     } else if (res.status === 500) {
-      // alert(this.$router.currentRoute.path)
       if (res.data.message){
         message(res.data.message, 'error')
       } else {
@@ -62,10 +57,9 @@ service.interceptors.response.use(
       }
     } else {
       message('服务器被吃了⊙﹏⊙∥', 'error')
-      router.replace({
-        path: '/404',
-        query: {redirect: router.fullPath}
-      })
+      setTimeout(()=>{
+        window.location.href = window.location.protocol + '//' + window.location.host + '/404'
+      },2000)
     }
     return Promise.reject(error)
   }
