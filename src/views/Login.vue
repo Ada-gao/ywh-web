@@ -44,6 +44,7 @@ export default {
         username: null,
         password: null
       },
+      text:'text',
       loginRules: {
         username: [{required: true, message: '请输入用户名或手机号', trigger: 'blur'}],
         password: [{required: true, trigger: 'blur', validator: validatePass}]
