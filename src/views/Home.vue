@@ -7,8 +7,7 @@
       </el-col>
       <el-col :span="10">
         <div class="tools" @click.prevent="collapse">
-          <i class="fa fa-outdent"></i>
-          你好，{{sysUser}}
+          <i :class="collapsed ? 'fa fa-indent' : 'fa fa-outdent'"/>你好，{{sysUser}}
         </div>
       </el-col>
       <el-col :span="4" class="userinfo">
@@ -145,7 +144,7 @@ export default {
     }
   },
   mounted () {
-    
+
   }
 }
 
