@@ -14,8 +14,7 @@ export default {
   },
   mounted () {
     QRCode.toCanvas(this.$el, this.text, this.config, function (error) {
-      if (error) console.error(error)
-      console.log('success!')
+      if (error){}
     })
   }
 }

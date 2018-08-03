@@ -357,7 +357,6 @@ export default {
       })
       taskDoneRate(this.id).then(res => {
         this.list.push(res.data)
-        // console.log(this.list)
         // this.list = []
         // this.list.push(res.data)
         if (this.list.length > 0) {
@@ -411,22 +410,17 @@ export default {
       })
     },
     changeMode (val) {
-      console.log(val)
       // val = val ? 1 : 0
       userEnabled(this.form.id, val).then(res => {
         this.value3 = val
-        // console.log(res)
       })
     },
     cancel (formName) {
       this.$router.push({path: '/salesman'})
       // this.updateStatus = 'view'
     },
-    handleChange (value) {
-      // console.log(value)
-    },
+    handleChange (value) {},
     handleSuccess (fileList) {
-      // console.log(fileList)
     },
     handleSizeChange (val) {
       this.listQuery.limit = val

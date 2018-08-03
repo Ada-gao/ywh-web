@@ -201,7 +201,6 @@ export default {
     getList () {
       getTrial(this.listQuery).then((response) => {
         this.list = response.data.content
-        console.log(this.list.content)
         this.converStatus(this.list)
         this.total = response.data.totalElements
         this.listLoading = false

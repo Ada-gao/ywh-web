@@ -121,8 +121,6 @@ export default {
       this.tableHeader = data.header
       this.tableData = data.results
       this.form.filename = data.filename
-      // console.log(this.tableHeader)
-      // console.log(this.tableData)
       // this.formData = data.formData
     },
     showDialog () {

@@ -119,9 +119,7 @@ export default {
     this.$store.dispatch('GetUser', token)
   },
   methods: {
-    onSubmit () {
-      console.log('submit!')
-    },
+    onSubmit () {},
     handleopen () {
     },
     handleclose () {
@@ -159,8 +157,6 @@ export default {
     // this.$router.options.routes.forEach(item => {
     //   if (this.sysUser === 'superadmin') {
     //   } else {
-    //     console.log(this.menuIds)
-    //     console.log(this.routers)
     //   }
     // })
   }

@@ -165,7 +165,6 @@ export default {
     ])
   },
   created () {
-    console.log(this.getUserInfo)
     this.getList()
     this.getQuery()
   },
@@ -233,7 +232,6 @@ export default {
       this.getList()
       getTeam(this.listQuery.team).then((res) => {
         this.products = res.data
-        console.log(res)
       })
     },
     handleCreate () {

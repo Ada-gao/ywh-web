@@ -59,8 +59,6 @@ export function transferIndustry (id, arr) {
   let idx = arr.findIndex((item, index) => {
     return item.id === id
   })
-  console.log('arr[idx]')
-  console.log(arr[idx])
   return arr[idx].name
 }
 export function retransfer (name, arr) {

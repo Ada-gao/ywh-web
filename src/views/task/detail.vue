@@ -257,7 +257,6 @@ export default {
         this.form.taskStartDate = new Date(this.form.taskStartDate).toLocaleDateString()
         this.form.taskEndDate = new Date(this.form.taskEndDate).toLocaleDateString()
         this.list = res.data.nameList.content
-        console.log(this.list)
         // this.list.lastCallDate = moment(res.data.nameList.content.lastCallDate).format('mm:ss')
         this.list.forEach((ele, index) => {
           ele.gender = ele.gender === 'GENTLEMAN' ? '男' : '女'
