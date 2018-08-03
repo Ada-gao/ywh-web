@@ -388,10 +388,10 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.manager.companyId = this.form.id
-          this.manager.level = this.updateInfo.level
+          this.manager.level = this.updateForm.level
           this.manager.name = this.updateForm.name
           this.manager.mobile = this.updateForm.mobile
-          this.manager.userName = this.updateForm.userName
+          this.manager.userName = this.updateInfo.userName
           this.manager.userCode = this.updateInfo.userCode
           this.manager.enabled = this.updateInfo.enabled
           updateUsers(this.updateInfo.id, this.manager).then(res => {
