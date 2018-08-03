@@ -375,9 +375,10 @@ export default {
       })
       var cityarr = []
       if(!this.provinceData[idx].children || typeof this.provinceData[idx].children == 'undefined' || this.provinceData[idx].children.length == 0){
-        cityarr.label = '市辖区';
-        this.cityData[0] = cityarr;
         this.form.companyCity = null
+        cityarr.label = '市辖区';
+        this.cityData = [];
+        this.cityData[0] = cityarr;
         return;
       }
       this.cityData = this.provinceData[idx].children;
