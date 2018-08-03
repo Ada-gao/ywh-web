@@ -7,7 +7,7 @@
       </el-col>
       <el-col :span="10">
         <div class="tools" @click.prevent="collapse">
-          <i :class="collapsed ? 'fa fa-indent' : 'fa fa-outdent'"/>你好，{{sysUser}}
+          <i class="iconfont" :class="collapsed ? 'icon-zhankaicaidan' : 'icon-shouqicaidan'"></i>你好，{{sysUser}}
         </div>
       </el-col>
       <el-col :span="4" class="userinfo">
@@ -151,6 +151,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+  @import "../styles/iconfont.css";
   @import '~scss_vars';
 
   .container {

@@ -5,8 +5,8 @@
                 <div class="panel panel-blue">
                     <div class="panel-heading">
                         <div class="row">
-                            <div class="col-xs-3">
-                                <i class="fa fa-volume-control-phone"></i>
+                            <div class="col-xs-3 spicle">
+                                <i class="iconfont icon-waihurenwu icon_style"></i>
                             </div>
                             <div class="col-xs-8">
                               <div class="stat-tit">外呼任务</div>
@@ -20,8 +20,8 @@
                 <div class="panel panel-green">
                     <div class="panel-heading">
                         <div class="row">
-                            <div class="col-xs-3">
-                                <i class="fa fa-user"></i>
+                            <div class="col-xs-3 spicle">
+                                <i class="iconfont icon-xiaoshoushu icon_style"></i>
                             </div>
                             <div class="col-xs-8">
                               <div class="stat-tit">销售人数</div>
@@ -35,8 +35,8 @@
                 <div class="panel panel-yellow">
                     <div class="panel-heading">
                         <div class="row">
-                            <div class="col-xs-3">
-                                <i class="fa fa-calendar-check-o"></i>
+                            <div class="col-xs-3 spicle">
+                                <i class="fa fa-calendar-check-o icon_style_spel"></i>
                             </div>
                             <div class="col-xs-8">
                               <div class="stat-tit">任务完成数</div>
@@ -50,8 +50,8 @@
                 <div class="panel panel-red">
                     <div class="panel-heading">
                         <div class="row">
-                            <div class="col-xs-3">
-                                <i class="fa fa-clock-o"></i>
+                            <div class="col-xs-3 spicle">
+                                <i class="iconfont icon-youxiaotonghuashichang icon_style"></i>
                             </div>
                             <div class="col-xs-8">
                               <div class="stat-tit">有效通话时长</div>
@@ -98,7 +98,12 @@ export default {
             theTime1 = parseInt(theTime / 60)
             theTime = parseInt(theTime % 60)
           }
-          var result = parseInt(theTime) + '秒'
+          var result = 0;
+          if(parseInt(theTime) == 0){
+            var result = parseInt(theTime)
+          }else{
+            var result = parseInt(theTime) + '秒'
+          }
           if (theTime1 > 0) {
             result = parseInt(theTime1) + '分' + result
           }
@@ -117,6 +122,7 @@ export default {
 </script>
 
 <style scoped>
+@import "../../styles/iconfont.css";
     .chart-container {
         width: 100%;
         float: left;
@@ -124,4 +130,6 @@ export default {
     .el-col {
         padding: 30px 20px;
     }
+    .statistic .spicle{ height: 50px; overflow: hidden; }
+    .icon_style{ color: #fff; font-size: 46px; position: relative; top: -8px; }
 </style>

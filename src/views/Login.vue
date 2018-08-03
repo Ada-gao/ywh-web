@@ -99,7 +99,7 @@ export default {
     bottom: 0;
     width: 100%;
     background-image: url('/static/img/banner.jpg');
-    background-size: cover;
+    background-size: 100% 100%;
   }
   .China-tit {
     font-size: 34px;
@@ -112,13 +112,16 @@ export default {
   }
   .login-container {
     background-clip: padding-box;
-    margin: 220px auto 0;
+    margin: 0 auto 0;
     width: 350px;
     padding: 35px 50px 30px 50px;
     background: rgba(0, 0, 0, .25);
     border-radius: 2px;
     position: absolute;
     right: 14%;
+    top:50%;
+    transform:translate(0,-50%);
+    -webkit-transform:translate(0,-50%);
   }
 
 </style>
