@@ -55,7 +55,7 @@
                             </div>
                             <div class="col-xs-8">
                               <div class="stat-tit">有效通话时长</div>
-                              <span class="huge" style="font-size: 20px; bottom:-5px;">{{total.totalEffectiveDuration}}</span>
+                              <span class="huge total_style"><em v-if="total_min != 0">{{total_min}}<small style="font-size: 60%">分</small></em><em>{{total_sed}}<small style="font-size: 60%">秒</small></em></span>
                             </div>
                         </div>
                     </div>
@@ -78,7 +78,9 @@ export default {
         totalTaskCnt: 0,
         totalEffectiveDuration: 0,
         totalTaskCompleteCnt: 0
-      }
+      },
+      total_min:0,
+      total_sed:0
     }
   },
   computed: {
@@ -90,7 +92,9 @@ export default {
     getCount () {
       getStatistic().then(res => {
         if (res.data.totalEffectiveDuration === null) {
-          this.total.totalEffectiveDuration = '0'
+          this.total.totalEffectiveDuration = '0';
+          this.total_min = 0;
+          this.total_sed = 0;
         } else {
           let theTime = parseInt(res.data.totalEffectiveDuration)
           let theTime1 = 0
@@ -107,6 +111,8 @@ export default {
           if (theTime1 > 0) {
             result = parseInt(theTime1) + '分' + result
           }
+          this.total_min = parseInt(theTime1);
+          this.total_sed = parseInt(theTime);
           this.total.totalEffectiveDuration = result
         }
         this.total.totalTaskCompleteCnt = res.data.totalTaskCompleteCnt || 0
@@ -132,4 +138,6 @@ export default {
     }
     .statistic .spicle{ height: 50px; overflow: hidden; }
     .icon_style{ color: #fff; font-size: 46px; position: relative; top: -8px; }
+    .total_style i{ font-size:25px; }
+    .total_style em{ font-style: normal; }
 </style>
