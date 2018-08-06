@@ -152,6 +152,7 @@
                  style="margin-right: 20px;">
           <el-form-item label="新密码" prop="password" class="txt">
             <el-input v-model="pwdForm.password" placeholder="输入登录密码" maxlength="12"></el-input>
+            <div style="line-height: 24px; font-size: 12px;">请输入不少于6位的字母或数字</div>
           </el-form-item>
         </el-form>
         <div style="text-align: right">
@@ -195,7 +196,9 @@
           <el-col :span="17">
             <el-form-item label="登录密码" prop="password">
               <el-input v-model="manager.password" placeholder="输入登录密码" maxlength="12"></el-input>
+              <div style="line-height: 24px; font-size: 12px;">请输入不少于6位的字母或数字</div>
             </el-form-item>
+
           </el-col>
         </el-row>
         <el-col :span="17" class="dialog-footer" style="text-align: center">
@@ -236,10 +239,13 @@ export default {
       }
     }
     const validatePass = (rule, value, callback) => {
+      var reg = /[\u4E00-\u9FA5\uF900-\uFA2D]/;
       if (!value) {
         callback(new Error('请输入登录密码'))
       } else if (value.length < 6) {
         callback(new Error('密码不能少于6位'))
+      }else if(reg.test(value)){
+        callback(new Error('请您输入数字或字母'))
       } else {
         callback()
       }
