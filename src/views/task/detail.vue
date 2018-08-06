@@ -61,7 +61,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="有效通话时长：" prop="mobile">
+            <el-form-item label="有效通话时长（秒)：" prop="mobile">
               <span>{{form.minimumDuration}}</span>
             </el-form-item>
           </el-col>
