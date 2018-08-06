@@ -136,7 +136,36 @@ export default {
     .el-col {
         padding: 30px 20px;
     }
+    .el-col-6{ width: 25%; }
+    .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9{ float: left; }
+    .panel { margin-bottom: 20px; background-color: #fff; border: 1px solid transparent; border-radius: 4px; -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05); box-shadow: 0 1px 1px rgba(0,0,0,.05); }
+    .content-container .panel { background: #FFFFFF; border: 1px solid #EFEFEF; box-shadow: 0 2px 6px 2px rgba(7, 17, 27, 0.05); border-radius: 4px;}
+    .statistic .panel-heading{ padding: 35px 0 35px 20px; }
+    .panel-heading{ padding: 10px 15px; border-bottom: 1px solid transparent; border-top-left-radius: 3px; border-top-right-radius: 3px; }
+    .row { margin-right: -15px; margin-left: -15px; }
+    .statistic .row { margin: 0; }
+    .statistic .stat-tit { font-family: PingFangSC-Medium; font-size: 14px; color: #475669; letter-spacing: 0; line-height: 20px; }
+    .el-col-24{ width: 100%; }
+    .col-xs-3{ width: 25%; }
+    .col-xs-8{ width: 66.66666667%; }
+    .statistic .col-xs-8 { padding-left: 12px; position: relative; height: 80px; }
+    .huge{ font-size: 32px; position: absolute; bottom: -10px; }
+    .panel-blue .col-xs-3{ background: #4AD2DB; }
+    .statistic .col-xs-3 { padding: 15px 10px; -webkit-box-sizing: content-box; box-sizing: content-box; }
+    .statistic .spicle{ height: 50px; overflow: hidden;}
+    .statistic .col-xs-3{ padding: 0; vertical-align: middle; }
+    .panel-blue .col-xs-3, .panel-green .col-xs-3, .panel-yellow .col-xs-3, .panel-red .col-xs-3{ text-align: center;
+    box-shadow: 0 2px 6px 2px rgba(7, 17, 27, 0.05); border-radius: 4px; }
+    .panel-blue .huge{ color: #4AD2DB; }
+    .panel-green .huge{ color: #FDCE82; }
+    .panel-yellow .huge { color: #0299CC; }
+    .panel-red .huge { color: #30CDAA; }
     .statistic .spicle{ height: 50px; overflow: hidden; }
+    .statistic .col-xs-3 { padding: 15px 10px; -webkit-box-sizing: content-box; box-sizing: content-box; }
+    .panel-red .col-xs-3{ background: #30CDAA; }
+    .panel-yellow .col-xs-3 { background: #0299CC; }
+    .panel-green .col-xs-3{ background: #FDCE82; }
+    .panel-blue .col-xs-3{ background: #4AD2DB; }
     .icon_style{ color: #fff; font-size: 46px; position: relative; top: -8px; }
     .total_style i{ font-size:25px; }
     .total_style em{ font-style: normal; }
