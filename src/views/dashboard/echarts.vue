@@ -55,7 +55,7 @@
                             </div>
                             <div class="col-xs-8">
                               <div class="stat-tit">有效通话时长</div>
-                              <span class="huge total_style"><em v-if="total_min != 0">{{total_min}}<small style="font-size: 60%">分</small></em><em>{{total_sed}}<small style="font-size: 60%">秒</small></em></span>
+                              <span class="huge total_style"><em v-if="total_min != 0">{{total_min}}<small style="font-size: 60%">分</small></em><em>{{total_sed}}<small style="font-size: 60%" v-if="total_min != 0 && total_sed != 0">秒</small></em></span>
                             </div>
                         </div>
                     </div>

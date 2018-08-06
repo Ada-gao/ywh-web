@@ -32,6 +32,7 @@ export default {
       document.getElementById('excel-upload-input').click()
     },
     handkeFileChange (e) {
+      if(e.target.files[0]  == null) return;
       const files = e.target.files
       const itemFile = files[0] // only use files[0]
       this.filename = itemFile.name
