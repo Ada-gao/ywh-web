@@ -119,6 +119,7 @@ export default {
     padding: 0;
     border: none;
     color: #0299CC;
+    float: none!important;
     &:hover {
       background: #fff;
     }
