@@ -41,15 +41,15 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="17">
-            <el-form-item label="任务名称" prop="taskName" required>
-              <el-input v-model="taskGroup.taskName" placeholder="输入任务名称"></el-input>
+            <el-form-item label="任务名称" prop="taskName">
+              <el-input v-model="taskGroup.taskName" placeholder="输入任务名称" maxlength="50"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="17">
-            <el-form-item label="推广产品" prop="productName" required>
-              <el-input v-model="taskGroup.productName" placeholder="输入产品名称"></el-input>
+            <el-form-item label="推广产品" prop="productName">
+              <el-input v-model="taskGroup.productName" placeholder="输入产品名称" maxlength="50"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -80,42 +80,27 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="17">
-            <el-form-item label="任务目标" prop="taskTarget" required>
-              <el-input v-model="taskGroup.taskTarget" placeholder="输入任务目标"></el-input>
+            <el-form-item label="任务目标" prop="taskTarget">
+              <el-input v-model="taskGroup.taskTarget" placeholder="输入任务目标" maxlength="100"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="17">
-            <el-form-item label="外呼话术" prop="salesTalk" required>
-              <!--<el-input type="textarea" v-model="taskGroup.salesTalk" placeholder="输入外呼话术"></el-input>-->
-              <quill-editor v-model="taskGroup.salesTalk"
-                            ref="myQuillEditor"
-                            class="editer"
-                            placeholder="输入外呼话术"
-                            :options="editorOption">
-              </quill-editor>
+            <el-form-item label="外呼话术" prop="salesTalk">
+              <el-input type="textarea" :rows="3" maxlength="1000" v-model="taskGroup.salesTalk" placeholder="输入外呼话术"></el-input>
+              <div class="limit" v-if="taskGroup.salesTalk">当前已输入 <span>{{taskGroup.salesTalk.length}}</span> 个字符，您还可以输入 <span>{{1000 - taskGroup.salesTalk.length}}</span> 个字符。</div>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="9" class="noml">
-            <el-form-item prop="taskStartDate" label="任务时间" required>
-              <el-date-picker type="date"
-                              placeholder="选择日期"
-                              v-model="taskGroup.taskStartDate"></el-date-picker>
-            </el-form-item>
-            <!--<span class="divideline">-</span>-->
-            <!--<el-form-item prop="taskEndDate" class="nomargin">-->
-              <!--<el-date-picker type="date" placeholder="选择日期" v-model="taskGroup.taskEndDate"></el-date-picker>-->
-            <!--</el-form-item>-->
-          </el-col>
-          <el-col class="line" style="width: 10px">-</el-col>
-          <el-col :span="9" class="noml1">
-            <el-form-item prop="taskEndDate">
-              <el-date-picker type="date"
-                              placeholder="选择日期"
-                              v-model="taskGroup.taskEndDate"></el-date-picker>
+          <el-col :span="17">
+            <el-form-item prop="taskDate" label="任务时间" >
+              <el-date-picker type="daterange"
+                              start-placeholder="开始日期"
+                              end-placeholder="结束日期"
+                              :default-time="['00:00:00', '23:59:59']"
+                              v-model="taskGroup.taskDate"></el-date-picker>
             </el-form-item>
           </el-col>
         </el-row>
@@ -126,7 +111,7 @@
         </el-row>
         <el-row :gutter="20" class="define-rule-box">
           <el-col :span="8">
-            <el-form-item label="有效通话时长" prop="minimumDuration">
+            <el-form-item label="有效通话时长（秒）" prop="minimumDuration">
               <el-input placeholder="有效通话时长" v-model="taskGroup.minimumDuration"></el-input>
             </el-form-item>
           </el-col>
@@ -181,9 +166,43 @@ export default {
     quillEditor
   },
   data () {
+    const checkNumber = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error('请输入有效通话时长'))
+      } else {
+        if (!/^[0-9]+$/.test(value)) {
+          callback(new Error('请输入数字'))
+        } else {
+          callback()
+        }
+      }
+    }
+    const checkNumber2 = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error('请输入有效任务数'))
+      } else {
+        if (!/^[0-9]+$/.test(value)) {
+          callback(new Error('请输入数字'))
+        } else {
+          callback()
+        }
+      }
+    }
+    const checkNumber3 = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error('请输入外呼频率间隔'))
+      } else {
+        if (!/^[0-9]+$/.test(value)) {
+          callback(new Error('请输入数字'))
+        } else {
+          callback()
+        }
+      }
+    }
     return {
       editorOption: {},
       taskGroup: {
+        taskDate: [],
         team: '',
         outboundNameGroupId: null,
         assignRule: '随机平均分配'
@@ -213,23 +232,20 @@ export default {
         team: [
           {required: true, message: '请选择/输入关联团队', trigger: 'blur'}
         ],
-        taskStartDate: [
-          { type: 'date', required: true, message: '请选择日期', trigger: 'blur' }
-        ],
-        taskEndDate: [
-          { type: 'date', required: true, message: '请选择时间', trigger: 'blur' }
+        taskDate: [
+          {required: true, message: '请选择日期', trigger: 'blur'}
         ],
         minimumDuration: [
-          {required: true, message: '请输入有效通话时长', trigger: 'blur'}
+          {required: true, trigger: 'blur', validator: checkNumber}
         ],
         effectiveTasks: [
-          {required: true, message: '请输入有效任务数', trigger: 'blur'}
+          {required: true, trigger: 'blur', validator: checkNumber2}
         ],
         nextActionRule: [
           {required: true, message: '请选择下一步行动规则', trigger: 'blur'}
         ],
         interv: [
-          {required: true, message: '请输入外呼频率间隔', trigger: 'blur'}
+          {required: true, trigger: 'blur', validator: checkNumber3}
         ]
       },
       headers: {
@@ -245,7 +261,9 @@ export default {
       tableKey: 0,
       total: null,
       companies: [],
-      nextActionList: null
+      nextActionList: null,
+      textLength: '',
+      SurplusLength: ''
     }
   },
   created () {
@@ -271,16 +289,15 @@ export default {
     },
     create (formName) {
       const set = this.$refs
-      console.log(this.taskGroup)
       set[formName].validate(valid => {
         if (valid) {
+          this.taskGroup.taskStartDate = this.taskGroup.taskDate[0]
+          this.taskGroup.taskEndDate = this.taskGroup.taskDate[1]
           this.taskGroup.interv -= 0
           this.taskGroup.effectiveTasks -= 0
           this.taskGroup.minimumDuration -= 0
           createTask(this.taskGroup)
             .then((res) => {
-              console.log(res)
-              // this.getList()
               this.$notify({
                 title: '成功',
                 message: '创建成功',
@@ -298,18 +315,13 @@ export default {
       this.$router.push({path: '/task'})
     },
     handleChange (value) {
-      console.log(value)
     },
     handleSuccess (fileList) {
-      console.log(fileList)
     },
     handleSizeChange (z) {
       this.listQuery.limit = z
-      // this.getList()
     },
     handleCurrentChange () {
-      // this.listQuery.page
-      // this.getList()
     }
   }
 }
@@ -320,8 +332,6 @@ export default {
     display: block;
   }
   .detail-title {
-    /*margin-top: 30px;*/
-    /*margin-bottom: 20px;*/
     .upd_btn {
       float: right;
     }
@@ -342,4 +352,7 @@ export default {
       margin-left: -100px;
     }
   }
+  //外呼样式
+.limit { position:relative; height: 25px; text-align: right;}
+.limit span {color: #ee2a7b; }
 </style>

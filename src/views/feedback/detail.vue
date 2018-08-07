@@ -50,13 +50,12 @@ export default {
     }
   },
   created () {
-    this.data = this.$route.params
+    this.data = this.$route.query
     this.getImgList(this.data.feedbackImgPath)
   },
   methods: {
     showBig (index) {
       this.isDialogShow = true
-      console.log(index)
       this.bigsrc = this.imgList[index]
     },
     getImgList (uId) {
@@ -64,7 +63,6 @@ export default {
         let uIdArr = uId.split(',')
         uIdArr.forEach((ele, index) => {
           this.imgList.push(process.env.BASE_API + '/feedback/getImg/' + ele)
-          console.log(this.imgList)
         })
       }
     }

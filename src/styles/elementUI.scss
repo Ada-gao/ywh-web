@@ -17,29 +17,22 @@
   }
   .noml,
   .noml1 {
-    .el-input__icon {
-      //right: -23px!important;
-    }
-    .el-date-editor.el-input {
-      //width: 220px!important;
-    }
+    .el-input__icon {}
+    .el-date-editor.el-input {}
     .el-input__suffix {
       right: 25px;
     }
   }
   .line {
-    //margin-left: 15px;
     margin-left: -15px;
     padding-top: 7px;
   }
   .noml {
-    //margin-left: 75px;
     .el-form-item__content {
       width: calc(100%);
     }
   }
   .noml1 {
-    //margin-left: 75px;
     .el-form-item__content {
       margin-left: 0 !important;
       width: calc(100% - 100px);

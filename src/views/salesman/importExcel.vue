@@ -89,7 +89,8 @@ export default {
         filename: [
           { required: true, message: '请选择上传文件', trigger: 'blur' }
         ]
-      }
+      },
+      error: '',
     }
   },
   created () {
@@ -104,7 +105,6 @@ export default {
     selected (data) {
       this.tableHeader = data.header
       this.tableData = data.results
-      console.log(this.tableData)
       this.form.filename = data.filename
     },
     showDialog () {
@@ -112,39 +112,73 @@ export default {
         this.dialogVisible = true
       }
     },
+    checkMobile (value) {
+      if (value) {
+        return /^((1[3-8][0-9])+\d{8})$/.test(value)
+      }
+      return false
+    },
     submit () {
       this.dialogVisible = false
-      let keyMap = {
-        销售姓名: 'name',
-        所属团队: 'team',
-        对应职级: 'level',
-        手机号: 'mobile',
-        用户名: 'username',
-        密码: 'password'
-      }
-      this.tableData.forEach(item => {
-        replaceKey(item, keyMap)
-      })
-      console.log(this.tableData)
-      addBatch(this.form.companyId, this.tableData).then(res => {
-        if (res.status === 200) {
-          console.log(res)
-          this.$notify({
-            title: '成功',
-            message: '导入成功',
-            type: 'success',
-            duration: 2000
-          })
-          this.$router.push({path: '/salesman'})
+      this.error = ''
+      var reg = /[\u4E00-\u9FA5\uF900-\uFA2D]/;
+      if (this.tableHeader[0] === '销售姓名' && this.tableHeader[1] === '所属团队' && this.tableHeader[2] === '对应职级' && this.tableHeader[3] === '手机号' && this.tableHeader[4] === '用户名' && this.tableHeader[5] === '密码') {
+        for (let i = 0; i < this.tableData.length; i++) {
+          if (!this.tableData[i].销售姓名 || this.tableData[i].销售姓名 === 'undefined' || this.tableData[i].销售姓名.length > 50) {
+            this.error += '‘销售姓名’'
+          }
+          if (!this.tableData[i].所属团队 || this.tableData[i].所属团队 === 'undefined' || this.tableData[i].所属团队.length > 20) {
+            this.error += '‘所属团队’'
+          }
+          if (!this.tableData[i].对应职级 || this.tableData[i].对应职级 === 'undefined' || this.tableData[i].对应职级.length > 255) {
+            this.error += '‘对应职级’'
+          }
+          if (!this.checkMobile(this.tableData[i].手机号) || this.tableData[i].对应职级 === 'undefined') {
+            this.error += '‘手机号’'
+          }
+          if (!this.tableData[i].用户名 || this.tableData[i].用户名 === 'undefined' || this.tableData[i].用户名.length < 4 || this.tableData[i].用户名.length > 50) {
+            this.error += '‘用户名’'
+          }
+          if (!this.tableData[i].密码 || this.tableData[i].密码 === 'undefined' || this.tableData[i].密码.length < 6 || this.tableData[i].密码.length > 12 || reg.test(this.tableData[i].密码)) {
+            this.error += '‘密码’'
+          }
+          if (this.error) {
+            this.error = '第' + (i + 1) + '行' + this.error + '格式有误'
+            break
+          }
         }
-      }).catch((message) => {
-        this.$notify({
-          title: '失败',
-          message: '导入失败',
-          // type: 'success',
-          duration: 2000
+      } else {
+        this.error = '导入的模版不正确，请核对后重新导入'
+      }
+      if (this.error) {
+        this.$notify.error({
+          title: '错误',
+          message: this.error,
+          duration: 5000
         })
-      })
+      } else {
+        let keyMap = {
+          销售姓名: 'name',
+          所属团队: 'team',
+          对应职级: 'level',
+          手机号: 'mobile',
+          用户名: 'username',
+          密码: 'password'
+        }
+        let table = JSON.parse(JSON.stringify(this.tableData))
+        table.forEach(item => {
+          replaceKey(item, keyMap)
+        })
+        addBatch(this.form.companyId, table).then(res => {
+            this.$notify({
+              title: '成功',
+              message: '导入成功',
+              type: 'success',
+              duration: 2000
+            })
+            this.$router.push({path: '/salesman'})
+        })
+      }
     }
   }
 }

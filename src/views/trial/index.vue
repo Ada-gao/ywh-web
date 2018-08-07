@@ -201,7 +201,6 @@ export default {
     getList () {
       getTrial(this.listQuery).then((response) => {
         this.list = response.data.content
-        console.log(this.list.content)
         this.converStatus(this.list)
         this.total = response.data.totalElements
         this.listLoading = false
@@ -209,7 +208,6 @@ export default {
           this.orgSize = res.data
           this.list.forEach(item => {
             item.createTime = new Date(item.createTime).toLocaleString()
-            // item.orgSize = transformText(this.orgSize, item.orgSize)
           })
         })
       })
@@ -301,7 +299,7 @@ export default {
       this.getList()
     },
     handleUpdate (params) {
-      this.$router.push({name: 'trialDetail', params: params})
+      this.$router.push({name: 'trialDetail', query: params})
     }
   }
 }

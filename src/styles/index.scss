@@ -15,8 +15,6 @@ a:hover {
     color: $hover-color;
   }
 }
-//$mainBlue: #0299CC;
-//$mainGreen: #18c79c;
 .app-container {
   padding: 0 20px;
 }
@@ -27,20 +25,9 @@ a:hover {
   border-bottom: 1px solid #efefef;
   margin: 10px 0 20px;
 }
-// .tit-text::before {
-//   content: '';
-//   display: inline-block;
-//   width: 5px;
-//   background-color: $mainBlue;
-//   height: 20px;
-//   margin: 0 5px;
-//   vertical-align: top;
-// }
 input:-webkit-autofill {
   -webkit-text-fill-color: #000 !important;
   box-shadow: 0 0 0px 1000px #fff  inset !important;
-  // background-color:transparent;
-  // background-image: none;
   transition: background-color 50000s ease-in-out 0s; //背景色透明  生效时长  过渡效果  启用时延迟的时间
 }
 input {
@@ -62,18 +49,12 @@ textarea::-webkit-input-placeholder {
   line-height: 28px;
 }
 .detail-title {
-  // margin-top: 30px;
-  //margin-bottom: 20px;
   height: 40px;
   line-height: 40px;
-  // position: relative;
   .upd_btn {
     float: right;
   }
   .el-button {
-    // position: absolute;
-    // top: -7px;
-    // right: 0;
     float: right;
     margin-left: 10px;
   }
@@ -95,7 +76,6 @@ textarea::-webkit-input-placeholder {
     position: absolute;
     width: 4px;
     height: 20px;
-    /*background: #0299CC;*/
     background: $color-primary;
     left: 0;
     top: 0;
@@ -123,16 +103,6 @@ textarea::-webkit-input-placeholder {
     border-color: $hover-color;
     color: #fff;
   }
-  //.el-pager li.active {
-  //  background-color: $color-primary;
-  //  border-color: $color-primary;
-  //  &:hover {
-  //    color: #fff;
-  //  }
-  //}
-  //.el-pager li:hover {
-  //  color: $color-primary;
-  //}
   .add_btn {
     background: $color-primary;
     color: #fff;
@@ -141,11 +111,6 @@ textarea::-webkit-input-placeholder {
     background: $hover-color;
     color: #fff;
   }
-  //.el-radio__input.is-checked .el-radio__inner,
-  //.el-checkbox__input.is-checked .el-checkbox__inner {
-  //  border-color: $color-primary;
-  //  background: $color-primary;
-  //}
   .el-loading-spinner .el-loading-text {
     color: $color-primary;
   }

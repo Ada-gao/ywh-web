@@ -61,7 +61,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="有效通话时长：" prop="mobile">
+            <el-form-item label="有效通话时长（秒)：" prop="mobile">
               <span>{{form.minimumDuration}}</span>
             </el-form-item>
           </el-col>
@@ -178,7 +178,6 @@
 
 <script>
 import { getToken } from '@/common/js/auth'
-// import { addUser, getUserById, updUser } from '@/api/api'
 import {getTaskDetail} from '@/api/api'
 export default {
   data () {
@@ -205,8 +204,8 @@ export default {
     }
   },
   created () {
-    this.listQuery.taskGroupId = this.$route.params.id
-    this.groupName = this.$route.params.name
+    this.listQuery.taskGroupId = this.$route.query.id
+    this.groupName = this.$route.query.name
     this.getList()
     this.listLoading = false
   },
@@ -241,6 +240,15 @@ export default {
       }
       return result
     },
+    timestampToTime (timestamp) {
+      let date = new Date(timestamp)
+      let M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '月'
+      let D = date.getDate() + '日'
+      let h = date.getHours() + ':'
+      let m = date.getMinutes()
+      let time = M + D + h + m
+      return time
+    },
     getList () {
       getTaskDetail(this.listQuery.taskGroupId, this.listQuery).then(res => {
         this.form = res.data.taskGroup
@@ -248,13 +256,18 @@ export default {
         this.form.taskStartDate = new Date(this.form.taskStartDate).toLocaleDateString()
         this.form.taskEndDate = new Date(this.form.taskEndDate).toLocaleDateString()
         this.list = res.data.nameList.content
-        console.log(this.list)
-        // this.list.lastCallDate = moment(res.data.nameList.content.lastCallDate).format('mm:ss')
         this.list.forEach((ele, index) => {
           ele.gender = ele.gender === 'GENTLEMAN' ? '男' : '女'
-          ele.duration = this.Datetime(ele.duration)
-          // ele.lastCallDate = this.moment('mm:ss')
-          // ele.duration
+          if (ele.duration === null) {
+            ele.duration = 0
+          } else {
+            ele.duration = this.Datetime(ele.duration)
+          }
+          if (ele.lastCallDate === null) {
+            ele.lastCallDate = 0
+          } else {
+            ele.lastCallDate = this.timestampToTime(ele.lastCallDate)
+          }
         })
         this.salesCnt = res.data.salesCnt
         this.total = res.data.nameList.totalElements || 0
@@ -272,7 +285,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   .detail-title {
     /*margin-top: 30px;*/
     /*margin-bottom: 20px;*/
@@ -294,4 +307,5 @@ export default {
     color: #0299CC;
     cursor: pointer;
   }
+  .el-popover{ max-height: 360px; overflow: auto; word-break: break-all;}
 </style>

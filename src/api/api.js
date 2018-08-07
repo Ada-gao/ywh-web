@@ -1,15 +1,6 @@
 import axios from '@/common/request'
 import qs from 'qs'
 
-// axios.defaults.baseURL = process.env.BASE_API
-// axios.defaults.timeout = 15000
-
-// axios.interceptors.request.use(config => {
-//   config.headers['Authorization'] = sessionStorage.getItem('token')
-//   return config
-// }, error => {
-//   return Promise.reject(error)
-// })
 
 export const requestLogin = params => axios.post('/auth/login', params)
 export const getUser = () => axios.get('/auth/user')
@@ -26,7 +17,7 @@ export function uploadLogo (file) {
     }
   })
 }
-// export const getAssociateList = id => axios.get('/outboundName/queryNames/' + id)
+
 export const getCompanyPage = params => axios.get('/companies/companyPage', {params: params})
 export const addCompanies = data => axios.post('/companies', data)
 export const delCompanies = id => axios.delete('/companies/' + id)
@@ -45,6 +36,8 @@ export const updSale = (id, params) => axios.put('/users/updateUsers/' + id, par
 export const addBatch = (companyId, params) => axios.post('/users/addBatch?companyId=' + companyId, params)
 export const addUser = params => axios.post('/users', params)
 export const userEnabled = (id, params) => axios.put('/users/enabled/' + id + '?enabled=' + params)
+export const resetPWD = (id, newPWD) => axios.put('/users/resetPWD/' + id + '?newPWD=' + newPWD)
+export const updateUsers = (id, params) => axios.put('/users/updateUsers/' + id, params)
 // user/sale/销售详情页面的任务完成
 export const taskDoneRate = (id) => axios.get('/task/statisBySales?userId=' + id)
 // name
@@ -64,7 +57,6 @@ export const getProductList = () => axios.get('/product/list')
 
 // trial
 export const getTrial = params => axios.get('/trial/getPage', {params: params})
-// export const getTrailDet = (id, data) => axios.put('/trial/updateStatus/' + id, data)
 export function getTrailDet (id, params) {
   let para = qs.stringify(params)
   return axios({

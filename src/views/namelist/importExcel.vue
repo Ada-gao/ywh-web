@@ -32,7 +32,7 @@
         <el-row :gutter="20">
           <el-col :span="11" :offset="6">
             <el-form-item label="名单名称" prop="groupName">
-              <el-input v-model="form.groupName" placeholder="请输入名单名称" required></el-input>
+              <el-input v-model="form.groupName" placeholder="请输入名单名称" required maxlength="50"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -59,8 +59,8 @@
       <!--</div>-->
     </div>
     <div class="detail-title" style="margin-top: 30px">
-      <span class="list-tit">销售列表</span>
-      <el-button :class="form.maskPhoneNo && form.companyId && tableData.length > 0 ? 'add_btn' : 'insert_btn'" @click="showDialog">
+      <span class="list-tit">名单列表</span>
+      <el-button :class="form.companyId && form.groupName &&tableData.length > 0 ? 'add_btn' : 'insert_btn'" @click="showDialog">
         <i class="fa fa-sign-out" style="margin-right: 10px"></i>确认导入
       </el-button>
 
@@ -103,7 +103,8 @@ export default {
           { required: true, message: '请选择上传文件', trigger: 'blur' }
         ]
       },
-      filename: ''
+      filename: '',
+      error: '',
     }
   },
   created () {
@@ -119,42 +120,74 @@ export default {
       this.tableHeader = data.header
       this.tableData = data.results
       this.form.filename = data.filename
-      // console.log(this.tableHeader)
-      // console.log(this.tableData)
-      // this.formData = data.formData
     },
     showDialog () {
-      console.log(11111)
-      if (this.form.maskPhoneNo &&
-          this.form.companyId &&
-          this.tableData.length > 0) {
+      if (this.form.companyId && this.form.groupName && this.tableData.length > 0) {
         this.dialogVisible = true
       }
     },
+    checkMobile (value) {
+      if (value) {
+        return /^((1[3-8][0-9])+\d{8})$/.test(value)
+      }
+      return false
+    },
+    checkTelphone (value) {
+      if (value) {
+        return /^(0[0-9]{2,3}-)([2-9][0-9]{6,7})+$/.test(value)
+      }
+      return false
+    },
     submit () {
       this.dialogVisible = false
-      let keyMap = {
-        联系人姓名: 'contactName',
-        手机号: 'phoneNo',
-        年龄: 'age',
-        性别: 'gender',
-        所在地: 'residence',
-        名单来源: 'source'
-      }
-      this.tableData.forEach(item => {
-        replaceKey(item, keyMap)
-      })
-      addNameExcel(this.form, this.tableData).then(res => {
-        if (res.status === 200) {
-          this.$notify({
-            title: '成功',
-            message: '导入成功',
-            type: 'success',
-            duration: 2000
-          })
-          this.$router.push({path: '/list'})
+      this.error = ''
+      if (this.tableHeader[0] === '联系人姓名' && this.tableHeader[1] === '手机号' && this.tableHeader[2] === '年龄' && this.tableHeader[3] === '性别' && this.tableHeader[4] === '所在地' && this.tableHeader[5] === '名单来源') {
+        for (let i = 0; i < this.tableData.length; i++) {
+          if (!this.tableData[i].联系人姓名 || this.tableData[i].联系人姓名 === 'undefined' || this.tableData[i].联系人姓名.length > 50) {
+            this.error += '‘联系人姓名’'
+          }
+          if (this.checkMobile(this.tableData[i].手机号) || this.checkTelphone(this.tableData[i].手机号)) {
+
+          } else {
+            this.error += '‘手机号’'
+          }
+          if (this.error) {
+            this.error = '第' + (i + 1) + '行' + this.error + '格式有误'
+            break
+          }
         }
-      })
+      } else {
+        this.error = '导入的模版不正确，请核对后重新导入'
+      }
+      if (this.error) {
+        this.$notify.error({
+          title: '错误',
+          message: this.error,
+          duration: 2000
+        })
+      } else {
+        let keyMap = {
+          联系人姓名: 'contactName',
+          手机号: 'phoneNo',
+          年龄: 'age',
+          性别: 'gender',
+          所在地: 'residence',
+          名单来源: 'source'
+        }
+        let table = JSON.parse(JSON.stringify(this.tableData))
+        table.forEach(item => {
+          replaceKey(item, keyMap)
+        })
+        addNameExcel(this.form, table).then(res => {
+            this.$notify({
+              title: '成功',
+              message: '导入成功',
+              type: 'success',
+              duration: 2000
+            })
+            this.$router.push({path: '/list'})
+        })
+      }
     }
   }
 }

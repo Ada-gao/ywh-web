@@ -1,12 +1,8 @@
 import axios from 'axios'
 import router from '../routes'
 import { Message } from 'element-ui'
-// import store from '../store'
 import { getToken, removeToken } from './js/auth'
 
-// axios.defaults.baseURL = process.env.BASE_API
-// axios.defaults.timeout = 15000
-// 创建axios实例
 const service = axios.create({
   baseURL: process.env.BASE_API, // api的base_url
   timeout: 15000 // 请求超时时间
@@ -30,31 +26,36 @@ service.interceptors.response.use(
     return response
   },
   error => {
-    console.log('error')
-    console.log(error)
     const res = error.response
-    console.log(res.data)
-
     if (res.status === 400) {
       // 错误处理
-
+      if (res.data.message){
+        message(res.data.message, 'error')
+      } else {
+        message(res.data.error, 'error')
+      }
     } else if (res.status === 401) {
       message('登录时间过期，请重新登录', 'error')
       removeToken()
-      router.replace({
-        path: '/login',
-        query: {redirect: router.fullPath}
-      })
+      setTimeout(()=>{
+        window.location.href = window.location.protocol + '//' + window.location.host + '/login'
+      },2000)
     } else if (res.status === 403) {
       message('管理权限不足，请联系管理员')
+      setTimeout(()=>{
+        window.location.href = window.location.protocol + '//' + window.location.host + '/login'
+      },2000)
     } else if (res.status === 500) {
-      message(res.data.msg, 'error')
+      if (res.data.message){
+        message(res.data.message, 'error')
+      } else {
+        message(res.data.error, 'error')
+      }
     } else {
       message('服务器被吃了⊙﹏⊙∥', 'error')
-      router.replace({
-        path: '/404',
-        query: {redirect: router.fullPath}
-      })
+      setTimeout(()=>{
+        window.location.href = window.location.protocol + '//' + window.location.host + '/404'
+      },2000)
     }
     return Promise.reject(error)
   }

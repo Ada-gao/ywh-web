@@ -7,8 +7,7 @@
       </el-col>
       <el-col :span="10">
         <div class="tools" @click.prevent="collapse">
-          <i class="fa fa-outdent"></i>
-          你好，{{sysUser}}
+          <i class="iconfont" :class="collapsed ? 'icon-zhankaicaidan' : 'icon-shouqicaidan'" style="margin-right:10px;"></i>你好，{{sysUser}}
         </div>
       </el-col>
       <el-col :span="4" class="userinfo">
@@ -16,9 +15,10 @@
           <!-- <span class="el-dropdown-link userinfo-inner"><img src="../assets/user.png"/> {{sysUserName}}</span> -->
           <span class="el-dropdown-link userinfo-inner"><img src="../assets/user.png"/> </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>我的消息</el-dropdown-item>
-            <el-dropdown-item>设置</el-dropdown-item>
-            <el-dropdown-item divided @click.native="logout">退出登录</el-dropdown-item>
+            <!--<el-dropdown-item>我的消息</el-dropdown-item>-->
+            <!--<el-dropdown-item>设置</el-dropdown-item>-->
+            <!--<el-dropdown-item divided @click.native="logout">退出登录</el-dropdown-item>-->
+            <el-dropdown-item @click.native="logout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </el-col>
@@ -85,7 +85,6 @@
 </template>
 
 <script>
-// import { getUser } from '../api/api'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -113,10 +112,12 @@ export default {
       'routers'
     ])
   },
+  created () {
+    let token = sessionStorage.getItem('token')
+    this.$store.dispatch('GetUser', token)
+  },
   methods: {
-    onSubmit () {
-      console.log('submit!')
-    },
+    onSubmit () {},
     handleopen () {
     },
     handleclose () {
@@ -127,7 +128,6 @@ export default {
     logout: function () {
       let _this = this
       this.$confirm('确认退出吗?', '提示', {
-        // type: 'warning'
       }).then(() => {
         sessionStorage.removeItem('token')
         _this.$router.push('/login')
@@ -144,26 +144,14 @@ export default {
     }
   },
   mounted () {
-    // let user = sessionStorage.getItem('token')
-    // this.$store.dispatch('GetUser', user)
-    // if (user) {
-    //   getUser().then((res) => {
-    //     this.sysUserName = res.data.username
-    //   })
-    // }
-    // this.$router.options.routes.forEach(item => {
-    //   if (this.sysUser === 'superadmin') {
-    //   } else {
-    //     console.log(this.menuIds)
-    //     console.log(this.routers)
-    //   }
-    // })
+
   }
 }
 
 </script>
 
 <style scoped lang="scss">
+  @import "../styles/iconfont.css";
   @import '~scss_vars';
 
   .container {
@@ -196,7 +184,6 @@ export default {
         }
       }
       .logo {
-        //width:180px;
         height: 60px;
         font-size: 22px;
         padding-left: 20px;
@@ -230,7 +217,6 @@ export default {
       }
       .tools {
         padding: 0px 23px;
-        // width: 14px;
         height: 60px;
         line-height: 60px;
         cursor: pointer;
@@ -238,7 +224,6 @@ export default {
     }
     .main {
       display: flex;
-      // background: #324057;
       position: absolute;
       top: 60px;
       bottom: 0px;
@@ -251,9 +236,6 @@ export default {
         font-family: PingFangSC-Semibold;
         font-size: 14px;
         letter-spacing: 0;
-        // position: absolute;
-        // top: 0px;
-        // bottom: 0px;
         .el-menu {
           height: 100%;
           background: $sidebar-bg;
@@ -311,13 +293,7 @@ export default {
         width: 180px;
       }
       .content-container {
-        // background: #f1f2f7;
         flex: 1;
-        // position: absolute;
-        // right: 0px;
-        // top: 0px;
-        // bottom: 0px;
-        // left: 180px;
         overflow-y: scroll;
         padding: 20px;
         .breadcrumb-container {

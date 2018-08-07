@@ -80,7 +80,7 @@ export default {
     }
   },
   created () {
-    this.list = this.$route.params
+    this.list = this.$route.query
     this.radio = this.list.status
   },
   methods: {

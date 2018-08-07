@@ -118,7 +118,6 @@
 import { getCompanyPage, getAuthDustries, getOrgSize } from '@/api/api'
 import { provinceAndCityData } from 'element-china-area-data' // 省市区数据
 import { mapGetters } from 'vuex'
-// import { transformText } from '@/common/js/util'
 
 export default {
   components: {},
@@ -157,7 +156,6 @@ export default {
         getOrgSize().then(res => {
           this.orgSize = res.data
           this.list.forEach(item => {
-            // item.orgSize = transformText(this.orgSize, item.orgSize)
           })
         })
       })
@@ -166,7 +164,7 @@ export default {
       })
     },
     handleUpdate (obj) {
-      this.$router.push({path: '/company/detail/' + obj.companyCode, query: {item: obj}})
+      this.$router.push({name: 'detail', query: obj})
     },
     handleSizeChange (val) {
       this.listQuery.pageSize = val
@@ -208,7 +206,7 @@ export default {
       this.getList()
     },
     handleCreate () {
-      this.$router.push({path: '/company/detail/0'})
+      this.$router.push({path: '/company/create'})
     }
   }
 }

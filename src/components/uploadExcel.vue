@@ -1,18 +1,14 @@
 <template>
   <div>
     <input id="excel-upload-input" type="file" accept=".xlsx, .xls" class="c-hide" @change="handkeFileChange">
-    <!-- <div id="drop" class="el-upload-dragger"> -->
       <div @click="handleUpload">
         <el-input v-model="filename" placeholder="请选择上传文件" readonly></el-input>
       </div>
-      <!-- <div class="el-upload__tip" slot="tip">只能导入 Excel 文件 <a :href="downloadUrl">下载 Excel 模版</a></div> -->
-    <!-- </div> -->
   </div>
 </template>
 
 <script>
 import XLSX from 'xlsx'
-// import { uploadExcel } from '@/api/uploadExcel'
 
 export default {
   data () {
@@ -29,61 +25,31 @@ export default {
     generateDate ({ header, results, formData }) {
       this.excelData.header = header
       this.excelData.results = results
-      // this.excelData.formData = formData
       this.excelData.filename = this.filename
       this.$emit('on-selected-file', this.excelData)
     },
-    // handleDrop (e) {
-    //   e.stopPropagation()
-    //   e.preventDefault()
-    //   const files = e.dataTransfer.files
-    //   if (files.length !== 1) {
-    //     this.$message.error('Only support uploading one file!')
-    //     return
-    //   }
-    //   const itemFile = files[0] // only use files[0]
-    //   this.readerData(itemFile)
-    //   e.stopPropagation()
-    //   e.preventDefault()
-    // },
-    // handleDragover (e) {
-    //   e.stopPropagation()
-    //   e.preventDefault()
-    //   e.dataTransfer.dropEffect = 'copy'
-    // },
     handleUpload () {
       document.getElementById('excel-upload-input').click()
     },
     handkeFileChange (e) {
+      if(e.target.files[0]  == null) return;
       const files = e.target.files
       const itemFile = files[0] // only use files[0]
       this.filename = itemFile.name
-      console.log(this.filename)
       let formData = new FormData()
       formData.append('file', itemFile)
       this.readerData(itemFile, formData)
+      document.getElementById('excel-upload-input').value = ''
     },
     readerData (itemFile, formData) {
       const reader = new FileReader()
       reader.onload = e => {
         const data = e.target.result
-        // debugger
         const fixedData = this.fixdata(data)
         const workbook = XLSX.read(btoa(fixedData), { type: 'base64' })
         const firstSheetName = workbook.SheetNames[0]
         const worksheet = workbook.Sheets[firstSheetName]
         const header = this.get_header_row(worksheet)
-        // const headerList = []
-        // header.forEach((item, index) => {
-        //   if(item.indexOf('UNKNOWN') === -1) {
-        //     // debugger
-        //     // header.split(index, 1)
-        //     // console.log(index)
-        //     // console.log(item)
-        //     headerList.push(item)
-        //     // console.log(headerList)
-        //   }
-        // })
         const results = XLSX.utils.sheet_to_json(worksheet)
         this.generateDate({ header, results, formData })
       }
@@ -98,7 +64,6 @@ export default {
       return o
     },
     get_header_row (sheet) {
-      // const headers = ['姓名', '用户名', '密码', '工作状态', '部门', '学历', '邮箱', '工号', '性别', '证件号码', '证件类型', '手机号', '角色']
       const headers = []
       const range = XLSX.utils.decode_range(sheet['!ref'])
       let C
@@ -109,7 +74,6 @@ export default {
         if (cell && cell.t) hdr = XLSX.utils.format_cell(cell)
         headers.push(hdr)
       }
-      // headers[0] = headers[0] === 'name' ? '姓名': headers[0]
       return headers
     }
   }

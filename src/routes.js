@@ -2,7 +2,6 @@ import Login from './views/Login.vue'
 import NotFound from './views/404.vue'
 import Home from './views/Home.vue'
 import company from './views/company/company.vue'
-// import product from './views/product/product.vue'
 import salesman from './views/salesman/salesman.vue'
 import dashboard from './views/dashboard/echarts.vue'
 import list from './views/namelist'
@@ -15,7 +14,8 @@ import parameter from './views/parameter/parameter.vue'
 import workload from './views/report/workload.vue'
 import reporttask from './views/report/task.vue'
 import reportproduct from './views/report/product.vue'
-import companyDetail from './views/company/create.vue'
+import companyCreate from './views/company/create.vue'
+import companyDetail from './views/company/detail.vue'
 import salesmanDetail from './views/salesman/detail.vue'
 import excel from './views/salesman/importExcel.vue'
 
@@ -39,7 +39,6 @@ let routes = [
     name: '',
     hidden: true
   },
-  // { path: '/main', component: Main },
   {
     menuId: 3,
     path: '/',
@@ -61,19 +60,10 @@ let routes = [
     leaf: true,
     children: [
       {menuId: 41, path: '/company', component: company, name: '公司管理'},
-      {menuId: 42, path: '/company/detail/:id', component: companyDetail, name: '新建公司'}
+      {menuId: 42, path: '/company/create', name: 'create', component: companyCreate},
+      {menuId: 43, path: '/company/detail', name: 'detail', component: companyDetail}
     ]
   },
-  // {
-  //   path: '/',
-  //   component: Home,
-  //   name: '',
-  //   iconCls: 'fa fa-globe',
-  //   leaf: true,
-  //   children: [
-  //     {path: '/product', component: product, name: '产品管理'}
-  //   ]
-  // },
   {
     menuId: 5,
     path: '/',

@@ -134,9 +134,7 @@
 </template>
 
 <script>
-// import {getAdminTasks, getTasks, getCompanies, getProductList} from '@/api/api'
 import {getAdminTasks, getTeams, getProductList, getTeam} from '@/api/api'
-// import { transformText } from '@/common/js/util'
 import {mapGetters} from 'vuex'
 
 export default {
@@ -165,7 +163,6 @@ export default {
     ])
   },
   created () {
-    console.log(this.getUserInfo)
     this.getList()
     this.getQuery()
   },
@@ -176,19 +173,6 @@ export default {
         this.total = response.data.length
         this.listLoading = false
       })
-      // if (this.adminStat) {
-      //   getAdminTasks(this.listQuery).then(response => {
-      //     this.list = response.data
-      //     this.total = response.data.length
-      //     this.listLoading = false
-      //   })
-      // } else {
-      //   getTasks(this.listQuery).then(response => {
-      //     this.list = response.data
-      //     this.total = response.data.length
-      //     this.listLoading = false
-      //   })
-      // }
     },
     getQuery () {
       let params = {
@@ -233,14 +217,13 @@ export default {
       this.getList()
       getTeam(this.listQuery.team).then((res) => {
         this.products = res.data
-        console.log(res)
       })
     },
     handleCreate () {
       this.$router.push({path: '/task/newTask'})
     },
     handleUpdate (id, name) {
-      this.$router.push({name: 'taskDetail', params: {id: id, name: name}})
+      this.$router.push({name: 'taskDetail', query: {id: id, name: name}})
     }
   }
 }
