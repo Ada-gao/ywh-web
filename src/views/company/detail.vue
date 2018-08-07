@@ -152,7 +152,6 @@
                  style="margin-right: 20px;">
           <el-form-item label="新密码" prop="password" class="txt">
             <el-input v-model="pwdForm.password" placeholder="输入登录密码" maxlength="12"></el-input>
-            <div style="line-height: 24px; font-size: 12px;">请输入不少于6位的字母或数字</div>
           </el-form-item>
         </el-form>
         <div style="text-align: right">
@@ -196,7 +195,6 @@
           <el-col :span="17">
             <el-form-item label="登录密码" prop="password">
               <el-input v-model="manager.password" placeholder="输入登录密码" maxlength="12"></el-input>
-              <div style="line-height: 24px; font-size: 12px;">请输入不少于6位的字母或数字</div>
             </el-form-item>
 
           </el-col>
