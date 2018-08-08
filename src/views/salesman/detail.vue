@@ -221,17 +221,19 @@ export default {
         callback(new Error('请输入登录账号'))
       } else if (value.length < 4) {
         callback(new Error('登录账号不能少于4位'))
+      } else if (!reg.test(value)){
+        callback(new Error('请您输入数字或字母'))
       } else {
         callback()
       }
     }
     const validatePass = (rule, value, callback) => {
-      var reg = /[\u4E00-\u9FA5\uF900-\uFA2D]/;
+      var reg = /^[0-9a-zA-Z]+$/;
       if (!value) {
         callback(new Error('请输入登录密码'))
       } else if (value.length < 6) {
         callback(new Error('密码不能少于6位'))
-      }else if(reg.test(value)){
+      } else if (!reg.test(value)){
         callback(new Error('请您输入数字或字母'))
       } else {
         callback()
@@ -323,9 +325,19 @@ export default {
     this.listLoading = false
   },
   methods: {
+    //去除空格
+    trim (str,is_global) {
+      var result;
+      result = str.replace(/(^\s+)|(\s+$)/g,"");
+      if (is_global.toLowerCase()=="g") {
+        result = result.replace(/\s/g,"");
+      }
+      return result;
+    },
     resetPassword (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          this.ruleForm.password = this.trim(this.ruleForm.password,'g')
           resetPWD(this.id, this.ruleForm.password).then(res => {
             this.$notify({
               title: '成功',
@@ -380,6 +392,8 @@ export default {
       const set = this.$refs
       set[formName].validate(valid => {
         if (valid) {
+          this.form.password = this.trim(this.form.password,'g')
+          this.form.username = this.trim(this.form.username,'g')
           if (this.updateStatus === 'create') {
             addUser(this.form)
               .then((res) => {
