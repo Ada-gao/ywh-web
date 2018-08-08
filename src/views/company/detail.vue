@@ -324,7 +324,7 @@ export default {
     this.getList()
     this.form = obj
     if (this.form.logo) {
-      this.form.logo = process.env.BASE_API + '/file/' + this.form.logo
+      this.form.logo = process.env.BASE_API + '/file?fileUuid=' + this.form.logo
     }
     this.updateStatus = 'view'
   },

@@ -329,7 +329,7 @@ export default {
           formData.append('file', data)
           uploadLogo(formData).then(res => {
             this.imgurl = res.data
-            this.form.logo = process.env.BASE_API + '/file/' + res.data
+            this.form.logo = process.env.BASE_API + '/file?fileUuid=' + res.data
             this.dialogVisible = false
           })
         })
@@ -340,7 +340,7 @@ export default {
           formData.append('file', data)
           uploadLogo(formData).then(res => {
             this.imgurl = res.data
-            this.form.logo = process.env.BASE_API + '/file/' + res.data
+            this.form.logo = process.env.BASE_API + '/file?fileUuid=' + res.data
             this.dialogVisible = false
           })
         })

@@ -62,7 +62,7 @@ export default {
       if (uId) {
         let uIdArr = uId.split(',')
         uIdArr.forEach((ele, index) => {
-          this.imgList.push(process.env.BASE_API + '/feedback/getImg/' + ele)
+          this.imgList.push(process.env.BASE_API + '/feedback/getImg/?fileUuid=' + ele)
         })
       }
     }
