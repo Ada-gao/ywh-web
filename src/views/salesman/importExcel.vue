@@ -121,7 +121,8 @@ export default {
     submit () {
       this.dialogVisible = false
       this.error = ''
-      var reg = /[\u4E00-\u9FA5\uF900-\uFA2D]/;
+      var reg = /^[0-9a-zA-Z]+$/   // 判断中文
+      var reg2 =/(^\s+)|(\s+$)|\s+/g    // 判断是否有空格  
       if (this.tableHeader[0] === '销售姓名' && this.tableHeader[1] === '所属团队' && this.tableHeader[2] === '对应职级' && this.tableHeader[3] === '手机号' && this.tableHeader[4] === '用户名' && this.tableHeader[5] === '密码') {
         for (let i = 0; i < this.tableData.length; i++) {
           if (!this.tableData[i].销售姓名 || this.tableData[i].销售姓名 === 'undefined' || this.tableData[i].销售姓名.length > 50) {
@@ -136,10 +137,10 @@ export default {
           if (!this.checkMobile(this.tableData[i].手机号) || this.tableData[i].对应职级 === 'undefined') {
             this.error += '‘手机号’'
           }
-          if (!this.tableData[i].用户名 || this.tableData[i].用户名 === 'undefined' || this.tableData[i].用户名.length < 4 || this.tableData[i].用户名.length > 50) {
+          if (!this.tableData[i].用户名 || this.tableData[i].用户名 === 'undefined' || this.tableData[i].用户名.length < 4 || this.tableData[i].用户名.length > 50 || !reg.test(this.tableData[i].用户名) || reg2.test(this.tableData[i].用户名)) {
             this.error += '‘用户名’'
           }
-          if (!this.tableData[i].密码 || this.tableData[i].密码 === 'undefined' || this.tableData[i].密码.length < 6 || this.tableData[i].密码.length > 12 || reg.test(this.tableData[i].密码)) {
+          if (!this.tableData[i].密码 || this.tableData[i].密码 === 'undefined' || this.tableData[i].密码.length < 6 || this.tableData[i].密码.length > 12 || !reg.test(this.tableData[i].密码) || reg2.test(this.tableData[i].密码)) {
             this.error += '‘密码’'
           }
           if (this.error) {
