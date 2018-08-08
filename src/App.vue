@@ -68,8 +68,7 @@ body {
 
 
 //去除table 样式
-td,tr{ margin: 0; padding: 0; font-style:normal;font-weight:normal;}
-td::after,td::before,td:after,td:befor{ display: none;}
-// .el-table__body, .el-table__footer, .el-table__header{ width: 100%!important;}
 .el-table--border::after, .el-table--group::after{ display: none;}
+//ie浏览器中遮罩层问题
+.v-modal{ position: fixed; top:0px; left: 0px; width: 100%; height: 100%; opacity: 0.5; background: #000; z-index: 2000; }
 </style>
