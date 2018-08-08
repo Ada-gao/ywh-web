@@ -104,7 +104,7 @@ export default {
         ]
       },
       filename: '',
-      error: '',
+      error: ''
     }
   },
   created () {
@@ -178,6 +178,8 @@ export default {
         table.forEach(item => {
           replaceKey(item, keyMap)
         })
+        
+        this.form.groupName = encodeURI(this.form.groupName)
         addNameExcel(this.form, table).then(res => {
             this.$notify({
               title: '成功',
