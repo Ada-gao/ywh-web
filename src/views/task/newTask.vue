@@ -156,7 +156,7 @@
 <script>
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
-//import {quillEditor} from 'vue-quill-editor'
+// import {quillEditor} from 'vue-quill-editor'
 import { getToken } from '@/common/js/auth'
 import { nextActionList } from '@/common/js/util'
 import {createTask, getCompanies, getTeams, getNames} from '@/api/api'

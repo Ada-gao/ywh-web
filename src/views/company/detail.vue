@@ -228,24 +228,24 @@ export default {
       }
     }
     const validateUser = (rule, value, callback) => {
-      var reg = /^[0-9a-zA-Z]+$/;
+      var reg = /^[0-9a-zA-Z]+$/
       if (!value) {
         callback(new Error('请输入登录账号'))
       } else if (value.length < 4) {
         callback(new Error('登录账号不能少于4位'))
-      }else if(!reg.test(value)){
+      } else if (!reg.test(value)) {
         callback(new Error('请您输入数字或字母'))
       } else {
         callback()
       }
     }
     const validatePass = (rule, value, callback) => {
-      var reg = /^[0-9a-zA-Z]+$/;
+      var reg = /^[0-9a-zA-Z]+$/
       if (!value) {
         callback(new Error('请输入登录密码'))
       } else if (value.length < 6) {
         callback(new Error('密码不能少于6位'))
-      }else if(!reg.test(value)){
+      } else if (!reg.test(value)) {
         callback(new Error('请您输入数字或字母'))
       } else {
         callback()
@@ -330,7 +330,6 @@ export default {
       this.form.logo = process.env.BASE_API + '/file?fileUuid=' + this.form.logo
     }
     this.updateStatus = 'view'
-    //console.log(this.trim(' as rd','g'));
   },
   methods: {
     changeMode (id, enabled) {
@@ -343,14 +342,14 @@ export default {
         })
       })
     },
-    //去除空格
-    trim (str,is_global) {
-      var result;
-      result = str.replace(/(^\s+)|(\s+$)/g,"");
-      if (is_global.toLowerCase()=="g") {
-        result = result.replace(/\s/g,"");
+    // 去除空格
+    trim (str, is_global) {
+      var result
+      result = str.replace(/(^\s+)|(\s+$)/g, '')
+      if (is_global.toLowerCase() === 'g') {
+        result = result.replace(/\s/g, '')
       }
-      return result;
+      return result
     },
 
     cancelResetPassword (formName) {
@@ -361,7 +360,7 @@ export default {
     resetPassword (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.pwdForm.password = this.trim(this.pwdForm.password,'g')
+          this.pwdForm.password = this.trim(this.pwdForm.password, 'g')
           resetPWD(this.updateInfo.id, this.pwdForm.password).then(res => {
             this.$notify({
               title: '成功',
@@ -381,8 +380,8 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.manager.companyId = this.form.id
-          this.manager.password = this.trim(this.manager.password,'g')
-          this.manager.username = this.trim(this.manager.username,'g')
+          this.manager.password = this.trim(this.manager.password, 'g')
+          this.manager.username = this.trim(this.manager.username, 'g')
           addUser(this.manager)
             .then((res) => {
               this.$notify({
@@ -412,7 +411,7 @@ export default {
           this.manager.level = this.updateForm.level
           this.manager.name = this.updateForm.name
           this.manager.mobile = this.updateForm.mobile
-          this.manager.userName = this.trim(this.updateInfo.userName,'g')
+          this.manager.userName = this.trim(this.updateInfo.userName, 'g')
           this.manager.userCode = this.updateInfo.userCode
           this.manager.enabled = this.updateInfo.enabled
           updateUsers(this.updateInfo.id, this.manager).then(res => {
