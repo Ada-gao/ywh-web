@@ -100,7 +100,7 @@ export default {
           { required: true, message: '请输入名单名称', trigger: 'blur' }
         ],
         filename: [
-          { required: true, message: '请选择上传文件', trigger: 'blur' }
+          { required: true, message: '请选择上传文件', trigger: 'blur, change' }
         ]
       },
       filename: '',
@@ -178,16 +178,15 @@ export default {
         table.forEach(item => {
           replaceKey(item, keyMap)
         })
-        
         this.form.groupName = encodeURI(this.form.groupName)
         addNameExcel(this.form, table).then(res => {
-            this.$notify({
-              title: '成功',
-              message: '导入成功',
-              type: 'success',
-              duration: 2000
-            })
-            this.$router.push({path: '/list'})
+          this.$notify({
+            title: '成功',
+            message: '导入成功',
+            type: 'success',
+            duration: 2000
+          })
+          this.$router.push({path: '/list'})
         })
       }
     }

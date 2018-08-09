@@ -374,14 +374,14 @@ export default {
         return item.label === val
       })
       var cityarr = []
-      if(!this.provinceData[idx].children || typeof this.provinceData[idx].children == 'undefined' || this.provinceData[idx].children.length == 0){
+      if (!this.provinceData[idx].children || typeof this.provinceData[idx].children === 'undefined' || this.provinceData[idx].children.length === 0) {
         this.form.companyCity = null
-        cityarr.label = '市辖区';
-        this.cityData = [];
-        this.cityData[0] = cityarr;
-        return;
+        cityarr.label = '市辖区'
+        this.cityData = []
+        this.cityData[0] = cityarr
+        return
       }
-      this.cityData = this.provinceData[idx].children;
+      this.cityData = this.provinceData[idx].children
       this.form.companyCity = null
     },
     changeCity (val) {

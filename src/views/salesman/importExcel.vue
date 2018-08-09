@@ -90,7 +90,7 @@ export default {
           { required: true, message: '请选择上传文件', trigger: 'blur' }
         ]
       },
-      error: '',
+      error: ''
     }
   },
   created () {
@@ -121,8 +121,8 @@ export default {
     submit () {
       this.dialogVisible = false
       this.error = ''
-      var reg = /^[0-9a-zA-Z]+$/   // 判断中文
-      var reg2 =/(^\s+)|(\s+$)|\s+/g    // 判断是否有空格  
+      var reg = /^[0-9a-zA-Z]+$/
+      var reg2 = /(^\s+)|(\s+$)|\s+/g
       if (this.tableHeader[0] === '销售姓名' && this.tableHeader[1] === '所属团队' && this.tableHeader[2] === '对应职级' && this.tableHeader[3] === '手机号' && this.tableHeader[4] === '用户名' && this.tableHeader[5] === '密码') {
         for (let i = 0; i < this.tableData.length; i++) {
           if (!this.tableData[i].销售姓名 || this.tableData[i].销售姓名 === 'undefined' || this.tableData[i].销售姓名.length > 50) {
@@ -171,13 +171,13 @@ export default {
           replaceKey(item, keyMap)
         })
         addBatch(this.form.companyId, table).then(res => {
-            this.$notify({
-              title: '成功',
-              message: '导入成功',
-              type: 'success',
-              duration: 2000
-            })
-            this.$router.push({path: '/salesman'})
+          this.$notify({
+            title: '成功',
+            message: '导入成功',
+            type: 'success',
+            duration: 2000
+          })
+          this.$router.push({path: '/salesman'})
         })
       }
     }

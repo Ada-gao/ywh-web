@@ -1,7 +1,6 @@
 import axios from '@/common/request'
 import qs from 'qs'
 
-
 export const requestLogin = params => axios.post('/auth/login', params)
 export const getUser = () => axios.get('/auth/user')
 // company

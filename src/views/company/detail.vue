@@ -343,10 +343,10 @@ export default {
       })
     },
     // 去除空格
-    trim (str, is_global) {
+    trim (str, global) {
       var result
       result = str.replace(/(^\s+)|(\s+$)/g, '')
-      if (is_global.toLowerCase() === 'g') {
+      if (global.toLowerCase() === 'g') {
         result = result.replace(/\s/g, '')
       }
       return result

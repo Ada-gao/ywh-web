@@ -44,7 +44,7 @@ export default {
         username: null,
         password: null
       },
-      text:'text',
+      text: 'text',
       loginRules: {
         username: [{required: true, message: '请输入用户名或手机号', trigger: 'blur'}],
         password: [{required: true, trigger: 'blur', validator: validatePass}]
@@ -79,7 +79,7 @@ export default {
                 this.$router.push({path: '/dashboard'})
               }
             })
-          }).catch(error => {
+          }).catch(() => {
             this.loading = false
             NProgress.done()
           })

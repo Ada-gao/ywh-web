@@ -79,8 +79,8 @@ export default {
         totalEffectiveDuration: 0,
         totalTaskCompleteCnt: 0
       },
-      total_min:0,
-      total_sed:0
+      total_min: 0,
+      total_sed: 0
     }
   },
   computed: {
@@ -92,9 +92,9 @@ export default {
     getCount () {
       getStatistic().then(res => {
         if (res.data.totalEffectiveDuration === null) {
-          this.total.totalEffectiveDuration = '0';
-          this.total_min = 0;
-          this.total_sed = 0;
+          this.total.totalEffectiveDuration = '0'
+          this.total_min = 0
+          this.total_sed = 0
         } else {
           let theTime = parseInt(res.data.totalEffectiveDuration)
           let theTime1 = 0
@@ -102,17 +102,17 @@ export default {
             theTime1 = parseInt(theTime / 60)
             theTime = parseInt(theTime % 60)
           }
-          var result = 0;
-          if(parseInt(theTime) == 0){
-            var result = parseInt(theTime)
-          }else{
-            var result = parseInt(theTime) + '秒'
+          var result = 0
+          if (parseInt(theTime) === 0) {
+            result = parseInt(theTime)
+          } else {
+            result = parseInt(theTime) + '秒'
           }
           if (theTime1 > 0) {
             result = parseInt(theTime1) + '分' + result
           }
-          this.total_min = parseInt(theTime1);
-          this.total_sed = parseInt(theTime);
+          this.total_min = parseInt(theTime1)
+          this.total_sed = parseInt(theTime)
           this.total.totalEffectiveDuration = result
         }
         this.total.totalTaskCompleteCnt = res.data.totalTaskCompleteCnt || 0

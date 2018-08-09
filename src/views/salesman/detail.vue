@@ -319,7 +319,7 @@ export default {
       this.value3 = this.$route.query.enabled
       this.getList()
     }
-    if (this.$route.query.updateStatus && this.$route.query.updateStatus === 'update'){
+    if (this.$route.query.updateStatus && this.$route.query.updateStatus === 'update') {
       this.updateStatus = 'update'
     }
     this.getQuery()
@@ -327,10 +327,10 @@ export default {
   },
   methods: {
     // 去除空格
-    trim (str, is_global) {
+    trim (str, global) {
       var result
       result = str.replace(/(^\s+)|(\s+$)/g, '')
-      if (is_global.toLowerCase() === 'g') {
+      if (global.toLowerCase() === 'g') {
         result = result.replace(/\s/g, '')
       }
       return result
@@ -386,7 +386,7 @@ export default {
     },
     updateStat () {
       this.updateStatus = 'update'
-      this.$router.replace({path:this.$route.fullPath, query:{updateStatus:this.updateStatus} });
+      this.$router.replace({ path: this.$route.fullPath, query: { updateStatus: this.updateStatus } })
       this.getQuery()
     },
     create (formName) {
