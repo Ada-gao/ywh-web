@@ -405,7 +405,7 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           if (str) {
-            let index = str.lastIndexOf('/')
+            let index = str.lastIndexOf('=')
             this.form.logo = str.substring(index + 1, str.length)
           }
           addCompanies(this.form)
@@ -430,7 +430,7 @@ export default {
       set[formName].validate(valid => {
         if (valid) {
           if (str) {
-            let index = str.lastIndexOf('/')
+            let index = str.lastIndexOf('=')
             this.form.logo = str.substring(index + 1, str.length)
           }
           putCompanies(id, this.form)

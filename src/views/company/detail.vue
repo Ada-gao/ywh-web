@@ -326,8 +326,9 @@ export default {
     this.listQuery.companyId = obj.id
     this.getList()
     this.form = obj
+    console.log(obj,1111)
     if (this.form.logo) {
-      this.form.logo = process.env.BASE_API + '/' + this.form.logo
+      this.form.logo = process.env.BASE_API + '/file?fileUuid=' + this.$route.query.logo
     }
     this.updateStatus = 'view'
   },
