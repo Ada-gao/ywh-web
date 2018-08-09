@@ -294,7 +294,7 @@ export default {
       }
       .content-container {
         flex: 1;
-        overflow-y: scroll;
+        overflow-y: auto;
         padding: 20px;
         .breadcrumb-container {
           margin-bottom: 15px;

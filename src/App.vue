@@ -70,4 +70,5 @@ body {
 .el-table--border::after, .el-table--group::after{ display: none;}
 // ie浏览器中遮罩层问题
 .v-modal{ position: fixed; top:0px; left: 0px; width: 100%; height: 100%; opacity: 0.5; background: #000; z-index: 2000; }
+.row:after, .row:before{ display: table; content: "";}
 </style>
