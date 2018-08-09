@@ -178,7 +178,12 @@ export default {
         table.forEach(item => {
           replaceKey(item, keyMap)
         })
-        this.form.groupName = encodeURI(this.form.groupName)
+        var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串 
+        var isIE = userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1;
+        if(isIE){
+          this.form.groupName = encodeURI(this.form.groupName)
+        }
+        
         addNameExcel(this.form, table).then(res => {
           this.$notify({
             title: '成功',
