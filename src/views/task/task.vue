@@ -75,7 +75,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="外呼名称">
+      <el-table-column align="center" label="关联名单">
         <template slot-scope="scope">
           <span>{{scope.row.groupName}}</span>
         </template>
