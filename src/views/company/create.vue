@@ -410,6 +410,10 @@ export default {
           }
           addCompanies(this.form)
             .then(res => {
+              this.$message({
+                message: '新建成功',
+                type: 'success'
+              })
               this.companyCode = res.data.companyCode
               this.companyId = res.data.id
               this.$router.push({path: '/company'})
