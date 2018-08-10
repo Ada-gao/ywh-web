@@ -171,7 +171,12 @@ export default {
       getLists(this.listQuery).then(response => {
         this.list = response.data.content
         this.list.forEach((ele, index) => {
-          ele.gender = ele.gender === 'GENTLEMAN' ? '男' : '女'
+          if (ele.gender === 'GENTLEMAN') {
+            ele.gender = '男'
+          }
+          if (ele.gender === 'LADY') {
+            ele.gender = '女'
+          }
         })
         this.total = response.data.totalElements
         this.listLoading = false

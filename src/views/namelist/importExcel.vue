@@ -174,12 +174,11 @@ export default {
         table.forEach(item => {
           replaceKey(item, keyMap)
         })
-        var userAgent = navigator.userAgent
-        var isIE = userAgent.indexOf('compatible') > -1 && userAgent.indexOf('MSIE') > -1
-        if (isIE) {
-          this.form.groupName = encodeURI(this.form.groupName)
-        }
-        addNameExcel(this.form, table).then(res => {
+        var params = {}
+        params.companyId = this.form.companyId
+        params.groupName = encodeURI(this.form.groupName)
+        params.maskPhoneNo = this.form.maskPhoneNo
+        addNameExcel(params, table).then(res => {
           this.$message({
             message: '导入成功',
             type: 'success'

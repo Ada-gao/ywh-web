@@ -87,7 +87,7 @@ export default {
           { required: true, message: '请选择所属公司', trigger: 'blur' }
         ],
         filename: [
-          { required: true, message: '请选择上传文件', trigger: 'blur' }
+          { required: true, message: '请选择上传文件', trigger: 'blur,change' }
         ]
       },
       error: ''
