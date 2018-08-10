@@ -298,11 +298,9 @@ export default {
           this.taskGroup.minimumDuration -= 0
           createTask(this.taskGroup)
             .then((res) => {
-              this.$notify({
-                title: '成功',
+              this.$message({
                 message: '创建成功',
-                type: 'success',
-                duration: 2000
+                type: 'success'
               })
               this.$router.push({path: '/task'})
             })

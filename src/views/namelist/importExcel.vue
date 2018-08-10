@@ -160,11 +160,7 @@ export default {
         this.error = '导入的模版不正确，请核对后重新导入'
       }
       if (this.error) {
-        this.$notify.error({
-          title: '错误',
-          message: this.error,
-          duration: 2000
-        })
+        this.$message.error(this.error)
       } else {
         let keyMap = {
           联系人姓名: 'contactName',
@@ -178,18 +174,15 @@ export default {
         table.forEach(item => {
           replaceKey(item, keyMap)
         })
-        var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串 
-        var isIE = userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1;
-        if(isIE){
+        var userAgent = navigator.userAgent
+        var isIE = userAgent.indexOf('compatible') > -1 && userAgent.indexOf('MSIE') > -1
+        if (isIE) {
           this.form.groupName = encodeURI(this.form.groupName)
         }
-        
         addNameExcel(this.form, table).then(res => {
-          this.$notify({
-            title: '成功',
+          this.$message({
             message: '导入成功',
-            type: 'success',
-            duration: 2000
+            type: 'success'
           })
           this.$router.push({path: '/list'})
         })

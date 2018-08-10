@@ -152,11 +152,7 @@ export default {
         this.error = '导入的模版不正确，请核对后重新导入'
       }
       if (this.error) {
-        this.$notify.error({
-          title: '错误',
-          message: this.error,
-          duration: 5000
-        })
+        this.$message.error(this.error)
       } else {
         let keyMap = {
           销售姓名: 'name',
@@ -171,11 +167,9 @@ export default {
           replaceKey(item, keyMap)
         })
         addBatch(this.form.companyId, table).then(res => {
-          this.$notify({
-            title: '成功',
+          this.$message({
             message: '导入成功',
-            type: 'success',
-            duration: 2000
+            type: 'success'
           })
           this.$router.push({path: '/salesman'})
         })

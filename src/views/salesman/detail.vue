@@ -340,11 +340,9 @@ export default {
         if (valid) {
           this.ruleForm.password = this.trim(this.ruleForm.password, 'g')
           resetPWD(this.id, this.ruleForm.password).then(res => {
-            this.$notify({
-              title: '成功',
+            this.$message({
               message: '操作成功',
-              type: 'success',
-              duration: 2000
+              type: 'success'
             })
             this.updatePwdDialog = false
             this.$refs[formName].resetFields()
@@ -398,11 +396,9 @@ export default {
           if (this.updateStatus === 'create') {
             addUser(this.form)
               .then((res) => {
-                this.$notify({
-                  title: '成功',
+                this.$message({
                   message: '创建成功',
-                  type: 'success',
-                  duration: 2000
+                  type: 'success'
                 })
                 this.$router.push({path: '/salesman'})
               })

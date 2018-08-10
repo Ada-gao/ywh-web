@@ -326,7 +326,6 @@ export default {
     this.listQuery.companyId = obj.id
     this.getList()
     this.form = obj
-    console.log(obj,1111)
     if (this.form.logo) {
       this.form.logo = process.env.BASE_API + '/file?fileUuid=' + this.$route.query.logo
     }
@@ -335,11 +334,9 @@ export default {
   methods: {
     changeMode (id, enabled) {
       userEnabled(id, enabled).then(res => {
-        this.$notify({
-          title: '成功',
+        this.$message({
           message: '操作成功',
-          type: 'success',
-          duration: 2000
+          type: 'success'
         })
       })
     },
@@ -363,11 +360,9 @@ export default {
         if (valid) {
           this.pwdForm.password = this.trim(this.pwdForm.password, 'g')
           resetPWD(this.updateInfo.id, this.pwdForm.password).then(res => {
-            this.$notify({
-              title: '成功',
+            this.$message({
               message: '操作成功',
-              type: 'success',
-              duration: 2000
+              type: 'success'
             })
             this.updatePwdDialog = false
             this.$refs[formName].resetFields()
@@ -385,11 +380,9 @@ export default {
           this.manager.username = this.trim(this.manager.username, 'g')
           addUser(this.manager)
             .then((res) => {
-              this.$notify({
-                title: '成功',
+              this.$message({
                 message: '创建成功',
-                type: 'success',
-                duration: 2000
+                type: 'success'
               })
               this.$refs[formName].resetFields()
               this.updateStatus = 'view'
@@ -416,11 +409,9 @@ export default {
           this.manager.userCode = this.updateInfo.userCode
           this.manager.enabled = this.updateInfo.enabled
           updateUsers(this.updateInfo.id, this.manager).then(res => {
-            this.$notify({
-              title: '成功',
+            this.$message({
               message: '操作成功',
-              type: 'success',
-              duration: 2000
+              type: 'success'
             })
             this.updateInfoDialog = false
             this.$refs[formName].resetFields()

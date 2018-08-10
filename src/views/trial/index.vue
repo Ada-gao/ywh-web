@@ -264,11 +264,9 @@ export default {
       }
       getTrailDet(this.id, data).then(res => {
         this.updateTrialText(this.id, this.radio)
-        this.$notify({
-          title: '成功',
+        this.$message({
           message: '修改成功',
-          type: 'success',
-          duration: 2000
+          type: 'success'
         })
       })
     },

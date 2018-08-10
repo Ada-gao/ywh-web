@@ -435,11 +435,9 @@ export default {
           }
           putCompanies(id, this.form)
             .then(() => {
-              this.$notify({
-                title: '成功',
+              this.$message({
                 message: '修改成功',
-                type: 'success',
-                duration: 2000
+                type: 'success'
               })
               this.$router.push({path: '/company'})
             })
