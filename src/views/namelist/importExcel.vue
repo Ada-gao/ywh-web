@@ -183,7 +183,6 @@ export default {
           this.$message({
             message: '导入成功',
             type: 'success',
-            duration:50000000
           })
           this.$router.push({path: '/list'})
         })
