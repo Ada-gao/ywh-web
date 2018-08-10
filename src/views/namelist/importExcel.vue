@@ -182,7 +182,7 @@ export default {
         addNameExcel(this.form, table).then(res => {
           this.$message({
             message: '导入成功',
-            type: 'success',
+            type: 'success'
           })
           this.$router.push({path: '/list'})
         })

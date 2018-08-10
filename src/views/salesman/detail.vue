@@ -388,6 +388,7 @@ export default {
       this.getQuery()
     },
     create (formName) {
+      console.log(11111)
       const set = this.$refs
       set[formName].validate(valid => {
         if (valid) {
@@ -404,6 +405,10 @@ export default {
               })
           } else {
             updSale(this.form.id, this.form).then(res => {
+              this.$message({
+                message: '修改成功',
+                type: 'success'
+              })
               this.updateStatus = 'view'
               this.companyName = transferCompById(this.form.companyId, this.companies)
             })
@@ -416,6 +421,17 @@ export default {
     changeMode (val) {
       userEnabled(this.form.id, val).then(res => {
         this.value3 = val
+        if (val) {
+          this.$message({
+            message: '启用成功',
+            type: 'success'
+          })
+        } else {
+          this.$message({
+            message: '停用成功',
+            type: 'success'
+          })
+        }
       })
     },
     cancel (formName) {
