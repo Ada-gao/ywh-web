@@ -4,7 +4,7 @@
             <el-col :span="6">
                 <div class="panel panel-blue">
                     <div class="panel-heading">
-                        <div class="row">
+                        <div class="row clearfix">
                             <div class="col-xs-3 spicle">
                                 <i class="iconfont icon-waihurenwu icon_style"></i>
                             </div>
@@ -19,7 +19,7 @@
             <el-col :span="6">
                 <div class="panel panel-green">
                     <div class="panel-heading">
-                        <div class="row">
+                        <div class="row clearfix">
                             <div class="col-xs-3 spicle">
                                 <i class="iconfont icon-xiaoshoushu icon_style"></i>
                             </div>
@@ -34,7 +34,7 @@
             <el-col :span="6">
                 <div class="panel panel-yellow">
                     <div class="panel-heading">
-                        <div class="row">
+                        <div class="row clearfix">
                             <div class="col-xs-3 spicle">
                                 <i class="fa fa-calendar-check-o icon_style_spel"></i>
                             </div>
@@ -49,7 +49,7 @@
             <el-col :span="6">
                 <div class="panel panel-red">
                     <div class="panel-heading">
-                        <div class="row">
+                        <div class="row clearfix">
                             <div class="col-xs-3 spicle">
                                 <i class="iconfont icon-youxiaotonghuashichang icon_style"></i>
                             </div>
@@ -169,6 +169,6 @@ export default {
     .icon_style{ color: #fff; font-size: 46px; position: relative; top: -8px; }
     .total_style i{ font-size:25px; }
     .total_style em{ font-style: normal; }
-    .btn-group-vertical>.btn-group:after, .btn-group-vertical>.btn-group:before, .btn-toolbar:after, .btn-toolbar:before, .clearfix:after, .clearfix:before, .container-fluid:after, .container-fluid:before, .container:after, .container:before, .dl-horizontal dd:after, .dl-horizontal dd:before, .form-horizontal .form-group:after, .form-horizontal .form-group:before, .modal-footer:after, .modal-footer:before, .modal-header:after, .modal-header:before, .nav:after, .nav:before, .navbar-collapse:after, .navbar-collapse:before, .navbar-header:after, .navbar-header:before, .navbar:after, .navbar:before, .pager:after, .pager:before, .panel-body:after, .panel-body:before, .row:after, .row:before{ display: table;
-    content: ""; }
+    .row:after, .row:before{ display: table; content: ""; }
+    .clearfix:after{clear:both;content:"\0020";display:block;height:0; font-size:0px;visibility:hidden;}
 </style>
