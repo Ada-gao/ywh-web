@@ -1,52 +1,60 @@
-import Login from './views/Login.vue'
-import NotFound from './views/404.vue'
-import Home from './views/Home.vue'
-import company from './views/company/company.vue'
-import salesman from './views/salesman/salesman.vue'
-import dashboard from './views/dashboard/echarts.vue'
+import Login from './views/Login'
+import NotFound from './views/404'
+import Home from './views/Home'
+//1、首页工作台
+import dashboard from './views/dashboard/echarts'
+//2、账户管理
+import account from './views/account/account'
+//3、公司管理
+import company from './views/company/company'
+import companyCreate from './views/company/create'
+import companyDetail from './views/company/detail'
+//4、销售管理
+import salesman from './views/salesman/salesman'
+import salesmanDetail from './views/salesman/detail'
+import excel from './views/salesman/importExcel'
+//5、名单管理
 import list from './views/namelist'
-import nameexcel from './views/namelist/importExcel.vue'
-import task from './views/task/task.vue'
-import newTask from './views/task/newTask.vue'
-import tasklist from './views/task/detail.vue'
-import dict from './views/parameter/dict.vue'
-import parameter from './views/parameter/parameter.vue'
-import workload from './views/report/workload.vue'
-import reporttask from './views/report/task.vue'
-import reportproduct from './views/report/product.vue'
-import companyCreate from './views/company/create.vue'
-import companyDetail from './views/company/detail.vue'
-import salesmanDetail from './views/salesman/detail.vue'
-import excel from './views/salesman/importExcel.vue'
-
+import nameexcel from './views/namelist/importExcel'
+//6、任务管理
+import newTask from './views/task/newTask'
+import tasklist from './views/task/detail'
+//7、消息推送管理
+import push from './views/push/push'
+//8、试用管理
 import trial from './views/trial'
-import trialdetail from './views/trial/detail.vue'
+import trialdetail from './views/trial/detail'
+//9、审核管理
+import check from './views/check/check'
+//10、报表统计
+import task from './views/report/task'
+import record from './views/report/record'
+import count from './views/report/count'
+//11、系统管理
+import system from './views/system/system'
+//12、问题反馈
 import feedback from './views/feedback'
-import fddetail from './views/feedback/detail.vue'
+import fddetail from './views/feedback/detail'
 
 let routes = [
   {
     menuId: 1,
     path: '/login',
     component: Login,
-    name: '',
     hidden: true
   },
   {
     menuId: 2,
     path: '/404',
     component: NotFound,
-    name: '',
     hidden: true
   },
   {
     menuId: 3,
     path: '/',
     component: Home,
-    name: '',
     iconCls: 'fa fa-home',
-    leaf: true,
-    redirect: '/dashboard',
+    leaf: true,// 只有一个节点
     children: [
       {menuId: 31, path: '/dashboard', component: dashboard, name: '首页-工作台'}
     ]
@@ -55,98 +63,122 @@ let routes = [
     menuId: 4,
     path: '/',
     component: Home,
-    name: '',
     iconCls: 'fa fa-sitemap',
     leaf: true,
     children: [
-      {menuId: 41, path: '/company', component: company, name: '公司管理'},
-      {menuId: 42, path: '/company/create', name: 'create', component: companyCreate},
-      {menuId: 43, path: '/company/detail', name: 'detail', component: companyDetail}
+      {menuId: 41, path: '/account', component: account, name: '账户管理'},
     ]
   },
   {
     menuId: 5,
     path: '/',
     component: Home,
-    name: 'sale',
-    iconCls: 'fa fa-users',
-    leaf: true, // 只有一个节点
+    iconCls: 'fa fa-sitemap',
+    leaf: true,
     children: [
-      {menuId: 51, path: '/salesman', component: salesman, name: '销售管理'},
-      {menuId: 52, path: '/salesman/detail', component: salesmanDetail, name: 'salesmanDetail'},
-      {menuId: 53, path: '/salesman/excel', component: excel, name: '销售批量导入'}
+      {menuId: 51, path: '/company', component: company, name: '公司管理'},
+      {menuId: 52, path: '/company/create', name: 'create', component: companyCreate},
+      {menuId: 53, path: '/company/detail', name: 'detail', component: companyDetail}
     ]
   },
   {
     menuId: 6,
     path: '/',
     component: Home,
-    name: 'namelist',
-    iconCls: 'fa fa-list-alt',
-    leaf: true, // 只有一个节点
+    iconCls: 'fa fa-users',
+    leaf: true,
     children: [
-      {menuId: 61, path: '/list', component: list, name: '名单管理'},
-      {menuId: 62, path: '/list/excel', component: nameexcel, name: '名单批量导入'}
+      {menuId: 61, path: '/salesman', component: salesman, name: '销售管理'},
+      {menuId: 62, path: '/salesman/detail', component: salesmanDetail, name: 'salesmanDetail'},
+      {menuId: 63, path: '/salesman/excel', component: excel, name: '销售批量导入'}
     ]
   },
   {
     menuId: 7,
     path: '/',
     component: Home,
-    name: 'task',
-    iconCls: 'fa fa-phone',
-    leaf: true, // 只有一个节点
+    iconCls: 'fa fa-list-alt',
+    leaf: true,
     children: [
-      {menuId: 71, path: '/task', component: task, name: '任务管理'},
-      {menuId: 72, path: 'task/newTask', component: newTask, name: '新建任务'},
-      {menuId: 73, path: 'task/detail', component: tasklist, name: 'taskDetail'}
+      {menuId: 71, path: '/list', component: list, name: '名单管理'},
+      {menuId: 72, path: '/list/excel', component: nameexcel, name: '名单批量导入'}
     ]
   },
   {
     menuId: 8,
     path: '/',
     component: Home,
-    name: 'trial',
-    iconCls: 'fa fa-list-ul',
-    leaf: true, // 只有一个节点
+    iconCls: 'fa fa-phone',
+    leaf: true,
     children: [
-      {menuId: 81, path: '/trial', component: trial, name: '试用申请'},
-      {menuId: 82, path: '/trial/detail', component: trialdetail, name: 'trialDetail'}
+      {menuId: 81, path: '/task', component: task, name: '任务管理'},
+      {menuId: 82, path: '/task/newTask', component: newTask, name: '新建任务'},
+      {menuId: 83, path: '/task/detail', component: tasklist, name: 'taskDetail'}
     ]
   },
   {
     menuId: 9,
     path: '/',
     component: Home,
-    name: 'feedback',
-    iconCls: 'fa fa-question-circle',
-    leaf: true, // 只有一个节点
+    iconCls: 'fa fa-phone',
+    leaf: true,
     children: [
-      {menuId: 91, path: '/feedback', component: feedback, name: '问题反馈'},
-      {menuId: 92, path: '/feedback/detail', component: fddetail, name: 'fdDetail'}
+      {menuId: 91, path: '/push', component: push, name: '消息推送管理'},
     ]
   },
   {
     menuId: 10,
     path: '/',
     component: Home,
-    name: '参数管理',
-    iconCls: 'fa fa-cog',
+    iconCls: 'fa fa-list-ul',
+    leaf: true,
     children: [
-      {menuId: 101, path: '/dict', component: dict, name: '数据字典', iconCls: 'fa fa-cog'},
-      {menuId: 102, path: '/parameter', component: parameter, name: '参数设置', iconCls: 'fa fa-cog'}
+      {menuId: 101, path: '/trial', component: trial, name: '试用管理'},
+      {menuId: 102, path: '/trial/detail', component: trialdetail, name: 'trialDetail'}
     ]
   },
   {
     menuId: 11,
     path: '/',
     component: Home,
+    iconCls: 'fa fa-phone',
+    leaf: true,
+    children: [
+      {menuId: 111, path: '/check', component: check, name: '审核管理'},
+    ]
+  },
+  {
+    menuId: 12,
+    path: '/',
+    component: Home,
     name: '报表统计',
     iconCls: 'fa fa-cog',
+    leaf: false,
     children: [
-      {menuId: 111, path: '/workload', component: workload, name: '工作量', iconCls: 'fa fa-wpforms'},
-      {menuId: 112, path: '/reporttask', component: reporttask, name: '外呼任务', iconCls: 'fa fa-wpforms'},
-      {menuId: 113, path: '/reportproduct', component: reportproduct, name: '产品外呼', iconCls: 'fa fa-wpforms'}
+      {menuId: 121, path: '/report/task', component: task, name: '外呼任务统计', iconCls: 'fa fa-wpforms'},
+      {menuId: 122, path: '/report/record', component: record, name: '历史通话记录', iconCls: 'fa fa-wpforms'},
+      {menuId: 123, path: '/report/count', component: count, name: '话务统计', iconCls: 'fa fa-wpforms'}
+    ]
+  },
+  {
+    menuId: 13,
+    path: '/',
+    component: Home,
+    iconCls: 'fa fa-phone',
+    leaf: true,
+    children: [
+      {menuId: 131, path: '/system', component: system, name: '系统管理'},
+    ]
+  },
+  {
+    menuId: 14,
+    path: '/',
+    component: Home,
+    iconCls: 'fa fa-question-circle',
+    leaf: true,
+    children: [
+      {menuId: 141, path: '/feedback', component: feedback, name: '问题反馈'},
+      {menuId: 142, path: '/feedback/detail', component: fddetail, name: 'fddetail'}
     ]
   },
   {
