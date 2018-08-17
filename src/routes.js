@@ -27,6 +27,7 @@ import trialdetail from './views/trial/detail'
 //9、审核管理
 import check from './views/check/check'
 //10、报表统计
+import workload from './views/report/workload'
 import task from './views/report/task'
 import record from './views/report/record'
 import count from './views/report/count'
@@ -155,9 +156,10 @@ let routes = [
     iconCls: 'fa fa-cog',
     leaf: false,
     children: [
-      {menuId: 121, path: '/report/task', component: task, name: '外呼任务统计', iconCls: 'fa fa-wpforms'},
-      {menuId: 122, path: '/report/record', component: record, name: '历史通话记录', iconCls: 'fa fa-wpforms'},
-      {menuId: 123, path: '/report/count', component: count, name: '话务统计', iconCls: 'fa fa-wpforms'}
+      {menuId: 121, path: '/report/workload', component: workload, name: '工作量统计', iconCls: 'fa fa-wpforms'},
+      {menuId: 122, path: '/report/task', component: task, name: '外呼任务统计', iconCls: 'fa fa-wpforms'},
+      {menuId: 123, path: '/report/record', component: record, name: '历史通话记录', iconCls: 'fa fa-wpforms'},
+      {menuId: 124, path: '/report/count', component: count, name: '话务统计', iconCls: 'fa fa-wpforms'}
     ]
   },
   {
