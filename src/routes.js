@@ -55,7 +55,7 @@ let routes = [
     path: '/',
     component: Home,
     iconCls: 'fa fa-home',
-    leaf: true ,// 只有一个节点
+    leaf: true, // 只有一个节点
     children: [
       {menuId: 31, path: '/dashboard', component: dashboard, name: '首页-工作台'}
     ]
