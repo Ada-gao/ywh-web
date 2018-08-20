@@ -24,7 +24,7 @@
     <el-container>
       <el-header>
         <div class="hello" @click="collapse">
-          <i :class="isCollapse ? 'iconfont icon-zhankaicaidan' : 'iconfont icon-shouqicaidan'"/>你好，{{sysUser}}！
+          <i :class="isCollapse ? 'iconfont icon-zhankaicaidan' : 'iconfont icon-shouqicaidan'"/>{{now}}好，{{sysUser}}！
         </div>
         <div class="head">
           <el-dropdown>
@@ -46,6 +46,7 @@
   export default {
     data () {
       return {
+        now: '凌晨',
         isCollapse: false
       }
     },
@@ -57,6 +58,22 @@
     created () {
       let token = sessionStorage.getItem('token')
       this.$store.dispatch('GetUser', token)
+      let hour = new Date().getHours();
+      if (hour < 5){
+        this.now = '凌晨'
+      } else if (hour < 9){
+        this.now = '早上'
+      } else if (hour < 12){
+        this.now = '上午'
+      } else if (hour < 14){
+        this.now = '中午'
+      } else if (hour < 18){
+        this.now = '下午'
+      } else if (hour < 19){
+        this.now = '傍晚'
+      } else if (hour < 24){
+        this.now = '晚上'
+      }
     },
     methods: {
       // 退出登录
@@ -85,6 +102,8 @@
   .el-header .hello {
     float: left;
     text-align: center;
+    font-weight: bold;
+    font-size: 14px;
   }
   .el-header .hello i{
     margin-left: 10px;
