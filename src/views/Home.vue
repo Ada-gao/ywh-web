@@ -1,5 +1,5 @@
 <template>
-  <el-container>
+  <el-container style="height: 100%;">
       <el-menu class="el-menu-nav" :collapse="isCollapse" router="true">
         <el-menu-item disabled><i class="fa fa-flash" :style="isCollapse ? 'font-size:22px' : 'font-size:14px'"/><span slot="title" >雷鸣外呼管理平台</span></el-menu-item>
         <el-menu-item index="/dashboard"><i class="fa fa-home"/><span slot="title">首页-工作台</span></el-menu-item>
@@ -97,7 +97,6 @@
   }
   .el-menu{
     background: #343744;
-    height: 150%;
   }
   .el-menu-item,.el-submenu__title {
     background: #42485B ;
@@ -106,7 +105,7 @@
   }
   .el-submenu .el-menu-item{
     padding-left: 0px;
-    min-width: 180px;
+    min-width: 179px;
   }
   .el-menu-item i,.el-submenu__title i{
     color: #ffffff;
