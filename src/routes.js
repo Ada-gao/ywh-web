@@ -1,39 +1,39 @@
 import Login from './views/Login'
 import NotFound from './views/404'
 import Home from './views/Home'
-//1、首页工作台
+// 1、首页工作台
 import dashboard from './views/dashboard/echarts'
-//2、账户管理
+// 2、账户管理
 import account from './views/account/account'
-//3、公司管理
+// 3、公司管理
 import company from './views/company/company'
 import companyCreate from './views/company/create'
 import companyDetail from './views/company/detail'
-//4、销售管理
+// 4、销售管理
 import salesman from './views/salesman/salesman'
 import salesmanDetail from './views/salesman/detail'
 import excel from './views/salesman/importExcel'
-//5、名单管理
+// 5、名单管理
 import list from './views/namelist'
 import nameexcel from './views/namelist/importExcel'
-//6、任务管理
+// 6、任务管理
 import newTask from './views/task/newTask'
 import tasklist from './views/task/detail'
-//7、消息推送管理
+// 7、消息推送管理
 import push from './views/push/push'
-//8、试用管理
+// 8、试用管理
 import trial from './views/trial'
 import trialdetail from './views/trial/detail'
-//9、审核管理
+// 9、审核管理
 import check from './views/check/check'
-//10、报表统计
+// 10、报表统计
 import workload from './views/report/workload'
 import task from './views/report/task'
 import record from './views/report/record'
 import count from './views/report/count'
-//11、系统管理
+// 11、系统管理
 import system from './views/system/system'
-//12、问题反馈
+// 12、问题反馈
 import feedback from './views/feedback'
 import fddetail from './views/feedback/detail'
 
@@ -55,7 +55,7 @@ let routes = [
     path: '/',
     component: Home,
     iconCls: 'fa fa-home',
-    leaf: true,// 只有一个节点
+    leaf: true ,// 只有一个节点
     children: [
       {menuId: 31, path: '/dashboard', component: dashboard, name: '首页-工作台'}
     ]
@@ -67,7 +67,7 @@ let routes = [
     iconCls: 'fa fa-sitemap',
     leaf: true,
     children: [
-      {menuId: 41, path: '/account', component: account, name: '账户管理'},
+      {menuId: 41, path: '/account', component: account, name: '账户管理'}
     ]
   },
   {
@@ -124,7 +124,7 @@ let routes = [
     iconCls: 'fa fa-phone',
     leaf: true,
     children: [
-      {menuId: 91, path: '/push', component: push, name: '消息推送管理'},
+      {menuId: 91, path: '/push', component: push, name: '消息推送管理'}
     ]
   },
   {
@@ -145,7 +145,7 @@ let routes = [
     iconCls: 'fa fa-phone',
     leaf: true,
     children: [
-      {menuId: 111, path: '/check', component: check, name: '审核管理'},
+      {menuId: 111, path: '/check', component: check, name: '审核管理'}
     ]
   },
   {
@@ -169,7 +169,7 @@ let routes = [
     iconCls: 'fa fa-phone',
     leaf: true,
     children: [
-      {menuId: 131, path: '/system', component: system, name: '系统管理'},
+      {menuId: 131, path: '/system', component: system, name: '系统管理'}
     ]
   },
   {
