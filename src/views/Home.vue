@@ -12,7 +12,7 @@
         <el-menu-item index="/trial"><i class="fa fa-list-ul"/><span slot="title">试用管理</span></el-menu-item>
         <el-menu-item index="/check"><i class="fa fa-pencil-square-o"/><span slot="title">审核管理</span></el-menu-item>
         <el-submenu>
-          <template slot="title"><i class="fa fa-cog" style="color: #ffffff"></i><span slot="title" style="color: #ffffff">报表统计</span></template>
+          <template slot="title"><i class="fa fa-bar-chart" style="color: #ffffff"></i><span slot="title" style="color: #ffffff">报表统计</span></template>
           <el-menu-item index="/report/workload"><i class="fa fa-cog"/><span slot="title">工作量统计</span></el-menu-item>
           <el-menu-item index="/report/task"><i class="fa fa-cog"/><span slot="title">外呼任务统计</span></el-menu-item>
           <el-menu-item index="/report/record"><i class="fa fa-cog"/><span slot="title">历史通话记录</span></el-menu-item>
@@ -76,9 +76,6 @@
 </script>
 <style>
   @import "../styles/iconfont.css";
-  .el-container{
-    height: 100%;
-  }
   .el-header {
     height: 60px;
     line-height: 60px;
@@ -100,6 +97,7 @@
   }
   .el-menu{
     background: #343744;
+    height: 150%;
   }
   .el-menu-item,.el-submenu__title {
     background: #42485B ;
@@ -129,5 +127,9 @@
   }
   .el-menu-nav:not(.el-menu--collapse) {
     width: 180px;
+  }
+  .el-button{
+    background: #0299CC;
+    color: #ffffff;
   }
 </style>
