@@ -17,6 +17,7 @@ import excel from './views/salesman/importExcel'
 import list from './views/namelist'
 import nameexcel from './views/namelist/importExcel'
 // 6、任务管理
+import task from './views/task/task'
 import newTask from './views/task/newTask'
 import tasklist from './views/task/detail'
 // 7、消息推送管理
@@ -28,7 +29,7 @@ import trialdetail from './views/trial/detail'
 import check from './views/check/check'
 // 10、报表统计
 import workload from './views/report/workload'
-import task from './views/report/task'
+import reportTask from './views/report/task'
 import record from './views/report/record'
 import count from './views/report/count'
 // 11、系统管理
@@ -157,7 +158,7 @@ let routes = [
     leaf: false,
     children: [
       {menuId: 121, path: '/report/workload', component: workload, name: '工作量统计', iconCls: 'fa fa-wpforms'},
-      {menuId: 122, path: '/report/task', component: task, name: '外呼任务统计', iconCls: 'fa fa-wpforms'},
+      {menuId: 122, path: '/report/task', component: reportTask, name: '外呼任务统计', iconCls: 'fa fa-wpforms'},
       {menuId: 123, path: '/report/record', component: record, name: '历史通话记录', iconCls: 'fa fa-wpforms'},
       {menuId: 124, path: '/report/count', component: count, name: '话务统计', iconCls: 'fa fa-wpforms'}
     ]
