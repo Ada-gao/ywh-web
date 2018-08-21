@@ -22,6 +22,8 @@ import newTask from './views/task/newTask'
 import tasklist from './views/task/detail'
 // 7、消息推送管理
 import push from './views/push/push'
+import pMessage from './views/push/message'
+import pCreate from './views/push/create'
 // 8、试用管理
 import trial from './views/trial'
 import trialdetail from './views/trial/detail'
@@ -114,7 +116,7 @@ let routes = [
     leaf: true,
     children: [
       {menuId: 81, path: '/task', component: task, name: '任务管理'},
-      {menuId: 82, path: '/task/newTask', component: newTask, name: '新建任务'},
+      {menuId: 82, path: '/task/newTask', component: newTask, name: 'newTask'},
       {menuId: 83, path: '/task/detail', component: tasklist, name: 'taskDetail'}
     ]
   },
@@ -125,7 +127,9 @@ let routes = [
     iconCls: 'fa fa-phone',
     leaf: true,
     children: [
-      {menuId: 91, path: '/push', component: push, name: '消息推送管理'}
+      {menuId: 91, path: '/push', component: push, name: '消息推送管理'},
+      {menuId: 91, path: '/push/message', component: pMessage, name: 'pMessage'},
+      {menuId: 91, path: '/push/create', component: pCreate, name: 'pCreate'}
     ]
   },
   {
@@ -181,7 +185,7 @@ let routes = [
     leaf: true,
     children: [
       {menuId: 141, path: '/feedback', component: feedback, name: '问题反馈'},
-      {menuId: 142, path: '/feedback/detail', component: fddetail, name: 'fddetail'}
+      {menuId: 142, path: '/feedback/detail', component: fddetail, name: 'fDetail'}
     ]
   },
   {

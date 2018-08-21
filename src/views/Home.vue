@@ -9,17 +9,17 @@
         <el-menu-item index="/list"><i class="fa fa-list-alt"/><span slot="title">名单管理</span></el-menu-item>
         <el-menu-item index="/task"><i class="fa fa-phone"/><span slot="title">任务管理</span></el-menu-item>
         <el-menu-item index="/push"><i class="fa fa-envelope-o"/><span slot="title">消息推送管理</span></el-menu-item>
-        <el-menu-item index="/trial"><i class="fa fa-list-ul"/><span slot="title">试用管理</span></el-menu-item>
-        <el-menu-item index="/check"><i class="fa fa-pencil-square-o"/><span slot="title">审核管理</span></el-menu-item>
-        <el-submenu>
+        <el-menu-item v-show="sysUser === 'superadmin'" index="/trial"><i class="fa fa-list-ul"/><span slot="title">试用管理</span></el-menu-item>
+        <el-menu-item v-show="sysUser === 'superadmin'" index="/check"><i class="fa fa-pencil-square-o"/><span slot="title">审核管理</span></el-menu-item>
+        <el-submenu v-show="sysUser === 'superadmin'">
           <template slot="title"><i class="fa fa-bar-chart" style="color: #ffffff"></i><span slot="title" style="color: #ffffff">报表统计</span></template>
           <el-menu-item index="/report/workload"><i class="fa fa-cog"/><span slot="title">工作量统计</span></el-menu-item>
           <el-menu-item index="/report/task"><i class="fa fa-cog"/><span slot="title">外呼任务统计</span></el-menu-item>
           <el-menu-item index="/report/record"><i class="fa fa-cog"/><span slot="title">历史通话记录</span></el-menu-item>
           <el-menu-item index="/report/count"><i class="fa fa-cog"/><span slot="title">话务统计</span></el-menu-item>
         </el-submenu>
-        <el-menu-item index="/system"><i class="fa fa-phone"/><span slot="title">系统管理</span></el-menu-item>
-        <el-menu-item index="/feedback"><i class="fa fa-question-circle"/><span slot="title">问题反馈</span></el-menu-item>
+        <el-menu-item v-show="sysUser === 'superadmin'" index="/system"><i class="fa fa-phone"/><span slot="title">系统管理</span></el-menu-item>
+        <el-menu-item v-show="sysUser === 'superadmin'" index="/feedback"><i class="fa fa-question-circle"/><span slot="title">问题反馈</span></el-menu-item>
       </el-menu>
     <el-container>
       <el-header>
@@ -112,7 +112,7 @@
   .el-header .head {
     float: right;
     margin-right: 40px;
-    line-height: 60px;
+    margin-top: 10px;
   }
   .el-menu{
     background: #343744;
@@ -136,7 +136,7 @@
   .el-menu-item.is-disabled{
      opacity: 1;
      height: 60px;
-    line-height: 60px;
+     line-height: 60px;
      border-bottom: 1px solid rgba(219,219,219,0.50);
    }
   .el-menu-item.is-active{
@@ -146,8 +146,8 @@
   .el-menu-nav:not(.el-menu--collapse) {
     width: 180px;
   }
-  .el-button{
+ /* .el-button{
     background: #0299CC;
     color: #ffffff;
-  }
+  }*/
 </style>

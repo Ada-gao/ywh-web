@@ -220,7 +220,7 @@ export default {
       })
     },
     handleCreate () {
-      this.$router.push({path: '/task/newTask'})
+      this.$router.push({name: 'newTask'})
     },
     handleUpdate (id, name) {
       this.$router.push({name: 'taskDetail', query: {id: id, name: name}})
