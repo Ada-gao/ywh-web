@@ -46,11 +46,6 @@
           <i class="fa fa-sign-out" style="color: #fff;margin-right: 10px"></i>批量导入
         </el-button>
       </div>
-    <!-- <div style="text-align: right">
-      <el-button v-if="sysUser.username!=='sale'" class="add_btn" @click="handleCreate('add')">新建销售</el-button>
-      <el-button v-if="sysUser.username!=='sale'" class="add_btn" @click="handleCreate('import')">批量导入</el-button>
-    </div> -->
-    <!-- {{sysUser.companyId}} -->
     <el-table :key='tableKey' :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit
               highlight-current-row style="width: 100%">
 
