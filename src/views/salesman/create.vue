@@ -4,10 +4,10 @@
       <span class="list-tit">{{textMap[updateStatus]}}</span>
       <span style="float: right;color: #0299cc" v-show="updateStatus==='view'">{{value3 ? '启用' : '停用'}}</span>
       <el-switch
-         v-show="updateStatus==='view'"
-         v-model="value3"
-         class="switch-btn"
-         @change="changeMode">
+        v-show="updateStatus==='view'"
+        v-model="value3"
+        class="switch-btn"
+        @change="changeMode">
       </el-switch>
       <el-button class="upd_btn"
                  v-show="updateStatus==='view'"
@@ -23,8 +23,8 @@
           <el-col :span="17">
             <el-form-item label="所属公司" prop="companyId">
               <el-select v-model="form.companyId"
-                placeholder="请选择公司"
-                style="width: 100%">
+                         placeholder="请选择公司"
+                         style="width: 100%">
                 <el-option
                   v-for="item in companies"
                   :key="item.id"
@@ -184,7 +184,7 @@
 
         <el-table-column align="center" label="今日完成数">
           <template slot-scope="scope">
-          <span>{{scope.row.dailyTaskCompleteCnt || 0}}</span>
+            <span>{{scope.row.dailyTaskCompleteCnt || 0}}</span>
           </template>
         </el-table-column>
 
@@ -217,272 +217,272 @@
 </template>
 
 <script>
-import { getToken } from '@/common/js/auth'
-import {transferCompById} from '@/common/js/util'
-import { resetPWD, getUserById, updSale, addUser, getCompanies, userEnabled, taskDoneRate } from '@/api/api'
+  import { getToken } from '@/common/js/auth'
+  import {transferCompById} from '@/common/js/util'
+  import { resetPWD, getUserById, updSale, addUser, getCompanies, userEnabled, taskDoneRate } from '@/api/api'
 
-export default {
-  data () {
-    const validateUser = (rule, value, callback) => {
-      var reg = /^[0-9a-zA-Z]+$/
-      if (!value) {
-        callback(new Error('请输入登录账号'))
-      } else if (value.length < 4) {
-        callback(new Error('登录账号不能少于4位'))
-      } else if (!(reg.test(value))) {
-        callback(new Error('请您输入数字或字母'))
-      } else {
-        callback()
-      }
-    }
-    const validatePass = (rule, value, callback) => {
-      var reg = /^[0-9a-zA-Z]+$/
-      if (!value) {
-        callback(new Error('请输入登录密码'))
-      } else if (value.length < 6) {
-        callback(new Error('密码不能少于6位'))
-      } else if (!(reg.test(value))) {
-        callback(new Error('请您输入数字或字母'))
-      } else {
-        callback()
-      }
-    }
-    const validateMobile = (rule, value, callback) => {
-      let reg = /^((1[3-8][0-9])+\d{8})$/
-      let flag = reg.test(value)
-      if (!value || !flag) {
-        callback(new Error('请输入正确的手机号'))
-      } else {
-        callback()
-      }
-    }
-    return {
-      rules: {
-        companyId: [
-          {required: true, trigger: 'blur', message: '请选择公司'}
-        ],
-        team: [
-          {required: true, trigger: 'blur', message: '请输入所属团队'}
-        ],
-        name: [
-          {required: true, trigger: 'blur', message: '请输入销售名称'}
-        ],
-        level: [
-          {required: true, trigger: 'blur', message: '请输入对应职级'}
-        ],
-        username: [
-          {required: true, trigger: 'blur', validator: validateUser}
-        ],
-        password: [
-          {required: true, trigger: 'blur', validator: validatePass}
-        ],
-        mobile: [
-          {required: true, trigger: 'blur', validator: validateMobile}
-        ]
-      },
-      form: {
-        authorities: [
-          {
-            name: 'ROLE_SALE'
-          }
-        ]
-      },
-      headers: {
-        Authorization: getToken()
-      },
-      selectedOptions: [],
-      fileList: [],
-      value: '',
-      updateStatus: '',
-      textMap: {
-        create: '新建销售',
-        update: '修改销售详情',
-        view: '销售详情页'
-      },
-      list: [],
-      listLoading: true,
-      tableKey: 0,
-      total: null,
-      listQuery: {
-        page: 1,
-        limit: 20
-      },
-      companies: [],
-      companyName: '',
-      value3: null,
-      updatePwdDialog: false,
-      ruleForm: {
-        password: null
-      }
-    }
-  },
-  created () {
-    this.id = this.$route.query.id
-    this.companyName = this.$route.query.companyName
-    if (this.$route.query.id === '0') {
-      this.updateStatus = 'create'
-    } else {
-      this.updateStatus = 'view'
-      this.value3 = this.$route.query.enabled
-      this.getList()
-    }
-    if (this.$route.query.updateStatus && this.$route.query.updateStatus === 'update') {
-      this.updateStatus = 'update'
-    }
-    this.getQuery()
-    this.listLoading = false
-  },
-  methods: {
-    // 去除空格
-    trim (str, global) {
-      var result
-      result = str.replace(/(^\s+)|(\s+$)/g, '')
-      if (global.toLowerCase() === 'g') {
-        result = result.replace(/\s/g, '')
-      }
-      return result
-    },
-    resetPassword (formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          this.ruleForm.password = this.trim(this.ruleForm.password, 'g')
-          resetPWD(this.id, this.ruleForm.password).then(res => {
-            this.$message({
-              message: '操作成功',
-              type: 'success'
-            })
-            this.updatePwdDialog = false
-            this.$refs[formName].resetFields()
-          })
+  export default {
+    data () {
+      const validateUser = (rule, value, callback) => {
+        var reg = /^[0-9a-zA-Z]+$/
+        if (!value) {
+          callback(new Error('请输入登录账号'))
+        } else if (value.length < 4) {
+          callback(new Error('登录账号不能少于4位'))
+        } else if (!(reg.test(value))) {
+          callback(new Error('请您输入数字或字母'))
         } else {
-          return false
+          callback()
         }
-      })
-    },
-    cancelResetPassword (formName) {
-      this.updatePwdDialog = false
-      this.$refs[formName].resetFields()
-    },
-    getList () {
-      getUserById(this.id).then(res => {
-        this.form = res.data
-        this.form.createdDate = new Date(this.form.createdDate).toLocaleDateString()
-      })
-      taskDoneRate(this.id).then(res => {
-        this.list.push(res.data)
-        if (this.list.length > 0) {
-          if (this.list[0].totalTaskCompleteCnt &&
-            this.list[0].totalTaskCompleteCnt > 0 &&
-            this.list[0].totalTaskCnt &&
-            this.list[0].totalTaskCnt > 0) {
-            this.list[0].completeRate = parseInt(this.list[0].totalTaskCompleteCnt / this.list[0].totalTaskCnt * 100) + '%'
-          } else {
-            this.list[0].completeRate = 0
-          }
+      }
+      const validatePass = (rule, value, callback) => {
+        var reg = /^[0-9a-zA-Z]+$/
+        if (!value) {
+          callback(new Error('请输入登录密码'))
+        } else if (value.length < 6) {
+          callback(new Error('密码不能少于6位'))
+        } else if (!(reg.test(value))) {
+          callback(new Error('请您输入数字或字母'))
+        } else {
+          callback()
         }
-      })
-    },
-    getQuery () {
-      if (this.updateStatus !== 'view') {
-        getCompanies().then(res => {
-          this.companies = res.data
-        })
+      }
+      const validateMobile = (rule, value, callback) => {
+        let reg = /^((1[3-8][0-9])+\d{8})$/
+        let flag = reg.test(value)
+        if (!value || !flag) {
+          callback(new Error('请输入正确的手机号'))
+        } else {
+          callback()
+        }
+      }
+      return {
+        rules: {
+          companyId: [
+            {required: true, trigger: 'blur', message: '请选择公司'}
+          ],
+          team: [
+            {required: true, trigger: 'blur', message: '请输入所属团队'}
+          ],
+          name: [
+            {required: true, trigger: 'blur', message: '请输入销售名称'}
+          ],
+          level: [
+            {required: true, trigger: 'blur', message: '请输入对应职级'}
+          ],
+          username: [
+            {required: true, trigger: 'blur', validator: validateUser}
+          ],
+          password: [
+            {required: true, trigger: 'blur', validator: validatePass}
+          ],
+          mobile: [
+            {required: true, trigger: 'blur', validator: validateMobile}
+          ]
+        },
+        form: {
+          authorities: [
+            {
+              name: 'ROLE_SALE'
+            }
+          ]
+        },
+        headers: {
+          Authorization: getToken()
+        },
+        selectedOptions: [],
+        fileList: [],
+        value: '',
+        updateStatus: '',
+        textMap: {
+          create: '新建销售',
+          update: '修改销售详情',
+          view: '销售详情页'
+        },
+        list: [],
+        listLoading: true,
+        tableKey: 0,
+        total: null,
+        listQuery: {
+          page: 1,
+          limit: 20
+        },
+        companies: [],
+        companyName: '',
+        value3: null,
+        updatePwdDialog: false,
+        ruleForm: {
+          password: null
+        }
       }
     },
-    updateStat () {
-      this.updateStatus = 'update'
-      this.$router.replace({ path: this.$route.fullPath, query: { updateStatus: this.updateStatus } })
+    created () {
+      this.id = this.$route.query.id
+      this.companyName = this.$route.query.companyName
+      if (this.$route.query.id === '0') {
+        this.updateStatus = 'create'
+      } else {
+        this.updateStatus = 'view'
+        this.value3 = this.$route.query.enabled
+        this.getList()
+      }
+      if (this.$route.query.updateStatus && this.$route.query.updateStatus === 'update') {
+        this.updateStatus = 'update'
+      }
       this.getQuery()
+      this.listLoading = false
     },
-    create (formName) {
-      const set = this.$refs
-      set[formName].validate(valid => {
-        if (valid) {
-          this.form.password = this.trim(this.form.password, 'g')
-          this.form.username = this.trim(this.form.username, 'g')
-          if (this.updateStatus === 'create') {
-            addUser(this.form)
-              .then((res) => {
-                this.$message({
-                  message: '创建成功',
-                  type: 'success'
-                })
-                this.$router.push({path: '/salesman'})
-              })
-          } else {
-            updSale(this.form.id, this.form).then(res => {
+    methods: {
+      // 去除空格
+      trim (str, global) {
+        var result
+        result = str.replace(/(^\s+)|(\s+$)/g, '')
+        if (global.toLowerCase() === 'g') {
+          result = result.replace(/\s/g, '')
+        }
+        return result
+      },
+      resetPassword (formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            this.ruleForm.password = this.trim(this.ruleForm.password, 'g')
+            resetPWD(this.id, this.ruleForm.password).then(res => {
               this.$message({
-                message: '修改成功',
+                message: '操作成功',
                 type: 'success'
               })
-              this.updateStatus = 'view'
-              this.companyName = transferCompById(this.form.companyId, this.companies)
+              this.updatePwdDialog = false
+              this.$refs[formName].resetFields()
+            })
+          } else {
+            return false
+          }
+        })
+      },
+      cancelResetPassword (formName) {
+        this.updatePwdDialog = false
+        this.$refs[formName].resetFields()
+      },
+      getList () {
+        getUserById(this.id).then(res => {
+          this.form = res.data
+          this.form.createdDate = new Date(this.form.createdDate).toLocaleDateString()
+        })
+        taskDoneRate(this.id).then(res => {
+          this.list.push(res.data)
+          if (this.list.length > 0) {
+            if (this.list[0].totalTaskCompleteCnt &&
+              this.list[0].totalTaskCompleteCnt > 0 &&
+              this.list[0].totalTaskCnt &&
+              this.list[0].totalTaskCnt > 0) {
+              this.list[0].completeRate = parseInt(this.list[0].totalTaskCompleteCnt / this.list[0].totalTaskCnt * 100) + '%'
+            } else {
+              this.list[0].completeRate = 0
+            }
+          }
+        })
+      },
+      getQuery () {
+        if (this.updateStatus !== 'view') {
+          getCompanies().then(res => {
+            this.companies = res.data
+          })
+        }
+      },
+      updateStat () {
+        this.updateStatus = 'update'
+        this.$router.replace({ path: this.$route.fullPath, query: { updateStatus: this.updateStatus } })
+        this.getQuery()
+      },
+      create (formName) {
+        const set = this.$refs
+        set[formName].validate(valid => {
+          if (valid) {
+            this.form.password = this.trim(this.form.password, 'g')
+            this.form.username = this.trim(this.form.username, 'g')
+            if (this.updateStatus === 'create') {
+              addUser(this.form)
+                .then((res) => {
+                  this.$message({
+                    message: '创建成功',
+                    type: 'success'
+                  })
+                  this.$router.push({path: '/salesman'})
+                })
+            } else {
+              updSale(this.form.id, this.form).then(res => {
+                this.$message({
+                  message: '修改成功',
+                  type: 'success'
+                })
+                this.updateStatus = 'view'
+                this.companyName = transferCompById(this.form.companyId, this.companies)
+              })
+            }
+          } else {
+            return false
+          }
+        })
+      },
+      changeMode (val) {
+        userEnabled(this.form.id, val).then(res => {
+          this.value3 = val
+          if (val) {
+            this.$message({
+              message: '启用成功',
+              type: 'success'
+            })
+          } else {
+            this.$message({
+              message: '停用成功',
+              type: 'success'
             })
           }
-        } else {
-          return false
-        }
-      })
-    },
-    changeMode (val) {
-      userEnabled(this.form.id, val).then(res => {
-        this.value3 = val
-        if (val) {
-          this.$message({
-            message: '启用成功',
-            type: 'success'
-          })
-        } else {
-          this.$message({
-            message: '停用成功',
-            type: 'success'
-          })
-        }
-      })
-    },
-    cancel (formName) {
-      this.$router.push({path: '/salesman'})
-    },
-    handleChange (value) {},
-    handleSuccess (fileList) {
-    },
-    handleSizeChange (val) {
-      this.listQuery.limit = val
-    },
-    handleCurrentChange (val) {
-      this.listQuery.page = val
+        })
+      },
+      cancel (formName) {
+        this.$router.push({path: '/salesman'})
+      },
+      handleChange (value) {},
+      handleSuccess (fileList) {
+      },
+      handleSizeChange (val) {
+        this.listQuery.limit = val
+      },
+      handleCurrentChange (val) {
+        this.listQuery.page = val
+      }
     }
   }
-}
 </script>
 
 <style lang="scss" scoped>
-.detail-title {
-  /*margin-bottom: 20px;*/
-  .upd_btn {
-    float: right;
-    border: none;
-    color: #0299CC;
-    i {
-      margin-right: 2px;
-      vertical-align: text-bottom;
+  .detail-title {
+    /*margin-bottom: 20px;*/
+    .upd_btn {
+      float: right;
+      border: none;
+      color: #0299CC;
+      i {
+        margin-right: 2px;
+        vertical-align: text-bottom;
+      }
+      &:hover {
+        background: #ffff;
+      }
     }
-    &:hover {
-      background: #ffff;
+    .switch-btn {
+      float: right;
+      margin-left: 30px;
+      display: inline-block;
+      line-height: 40px;
+      margin-right: 3px;
     }
   }
-  .switch-btn {
-    float: right;
-    margin-left: 30px;
-    display: inline-block;
-    line-height: 40px;
-    margin-right: 3px;
+  .form-border {
+    border: 1px solid #EFEFEF;
+    border-radius: 5px;
+    padding: 20px 30px 0 20px;
+    overflow: hidden;
   }
-}
-.form-border {
-  border: 1px solid #EFEFEF;
-  border-radius: 5px;
-  padding: 20px 30px 0 20px;
-  overflow: hidden;
-}
 </style>
