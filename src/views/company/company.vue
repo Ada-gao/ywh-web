@@ -128,7 +128,7 @@ export default {
       listLoading: true,
       listQuery: {
         pageIndex: 0,
-        pageSize: 20
+        pageSize: 10
       },
       list: null,
       sys_user_add: true,

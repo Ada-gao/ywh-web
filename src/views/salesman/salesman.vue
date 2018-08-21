@@ -130,7 +130,7 @@ export default {
       listLoading: true,
       listQuery: {
         pageIndex: 0,
-        pageSize: 20,
+        pageSize: 10,
         authorityName: 'ROLE_SALE'
       },
       list: null,
