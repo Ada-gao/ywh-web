@@ -123,7 +123,7 @@ export default {
       this.error = ''
       var reg = /^[0-9a-zA-Z]+$/
       var reg2 = /(^\s+)|(\s+$)|\s+/g
-      if (this.tableHeader[0] === '销售姓名' && this.tableHeader[1] === '所属团队' && this.tableHeader[2] === '对应职级' && this.tableHeader[3] === '手机号' && this.tableHeader[4] === '用户名' && this.tableHeader[5] === '密码') {
+      if (this.tableHeader[0] === '销售姓名' && this.tableHeader[1] === '所属团队' && this.tableHeader[2] === '对应职级' && this.tableHeader[3] === '手机号' && this.tableHeader[4] === '用户名' && this.tableHeader[5] === '微信号' && this.tableHeader[6] === '密码') {
         for (let i = 0; i < this.tableData.length; i++) {
           if (!this.tableData[i].销售姓名 || this.tableData[i].销售姓名 === 'undefined' || this.tableData[i].销售姓名.length > 50) {
             this.error += '‘销售姓名’'
@@ -139,6 +139,9 @@ export default {
           }
           if (!this.tableData[i].用户名 || this.tableData[i].用户名 === 'undefined' || this.tableData[i].用户名.length < 4 || this.tableData[i].用户名.length > 50 || !reg.test(this.tableData[i].用户名) || reg2.test(this.tableData[i].用户名)) {
             this.error += '‘用户名’'
+          }
+          if (!this.tableData[i].微信号 || this.tableData[i].微信号 === 'undefined' || this.tableData[i].微信号.length < 6 || this.tableData[i].微信号.length > 20) {
+            this.error += '‘微信号’'
           }
           if (!this.tableData[i].密码 || this.tableData[i].密码 === 'undefined' || this.tableData[i].密码.length < 6 || this.tableData[i].密码.length > 12 || !reg.test(this.tableData[i].密码) || reg2.test(this.tableData[i].密码)) {
             this.error += '‘密码’'
@@ -160,6 +163,7 @@ export default {
           对应职级: 'level',
           手机号: 'mobile',
           用户名: 'username',
+          微信号: 'wechatNo',
           密码: 'password'
         }
         let table = JSON.parse(JSON.stringify(this.tableData))
@@ -187,9 +191,9 @@ export default {
       padding: 12px;
       cursor: not-allowed;
     }
-    .add_btn {
-      padding: 12px;
-      border:none;
-    }
+    /*.add_btn {*/
+      /*padding: 12px;*/
+      /*border:none;*/
+    /*}*/
   }
 </style>

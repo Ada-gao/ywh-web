@@ -16,6 +16,16 @@ export function uploadLogo (file) {
     }
   })
 }
+export function uploadCompanyQualification (file) {
+  return axios({
+    url: '/file/uploadCompanyQualification',
+    method: 'post',
+    data: file,
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  })
+}
 
 export const getCompanyPage = params => axios.get('/companies/companyPage', {params: params})
 export const addCompanies = data => axios.post('/companies', data)
@@ -37,11 +47,12 @@ export const addUser = params => axios.post('/users', params)
 export const userEnabled = (id, params) => axios.put('/users/enabled/' + id + '?enabled=' + params)
 export const resetPWD = (id, newPWD) => axios.put('/users/resetPWD/' + id + '?newPWD=' + newPWD)
 export const updateUsers = (id, params) => axios.put('/users/updateUsers/' + id, params)
+export const statisSales = (id) => axios.get('/users/statisSales?companyId=' + id)
 // user/sale/销售详情页面的任务完成
 export const taskDoneRate = (id) => axios.get('/task/statisBySales?userId=' + id)
 // name
 export const getLists = params => axios.get('/outboundName/getPage', {params: params})
-export const addNameExcel = (query, params) => axios.post('/outboundName/addGroup?companyId=' + query.companyId + '&groupName=' + query.groupName + '&maskPhoneNo=' + query.maskPhoneNo, params)
+export const addNameExcel = (query, params) => axios.post('/outboundName/addGroup?companyId=' + query.companyId + '&groupName=' + query.groupName + '&maskPhoneNo=' + query.maskPhoneNo + '&source=' + query.source, params)
 export const getNames = (companyId) => axios.get('/outboundName/queryNames/' + companyId)
 // file
 export const getFile = id => axios.get('/file/' + id)

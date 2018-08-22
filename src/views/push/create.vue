@@ -8,14 +8,14 @@
       <el-form :model="form" :rules="rules" ref="form" label-width="150px">
         <el-row>
           <el-col :span="18">
-            <el-form-item label="规则名称" prop="companyName">
+            <el-form-item label="信息推送规则名称" prop="companyName">
               <el-input v-model="form.companyName" placeholder="请输入规则名称" maxlength="50"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="18">
-            <el-form-item label="规则设定">
+            <el-form-item label="信息推送规则设定">
             </el-form-item>
           </el-col>
         </el-row>
@@ -57,15 +57,20 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <!--<el-row>-->
+          <!--<el-col :span="18">-->
+            <!--<el-form-item label="有效通话时长（秒）">-->
+              <!--<el-input v-model="form.contactMobile" :maxlength="11" placeholder="请输入有效通话时长"></el-input>-->
+            <!--</el-form-item>-->
+          <!--</el-col>-->
+        <!--</el-row>-->
         <el-row>
-          <el-col :span="18">
+          <el-col :span="6">
             <el-form-item label="有效通话时长（秒）">
               <el-input v-model="form.contactMobile" :maxlength="11" placeholder="请输入有效通话时长"></el-input>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="11">
+          <el-col :span="6">
             <el-form-item label="下一步行动计划">
               <el-select v-model="form.industryType" placeholder="请选择下一步行动计划" @change="changeIndustry">
                 <el-option
@@ -77,7 +82,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="7">
+          <el-col :span="6">
             <el-form-item label="外呼状态" prop="companyAddress">
               <el-select v-model="form.industryType" placeholder="请选择外呼状态" @change="changeIndustry">
                 <el-option

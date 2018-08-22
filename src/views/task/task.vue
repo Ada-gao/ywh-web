@@ -164,13 +164,13 @@ export default {
   },
   created () {
     this.getList()
-    this.getQuery()
+ //   this.getQuery()
   },
   methods: {
     getList () {
       getAdminTasks(this.listQuery).then(response => {
-        this.list = response.data
-        this.total = response.data.length
+        this.list = response.data.content
+        this.total = response.data.totalElements
         this.listLoading = false
       })
     },

@@ -1,7 +1,54 @@
 <template>
   <section>
     <div class="filter-container">
-      <div class="detail-title">
+      <el-row :gutter="30">
+        <el-col :span="4">
+          <el-card class="card" :body-style="{ padding: '0px' }">
+            <div style="height: 50px">
+              <div class="logo" style="background: #4AD2DB">
+                <i class="iconfont icon-waihurenwu"/>
+              </div>
+              <div class="info">
+                <div class="title">销售人员总数</div>
+                <div class="count" style="color: #4AD2DB">
+                  {{totalSalesCnt}}<span style="font-size: 14px">个</span>
+                </div>
+              </div>
+            </div>
+          </el-card>
+        </el-col>
+        <el-col :span="4">
+          <el-card class="card" :body-style="{ padding: '0px' }">
+            <div style="height: 50px">
+              <div class="logo" style="background: #FDCE82">
+                <i class="iconfont icon-xiaoshoushu"/>
+              </div>
+              <div class="info">
+                <div class="title">活跃人数</div>
+                <div class="count" style="color: #FDCE82">
+                  {{enabledSalesCnt}}<span style="font-size: 14px">个</span>
+                </div>
+              </div>
+            </div>
+          </el-card>
+        </el-col>
+        <el-col :span="4">
+          <el-card class="card" :body-style="{ padding: '0px' }">
+            <div style="height: 50px">
+              <div class="logo" style="background: #30CDAA;line-height: 60px;">
+                <i class="fa fa-calendar-check-o"/>
+              </div>
+              <div class="info">
+                <div class="title">停用人数</div>
+                <div class="count" style="color: #30CDAA">
+                  {{disabledSalesCnt}}<span style="font-size: 14px">个</span>
+                </div>
+              </div>
+            </div>
+          </el-card>
+        </el-col>
+      </el-row>
+      <div class="detail-title" style="margin-top: 30px">
         <span class="list-tit">销售查询</span>
       </div>
       <el-row style="margin-top: 10px">
@@ -12,6 +59,17 @@
           <el-button class="filter-item" type="primary" icon="search" @click="handleFilter"><i class="fa fa-search"></i>查询</el-button>
         </el-col>
         <el-col :span="16" style="text-align: right;">
+          <el-select v-model="listQuery.status"
+                     placeholder="状态"
+                     clearable
+                     @change="handleCompany">
+            <el-option
+              v-for="item in status"
+              :key="item.value"
+              :label="item.name"
+              :value="item.value">
+            </el-option>
+          </el-select>
           <el-select v-model="listQuery.companyId"
                      placeholder="公司筛选"
                      clearable
@@ -91,6 +149,12 @@
         </template>
       </el-table-column>
 
+      <el-table-column align="center" label="状态">
+        <template slot-scope="scope">
+          <span>{{scope.row.enabled?'活跃':'停用'}}</span>
+        </template>
+      </el-table-column>
+
       <el-table-column align="center" label="操作" fixed="right" width="150">
         <template slot-scope="scope">
           <a size="small" class="common_btn"
@@ -113,7 +177,7 @@
 </template>
 
 <script>
-import { getUsers, getCompanies, getOrgSize, getTeams } from '@/api/api'
+import { getUsers, getCompanies, getOrgSize, getTeams, statisSales } from '@/api/api'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -131,10 +195,23 @@ export default {
       list: null,
       sys_user_add: true,
       value: '',
+      status: [
+        {
+          name : '活跃',
+          value : '1'
+        },
+        {
+          name : '停用',
+          value : '0'
+        }
+      ],
       companies: [],
       teams: [],
       orgSize: [],
-      currentPage: 1
+      currentPage: 1,
+      totalSalesCnt:0,
+      enabledSalesCnt:0,
+      disabledSalesCnt:0
     }
   },
   computed: {
@@ -145,6 +222,7 @@ export default {
   created () {
     this.getList()
     this.getQuery()
+    this.statisSales()
   },
   methods: {
     getList () {
@@ -162,6 +240,13 @@ export default {
     getQuery () {
       getCompanies().then(res => {
         this.companies = res.data
+      })
+    },
+    statisSales () {
+      statisSales('').then(res => {
+        this.totalSalesCnt = res.data.totalSalesCnt
+        this.enabledSalesCnt = res.data.enabledSalesCnt
+        this.disabledSalesCnt = res.data.disabledSalesCnt
       })
     },
     handleUpdate (item) {
@@ -207,7 +292,7 @@ export default {
     },
     handleCompany (val) {
       if (val) {
-        getTeams({companyId: val}).then(res => {
+        getTeams({companyId: this.listQuery.companyId,status: this.listQuery.status}).then(res => {
           this.teams = res.data
           this.listQuery.team = null
         })
@@ -215,11 +300,43 @@ export default {
         this.teams = []
       }
       this.handleFilter1()
-    }
+    },
   }
 }
 </script>
 
 <style scoped>
+  .card {
+    height: 120px;
+    padding-top: 35px;
+    padding-left: 20px;
+  }
 
+  .logo {
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    border-radius: 4px;
+    text-align: center;
+    float: left;
+  }
+
+  .logo i {
+    color: #ffffff;
+    font-size: 28px
+  }
+
+  .info{
+    margin-left: 12px;
+    float: left;
+  }
+
+  .info .title{
+    font-size: 14px;
+    color: #475669;
+  }
+
+  .info .count{
+    font-size: 28px;
+  }
 </style>

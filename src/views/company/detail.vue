@@ -18,8 +18,15 @@
             <el-form-item label="公司ID:" label-width="100px">
               <span>{{form.companyCode}}</span>
             </el-form-item>
+          </el-col>
+          <el-col :span="11">
             <el-form-item label="公司名称:" label-width="100px">
               <span>{{form.companyName}}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="11">
+            <el-form-item label="公司简称:" label-width="100px">
+              <span>{{form.shortName}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="11">
@@ -58,10 +65,28 @@
             </el-form-item>
           </el-col>
           <el-col :span="11">
+            <el-form-item label="企业微信:" label-width="100px">
+              <span>{{form.wechatNo}}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="11">
+            <el-form-item label="企业邮箱:" label-width="100px">
+              <span>{{form.email}}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="11">
             <el-form-item label="公司LOGO:" label-width="100px">
               <img :src="form.logo"
                    alt=""
                    v-if="form.logo"
+                   style="width: 50px; height: 30px;">
+            </el-form-item>
+          </el-col>
+          <el-col :span="11">
+            <el-form-item label="公司资质:" label-width="100px">
+              <img :src="form.companyQualification"
+                   alt=""
+                   v-if="form.companyQualification"
                    style="width: 50px; height: 30px;">
             </el-form-item>
           </el-col>
@@ -328,6 +353,9 @@ export default {
     this.form = obj
     if (this.form.logo) {
       this.form.logo = process.env.BASE_API + '/file?fileUuid=' + this.$route.query.logo
+    }
+    if (this.form.companyQualification) {
+      this.form.companyQualification = process.env.BASE_API + '/file/getCompanyQualification?fileUuid=' + this.$route.query.companyQualification
     }
     this.updateStatus = 'view'
   },

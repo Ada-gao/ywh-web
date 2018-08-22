@@ -7,14 +7,21 @@
     <div class="update-detail" v-if="updateStatus==='create'||updateStatus==='update'">
       <el-form :model="form" :rules="rules" ref="form" label-width="100px">
         <el-row :gutter="20">
-          <el-col :span="17">
+          <el-col :span="18">
             <el-form-item label="公司名称" prop="companyName">
               <el-input v-model="form.companyName" placeholder="请输入公司名称" maxlength="50"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="17">
+          <el-col :span="18">
+            <el-form-item label="公司简称">
+              <el-input v-model="form.shortName" placeholder="请输入公司简称" maxlength="50"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="18">
             <el-form-item label="所在地" prop="companyCity">
               <el-select v-model="form.companyProvince"
                          placeholder="请选择省份"
@@ -42,14 +49,14 @@
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="17">
+          <el-col :span="18">
             <el-form-item label="公司地址" prop="companyAddress">
               <el-input v-model="form.companyAddress" placeholder="请输入公司地址" maxlength="200"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="17">
+          <el-col :span="18">
             <el-form-item label="所属行业" prop="industry">
               <el-select v-model="form.industryType"
                          placeholder="请选择行业大类"
@@ -75,7 +82,7 @@
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="17">
+          <el-col :span="18">
             <el-form-item label="公司规模" prop="orgSize">
               <el-select v-model="form.orgSize" placeholder="请选择规模" style="width: 100%" @change="changeOrgSize">
                 <el-option
@@ -89,28 +96,38 @@
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="17">
+          <el-col :span="9">
             <el-form-item label="联系人" prop="contact">
               <el-input v-model="form.contact" placeholder="请输入联系人姓名" maxlength="10"></el-input>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row :gutter="20">
-          <el-col :span="17">
-            <el-form-item label="职务" prop="occupation">
-              <el-input v-model="form.occupation" placeholder="请输入联系人职务" maxlength="10"></el-input>
+          <el-col :span="9">
+            <el-form-item label="企业微信">
+              <el-input v-model="form.wechatNo" placeholder="请输入企业微信" maxlength="20"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="17">
+          <el-col :span="9">
+            <el-form-item label="职务" prop="occupation">
+              <el-input v-model="form.occupation" placeholder="请输入联系人职务" maxlength="10"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="9">
+            <el-form-item label="企业邮箱" >
+              <el-input v-model="form.email" placeholder="请输入企业邮箱" maxlength="50"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="18">
             <el-form-item label="联系手机" prop="contactMobile">
               <el-input v-model="form.contactMobile" :maxlength="11" placeholder="请输入手机号码"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="17">
+          <el-col :span="18">
             <el-form-item label="公司LOGO" prop="logo">
               <img :src.sync="form.logo"
                    alt=""
@@ -124,7 +141,31 @@
                 multiple
                 :limit="1"
                 :on-success="handleSuccess"
-                :before-upload="beforeAvatarUpload"
+                :before-upload="beforeAvatarUpload1"
+                :file-list="fileList"
+                :show-file-list="false"
+                accept=".png, .jpg">
+                <el-button size="small" class="add_btn">选择图片</el-button>
+              </el-upload>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="18">
+            <el-form-item label="公司资质" prop="companyQualification">
+              <img :src.sync="form.companyQualification"
+                   alt=""
+                   v-if="form.companyQualification"
+                   style="width: 50px; height: 30px;">
+              <el-upload
+                class="upload-demo"
+                style="display: inline-block"
+                :action="uploadUrl"
+                :headers="headers"
+                multiple
+                :limit="1"
+                :on-success="handleSuccess"
+                :before-upload="beforeAvatarUpload2"
                 :file-list="fileList"
                 :show-file-list="false"
                 accept=".png, .jpg">
@@ -134,16 +175,15 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="17">
+          <el-col :span="18">
             <el-form-item label="备注" prop="remark">
               <el-input type="textarea" v-model="form.remark" maxlength="200"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
       </el-form>
-      <el-col :span="17" slot="footer" class="dialog-footer" style="text-align: center">
-        <el-button class="add_btn" v-show="updateStatus==='create'" @click="create('form')">提 交</el-button>
-        <el-button class="add_btn" v-show="updateStatus==='update'" @click="update('form')">提 交</el-button>
+      <el-col :span="18" slot="footer" class="dialog-footer" style="text-align: center">
+        <el-button class="add_btn" v-show="updateStatus==='create' || updateStatus==='update'" @click="create('form')">提 交</el-button>
         <el-button class="search_btn" @click="cancel('form')">取 消</el-button>
       </el-col>
       <el-dialog
@@ -207,7 +247,8 @@ import {
   getAuthDustryByType,
   getOrgSize,
   putCompanies,
-  uploadLogo
+  uploadLogo,
+  uploadCompanyQualification
 } from '@/api/api'
 import {retransfer, transferIndustry} from '@/common/js/util'
 import {provinceAndCityData} from 'element-china-area-data' // 省市区数据
@@ -230,6 +271,7 @@ export default {
       crap: false,
       imgurl: '',
       previews: {},
+      isLogo: true,
       option: {
         img: '',
         size: 1,
@@ -298,6 +340,9 @@ export default {
         ],
         logo: [
           {required: false, trigger: 'blur', message: '请上传公司logo'}
+        ],
+        companyQualification: [
+          {required: false, trigger: 'blur', message: '请上传公司资质'}
         ]
       },
       uploadUrl: process.env.BASE_API + '/file/upload',
@@ -327,22 +372,39 @@ export default {
           this.downImg = this.downImg.substring(cc + 1, this.downImg.length)
           let formData = new FormData()
           formData.append('file', data)
-          uploadLogo(formData).then(res => {
-            this.imgurl = res.data
-            this.form.logo = process.env.BASE_API + '/file?fileUuid=' + res.data
-            this.dialogVisible = false
-          })
+          if (this.isLogo){
+            uploadLogo(formData).then(res => {
+              this.imgurl = res.data
+              this.form.logo = process.env.BASE_API + '/file?fileUuid=' + res.data
+              this.dialogVisible = false
+            })
+          } else{
+            uploadCompanyQualification(formData).then(res => {
+              this.imgurl = res.data
+              this.form.companyQualification = process.env.BASE_API + '/file/getCompanyQualification?fileUuid=' + res.data
+              this.dialogVisible = false
+            })
+          }
         })
       } else {
         this.$refs.cropper.getCropData((data) => {
           this.downImg = data
           let formData = new FormData()
           formData.append('file', data)
-          uploadLogo(formData).then(res => {
-            this.imgurl = res.data
-            this.form.logo = process.env.BASE_API + '/file?fileUuid=' + res.data
-            this.dialogVisible = false
-          })
+          if (this.isLogo){
+            uploadLogo(formData).then(res => {
+              this.imgurl = res.data
+              this.form.logo = process.env.BASE_API + '/file?fileUuid=' + res.data
+              this.dialogVisible = false
+            })
+          } else{
+            uploadCompanyQualification(formData).then(res => {
+              this.imgurl = res.data
+              this.form.companyQualification = process.env.BASE_API + '/file/getCompanyQualification?fileUuid=' + res.data
+              alert(this.form.companyQualification)
+              this.dialogVisible = false
+            })
+          }
         })
       }
     },
@@ -398,15 +460,20 @@ export default {
       this.form.industry = transferIndustry(val, this.coInfo.industry)
     },
     create (formName) {
-      let str = this.form.logo
+      let logo = this.form.logo
+      let companyQualification = this.form.companyQualification
       if (typeof this.form.industryType === 'number') {
         this.form.industryType = transferIndustry(this.form.industryType, this.coInfo.industryType)
       }
       this.$refs[formName].validate(valid => {
         if (valid) {
-          if (str) {
-            let index = str.lastIndexOf('=')
-            this.form.logo = str.substring(index + 1, str.length)
+          if (logo) {
+            let index = logo.lastIndexOf('=')
+            this.form.logo = logo.substring(index + 1, logo.length)
+          }
+          if (companyQualification) {
+            let index = companyQualification.lastIndexOf('=')
+            this.form.companyQualification = companyQualification.substring(index + 1, companyQualification.length)
           }
           addCompanies(this.form)
             .then(res => {
@@ -426,16 +493,21 @@ export default {
     update (formName) {
       const set = this.$refs
       let id = this.form.id || this.companyId
-      let str = this.form.logo
+      let logo = this.form.logo
+      let companyQualification = this.form.companyQualification
       this.form.companyCode = this.form.companyCode || this.companyCode
       if (window.Boolean(this.form.industryType - 0)) {
         this.form.industryType = transferIndustry(this.form.industryType, this.coInfo.industryType)
       }
       set[formName].validate(valid => {
         if (valid) {
-          if (str) {
-            let index = str.lastIndexOf('=')
-            this.form.logo = str.substring(index + 1, str.length)
+          if (logo) {
+            let index = logo.lastIndexOf('=')
+            this.form.logo = logo.substring(index + 1, logo.length)
+          }
+          if (companyQualification) {
+            let index = companyQualification.lastIndexOf('=')
+            this.form.companyQualification = companyQualification.substring(index + 1, companyQualification.length)
           }
           putCompanies(id, this.form)
             .then(() => {
@@ -456,9 +528,17 @@ export default {
     handleChange (value) {
     },
     handleSuccess (res, file, fileList) {
+      alert('handleSuccess')
     },
-    beforeAvatarUpload (file) {
+    beforeAvatarUpload1 (file) {
       this.option.img = window.URL.createObjectURL(file)
+      this.isLogo = true
+      this.dialogVisible = true
+      return false
+    },
+    beforeAvatarUpload2 (file) {
+      this.option.img = window.URL.createObjectURL(file)
+      this.isLogo = false
       this.dialogVisible = true
       return false
     },

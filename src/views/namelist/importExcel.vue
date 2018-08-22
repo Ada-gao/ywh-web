@@ -28,11 +28,29 @@
               </el-select>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row :gutter="20">
           <el-col :span="11" :offset="6">
             <el-form-item label="名单名称" prop="groupName">
               <el-input v-model="form.groupName" placeholder="请输入名单名称" required maxlength="50"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="11" :offset="6">
+            <el-form-item label="名单来源" prop="source">
+              <el-select v-model="form.source" placeholder="请选择名单来源" style="width: 100%">
+                <el-option v-show="sysUser === 'superadmin'"
+                  v-for="(item,index) in superSources"
+                  :key="index"
+                  :label="item"
+                  :value="item">
+                </el-option>
+               <el-option v-show="sysUser != 'superadmin'"
+                  v-for="(item,index) in sources"
+                  :key="index"
+                  :label="item"
+                  :value="item">
+                </el-option>
+              </el-select>
             </el-form-item>
           </el-col>
         </el-row>
@@ -77,6 +95,7 @@
 import UploadExcelComponent from '@/components/uploadExcel.vue'
 import { addNameExcel, getCompanies } from '@/api/api'
 import { replaceKey } from '@/common/js/util'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'uploadExcel',
@@ -99,13 +118,28 @@ export default {
         groupName: [
           { required: true, message: '请输入名单名称', trigger: 'blur' }
         ],
+        source: [
+          { required: true, message: '请选择名单来源', trigger: 'blur' }
+        ],
         filename: [
           { required: true, message: '请选择上传文件', trigger: 'blur, change' }
         ]
       },
       filename: '',
-      error: ''
+      error: '',
+      superSources:[
+        '自有',
+        '营销'
+      ],
+      sources:[
+        '自有',
+      ]
     }
+  },
+  computed : {
+    ...mapGetters([
+      'sysUser'
+    ])
   },
   created () {
     this.getQuery()
@@ -141,7 +175,7 @@ export default {
     submit () {
       this.dialogVisible = false
       this.error = ''
-      if (this.tableHeader[0] === '联系人姓名' && this.tableHeader[1] === '手机号' && this.tableHeader[2] === '年龄' && this.tableHeader[3] === '性别' && this.tableHeader[4] === '所在地' && this.tableHeader[5] === '名单来源') {
+      if (this.tableHeader[0] === '联系人姓名' && this.tableHeader[1] === '手机号' && this.tableHeader[2] === '年龄' && this.tableHeader[3] === '性别' && this.tableHeader[4] === '所在地') {
         for (let i = 0; i < this.tableData.length; i++) {
           if (!this.tableData[i].联系人姓名 || this.tableData[i].联系人姓名 === 'undefined' || this.tableData[i].联系人姓名.length > 50) {
             this.error += '‘联系人姓名’'
@@ -168,7 +202,6 @@ export default {
           年龄: 'age',
           性别: 'gender',
           所在地: 'residence',
-          名单来源: 'source'
         }
         let table = JSON.parse(JSON.stringify(this.tableData))
         table.forEach(item => {
@@ -178,6 +211,7 @@ export default {
         params.companyId = this.form.companyId
         params.groupName = encodeURI(this.form.groupName)
         params.maskPhoneNo = this.form.maskPhoneNo
+        params.source = this.form.source
         addNameExcel(params, table).then(res => {
           this.$message({
             message: '导入成功',
@@ -200,9 +234,10 @@ export default {
       padding: 12px;
       cursor: not-allowed;
     }
-    .add_btn {
-      padding: 12px;
-      border:none;
-    }
+    /*.add_btn {*/
+      /*padding: 12px;*/
+      /*border:none;*/
+    /*}*/
   }
+
 </style>

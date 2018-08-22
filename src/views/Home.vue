@@ -35,7 +35,7 @@
           </el-dropdown>
         </div>
       </el-header>
-      <el-main>
+      <el-main class="main">
         <router-view/>
       </el-main>
     </el-container>
@@ -91,8 +91,10 @@
     }
   }
 </script>
+
 <style>
   @import "../styles/iconfont.css";
+
   .el-header {
     height: 60px;
     line-height: 60px;
@@ -150,4 +152,24 @@
     background: #0299CC;
     color: #ffffff;
   }*/
+  .main .el-button--primary {
+    border: 1px solid #0299CC;
+    color: #0299CC;
+    background: #ffff;
+    margin-left: 17px;
+  }
+  .main .el-button--primary:focus,
+  .main .el-button--primary:hover {
+    background: #00C1DF;
+    border-color: #00C1DF;
+    color: #fff;
+  }
+  .main .add_btn {
+    background: #0299CC;
+    color: #fff;
+  }
+  .main .add_btn:hover {
+    background: #00C1DF;
+    color: #fff;
+  }
 </style>
