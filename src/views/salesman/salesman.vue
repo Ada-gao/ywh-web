@@ -107,7 +107,7 @@
     <el-table :key='tableKey' :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit
               highlight-current-row style="width: 100%">
 
-      <el-table-column align="center" label="销售ID">
+      <el-table-column align="center" label="销售ID" width="130px">
         <template slot-scope="scope">
           <span>{{scope.row.userCode}}</span>
         </template>
@@ -137,7 +137,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="所属行业" show-overflow-tooltip>
+      <el-table-column align="center" label="所属行业">
         <template slot-scope="scope">
         <span>{{scope.row.industryType}}</span>
         </template>
@@ -155,7 +155,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="操作" fixed="right" width="150">
+      <el-table-column align="center" label="操作" width="130px">
         <template slot-scope="scope">
           <a size="small" class="common_btn"
             @click="handleUpdate(scope.row)">查看详情

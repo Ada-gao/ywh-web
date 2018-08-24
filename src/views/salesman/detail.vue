@@ -20,7 +20,7 @@
     <div class="update-detail" v-if="updateStatus==='create'||updateStatus==='update'">
       <el-form :model="form" :rules="rules" ref="form" label-width="100px">
         <el-row :gutter="20">
-          <el-col :span="17">
+          <el-col :span="10">
             <el-form-item label="所属公司" prop="companyId">
               <el-select v-model="form.companyId"
                 placeholder="请选择公司"
@@ -34,60 +34,52 @@
               </el-select>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row :gutter="20">
-          <el-col :span="17">
+          <el-col :span="10">
             <el-form-item label="所属团队" prop="team">
               <el-input v-model="form.team" placeholder="请输入所属团队" maxlength="20"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="17">
+          <el-col :span="10">
             <el-form-item label="销售名称" prop="name">
               <el-input v-model="form.name" placeholder="请输入销售名称" maxlength="10"></el-input>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row :gutter="20">
-          <el-col :span="17">
+          <el-col :span="10">
             <el-form-item label="对应职级" prop="level">
               <el-input v-model="form.level" placeholder="请输入对应职级" maxlength="255"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20" v-if="updateStatus==='create'">
-          <el-col :span="17">
+          <el-col :span="10">
             <el-form-item label="登录账号" prop="username">
               <el-input v-model="form.username" placeholder="请输入登录账号" maxlength="50" minlength="4"></el-input>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row :gutter="20" v-if="updateStatus==='create'">
-          <el-col :span="17">
+          <el-col :span="10">
             <el-form-item label="登录密码" prop="password">
               <el-input v-model="form.password" placeholder="请输入登录密码" maxlength="12" minlength="6"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="17">
+          <el-col :span="10">
             <el-form-item label="联系手机" prop="mobile">
               <el-input v-model="form.mobile"
                         :maxlength="11" placeholder="请输入联系手机"></el-input>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row :gutter="20">
-          <el-col :span="17">
-            <el-form-item label="微信号">
+          <el-col :span="10">
+            <el-form-item label="微信号" prop="wechatNo">
               <el-input v-model="form.wechatNo"
-                        :maxlength="11" placeholder="请输入微信号"></el-input>
+                        :maxlength="20" placeholder="请输入微信号"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
       </el-form>
-      <el-col :span="17" slot="footer" class="dialog-footer" style="text-align: center">
+      <el-col :span="20" slot="footer" class="dialog-footer" style="text-align: center">
         <el-button v-show="updateStatus==='create' || updateStatus==='update'" class="add_btn" @click="create('form')">提 交</el-button>
         <el-button class="search_btn" @click="cancel('form')">取 消</el-button>
       </el-col>
@@ -96,42 +88,42 @@
       <el-form :model="form" class="form-border" style="margin-bottom: 20px">
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item label="销售ID:" prop="name" label-width="70px">
+            <el-form-item label="销售ID:" label-width="80px">
               <span>{{form.userCode}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="所属公司:" prop="name">
+            <el-form-item label="所属公司:" label-width="80px">
               <span>{{companyName}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="所属团队:" prop="username">
+            <el-form-item label="所属团队:" label-width="80px">
               <span>{{form.team}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="销售名称:" prop="empNo">
+            <el-form-item label="销售名称:" label-width="80px">
               <span>{{form.name}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="对应职级:" prop="gender">
+            <el-form-item label="对应职级:" label-width="80px">
               <span>{{form.level}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="联系手机:" prop="education">
+            <el-form-item label="联系手机:" label-width="80px">
               <span>{{form.mobile}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="创建时间:" prop="idType">
+            <el-form-item label="创建时间:" label-width="80px">
               <span>{{form.createdDate}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="登录账号:" prop="mobile">
+            <el-form-item label="登录账号:" label-width="80px">
               <span>{{form.username}}</span>
               <a @click="updatePwdDialog = true" style="margin-left: 20px">
                 <i class="fa fa-unlock-alt" style="font-size: 14px;margin-right: 5px;vertical-align: middle;"></i>
@@ -140,7 +132,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="微信号:" label-width="70px">
+            <el-form-item label="微信号:" label-width="80px">
               <span>{{form.wechatNo}}</span>
             </el-form-item>
           </el-col>
@@ -256,6 +248,17 @@ export default {
         callback()
       }
     }
+    const validateWechatNo = (rule, value, callback) => {
+      if (value) {
+        if (value.length < 6 || value.length > 20){
+          callback(new Error('请输入正确的微信'))
+        }else{
+          callback()
+        }
+      } else {
+        callback()
+      }
+    }
     return {
       rules: {
         companyId: [
@@ -275,6 +278,9 @@ export default {
         ],
         password: [
           {required: true, trigger: 'blur', validator: validatePass}
+        ],
+        wechatNo: [
+          {required: false, trigger: 'blur', validator: validateWechatNo}
         ],
         mobile: [
           {required: true, trigger: 'blur', validator: validateMobile}
