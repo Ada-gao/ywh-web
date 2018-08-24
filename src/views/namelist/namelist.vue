@@ -2,7 +2,7 @@
   <section>
     <div class="filter-container">
       <div class="detail-title">
-        <span class="list-tit">批次查询</span>
+        <span class="list-tit">名单查询</span>
       </div>
       <el-row style="margin-top: 10px">
         <el-col :span="8">
@@ -30,7 +30,7 @@
             </el-option>
           </el-select>
           <el-select v-model="listQuery.residence"
-                     placeholder="名单状态"
+                     placeholder="所在地"
                      clearable
                      @change="handleFilter1">
             <el-option
@@ -45,9 +45,6 @@
     </div>
     <div class="detail-title">
       <span class="list-tit">名单列表</span>
-      <el-button class="add_btn" @click="handleCreate">
-        <i class="fa fa-sign-out" style="color: #fff;margin-right: 10px"></i>批量导入
-      </el-button>
     </div>
     <el-table :key='tableKey'
               :data="list"
@@ -57,52 +54,64 @@
               highlight-current-row
               style="width: 100%">
 
-      <el-table-column align="center" label="名单批次">
+      <el-table-column align="center" label="名单ID">
         <template slot-scope="scope">
-          <span>{{scope.row.groupCode}}</span>
+          <span>{{scope.row.boundCode}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="名单名称">
-        <template slot-scope="scope">
-          <span>{{scope.row.groupName}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" label="公司名称">
+      <el-table-column align="center" label="所属公司">
         <template slot-scope="scope">
           <span>{{scope.row.companyName}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="名单数量">
+
+      <el-table-column align="center" label="联系人姓名">
         <template slot-scope="scope">
-          <span>{{scope.row.totalNameCnt}}</span>
+          <span>{{scope.row.contactName}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="隐藏主号">
+      <el-table-column align="center" label="手机号">
         <template slot-scope="scope">
-          <span>{{scope.row.maskPhoneNo}}</span>
+          <span>{{scope.row.phoneNo}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="名单状态">
+      <el-table-column align="center" label="年龄">
         <template slot-scope="scope">
-          <span>{{scope.row.status}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" label="名单导入时间">
-        <template slot-scope="scope">
-          <span>{{scope.row.createTime}}</span>
+          <span>{{scope.row.age}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="操作" fixed="right" width="150">
+      <el-table-column align="center"
+                       label="性别"
+                       show-overflow-tooltip>
         <template slot-scope="scope">
-          <a size="small" class="common_btn"
-             @click="handleUpdate(scope.row)">查看详情
-          </a>
+          <span>{{scope.row.gender}}</span>
         </template>
       </el-table-column>
+
+      <el-table-column align="center" label="联系人所在地">
+        <template slot-scope="scope">
+          <span>{{scope.row.residence}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="名单来源">
+        <template slot-scope="scope">
+          <span>{{scope.row.source}}</span>
+        </template>
+      </el-table-column>
+
+      <!--<el-table-column align="center"-->
+      <!--label="操作"-->
+      <!--fixed="right"-->
+      <!--width="150">-->
+      <!--<template slot-scope="scope">-->
+      <!--<a size="small" class="common_btn">查看-->
+      <!--</a>-->
+      <!--</template>-->
+      <!--</el-table-column>-->
     </el-table>
 
     <div v-show="!listLoading" class="pagination-container">
@@ -121,7 +130,7 @@
 </template>
 
 <script>
-import {getCompanies,getBatch} from '@/api/api'
+import {getLists, getCompanies} from '@/api/api'
 import { provinceAndCityData } from 'element-china-area-data' // 省市区数据
 import { mapGetters } from 'vuex'
 
@@ -133,6 +142,7 @@ export default {
       total: null,
       listLoading: true,
       listQuery: {
+        groupId:0,
         pageIndex: 0,
         pageSize: 10
       },
@@ -141,7 +151,9 @@ export default {
       sys_user_add: true,
       value: '',
       companies: [],
-      currentPage: 1
+      provinceData: provinceAndCityData,
+      currentPage: 1,
+      id: 0
     }
   },
   computed: {
@@ -150,32 +162,25 @@ export default {
     ])
   },
   created () {
-    this.getBatch()
+    let obj = this.$route.query
+    this.listQuery.groupId = obj.id;
+    this.getList()
     this.getQuery()
   },
   methods: {
-    //获取批次
-    getBatch(){
-      getBatch().then(response => {
+    getList () {
+      getLists(this.listQuery).then(response => {
         this.list = response.data.content
+        this.list.forEach((ele, index) => {
+          if (ele.gender === 'GENTLEMAN') {
+            ele.gender = '男'
+          }
+          if (ele.gender === 'LADY') {
+            ele.gender = '女'
+          }
+        })
         this.total = response.data.totalElements
         this.listLoading = false
-        this.list.forEach(item => {
-          if (item.maskPhoneNo){
-            item.maskPhoneNo = '是'
-          }else{
-            item.maskPhoneNo = '否'
-          }
-          if (item.status == 1){
-            item.status = '已生效'
-          }else{
-            item.status = '待审核'
-          }
-          let date = new Date(item.createTime)
-          let month = date.getMonth() + 1;
-          let day = date.getDate();
-          item.createTime = date.getFullYear() + '-' + (month < 10 ? '0' : '') + month + '-' + (day < 10 ? '0' : '') + day
-        })
       })
     },
     getQuery () {
@@ -190,9 +195,6 @@ export default {
     handleCurrentChange (val) {
       this.listQuery.pageIndex = val - 1
       this.getList()
-    },
-    handleUpdate (obj) {
-      this.$router.push({name: 'namelist', query: obj})
     },
     handleFilter () {
       this.listQuery.residence = null

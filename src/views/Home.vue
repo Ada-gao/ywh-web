@@ -2,24 +2,24 @@
   <el-container style="height: 100%;">
       <el-menu class="el-menu-nav" :collapse="isCollapse" router="true">
         <el-menu-item disabled><i class="fa fa-flash" :style="isCollapse ? 'font-size:22px' : 'font-size:14px'"/><span slot="title" >雷鸣外呼管理平台</span></el-menu-item>
-        <el-menu-item index="/dashboard"><i class="fa fa-home"/><span slot="title">首页-工作台</span></el-menu-item>
-        <el-menu-item index="/account"><i class="fa fa-bank"/><span slot="title">账户管理</span></el-menu-item>
-        <el-menu-item index="/company"><i class="fa fa-sitemap"/><span slot="title">公司管理</span></el-menu-item>
-        <el-menu-item index="/salesman"><i class="fa fa-users"/><span slot="title">销售管理</span></el-menu-item>
-        <el-menu-item index="/list"><i class="fa fa-list-alt"/><span slot="title">名单管理</span></el-menu-item>
-        <el-menu-item index="/task"><i class="fa fa-phone"/><span slot="title">任务管理</span></el-menu-item>
-        <el-menu-item index="/push"><i class="fa fa-envelope-o"/><span slot="title">消息推送管理</span></el-menu-item>
-        <el-menu-item v-show="sysUser === 'superadmin'" index="/trial"><i class="fa fa-list-ul"/><span slot="title">试用管理</span></el-menu-item>
-        <el-menu-item v-show="sysUser === 'superadmin'" index="/check"><i class="fa fa-pencil-square-o"/><span slot="title">审核管理</span></el-menu-item>
-        <el-submenu v-show="sysUser === 'superadmin'">
-          <template slot="title"><i class="fa fa-bar-chart" style="color: #ffffff"></i><span slot="title" style="color: #ffffff">报表统计</span></template>
-          <el-menu-item index="/report/workload"><i class="fa fa-cog"/><span slot="title">工作量统计</span></el-menu-item>
-          <el-menu-item index="/report/task"><i class="fa fa-cog"/><span slot="title">外呼任务统计</span></el-menu-item>
-          <el-menu-item index="/report/record"><i class="fa fa-cog"/><span slot="title">历史通话记录</span></el-menu-item>
-          <el-menu-item index="/report/count"><i class="fa fa-cog"/><span slot="title">话务统计</span></el-menu-item>
+        <el-menu-item index="1" route="/dashboard"><i class="fa fa-home"/><span slot="title">首页-工作台</span></el-menu-item>
+        <el-menu-item index="2" route="/account"><i class="iconfont icon-zhanghu"/><span slot="title">账户管理</span></el-menu-item>
+        <el-menu-item index="3" route="/company"><i class="iconfont icon-qiyegongchangjianzhu-copy"/><span slot="title">公司管理</span></el-menu-item>
+        <el-menu-item index="4" route="/salesman"><i class="fa fa-users"/><span slot="title">销售管理</span></el-menu-item>
+        <el-menu-item index="5" route="/list"><i class="fa fa-list-alt"/><span slot="title">名单管理</span></el-menu-item>
+        <el-menu-item index="6" route="/task"><i class="fa fa-phone"/><span slot="title">任务管理</span></el-menu-item>
+        <el-menu-item index="7" route="/push"><i class="iconfont icon-xiaoxishezhi"/><span slot="title">推送管理</span></el-menu-item>
+        <el-menu-item index="8" v-show="sysUser === 'superadmin'" route="/trial"><i class="fa fa-list-ul"/><span slot="title">试用管理</span></el-menu-item>
+        <el-menu-item index="9" v-show="sysUser === 'superadmin'" route="/check"><i class="iconfont icon-shenheguanli"/><span slot="title">审核管理</span></el-menu-item>
+        <el-submenu index="10" v-show="sysUser === 'superadmin'">
+          <template slot="title"><i class="iconfont icon-chart" style="color: #ffffff"></i><span slot="title" style="color: #ffffff">报表统计</span></template>
+          <el-menu-item index="10-1" route="/report/workload"><i class="fa fa-cog"/><span slot="title">工作量统计</span></el-menu-item>
+          <el-menu-item index="10-2" route="/report/task"><i class="fa fa-cog"/><span slot="title">外呼任务统计</span></el-menu-item>
+          <el-menu-item index="10-3" route="/report/record"><i class="fa fa-cog"/><span slot="title">历史通话记录</span></el-menu-item>
+          <el-menu-item index="10-4" route="/report/count"><i class="fa fa-cog"/><span slot="title">话务统计</span></el-menu-item>
         </el-submenu>
-        <el-menu-item v-show="sysUser === 'superadmin'" index="/system"><i class="fa fa-phone"/><span slot="title">系统管理</span></el-menu-item>
-        <el-menu-item v-show="sysUser === 'superadmin'" index="/feedback"><i class="fa fa-question-circle"/><span slot="title">问题反馈</span></el-menu-item>
+        <el-menu-item index="11" v-show="sysUser === 'superadmin'" route="/system"><i class="fa fa-phone"/><span slot="title">系统管理</span></el-menu-item>
+        <el-menu-item index="12" v-show="sysUser === 'superadmin'" route="/feedback"><i class="fa fa-question-circle"/><span slot="title">问题反馈</span></el-menu-item>
       </el-menu>
     <el-container>
       <el-header>
@@ -93,8 +93,6 @@
 </script>
 
 <style>
-  @import "../styles/iconfont.css";
-
   .el-header {
     height: 60px;
     line-height: 60px;
@@ -131,6 +129,7 @@
   .el-menu-item i,.el-submenu__title i{
     color: #ffffff;
     font-size: 14px;
+    margin-right: 10px;
   }
   .el-menu-item:focus,.el-menu-item:hover,.el-submenu__title:focus,.el-submenu__title:hover{
     background: #00C1DF ;

@@ -14,7 +14,8 @@ import salesman from './views/salesman/salesman'
 import salesmanDetail from './views/salesman/detail'
 import excel from './views/salesman/importExcel'
 // 5、名单管理
-import list from './views/namelist'
+import list from './views/namelist/index'
+import namelist from './views/namelist/namelist'
 import nameexcel from './views/namelist/importExcel'
 // 6、任务管理
 import task from './views/task/task'
@@ -105,7 +106,8 @@ let routes = [
     leaf: true,
     children: [
       {menuId: 71, path: '/list', component: list, name: '名单管理'},
-      {menuId: 72, path: '/list/excel', component: nameexcel, name: '名单批量导入'}
+      {menuId: 72, path: '/list/excel', component: nameexcel, name: 'nameexcel'},
+      {menuId: 73, path: '/list/namelist', component: namelist, name: 'namelist'}
     ]
   },
   {

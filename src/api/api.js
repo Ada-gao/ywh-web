@@ -51,6 +51,7 @@ export const statisSales = (id) => axios.get('/users/statisSales?companyId=' + i
 // user/sale/销售详情页面的任务完成
 export const taskDoneRate = (id) => axios.get('/task/statisBySales?userId=' + id)
 // name
+export const getBatch = params => axios.get('/outboundName/getBatch', {params: params})
 export const getLists = params => axios.get('/outboundName/getPage', {params: params})
 export const addNameExcel = (query, params) => axios.post('/outboundName/addGroup?companyId=' + query.companyId + '&groupName=' + query.groupName + '&maskPhoneNo=' + query.maskPhoneNo + '&source=' + query.source, params)
 export const getNames = (companyId) => axios.get('/outboundName/queryNames/' + companyId)

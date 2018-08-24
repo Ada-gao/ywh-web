@@ -123,8 +123,6 @@
   }
 </script>
 <style scoped>
-  @import "../../styles/iconfont.css";
-
   .card {
     height: 120px;
     padding-top: 35px;

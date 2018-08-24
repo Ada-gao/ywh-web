@@ -13,39 +13,39 @@
             <!--</el-form-item>-->
           <!--</el-col>-->
           <el-col :span="8">
-            <el-form-item label="外呼名称：" prop="name">
+            <el-form-item label="外呼名称：">
               <span>{{groupName}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="任务名称：" prop="username">
+            <el-form-item label="任务名称：" >
               <span>{{form.taskName}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="推广产品：" prop="empNo">
+            <el-form-item label="推广产品：">
               <span>{{form.productName}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="销售数：" prop="gender">
+            <el-form-item label="销售数：">
               <span>{{salesCnt}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="分配规则：" prop="education">
+            <el-form-item label="分配规则：">
               <span>{{form.assignRule}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="任务目标：" prop="idType">
+            <el-form-item label="任务目标：" >
               <span>{{form.taskTarget}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="外呼话术：" prop="mobile">
+            <el-form-item label="外呼话术：">
               <!--<span>{{form.salesTalk}}</span>-->
-              <span class="blue-color" v-popover:popover>点击查看</span>
+              <span class="blue-color">点击查看</span>
               <el-popover
                 ref="popover"
                 placement="right"
@@ -56,27 +56,28 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="任务时间：" prop="resumeUrl">
+            <el-form-item label="任务时间：" >
               <span>{{form.taskStartDate}} - {{form.taskEndDate}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="有效通话时长（秒)：" prop="mobile">
+            <el-form-item label="有效通话时长（秒)：" >
               <span>{{form.minimumDuration}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="有效任务数（通）：通/人/天：" prop="mobile">
+            <el-form-item label="有效任务数（通）：通/人/天：">
               <span>{{form.effectiveTasks}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="下一步行动规则：" prop="mobile">
-              <span>{{form.nextAction}}</span>
+            <el-form-item label="外呼次数限制：" >
+              <span>{{form.limitedTimes}}</span>
+              <i class="fa fa-pencil-square-o" v-show="sysUser === 'superadmin'" @click="updateLimitedTimes" style="margin-left: 10px"></i>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="外呼频率（间隔）天：" prop="mobile">
+            <el-form-item label="外呼频率（间隔）天：" >
               <span>{{form.interv}}</span>
             </el-form-item>
           </el-col>
@@ -93,7 +94,7 @@
                 highlight-current-row
                 style="width: 100%">
 
-        <el-table-column align="center" label="任务ID">
+        <el-table-column align="center" label="任务ID" width="80">
           <template slot-scope="scope">
             <span>{{scope.row.id}}</span>
           </template>
@@ -111,25 +112,25 @@
           </template>
         </el-table-column>
 
-        <el-table-column align="center" label="年龄">
+        <el-table-column align="center" label="年龄" width="100">
           <template slot-scope="scope">
             <span>{{scope.row.age}}</span>
           </template>
         </el-table-column>
 
-        <el-table-column align="center" label="性别">
+        <el-table-column align="center" label="性别" width="80">
           <template slot-scope="scope">
             <span>{{scope.row.gender}}</span>
           </template>
         </el-table-column>
 
-        <el-table-column align="center" label="所在地">
+        <el-table-column align="center" label="所在地" width="80">
           <template slot-scope="scope">
             <span>{{scope.row.residence}}</span>
           </template>
         </el-table-column>
 
-        <el-table-column align="center" label="外呼次数">
+        <el-table-column align="center" label="外呼次数" width="80">
           <template slot-scope="scope">
             <span>{{scope.row.callCount || 0}}</span>
           </template>
@@ -177,6 +178,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import { getToken } from '@/common/js/auth'
 import {getTaskDetail} from '@/api/api'
 export default {
@@ -209,7 +211,15 @@ export default {
     this.getList()
     this.listLoading = false
   },
+  computed : {
+    ...mapGetters([
+      'sysUser'
+    ])
+  },
   methods: {
+    updateLimitedTimes () {
+      alert('updateLimitedTimes')
+    },
     changeActionText (status) {
       switch (status) {
         case 'FOLLOW':

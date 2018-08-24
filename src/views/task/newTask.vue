@@ -106,7 +106,7 @@
         </el-row>
         <el-row :gutter="20" class="define-rule-tit">
           <el-col class="last-item" :span="24">
-            <el-form-item label="外呼规则设定" required></el-form-item>
+            <el-form-item label="外呼规则设定"></el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20" class="define-rule-box">
@@ -123,6 +123,11 @@
         </el-row>
         <el-row :gutter="20" class="define-rule-box">
           <el-col :span="8">
+            <el-form-item label="外呼次数限制" prop="limitedTimes">
+              <el-input placeholder="外呼次数限制" v-model="taskGroup.limitedTimes"></el-input>
+            </el-form-item>
+          </el-col>
+         <!-- <el-col :span="8">
             <el-form-item label="下一步行动规则" prop="nextActionRule">
               <el-select v-model="taskGroup.nextActionRule" placeholder="下一步行动规则">
                 <el-option
@@ -133,7 +138,7 @@
                 </el-option>
               </el-select>
             </el-form-item>
-          </el-col>
+          </el-col>-->
           <el-col :span="8">
             <el-form-item label="外呼频率（间隔）天" prop="interv">
               <el-input placeholder="外呼频率间隔" v-model="taskGroup.interv"></el-input>
@@ -199,6 +204,17 @@ export default {
         }
       }
     }
+    const checkNumber4 = (rule, value, callback) => {
+      if (value) {
+        if (!/^[0-9]+$/.test(value)) {
+          callback(new Error('请输入数字'))
+        } else {
+          callback()
+        }
+      }else{
+        callback()
+      }
+    }
     return {
       editorOption: {},
       taskGroup: {
@@ -246,6 +262,9 @@ export default {
         ],
         interv: [
           {required: true, trigger: 'blur', validator: checkNumber3}
+        ],
+        limitedTimes: [
+          {required: false, trigger: 'blur', validator: checkNumber4}
         ]
       },
       headers: {

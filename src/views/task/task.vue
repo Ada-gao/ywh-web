@@ -15,7 +15,8 @@
           <el-button class="filter-item"
                      type="primary"
                      icon="search"
-                     @click="handleFilter"><i class="fa fa-search"></i>查询</el-button>
+                     @click="handleFilter"><i class="fa fa-search"></i>查询
+          </el-button>
         </el-col>
         <el-col :span="16" style="text-align: right;">
           <el-select v-model="listQuery.team"
@@ -57,7 +58,7 @@
               highlight-current-row
               style="width: 100%">
 
-      <el-table-column align="center" label="任务ID">
+      <el-table-column align="center" label="任务ID" width="80">
         <template slot-scope="scope">
           <span>{{scope.row.id}}</span>
         </template>
@@ -81,7 +82,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="任务数">
+      <el-table-column align="center" label="任务数" width="80">
         <template slot-scope="scope">
           <span>{{scope.row.totalTaskCnt}}</span>
         </template>
@@ -95,21 +96,30 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="完成数">
+      <el-table-column align="center" label="完成数" width="80">
         <template slot-scope="scope">
           <span>{{scope.row.totalTaskCompleteCnt}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="完成率">
+      <el-table-column align="center" label="完成率" width="80">
         <template slot-scope="scope">
           <span>{{scope.row.taskCompleteRate}}</span>
         </template>
       </el-table-column>
-
+      <el-table-column align="center" label="外呼次数限制" width="120">
+        <template slot-scope="scope">
+          <span>{{scope.row.limitedTimes}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="任务计划完成时间">
+        <template slot-scope="scope">
+          <span>{{scope.row.taskEndDate}}</span>
+        </template>
+      </el-table-column>
       <el-table-column align="center"
-                        label="操作"
-                        fixed="right"
-                        width="150">
+                       label="操作"
+                       fixed="right"
+                       width="150">
         <template slot-scope="scope">
           <a size="small"
              @click="handleUpdate(scope.row.id, scope.row.groupName)"
@@ -134,99 +144,105 @@
 </template>
 
 <script>
-import {getAdminTasks, getTeams, getProductList, getTeam} from '@/api/api'
-import {mapGetters} from 'vuex'
+  import {getAdminTasks, getProductList, getTeam, getTeams} from '@/api/api'
+  import {mapGetters} from 'vuex'
 
-export default {
-  components: {},
-  data () {
-    return {
-      tableKey: 0,
-      total: null,
-      listLoading: true,
-      listQuery: {
-        pageIndex: 0,
-        pageSize: 10
+  export default {
+    components: {},
+    data() {
+      return {
+        tableKey: 0,
+        total: null,
+        listLoading: true,
+        listQuery: {
+          pageIndex: 0,
+          pageSize: 10
+        },
+        currentPage: 1,
+        list: null,
+        sys_user_add: true,
+        value: '',
+        orgSize: [],
+        teams: [],
+        products: []
+      }
+    },
+    computed: {
+      ...mapGetters([
+        'getUserInfo'
+      ])
+    },
+    created() {
+      this.getList()
+      //   this.getQuery()
+    },
+    methods: {
+      getList() {
+        getAdminTasks(this.listQuery).then(response => {
+          this.list = response.data.content
+          this.total = response.data.totalElements
+          this.listLoading = false
+          this.list.forEach(item => {
+            let date = new Date(item.taskEndDate)
+            let month = date.getMonth() + 1;
+            let day = date.getDate();
+            item.taskEndDate = date.getFullYear() + '-' + (month < 10 ? '0' : '') + month + '-' + (day < 10 ? '0' : '') + day
+          })
+        })
       },
-      currentPage: 1,
-      list: null,
-      sys_user_add: true,
-      value: '',
-      orgSize: [],
-      teams: [],
-      products: []
-    }
-  },
-  computed: {
-    ...mapGetters([
-      'getUserInfo'
-    ])
-  },
-  created () {
-    this.getList()
- //   this.getQuery()
-  },
-  methods: {
-    getList () {
-      getAdminTasks(this.listQuery).then(response => {
-        this.list = response.data.content
-        this.total = response.data.totalElements
-        this.listLoading = false
-      })
-    },
-    getQuery () {
-      let params = {
-        companyId: this.getUserInfo.companyId
-      }
-      getTeams(params).then(res => {
-        this.teams = res.data
-      })
-      getProductList().then(res => {
-        this.products = res.data
-      })
-    },
-    handleSizeChange (val) {
-      this.listQuery.pageSize = val
-      this.getList()
-    },
-    handleCurrentChange (val) {
-      this.listQuery.pageIndex = val - 1
-      this.getList()
-    },
-    handleFilter () {
-      this.listQuery.pageIndex = 0
-      this.listQuery.team = null
-      this.listQuery.productName = null
-      delete this.listQuery.productName
-      delete this.listQuery.team
-      if (!this.listQuery.taskName) {
-        delete this.listQuery.taskName
-      }
-      this.getList()
-    },
-    handleFilter1 () {
-      this.listQuery.pageIndex = 0
-      this.listQuery.taskName = ''
-      delete this.listQuery.taskName
-      if (!this.listQuery.team) {
-        delete this.listQuery.team
-      }
-      if (!this.listQuery.productName) {
+      getQuery() {
+        let params = {
+          companyId: this.getUserInfo.companyId
+        }
+        getTeams(params).then(res => {
+          this.teams = res.data
+        })
+        getProductList().then(res => {
+          this.products = res.data
+        })
+      },
+      handleSizeChange(val) {
+        this.listQuery.pageSize = val
+        this.getList()
+      },
+      handleCurrentChange(val) {
+        this.listQuery.pageIndex = val - 1
+        this.getList()
+      },
+      handleFilter() {
+        this.listQuery.pageIndex = 0
+        this.listQuery.team = null
+        this.listQuery.productName = null
         delete this.listQuery.productName
+        delete this.listQuery.team
+        if (!this.listQuery.taskName) {
+          delete this.listQuery.taskName
+        }
+        this.getList()
+      },
+      handleFilter1() {
+        this.listQuery.pageIndex = 0
+        this.listQuery.taskName = ''
+        delete this.listQuery.taskName
+        if (!this.listQuery.team) {
+          delete this.listQuery.team
+        }
+        if (!this.listQuery.productName) {
+          delete this.listQuery.productName
+        }
+        this.getList()
+        getTeam(this.listQuery.team).then((res) => {
+          this.products = res.data
+        })
+      },
+      handleCreate() {
+        this.$router.push({name: 'newTask'})
+      },
+      handleUpdate(id, name) {
+        this.$router.push({name: 'taskDetail', query: {id: id, name: name}})
       }
-      this.getList()
-      getTeam(this.listQuery.team).then((res) => {
-        this.products = res.data
-      })
-    },
-    handleCreate () {
-      this.$router.push({name: 'newTask'})
-    },
-    handleUpdate (id, name) {
-      this.$router.push({name: 'taskDetail', query: {id: id, name: name}})
     }
   }
-}
 </script>
 
 <style scoped lang="scss">

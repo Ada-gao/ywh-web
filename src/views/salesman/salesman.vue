@@ -1,54 +1,54 @@
 <template>
   <section>
     <div class="filter-container">
-      <el-row :gutter="30">
-        <el-col :span="4">
+      <el-row :gutter="20" style="margin-left: 20px;margin-right: 20px;">
+        <el-col :span="8">
           <el-card class="card" :body-style="{ padding: '0px' }">
             <div style="height: 50px">
               <div class="logo" style="background: #4AD2DB">
-                <i class="iconfont icon-waihurenwu"/>
+                <i class="iconfont icon-xiaoshoushu"/>
               </div>
               <div class="info">
                 <div class="title">销售人员总数</div>
                 <div class="count" style="color: #4AD2DB">
-                  {{totalSalesCnt}}<span style="font-size: 14px">个</span>
+                  {{totalSalesCnt}}<span style="font-size: 14px">人</span>
                 </div>
               </div>
             </div>
           </el-card>
         </el-col>
-        <el-col :span="4">
+        <el-col :span="8">
           <el-card class="card" :body-style="{ padding: '0px' }">
             <div style="height: 50px">
               <div class="logo" style="background: #FDCE82">
-                <i class="iconfont icon-xiaoshoushu"/>
+                <i class="iconfont icon-huoyuerenshu"/>
               </div>
               <div class="info">
                 <div class="title">活跃人数</div>
                 <div class="count" style="color: #FDCE82">
-                  {{enabledSalesCnt}}<span style="font-size: 14px">个</span>
+                  {{enabledSalesCnt}}<span style="font-size: 14px">人</span>
                 </div>
               </div>
             </div>
           </el-card>
         </el-col>
-        <el-col :span="4">
+        <el-col :span="8">
           <el-card class="card" :body-style="{ padding: '0px' }">
             <div style="height: 50px">
-              <div class="logo" style="background: #30CDAA;line-height: 60px;">
-                <i class="fa fa-calendar-check-o"/>
+              <div class="logo" style="background: #DFDFDF;">
+                <i class="iconfont icon-tingyong"/>
               </div>
               <div class="info">
                 <div class="title">停用人数</div>
-                <div class="count" style="color: #30CDAA">
-                  {{disabledSalesCnt}}<span style="font-size: 14px">个</span>
+                <div class="count" style="color: #4A4A4A">
+                  {{disabledSalesCnt}}<span style="font-size: 14px">人</span>
                 </div>
               </div>
             </div>
           </el-card>
         </el-col>
       </el-row>
-      <div class="detail-title" style="margin-top: 30px">
+      <div class="detail-title" style="margin-top: 40px">
         <span class="list-tit">销售查询</span>
       </div>
       <el-row style="margin-top: 10px">
