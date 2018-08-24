@@ -4,11 +4,15 @@
         <el-menu-item disabled><i class="fa fa-flash" :style="isCollapse ? 'font-size:22px' : 'font-size:14px'"/><span slot="title" >雷鸣外呼管理平台</span></el-menu-item>
         <el-menu-item index="1" route="/dashboard"><i class="fa fa-home"/><span slot="title">首页-工作台 ok</span></el-menu-item>
         <el-menu-item index="2" route="/account"><i class="iconfont icon-zhanghu"/><span slot="title">账户管理 no</span></el-menu-item>
-        <el-menu-item index="3" route="/company"><i class="iconfont icon-qiyegongchangjianzhu-copy"/><span slot="title">公司管理 yes</span></el-menu-item>
+        <el-menu-item index="3" route="/company"><i class="iconfont icon-qiyegongchangjianzhu-copy"/><span slot="title">公司管理 ok</span></el-menu-item>
         <el-menu-item index="4" route="/salesman"><i class="fa fa-users"/><span slot="title">销售管理 ok</span></el-menu-item>
         <el-menu-item index="5" route="/list"><i class="fa fa-list-alt"/><span slot="title">名单管理 ok</span></el-menu-item>
-        <el-menu-item index="6" route="/task"><i class="fa fa-phone"/><span slot="title">任务管理</span></el-menu-item>
-        <el-menu-item index="7" route="/push"><i class="iconfont icon-xiaoxishezhi"/><span slot="title">推送管理</span></el-menu-item>
+        <el-menu-item index="6" route="/task"><i class="fa fa-phone"/><span slot="title">任务管理 ok</span></el-menu-item>
+        <el-submenu index="7">
+          <template slot="title"><i class="iconfont icon-xiaoxishezhi" style="color: #ffffff"></i><span slot="title" style="color: #ffffff">推送管理</span></template>
+          <el-menu-item index="7-1" route="/push"><span slot="title">推送规则</span></el-menu-item>
+          <el-menu-item index="7-2" route=""><span slot="title">推送规则</span></el-menu-item>
+        </el-submenu>
         <el-menu-item index="8" v-show="sysUser === 'superadmin'" route="/trial"><i class="fa fa-list-ul"/><span slot="title">试用管理</span></el-menu-item>
         <el-menu-item index="9" v-show="sysUser === 'superadmin'" route="/check"><i class="iconfont icon-shenheguanli"/><span slot="title">审核管理</span></el-menu-item>
         <el-submenu index="10" v-show="sysUser === 'superadmin'">

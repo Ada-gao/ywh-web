@@ -62,6 +62,7 @@ export const getAdminTasks = params => axios.get('/task/getGroupPage', {params: 
 export const getTasks = params => axios.get('/task/getPage', {params: params})
 export const createTask = params => axios.post('/task/createGroup', params)
 export const getTaskDetail = (id, params) => axios.get('/task/getGroup/' + id, {params: params})
+export const updateTimes = (id, params) => axios.put('/task/updateTimes/' + id + '?times=' + params)
 // export const getTaskCount = () => axios.get('/task/count')
 // product
 export const getProductList = () => axios.get('/product/list')

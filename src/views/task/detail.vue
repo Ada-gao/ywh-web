@@ -8,9 +8,9 @@
       <el-form :model="form" class="form-border" style="margin-bottom: 20px">
         <el-row :gutter="20">
           <!--<el-col :span="8">-->
-            <!--<el-form-item label="所属公司：" prop="name">-->
-              <!--<span>{{form.id}}</span>-->
-            <!--</el-form-item>-->
+          <!--<el-form-item label="所属公司：" prop="name">-->
+          <!--<span>{{form.id}}</span>-->
+          <!--</el-form-item>-->
           <!--</el-col>-->
           <el-col :span="8">
             <el-form-item label="外呼名称：">
@@ -18,7 +18,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="任务名称：" >
+            <el-form-item label="任务名称：">
               <span>{{form.taskName}}</span>
             </el-form-item>
           </el-col>
@@ -38,7 +38,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="任务目标：" >
+            <el-form-item label="任务目标：">
               <span>{{form.taskTarget}}</span>
             </el-form-item>
           </el-col>
@@ -56,12 +56,12 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="任务时间：" >
+            <el-form-item label="任务时间：">
               <span>{{form.taskStartDate}} - {{form.taskEndDate}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="有效通话时长（秒)：" >
+            <el-form-item label="有效通话时长（秒)：">
               <span>{{form.minimumDuration}}</span>
             </el-form-item>
           </el-col>
@@ -71,13 +71,14 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="外呼次数限制：" >
+            <el-form-item label="外呼次数限制：">
               <span>{{form.limitedTimes}}</span>
-              <i class="fa fa-pencil-square-o" v-show="sysUser === 'superadmin'" @click="updateLimitedTimes" style="margin-left: 10px"></i>
+              <i class="fa fa-pencil-square-o" v-show="sysUser === 'superadmin'" @click="updateDialog = true"
+                 style="margin-left: 10px"></i>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="外呼频率（间隔）天：" >
+            <el-form-item label="外呼频率（间隔）天：">
               <span>{{form.interv}}</span>
             </el-form-item>
           </el-col>
@@ -173,126 +174,176 @@
                        layout="total, sizes, prev, pager, next, jumper" :total="total">
         </el-pagination>
       </div>
+      <el-dialog title="修改次数" :visible.sync="updateDialog" width="30%">
+        <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="120px">
+          <el-form-item label="外呼次数限制" prop="times" style="font-size: 13px;color: #252525;">
+            <el-input v-model="ruleForm.times" placeholder="请输入外呼次数限制" maxlength="12"></el-input>
+          </el-form-item>
+        </el-form>
+        <div style="text-align: right">
+          <el-button class="search_btn" @click="cancelLimitedTimes('ruleForm')">取 消</el-button>
+          <el-button class="add_btn" @click="updateLimitedTimes('ruleForm')">确 定</el-button>
+        </div>
+      </el-dialog>
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import { getToken } from '@/common/js/auth'
-import {getTaskDetail} from '@/api/api'
-export default {
-  data () {
-    return {
-      form: {},
-      headers: {
-        Authorization: getToken()
-      },
-      selectedOptions: [],
-      fileList: [],
-      value: '',
-      list: [],
-      listLoading: true,
-      tableKey: 0,
-      total: null,
-      currentPage: 1,
-      listQuery: {
-        pageIndex: 0,
-        pageSize: 10,
-        taskGroupId: null
-      },
-      salesCnt: null,
-      groupName: ''
-    }
-  },
-  created () {
-    this.listQuery.taskGroupId = this.$route.query.id
-    this.groupName = this.$route.query.name
-    this.getList()
-    this.listLoading = false
-  },
-  computed : {
-    ...mapGetters([
-      'sysUser'
-    ])
-  },
-  methods: {
-    updateLimitedTimes () {
-      alert('updateLimitedTimes')
-    },
-    changeActionText (status) {
-      switch (status) {
-        case 'FOLLOW':
-          status = '继续跟进'
-          break
-        case 'CUSTOMER_TRANSFORM':
-          status = '客户转到其他部门'
-          break
-        case 'INFO_ERROR':
-          status = '信息有误'
-          break
-        case 'GIVE_UP':
-          status = '放弃跟进'
-          break
-      }
-      return status
-    },
-    Datetime (date) {
-      let theTime = parseInt(date)
-      let theTime1 = 0
-      if (theTime > 60) {
-        theTime1 = parseInt(theTime / 60)
-        theTime = parseInt(theTime % 60)
-      }
-      let result = parseInt(theTime) + '秒'
-      if (theTime1 > 0) {
-        result = parseInt(theTime1) + '分' + result
-      }
-      return result
-    },
-    timestampToTime (timestamp) {
-      let date = new Date(timestamp)
-      let M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '月'
-      let D = date.getDate() + '日'
-      let h = date.getHours() + ':'
-      let m = date.getMinutes()
-      let time = M + D + h + m
-      return time
-    },
-    getList () {
-      getTaskDetail(this.listQuery.taskGroupId, this.listQuery).then(res => {
-        this.form = res.data.taskGroup
-        this.form.nextAction = this.changeActionText(this.form.nextActionRule)
-        this.form.taskStartDate = new Date(this.form.taskStartDate).toLocaleDateString()
-        this.form.taskEndDate = new Date(this.form.taskEndDate).toLocaleDateString()
-        this.list = res.data.nameList.content
-        this.list.forEach((ele, index) => {
-          ele.gender = ele.gender === 'GENTLEMAN' ? '男' : '女'
-          if (ele.duration === null) {
-            ele.duration = 0
+  import {mapGetters} from 'vuex'
+  import {getToken} from '@/common/js/auth'
+  import {getTaskDetail,updateTimes} from '@/api/api'
+
+  export default {
+    data() {
+      const checkNumber = (rule, value, callback) => {
+        if (value) {
+          if (!/^[0-9]+$/.test(value)) {
+            callback(new Error('请输入数字'))
           } else {
-            ele.duration = this.Datetime(ele.duration)
+            callback()
           }
-          if (ele.lastCallDate === null) {
-            ele.lastCallDate = 0
+        } else {
+          callback(new Error('请输入外呼次数限制'))
+        }
+      }
+      return {
+        rules: {
+          times: [
+            {required: true, trigger: 'blur', validator: checkNumber}
+          ],
+        },
+        form: {},
+        headers: {
+          Authorization: getToken()
+        },
+        selectedOptions: [],
+        fileList: [],
+        value: '',
+        list: [],
+        listLoading: true,
+        tableKey: 0,
+        total: null,
+        currentPage: 1,
+        listQuery: {
+          pageIndex: 0,
+          pageSize: 10,
+          taskGroupId: null
+        },
+        salesCnt: null,
+        groupName: '',
+        updateDialog: false,
+        ruleForm: {
+          times: null
+        }
+      }
+    },
+    created() {
+      this.listQuery.taskGroupId = this.$route.query.id
+      this.groupName = this.$route.query.name
+      this.getList()
+      this.listLoading = false
+    },
+    computed: {
+      ...mapGetters([
+        'sysUser'
+      ])
+    },
+    methods: {
+      updateLimitedTimes(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            updateTimes(this.listQuery.taskGroupId, this.ruleForm.times).then(res => {
+              this.$message({
+                message: '操作成功',
+                type: 'success'
+              })
+              this.form.limitedTimes = this.ruleForm.times
+              this.updateDialog = false
+              this.$refs[formName].resetFields()
+            })
           } else {
-            ele.lastCallDate = this.timestampToTime(ele.lastCallDate)
+            return false
           }
         })
-        this.salesCnt = res.data.salesCnt
-        this.total = res.data.nameList.totalElements || 0
-      })
-    },
-    handleSizeChange (val) {
-      this.listQuery.pageSize = val
-      this.getList()
-    },
-    handleCurrentChange (val) {
-      this.listQuery.pageIndex = val - 1
-      this.getList()
+      },
+      cancelLimitedTimes(formName) {
+        this.updateDialog = false
+        this.$refs[formName].resetFields()
+      },
+      changeActionText(status) {
+        switch (status) {
+          case 'FOLLOW':
+            status = '继续跟进'
+            break
+          case 'CUSTOMER_TRANSFORM':
+            status = '客户转到其他部门'
+            break
+          case 'INFO_ERROR':
+            status = '信息有误'
+            break
+          case 'GIVE_UP':
+            status = '放弃跟进'
+            break
+        }
+        return status
+      },
+      Datetime(date) {
+        let theTime = parseInt(date)
+        let theTime1 = 0
+        if (theTime > 60) {
+          theTime1 = parseInt(theTime / 60)
+          theTime = parseInt(theTime % 60)
+        }
+        let result = parseInt(theTime) + '秒'
+        if (theTime1 > 0) {
+          result = parseInt(theTime1) + '分' + result
+        }
+        return result
+      },
+      timestampToTime(timestamp) {
+        let date = new Date(timestamp)
+        let M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '月'
+        let D = date.getDate() + '日'
+        let h = date.getHours() + ':'
+        let m = date.getMinutes()
+        let time = M + D + h + m
+        return time
+      },
+      getList() {
+        getTaskDetail(this.listQuery.taskGroupId, this.listQuery).then(res => {
+          this.form = res.data.taskGroup
+          this.form.nextAction = this.changeActionText(this.form.nextActionRule)
+          this.form.taskStartDate = new Date(this.form.taskStartDate).toLocaleDateString()
+          this.form.taskEndDate = new Date(this.form.taskEndDate).toLocaleDateString()
+          this.list = res.data.nameList.content
+          this.list.forEach((ele, index) => {
+            ele.gender = ele.gender === 'GENTLEMAN' ? '男' : '女'
+            if (ele.duration === null) {
+              ele.duration = 0
+            } else {
+              ele.duration = this.Datetime(ele.duration)
+            }
+            if (ele.lastCallDate === null) {
+              ele.lastCallDate = 0
+            } else {
+              ele.lastCallDate = this.timestampToTime(ele.lastCallDate)
+            }
+          })
+          this.salesCnt = res.data.salesCnt
+          this.total = res.data.nameList.totalElements || 0
+        })
+      },
+      handleSizeChange(val) {
+        this.listQuery.pageSize = val
+        this.getList()
+      },
+      handleCurrentChange(val) {
+        this.listQuery.pageIndex = val - 1
+        this.getList()
+      }
     }
   }
-}
 </script>
 
 <style lang="scss">
@@ -303,19 +354,28 @@ export default {
       float: right;
     }
   }
+
   .form-border {
     border: 1px solid #EFEFEF;
     border-radius: 5px;
     padding: 20px 30px 0 20px;
     overflow: hidden;
   }
+
   .task-detail {
-    .el-form-item__content {}
+    .el-form-item__content {
+    }
   }
+
   .container .task-detail .el-form-item__content span.blue-color {
     font-size: 14px;
     color: #0299CC;
     cursor: pointer;
   }
-  .el-popover{ max-height: 360px; overflow: auto; word-break: break-all;}
+
+  .el-popover {
+    max-height: 360px;
+    overflow: auto;
+    word-break: break-all;
+  }
 </style>

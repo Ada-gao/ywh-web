@@ -118,8 +118,7 @@
       </el-table-column>
       <el-table-column align="center"
                        label="操作"
-                       fixed="right"
-                       width="150">
+                       width="130px">
         <template slot-scope="scope">
           <a size="small"
              @click="handleUpdate(scope.row.id, scope.row.groupName)"
@@ -174,7 +173,7 @@
     },
     created() {
       this.getList()
-      //   this.getQuery()
+      this.getQuery()
     },
     methods: {
       getList() {

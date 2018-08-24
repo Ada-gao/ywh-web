@@ -1,7 +1,7 @@
 <template>
   <div class="app-container newtask">
     <div class="detail-title">
-      <span class="tit-text">新建任务</span>
+      <span class="list-tit">新建任务</span>
     </div>
     <div class="margin-line"></div>
     <div class="update-detail">
