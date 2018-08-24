@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container">
+  <div>
     <div class="detail-title">
       <span class="list-tit">{{textMap[updateStatus]}}</span>
     </div>
@@ -7,21 +7,19 @@
     <div class="update-detail" v-if="updateStatus==='create'||updateStatus==='update'">
       <el-form :model="form" :rules="rules" ref="form" label-width="100px">
         <el-row :gutter="20">
-          <el-col :span="18">
+          <el-col :span="10">
             <el-form-item label="公司名称" prop="companyName">
               <el-input v-model="form.companyName" placeholder="请输入公司名称" maxlength="50"></el-input>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row :gutter="20">
-          <el-col :span="18">
+          <el-col :span="10">
             <el-form-item label="公司简称">
               <el-input v-model="form.shortName" placeholder="请输入公司简称" maxlength="50"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="18">
+          <el-col :span="10">
             <el-form-item label="所在地" prop="companyCity">
               <el-select v-model="form.companyProvince"
                          placeholder="请选择省份"
@@ -47,16 +45,14 @@
               </el-select>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row :gutter="20">
-          <el-col :span="18">
+          <el-col :span="10">
             <el-form-item label="公司地址" prop="companyAddress">
               <el-input v-model="form.companyAddress" placeholder="请输入公司地址" maxlength="200"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="18">
+          <el-col :span="10">
             <el-form-item label="所属行业" prop="industry">
               <el-select v-model="form.industryType"
                          placeholder="请选择行业大类"
@@ -80,9 +76,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row :gutter="20">
-          <el-col :span="18">
+          <el-col :span="10">
             <el-form-item label="公司规模" prop="orgSize">
               <el-select v-model="form.orgSize" placeholder="请选择规模" style="width: 100%" @change="changeOrgSize">
                 <el-option
@@ -96,43 +90,41 @@
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="9">
+          <el-col :span="10">
             <el-form-item label="联系人" prop="contact">
               <el-input v-model="form.contact" placeholder="请输入联系人姓名" maxlength="10"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="9">
-            <el-form-item label="企业微信">
-              <el-input v-model="form.wechatNo" placeholder="请输入企业微信" maxlength="20"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="20">
-          <el-col :span="9">
+          <el-col :span="10">
             <el-form-item label="职务" prop="occupation">
               <el-input v-model="form.occupation" placeholder="请输入联系人职务" maxlength="10"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="9">
-            <el-form-item label="企业邮箱" >
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="10">
+            <el-form-item label="联系手机" prop="contactMobile">
+              <el-input v-model="form.contactMobile" :maxlength="11" placeholder="请输入手机号码"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="企业邮箱" prop="email">
               <el-input v-model="form.email" placeholder="请输入企业邮箱" maxlength="50"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="18">
-            <el-form-item label="联系手机" prop="contactMobile">
-              <el-input v-model="form.contactMobile" :maxlength="11" placeholder="请输入手机号码"></el-input>
+          <el-col :span="10">
+            <el-form-item label="企业微信" prop="wechatNo">
+              <el-input v-model="form.wechatNo" placeholder="请输入企业微信" maxlength="20"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
+
         <el-row :gutter="20">
-          <el-col :span="18">
+          <el-col :span="20">
             <el-form-item label="公司LOGO" prop="logo">
-              <img :src.sync="form.logo"
-                   alt=""
-                   v-if="form.logo"
-                   style="width: 50px; height: 30px;">
+              <img :src.sync="form.logo" alt="" v-if="form.logo" style="width: 120px; height: 80px;">
               <el-upload
                 class="upload-demo"
                 style="display: inline-block"
@@ -151,12 +143,9 @@
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="18">
+          <el-col :span="20">
             <el-form-item label="公司资质" prop="companyQualification">
-              <img :src.sync="form.companyQualification"
-                   alt=""
-                   v-if="form.companyQualification"
-                   style="width: 50px; height: 30px;">
+              <img :src.sync="form.companyQualification" alt="" v-if="form.companyQualification" style="width: 120px; height: 80px;">
               <el-upload
                 class="upload-demo"
                 style="display: inline-block"
@@ -175,14 +164,14 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="18">
+          <el-col :span="20">
             <el-form-item label="备注" prop="remark">
               <el-input type="textarea" v-model="form.remark" maxlength="200"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
       </el-form>
-      <el-col :span="18" slot="footer" class="dialog-footer" style="text-align: center">
+      <el-col :span="20" slot="footer" class="dialog-footer" style="text-align: center">
         <el-button class="add_btn" v-show="updateStatus==='create' || updateStatus==='update'" @click="create('form')">提 交</el-button>
         <el-button class="search_btn" @click="cancel('form')">取 消</el-button>
       </el-col>
@@ -198,8 +187,7 @@
         </span>
       </el-dialog>
     </div>
-    <el-dialog :visible.sync="dialogVisible"
-               width="30%">
+    <el-dialog :visible.sync="dialogVisible" width="30%">
       <div class="cropper-content">
         <div class="cropper">
           <vueCropper
@@ -267,6 +255,26 @@ export default {
         callback()
       }
     }
+    const validateEmail = (rule, value, callback) => {
+      var reg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/
+      let flag = reg.test(value)
+      if (!value || !flag) {
+        callback(new Error('请输入正确的企业邮箱'))
+      } else {
+        callback()
+      }
+    }
+    const validateWechatNo = (rule, value, callback) => {
+      if (value) {
+        if (value.length < 6 || value.length > 20){
+          callback(new Error('请输入正确的企业微信'))
+        }else{
+          callback()
+        }
+      } else {
+        callback()
+      }
+    }
     return {
       crap: false,
       imgurl: '',
@@ -284,7 +292,7 @@ export default {
         autoCropWidth: 200,
         autoCropHeight: 200,
         fixed: true,
-        fixedNumber: [4, 3]
+        fixedNumber: [3, 2]
       },
       downImg: '#',
       dialogVisible: false,
@@ -301,9 +309,7 @@ export default {
       updateStatus: '',
       textMap: {
         create: '新建公司',
-        createManager: '新建管理员',
         update: '修改公司详情页',
-        view: '公司详情页'
       },
       coInfo: {
         orgSize: [],
@@ -336,13 +342,16 @@ export default {
           {required: true, trigger: 'blur', message: '请输入对应职务'}
         ],
         contactMobile: [
-          {required: true, trigger: 'blur', message: '请输入正确的手机号码', validator: validatePass1}
+          {required: true, trigger: 'blur', validator: validatePass1}
         ],
-        logo: [
-          {required: false, trigger: 'blur', message: '请上传公司logo'}
+        email: [
+          {required: true, trigger: 'blur', validator: validateEmail}
+        ],
+        wechatNo: [
+          {required: false, trigger: 'blur', validator: validateWechatNo}
         ],
         companyQualification: [
-          {required: false, trigger: 'blur', message: '请上传公司资质'}
+          {required: true, trigger: 'blur', message: '请上传公司资质'}
         ]
       },
       uploadUrl: process.env.BASE_API + '/file/upload',

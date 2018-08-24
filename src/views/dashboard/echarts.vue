@@ -1,71 +1,72 @@
 <template>
-  <el-row :gutter="15" style="margin-left: 25px;margin-right: 25px;">
-    <el-col :span="6">
-      <el-card class="card" :body-style="{ padding: '0px' }">
-        <div style="height: 50px">
-          <div class="logo" style="background: #4AD2DB">
-            <i class="iconfont icon-waihurenwu"/>
-          </div>
-          <div class="info">
-            <div class="title">外呼任务</div>
-            <div class="count" style="color: #4AD2DB">
-              {{total.totalTaskCnt}}<span style="font-size: 14px">个</span>
+  <div>
+    <el-row :gutter="15" style="margin-left: 25px;margin-right: 25px;height: 120px;">
+      <el-col :span="6">
+        <el-card class="card" :body-style="{ padding: '0px' }">
+          <div style="height: 50px">
+            <div class="logo" style="background: #4AD2DB">
+              <i class="iconfont icon-waihurenwu"/>
+            </div>
+            <div class="info">
+              <div class="title">外呼任务</div>
+              <div class="count" style="color: #4AD2DB">
+                {{total.totalTaskCnt}}<span style="font-size: 14px">个</span>
+              </div>
             </div>
           </div>
-        </div>
-      </el-card>
-    </el-col>
-    <el-col :span="6">
-      <el-card class="card" :body-style="{ padding: '0px' }">
-        <div style="height: 50px">
-          <div class="logo" style="background: #FDCE82">
-            <i class="iconfont icon-xiaoshoushu"/>
-          </div>
-          <div class="info">
-            <div class="title">销售人数</div>
-            <div class="count" style="color: #FDCE82">
-              {{total.totalSalesCnt}}<span style="font-size: 14px">个</span>
+        </el-card>
+      </el-col>
+      <el-col :span="6">
+        <el-card class="card" :body-style="{ padding: '0px' }">
+          <div style="height: 50px">
+            <div class="logo" style="background: #FDCE82">
+              <i class="iconfont icon-xiaoshoushu"/>
+            </div>
+            <div class="info">
+              <div class="title">销售人数</div>
+              <div class="count" style="color: #FDCE82">
+                {{total.totalSalesCnt}}<span style="font-size: 14px">个</span>
+              </div>
             </div>
           </div>
-        </div>
-      </el-card>
-    </el-col>
-    <el-col :span="6">
-      <el-card class="card" :body-style="{ padding: '0px' }">
-        <div style="height: 50px">
-          <div class="logo" style="background: #30CDAA;line-height: 60px;">
-            <i class="fa fa-calendar-check-o"/>
-          </div>
-          <div class="info">
-            <div class="title">任务完成数</div>
-            <div class="count" style="color: #30CDAA">
-              {{total.totalTaskCompleteCnt}}<span style="font-size: 14px">个</span>
+        </el-card>
+      </el-col>
+      <el-col :span="6">
+        <el-card class="card" :body-style="{ padding: '0px' }">
+          <div style="height: 50px">
+            <div class="logo" style="background: #30CDAA;line-height: 60px;">
+              <i class="fa fa-calendar-check-o"/>
+            </div>
+            <div class="info">
+              <div class="title">任务完成数</div>
+              <div class="count" style="color: #30CDAA">
+                {{total.totalTaskCompleteCnt}}<span style="font-size: 14px">个</span>
+              </div>
             </div>
           </div>
-        </div>
-      </el-card>
-    </el-col>
-    <el-col :span="6">
-      <el-card class="card" :body-style="{ padding: '0px' }">
-        <div style="height: 50px;">
-          <div class="logo" style="background: #0299CC;">
-            <i class="iconfont icon-youxiaotonghuashichang"/>
-          </div>
-          <div class="info">
-            <div class="title">有效通话时长</div>
-            <div class="count" style="color: #0299CC">
-              {{total_min}}<span style="font-size: 14px">分</span>{{total_sed}}<span style="font-size: 14px">秒</span>
+        </el-card>
+      </el-col>
+      <el-col :span="6">
+        <el-card class="card" :body-style="{ padding: '0px' }">
+          <div style="height: 50px;">
+            <div class="logo" style="background: #0299CC;">
+              <i class="iconfont icon-youxiaotonghuashichang"/>
+            </div>
+            <div class="info">
+              <div class="title">有效通话时长</div>
+              <div class="count" style="color: #0299CC">
+                {{total_min}}<span style="font-size: 12px;margin-right: 5px">分</span>{{total_sed}}<span style="font-size: 14px">秒</span>
+              </div>
             </div>
           </div>
-        </div>
-      </el-card>
-    </el-col>
-  </el-row>
+        </el-card>
+      </el-col>
+    </el-row>
+  </div>
 </template>
 <script>
   import {getStatistic} from '@/api/api'
   import {mapGetters} from 'vuex'
-
   export default {
     data() {
       return {
@@ -128,7 +129,6 @@
     padding-top: 35px;
     padding-left: 20px;
   }
-
   .logo {
     width: 50px;
     height: 50px;
@@ -137,24 +137,20 @@
     text-align: center;
     float: left;
   }
-
   .logo i {
     color: #ffffff;
     font-size: 28px
   }
-
   .info{
     margin-left: 12px;
     float: left;
   }
-
   .info .title{
     font-size: 14px;
     color: #475669;
   }
-
   .info .count{
-    font-size: 28px;
+    margin-top: 6px;
+    font-size: 20px;
   }
-
 </style>

@@ -1,10 +1,10 @@
 <template>
   <el-container style="height: 100%;">
-      <el-menu class="el-menu-nav" :collapse="isCollapse" router="true">
+      <el-menu class="el-menu-nav" :collapse="isCollapse" router="true" default-active="1">
         <el-menu-item disabled><i class="fa fa-flash" :style="isCollapse ? 'font-size:22px' : 'font-size:14px'"/><span slot="title" >雷鸣外呼管理平台</span></el-menu-item>
-        <el-menu-item index="1" route="/dashboard"><i class="fa fa-home"/><span slot="title">首页-工作台</span></el-menu-item>
-        <el-menu-item index="2" route="/account"><i class="iconfont icon-zhanghu"/><span slot="title">账户管理</span></el-menu-item>
-        <el-menu-item index="3" route="/company"><i class="iconfont icon-qiyegongchangjianzhu-copy"/><span slot="title">公司管理</span></el-menu-item>
+        <el-menu-item index="1" route="/dashboard"><i class="fa fa-home"/><span slot="title">首页-工作台 ok</span></el-menu-item>
+        <el-menu-item index="2" route="/account"><i class="iconfont icon-zhanghu"/><span slot="title">账户管理 no</span></el-menu-item>
+        <el-menu-item index="3" route="/company"><i class="iconfont icon-qiyegongchangjianzhu-copy"/><span slot="title">公司管理 yes</span></el-menu-item>
         <el-menu-item index="4" route="/salesman"><i class="fa fa-users"/><span slot="title">销售管理</span></el-menu-item>
         <el-menu-item index="5" route="/list"><i class="fa fa-list-alt"/><span slot="title">名单管理</span></el-menu-item>
         <el-menu-item index="6" route="/task"><i class="fa fa-phone"/><span slot="title">任务管理</span></el-menu-item>
@@ -13,10 +13,10 @@
         <el-menu-item index="9" v-show="sysUser === 'superadmin'" route="/check"><i class="iconfont icon-shenheguanli"/><span slot="title">审核管理</span></el-menu-item>
         <el-submenu index="10" v-show="sysUser === 'superadmin'">
           <template slot="title"><i class="iconfont icon-chart" style="color: #ffffff"></i><span slot="title" style="color: #ffffff">报表统计</span></template>
-          <el-menu-item index="10-1" route="/report/workload"><i class="fa fa-cog"/><span slot="title">工作量统计</span></el-menu-item>
-          <el-menu-item index="10-2" route="/report/task"><i class="fa fa-cog"/><span slot="title">外呼任务统计</span></el-menu-item>
-          <el-menu-item index="10-3" route="/report/record"><i class="fa fa-cog"/><span slot="title">历史通话记录</span></el-menu-item>
-          <el-menu-item index="10-4" route="/report/count"><i class="fa fa-cog"/><span slot="title">话务统计</span></el-menu-item>
+          <el-menu-item index="10-1" route="/report/workload"><span slot="title">工作量统计</span></el-menu-item>
+          <el-menu-item index="10-2" route="/report/task"><span slot="title">外呼任务统计</span></el-menu-item>
+          <el-menu-item index="10-3" route="/report/record"><span slot="title">历史通话记录</span></el-menu-item>
+          <el-menu-item index="10-4" route="/report/count"><span slot="title">话务统计</span></el-menu-item>
         </el-submenu>
         <el-menu-item index="11" v-show="sysUser === 'superadmin'" route="/system"><i class="fa fa-phone"/><span slot="title">系统管理</span></el-menu-item>
         <el-menu-item index="12" v-show="sysUser === 'superadmin'" route="/feedback"><i class="fa fa-question-circle"/><span slot="title">问题反馈</span></el-menu-item>
@@ -74,6 +74,7 @@
       } else if (hour < 24){
         this.now = '晚上'
       }
+      this.$router.push('/dashboard')
     },
     methods: {
       // 退出登录
@@ -122,9 +123,13 @@
     color: #ffffff;
     font-size: 14px;
   }
+  el-menu-item{
+    padding-left: 0px;
+    min-width: 173px;
+  }
   .el-submenu .el-menu-item{
     padding-left: 0px;
-    min-width: 179px;
+    min-width: 173px;
   }
   .el-menu-item i,.el-submenu__title i{
     color: #ffffff;
@@ -145,7 +150,7 @@
     background: #00C1DF ;
   }
   .el-menu-nav:not(.el-menu--collapse) {
-    width: 180px;
+    width: 173px;
   }
  /* .el-button{
     background: #0299CC;

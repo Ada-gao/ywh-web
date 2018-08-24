@@ -1,6 +1,6 @@
 <template>
   <section>
-    <div class="filter-container">
+    <div>
       <div class="detail-title">
         <span class="list-tit">公司查询</span>
       </div>
@@ -48,22 +48,22 @@
         </el-col>
       </el-row>
     </div>
-    <div class="detail-title">
+    <div class="detail-title" style="margin-top: 40px">
       <span class="list-tit">公司列表</span>
       <el-button class="add_btn" @click="handleCreate" v-if="sysUser === 'superadmin'">
         <i class="fa fa-plus" style="color: #fff;margin-right: 10px"></i>新建公司
       </el-button>
     </div>
     <el-table :key='tableKey' :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit
-              highlight-current-row style="width: 100%">
+              highlight-current-row style="width: 100%" >
 
-      <el-table-column align="center" label="公司ID">
+      <el-table-column align="center" label="公司ID"  width="130px">
         <template slot-scope="scope">
           <span>{{scope.row.companyCode}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="公司名称" class-name="left">
+      <el-table-column align="center" label="公司名称" >
         <template slot-scope="scope">
           <span>{{scope.row.companyName}}</span>
         </template>
@@ -81,7 +81,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="公司行业" show-overflow-tooltip>
+      <el-table-column align="center" label="所属行业">
         <template slot-scope="scope">
         <span>{{scope.row.industryType}}</span>
         </template>
@@ -93,11 +93,9 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="操作" fixed="right" width="150">
+      <el-table-column align="center" label="操作" width="130px">
         <template slot-scope="scope">
-          <a size="small" class="common_btn"
-            @click="handleUpdate(scope.row)">查看详情
-          </a>
+          <a size="small" class="common_btn" @click="handleUpdate(scope.row)">查看详情</a>
         </template>
       </el-table-column>
     </el-table>

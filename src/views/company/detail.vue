@@ -1,10 +1,8 @@
 <template>
-  <div class="app-container">
+  <div>
     <div class="detail-title">
       <span class="list-tit">{{textMap[updateStatus]}}</span>
-      <el-button class="upd_btn"
-                 v-show="updateStatus==='view'"
-                 @click="modifyStat">
+      <el-button class="upd_btn" v-show="updateStatus==='view'" @click="modifyStat">
         <i class="fa fa-edit"
            style="font-size: 22px;margin-right: 5px;vertical-align: middle;"></i>
         <i style="font-style: normal;">修改</i>
@@ -13,88 +11,28 @@
     <div class="margin-line"></div>
     <div class="read-detail" v-if="updateStatus==='view'">
       <el-form :model="form" class="form-border">
-        <el-row :gutter="20">
-          <el-col :span="11">
-            <el-form-item label="公司ID:" label-width="100px">
-              <span>{{form.companyCode}}</span>
-            </el-form-item>
+        <el-row>
+          <el-col :span="11"><span class="detail-label">公司ID:</span><span class="detail-value">{{form.companyCode}}</span></el-col>
+          <el-col :span="11"><span class="detail-label">公司名称:</span><span class="detail-value">{{form.companyName}}</span></el-col>
+          <el-col :span="11"><span class="detail-label">公司简称:</span><span class="detail-value">{{form.shortName}}</span></el-col>
+          <el-col :span="11"><span class="detail-label">所在地:</span><span class="detail-value">{{form.companyProvince}}-{{form.companyCity}}</span></el-col>
+          <el-col :span="11"><span class="detail-label">公司地址:</span><span class="detail-value">{{form.companyAddress}}</span></el-col>
+          <el-col :span="11"><span class="detail-label">所属行业:</span><span class="detail-value">{{form.industryType}}</span></el-col>
+          <el-col :span="11"><span class="detail-label">公司规模:</span><span class="detail-value">{{form.orgSize}}</span></el-col>
+          <el-col :span="11"><span class="detail-label">联系人:</span><span class="detail-value">{{form.contact}}</span></el-col>
+          <el-col :span="11"><span class="detail-label">职务:</span><span class="detail-value">{{form.occupation}}</span></el-col>
+          <el-col :span="11"><span class="detail-label">联系手机:</span><span class="detail-value">{{form.contactMobile}}</span></el-col>
+          <el-col :span="11"><span class="detail-label">企业邮箱:</span><span class="detail-value">{{form.email}}</span></el-col>
+          <el-col :span="11"><span class="detail-label">企业微信:</span><span class="detail-value">{{form.wechatNo}}</span></el-col>
+          <el-col :span="22">
+            <span class="detail-label" alt="" style="line-height: 80px;">公司LOGO:</span>
+            <img :src="form.logo" v-if="form.logo" style="width: 120px; height: 80px;">
           </el-col>
-          <el-col :span="11">
-            <el-form-item label="公司名称:" label-width="100px">
-              <span>{{form.companyName}}</span>
-            </el-form-item>
+          <el-col :span="22" style="margin-top: 20px">
+            <span class="detail-label" alt="" style="line-height: 80px;">公司资质:</span>
+            <img :src="form.companyQualification" v-if="form.companyQualification" style="width: 120px; height: 80px;">
           </el-col>
-          <el-col :span="11">
-            <el-form-item label="公司简称:" label-width="100px">
-              <span>{{form.shortName}}</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span="11">
-            <el-form-item label="所在地:" label-width="100px">
-              <span>{{form.companyProvince}}-{{form.companyCity}}</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span="11">
-            <el-form-item label="公司地址:" label-width="100px">
-              <span>{{form.companyAddress}}</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span="11">
-            <el-form-item label="所属行业:" label-width="100px">
-              <span>{{form.industryType}}</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span="11">
-            <el-form-item label="公司规模:" label-width="100px">
-              <span>{{form.orgSize}}</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span="11">
-            <el-form-item label="联系人:" label-width="100px">
-              <span>{{form.contact}}</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span="11">
-            <el-form-item label="职务:" label-width="100px">
-              <span>{{form.occupation}}</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span="11">
-            <el-form-item label="联系手机:" label-width="100px">
-              <span>{{form.contactMobile}}</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span="11">
-            <el-form-item label="企业微信:" label-width="100px">
-              <span>{{form.wechatNo}}</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span="11">
-            <el-form-item label="企业邮箱:" label-width="100px">
-              <span>{{form.email}}</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span="11">
-            <el-form-item label="公司LOGO:" label-width="100px">
-              <img :src="form.logo"
-                   alt=""
-                   v-if="form.logo"
-                   style="width: 50px; height: 30px;">
-            </el-form-item>
-          </el-col>
-          <el-col :span="11">
-            <el-form-item label="公司资质:" label-width="100px">
-              <img :src="form.companyQualification"
-                   alt=""
-                   v-if="form.companyQualification"
-                   style="width: 50px; height: 30px;">
-            </el-form-item>
-          </el-col>
-          <el-col :span="11">
-            <el-form-item label="备注:" label-width="100px">
-              <span>{{form.remark}}</span>
-            </el-form-item>
-          </el-col>
+          <el-col :span="22" style="margin-top: 20px"><span class="detail-label" style="line-height: normal">备注:</span><div class="detail-value" style="max-width:600px;line-height:normal;word-wrap:break-word; word-break:normal;">{{form.remark}}</div></el-col>
         </el-row>
       </el-form>
       <div class="detail-title" style="margin-top: 22px;">
@@ -234,266 +172,281 @@
 </template>
 
 <script>
-import {getToken} from '@/common/js/auth'
-import {
-  addUser,
-  getUsers,
-  resetPWD,
-  updateUsers,
-  userEnabled
-} from '@/api/api'
+  import {getToken} from '@/common/js/auth'
+  import {
+    addUser,
+    getUsers,
+    resetPWD,
+    updateUsers,
+    userEnabled
+  } from '@/api/api'
 
-export default {
-  data () {
-    const validateName = (rule, value, callback) => {
-      if (!value) {
-        callback(new Error('请输入管理员姓名'))
-      } else {
-        callback()
-      }
-    }
-    const validateUser = (rule, value, callback) => {
-      var reg = /^[0-9a-zA-Z]+$/
-      if (!value) {
-        callback(new Error('请输入登录账号'))
-      } else if (value.length < 4) {
-        callback(new Error('登录账号不能少于4位'))
-      } else if (!reg.test(value)) {
-        callback(new Error('请您输入数字或字母'))
-      } else {
-        callback()
-      }
-    }
-    const validatePass = (rule, value, callback) => {
-      var reg = /^[0-9a-zA-Z]+$/
-      if (!value) {
-        callback(new Error('请输入登录密码'))
-      } else if (value.length < 6) {
-        callback(new Error('密码不能少于6位'))
-      } else if (!reg.test(value)) {
-        callback(new Error('请您输入数字或字母'))
-      } else {
-        callback()
-      }
-    }
-    const validateMobile = (rule, value, callback) => {
-      if (value) {
-        let reg = /^((1[3-8][0-9])+\d{8})$/
-        let flag = reg.test(value)
-        if (!flag) {
-          callback(new Error('请输入正确的手机号'))
+  export default {
+    data () {
+      const validateName = (rule, value, callback) => {
+        if (!value) {
+          callback(new Error('请输入管理员姓名'))
         } else {
           callback()
         }
-      } else {
-        callback()
       }
-    }
-    return {
-      dialogVisible: false,
-      form: {
-        companyCode: null
-      },
-      headers: {
-        Authorization: getToken()
-      },
-      value: '',
-      updateStatus: '',
-      textMap: {
-        createManager: '新建管理员',
-        view: '公司详情页'
-      },
-      centerDialogVisible: false,
-      updateInfoDialog: false,
-      updatePwdDialog: false,
-      rulesManager: {
-        name: [
-          {required: true, trigger: 'blur', validator: validateName}
-        ],
-        username: [
-          {required: true, trigger: 'blur', validator: validateUser}
-        ],
-        password: [
-          {required: true, trigger: 'blur', validator: validatePass}
-        ],
-        mobile: [
-          {required: false, trigger: 'blur', validator: validateMobile}
-        ]
-      },
-      manager: {
-        authorities: [{
-          'name': 'ROLE_ADMIN'
-        }],
-        companyId: 0,
-        enabled: null
-      },
-      listLoading: null,
-      list: null,
-      total: null,
-      currentPage: 1,
-      listQuery: {
-        companyId: 0,
-        authorityName: 'ROLE_ADMIN',
-        pageIndex: 0,
-        pageSize: 10
-      },
-      updateInfo: {},
-      pwdForm: {
-        password: null
-      },
-      updateForm: {
+      const validateUser = (rule, value, callback) => {
+        var reg = /^[0-9a-zA-Z]+$/
+        if (!value) {
+          callback(new Error('请输入登录账号'))
+        } else if (value.length < 4) {
+          callback(new Error('登录账号不能少于4位'))
+        } else if (!reg.test(value)) {
+          callback(new Error('请您输入数字或字母'))
+        } else {
+          callback()
+        }
+      }
+      const validatePass = (rule, value, callback) => {
+        var reg = /^[0-9a-zA-Z]+$/
+        if (!value) {
+          callback(new Error('请输入登录密码'))
+        } else if (value.length < 6) {
+          callback(new Error('密码不能少于6位'))
+        } else if (!reg.test(value)) {
+          callback(new Error('请您输入数字或字母'))
+        } else {
+          callback()
+        }
+      }
+      const validateMobile = (rule, value, callback) => {
+        if (value) {
+          let reg = /^((1[3-8][0-9])+\d{8})$/
+          let flag = reg.test(value)
+          if (!flag) {
+            callback(new Error('请输入正确的手机号'))
+          } else {
+            callback()
+          }
+        } else {
+          callback()
+        }
+      }
+      return {
+        dialogVisible: false,
+        form: {
+          companyCode: null
+        },
+        headers: {
+          Authorization: getToken()
+        },
+        value: '',
+        updateStatus: '',
+        textMap: {
+          createManager: '新建管理员',
+          view: '公司详情页'
+        },
+        centerDialogVisible: false,
+        updateInfoDialog: false,
+        updatePwdDialog: false,
+        rulesManager: {
+          name: [
+            {required: true, trigger: 'blur', validator: validateName}
+          ],
+          username: [
+            {required: true, trigger: 'blur', validator: validateUser}
+          ],
+          password: [
+            {required: true, trigger: 'blur', validator: validatePass}
+          ],
+          mobile: [
+            {required: false, trigger: 'blur', validator: validateMobile}
+          ]
+        },
+        manager: {
+          authorities: [{
+            'name': 'ROLE_ADMIN'
+          }],
+          companyId: 0,
+          enabled: null
+        },
+        listLoading: null,
+        list: null,
+        total: null,
+        currentPage: 1,
+        listQuery: {
+          companyId: 0,
+          authorityName: 'ROLE_ADMIN',
+          pageIndex: 0,
+          pageSize: 10
+        },
+        updateInfo: {},
+        pwdForm: {
+          password: null
+        },
+        updateForm: {
 
+        }
       }
-    }
-  },
-  created () {
-    let obj = this.$route.query
-    this.listQuery.companyId = obj.id
-    this.getList()
-    this.form = obj
-    if (this.form.logo) {
-      this.form.logo = process.env.BASE_API + '/file?fileUuid=' + this.$route.query.logo
-    }
-    if (this.form.companyQualification) {
-      this.form.companyQualification = process.env.BASE_API + '/file/getCompanyQualification?fileUuid=' + this.$route.query.companyQualification
-    }
-    this.updateStatus = 'view'
-  },
-  methods: {
-    changeMode (id, enabled) {
-      userEnabled(id, enabled).then(res => {
-        this.$message({
-          message: '操作成功',
-          type: 'success'
-        })
-      })
     },
-    // 去除空格
-    trim (str, global) {
-      var result
-      result = str.replace(/(^\s+)|(\s+$)/g, '')
-      if (global.toLowerCase() === 'g') {
-        result = result.replace(/\s/g, '')
+    created () {
+      let obj = this.$route.query
+      this.listQuery.companyId = obj.id
+      this.getList()
+      this.form = obj
+      if (this.form.logo) {
+        this.form.logo = process.env.BASE_API + '/file?fileUuid=' + this.$route.query.logo
       }
-      return result
-    },
-
-    cancelResetPassword (formName) {
-      this.updateInfo = null
-      this.updatePwdDialog = false
-      this.$refs[formName].resetFields()
-    },
-    resetPassword (formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          this.pwdForm.password = this.trim(this.pwdForm.password, 'g')
-          resetPWD(this.updateInfo.id, this.pwdForm.password).then(res => {
-            this.$message({
-              message: '操作成功',
-              type: 'success'
-            })
-            this.updatePwdDialog = false
-            this.$refs[formName].resetFields()
-          })
-        } else {
-          return false
-        }
-      })
-    },
-    newManager (formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          this.manager.companyId = this.form.id
-          this.manager.password = this.trim(this.manager.password, 'g')
-          this.manager.username = this.trim(this.manager.username, 'g')
-          addUser(this.manager)
-            .then((res) => {
-              this.$message({
-                message: '创建成功',
-                type: 'success'
-              })
-              this.$refs[formName].resetFields()
-              this.updateStatus = 'view'
-              this.getList()
-            })
-        } else {
-          return false
-        }
-      })
-    },
-    cancelUpdateUsers (formName) {
-      this.updateInfo = null
-      this.updateInfoDialog = false
-      this.$refs[formName].resetFields()
-    },
-    updateUsers (formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          this.manager.companyId = this.form.id
-          this.manager.level = this.updateForm.level
-          this.manager.name = this.updateForm.name
-          this.manager.mobile = this.updateForm.mobile
-          this.manager.userName = this.trim(this.updateInfo.userName, 'g')
-          this.manager.userCode = this.updateInfo.userCode
-          this.manager.enabled = this.updateInfo.enabled
-          updateUsers(this.updateInfo.id, this.manager).then(res => {
-            this.$message({
-              message: '操作成功',
-              type: 'success'
-            })
-            this.updateInfoDialog = false
-            this.$refs[formName].resetFields()
-            this.getList()
-          })
-        } else {
-          return false
-        }
-      })
-    },
-    getList () {
-      this.listLoading = true
-      getUsers(this.listQuery).then(response => {
-        this.list = response.data.content
-        this.total = response.data.totalElements
-        this.listLoading = false
-      })
-    },
-    handleSizeChange (val) {
-      this.listQuery.pageSize = val
-      this.getList()
-    },
-    handleCurrentChange (val) {
-      this.listQuery.pageIndex = val - 1
-      this.getList()
-    },
-    createManager () {
-      this.manager.name = null
-      this.manager.level = null
-      this.manager.mobile = null
-      this.manager.username = null
-      this.manager.password = null
-      this.updateStatus = 'createManager'
-    },
-    cancelManager (formName) {
-      this.$refs[formName].resetFields()
+      if (this.form.companyQualification) {
+        this.form.companyQualification = process.env.BASE_API + '/file/getCompanyQualification?fileUuid=' + this.$route.query.companyQualification
+      }
       this.updateStatus = 'view'
     },
-    modifyStat () {
-      this.$router.push({name: 'create', query: this.form})
-    },
-    dialogRouter (status) {
-      if (status === 'view') {
+    methods: {
+      changeMode (id, enabled) {
+        userEnabled(id, enabled).then(res => {
+          this.$message({
+            message: '操作成功',
+            type: 'success'
+          })
+        })
+      },
+      // 去除空格
+      trim (str, global) {
+        var result
+        result = str.replace(/(^\s+)|(\s+$)/g, '')
+        if (global.toLowerCase() === 'g') {
+          result = result.replace(/\s/g, '')
+        }
+        return result
+      },
+
+      cancelResetPassword (formName) {
+        this.updateInfo = null
+        this.updatePwdDialog = false
+        this.$refs[formName].resetFields()
+      },
+      resetPassword (formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            this.pwdForm.password = this.trim(this.pwdForm.password, 'g')
+            resetPWD(this.updateInfo.id, this.pwdForm.password).then(res => {
+              this.$message({
+                message: '操作成功',
+                type: 'success'
+              })
+              this.updatePwdDialog = false
+              this.$refs[formName].resetFields()
+            })
+          } else {
+            return false
+          }
+        })
+      },
+      newManager (formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            this.manager.companyId = this.form.id
+            this.manager.password = this.trim(this.manager.password, 'g')
+            this.manager.username = this.trim(this.manager.username, 'g')
+            addUser(this.manager)
+              .then((res) => {
+                this.$message({
+                  message: '创建成功',
+                  type: 'success'
+                })
+                this.$refs[formName].resetFields()
+                this.updateStatus = 'view'
+                this.getList()
+              })
+          } else {
+            return false
+          }
+        })
+      },
+      cancelUpdateUsers (formName) {
+        this.updateInfo = null
+        this.updateInfoDialog = false
+        this.$refs[formName].resetFields()
+      },
+      updateUsers (formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            this.manager.companyId = this.form.id
+            this.manager.level = this.updateForm.level
+            this.manager.name = this.updateForm.name
+            this.manager.mobile = this.updateForm.mobile
+            this.manager.userName = this.trim(this.updateInfo.userName, 'g')
+            this.manager.userCode = this.updateInfo.userCode
+            this.manager.enabled = this.updateInfo.enabled
+            updateUsers(this.updateInfo.id, this.manager).then(res => {
+              this.$message({
+                message: '操作成功',
+                type: 'success'
+              })
+              this.updateInfoDialog = false
+              this.$refs[formName].resetFields()
+              this.getList()
+            })
+          } else {
+            return false
+          }
+        })
+      },
+      getList () {
+        this.listLoading = true
+        getUsers(this.listQuery).then(response => {
+          this.list = response.data.content
+          this.total = response.data.totalElements
+          this.listLoading = false
+        })
+      },
+      handleSizeChange (val) {
+        this.listQuery.pageSize = val
+        this.getList()
+      },
+      handleCurrentChange (val) {
+        this.listQuery.pageIndex = val - 1
+        this.getList()
+      },
+      createManager () {
+        this.manager.name = null
+        this.manager.level = null
+        this.manager.mobile = null
+        this.manager.username = null
+        this.manager.password = null
+        this.updateStatus = 'createManager'
+      },
+      cancelManager (formName) {
+        this.$refs[formName].resetFields()
         this.updateStatus = 'view'
-        this.centerDialogVisible = false
-      } else {
-        this.$router.push({path: '/company'})
+      },
+      modifyStat () {
+        this.$router.push({name: 'create', query: this.form})
+      },
+      dialogRouter (status) {
+        if (status === 'view') {
+          this.updateStatus = 'view'
+          this.centerDialogVisible = false
+        } else {
+          this.$router.push({path: '/company'})
+        }
       }
     }
   }
-}
 </script>
 
 <style lang="scss">
+  .detail-label{
+    width: 70px;
+    margin-right: 10px;
+    font-size: 13px;
+    line-height: 40px;
+    text-align: right;
+    float: left;
+    color: #252525;
+  }
+  .detail-value{
+    font-size: 14px;
+    float: left;
+    line-height: 40px;
+    color: #000000;
+  }
   .switch {
     display: inline-flex;
   }
