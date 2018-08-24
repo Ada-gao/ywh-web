@@ -9,8 +9,8 @@
           <el-input @keyup.enter.native="handleFilter"
                     style="width: 200px;"
                     class="filter-item"
-                    placeholder="输入联系人姓名"
-                    v-model="listQuery.contactName">
+                    placeholder="输入名单名称"
+                    v-model="listQuery.groupName">
           </el-input>
           <el-button class="filter-item"
                      type="primary"
@@ -29,15 +29,15 @@
               :value="item.id">
             </el-option>
           </el-select>
-          <el-select v-model="listQuery.residence"
+          <el-select v-model="listQuery.status"
                      placeholder="名单状态"
                      clearable
                      @change="handleFilter1">
             <el-option
-              v-for="item in provinceData"
+              v-for="item in states"
               :key="item.value"
               :label="item.label"
-              :value="item">
+              :value="item.value">
             </el-option>
           </el-select>
         </el-col>
@@ -57,7 +57,7 @@
               highlight-current-row
               style="width: 100%">
 
-      <el-table-column align="center" label="名单批次">
+      <el-table-column align="center" label="名单批次号" width="130px">
         <template slot-scope="scope">
           <span>{{scope.row.groupCode}}</span>
         </template>
@@ -68,7 +68,7 @@
           <span>{{scope.row.groupName}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="公司名称">
+      <el-table-column align="center" label="所属公司">
         <template slot-scope="scope">
           <span>{{scope.row.companyName}}</span>
         </template>
@@ -87,7 +87,7 @@
 
       <el-table-column align="center" label="名单状态">
         <template slot-scope="scope">
-          <span>{{scope.row.status}}</span>
+          <span :style="scope.row.status==='生效'?'color:#17C263':'color:#F7BA2A'">{{scope.row.status}}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="名单导入时间">
@@ -96,7 +96,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="操作" fixed="right" width="150">
+      <el-table-column align="center" label="操作" width="130px">
         <template slot-scope="scope">
           <a size="small" class="common_btn"
              @click="handleUpdate(scope.row)">查看详情
@@ -141,7 +141,17 @@ export default {
       sys_user_add: true,
       value: '',
       companies: [],
-      currentPage: 1
+      currentPage: 1,
+      states:[
+        {
+          label:'生效',
+          value:'1'
+        },
+        {
+          label:'待审核',
+          value: '0'
+        }
+      ]
     }
   },
   computed: {
@@ -150,13 +160,13 @@ export default {
     ])
   },
   created () {
-    this.getBatch()
+    this.getList()
     this.getQuery()
   },
   methods: {
     //获取批次
-    getBatch(){
-      getBatch().then(response => {
+    getList(){
+      getBatch(this.listQuery).then(response => {
         this.list = response.data.content
         this.total = response.data.totalElements
         this.listLoading = false
@@ -167,7 +177,7 @@ export default {
             item.maskPhoneNo = '否'
           }
           if (item.status == 1){
-            item.status = '已生效'
+            item.status = '生效'
           }else{
             item.status = '待审核'
           }
@@ -195,26 +205,21 @@ export default {
       this.$router.push({name: 'namelist', query: obj})
     },
     handleFilter () {
-      this.listQuery.residence = null
-      this.listQuery.companyId = null
-      delete this.listQuery.residence
       delete this.listQuery.companyId
-      if (!this.listQuery.contactName) {
-        delete this.listQuery.contactName
+      delete this.listQuery.status
+      if (!this.listQuery.groupName) {
+        delete this.listQuery.groupName
       }
       this.listQuery.pageIndex = 0
       this.getList()
     },
     handleFilter1 () {
-      this.listQuery.contactName = ''
-      delete this.listQuery.contactName
-      if (this.listQuery.residence) {
-        this.listQuery.residence = this.listQuery.residence.label || this.listQuery.residence
-      } else {
-        delete this.listQuery.residence
-      }
+      delete this.listQuery.groupName
       if (!this.listQuery.companyId) {
         delete this.listQuery.companyId
+      }
+      if (!this.listQuery.status) {
+        delete this.listQuery.status
       }
       this.listQuery.pageIndex = 0
       this.getList()

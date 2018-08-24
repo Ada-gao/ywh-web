@@ -18,7 +18,7 @@
                      @click="handleFilter"><i class="fa fa-search"></i>查询</el-button>
         </el-col>
         <el-col :span="16" style="text-align: right;">
-          <el-select v-model="listQuery.companyId"
+          <!--<el-select v-model="listQuery.companyId"
                      placeholder="公司筛选"
                      clearable
                      @change="handleFilter1">
@@ -28,7 +28,7 @@
               :label="item.companyName"
               :value="item.id">
             </el-option>
-          </el-select>
+          </el-select>-->
           <el-select v-model="listQuery.residence"
                      placeholder="所在地"
                      clearable
