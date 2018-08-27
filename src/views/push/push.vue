@@ -80,7 +80,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="操作" fixed="right" width="150">
+      <el-table-column align="center" label="操作" width="150">
         <template slot-scope="scope">
           <a size="small" class="common_btn"
              @click="handleUpdate(scope.row)">查看详情

@@ -3,7 +3,7 @@
       <el-menu class="el-menu-nav" :collapse="isCollapse" router="true" default-active="1">
         <el-menu-item disabled><i class="fa fa-flash" :style="isCollapse ? 'font-size:22px' : 'font-size:14px'"/><span slot="title" >雷鸣外呼管理平台</span></el-menu-item>
         <el-menu-item index="1" route="/dashboard"><i class="fa fa-home"/><span slot="title">首页-工作台 ok</span></el-menu-item>
-        <el-menu-item index="2" route="/account"><i class="iconfont icon-zhanghu"/><span slot="title">账户管理 no</span></el-menu-item>
+        <el-menu-item index="2" v-show="sysUser != 'superadmin'" route="/account"><i class="iconfont icon-zhanghu"/><span slot="title">账户管理 no</span></el-menu-item>
         <el-menu-item index="3" route="/company"><i class="iconfont icon-gongsiguanli"/><span slot="title">公司管理 ok</span></el-menu-item>
         <el-menu-item index="4" route="/salesman"><i class="iconfont icon-xiaoshoushu"/><span slot="title">销售管理 ok</span></el-menu-item>
         <el-menu-item index="5" route="/list"><i class="fa fa-list-alt"/><span slot="title">名单管理 ok</span></el-menu-item>

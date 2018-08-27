@@ -38,6 +38,8 @@ import record from './views/report/record'
 import count from './views/report/count'
 // 11、系统管理
 import system from './views/system/system'
+import open from './views/system/open'
+import recharge from './views/system/recharge'
 // 12、问题反馈
 import feedback from './views/feedback'
 import fddetail from './views/feedback/detail'
@@ -178,7 +180,9 @@ let routes = [
     iconCls: 'fa fa-phone',
     leaf: true,
     children: [
-      {menuId: 131, path: '/system', component: system, name: '系统管理'}
+      {menuId: 131, path: '/system', component: system, name: '系统管理'},
+      {menuId: 132, path: '/open', component: open, name: 'open'},
+      {menuId: 133, path: '/recharge', component: recharge, name: 'recharge'}
     ]
   },
   {

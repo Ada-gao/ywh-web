@@ -11,15 +11,15 @@
           <el-button class="filter-item" type="primary" icon="search" @click="handleFilter"><i class="fa fa-search"></i>查询</el-button>
         </el-col>
         <el-col :span="16" style="text-align: right;">
-          <el-select v-model="listQuery.industryType"
+          <el-select v-model="listQuery.status"
                      placeholder="状态筛选"
                      clearable
                      @change="handleFilter1">
             <el-option
-              v-for="item in industry"
-              :key="item.id"
-              :label="item.name"
-              :value="item.name">
+              v-for="item in states"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
             </el-option>
           </el-select>
           <el-select v-model="listQuery.orgSize"
@@ -76,15 +76,15 @@
 
       <el-table-column align="center" label="状态">
         <template slot-scope="scope">
-          <span>{{scope.row.orgSize}}</span>
+          <span :style="scope.row.status==='生效'?'color:#17C263':'color:#F7BA2A'">{{scope.row.status}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="操作" fixed="right" width="150">
+      <el-table-column align="center" label="操作">
         <template slot-scope="scope">
-          <a size="small" class="common_btn"
-             @click="handleUpdate(scope.row)">查看详情
-          </a>
+          <a size="small" class="common_btn" @click="handleUpdate(scope.row)">查看详情 </a>
+          <span> | </span>
+          <a size="small" class="common_btn" @click="handleUpdate(scope.row)">修改信息 </a>
         </template>
       </el-table-column>
     </el-table>
@@ -121,7 +121,17 @@
         value: '',
         industry: [],
         orgSize: [],
-        currentPage: 1
+        currentPage: 1,
+        states:[
+          {
+            label:'生效',
+            value:'1'
+          },
+          {
+            label:'待审核',
+            value: '0'
+          }
+        ]
       }
     },
     computed: {
