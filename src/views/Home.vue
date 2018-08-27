@@ -78,7 +78,7 @@
       } else if (hour < 24){
         this.now = '晚上'
       }
-      this.$router.push('/dashboard')
+      this.$router.replace('/dashboard')
     },
     methods: {
       // 退出登录

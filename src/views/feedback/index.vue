@@ -30,7 +30,7 @@
               highlight-current-row
               style="width: 100%">
 
-      <el-table-column align="center" label="序号">
+      <el-table-column align="center" label="序号" width="130px">
         <template slot-scope="scope">
           <span>{{scope.row.id}}</span>
         </template>
@@ -56,8 +56,7 @@
 
       <el-table-column align="center"
                        label="操作"
-                       fixed="right"
-                       width="150">
+                       width="130px">
         <template slot-scope="scope">
           <a size="small"
              @click="handleUpdate(scope.row)"
