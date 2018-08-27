@@ -176,7 +176,7 @@
       </div>
       <el-dialog title="修改次数" :visible.sync="updateDialog" width="30%">
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="120px">
-          <el-form-item label="外呼次数限制" prop="times" style="font-size: 13px;color: #252525;">
+          <el-form-item label="外呼次数限制" prop="times" class="txt">
             <el-input v-model="ruleForm.times" placeholder="请输入外呼次数限制" maxlength="12"></el-input>
           </el-form-item>
         </el-form>
@@ -347,6 +347,10 @@
 </script>
 
 <style lang="scss">
+  .txt {
+    font-size: 13px !important;
+    color: #252525 !important;
+  }
   .detail-title {
     /*margin-top: 30px;*/
     /*margin-bottom: 20px;*/
