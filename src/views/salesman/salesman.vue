@@ -4,7 +4,7 @@
       <el-row :gutter="20" style="margin-left: 20px;margin-right: 20px;">
         <el-col :span="8">
           <el-card class="card" :body-style="{ padding: '0px' }">
-            <div style="height: 50px">
+            <div style="height: 50px;margin-left: 20px;margin-top: 35px;">
               <div class="logo" style="background: #4AD2DB">
                 <i class="iconfont icon-xiaoshoushu"/>
               </div>
@@ -19,7 +19,7 @@
         </el-col>
         <el-col :span="8">
           <el-card class="card" :body-style="{ padding: '0px' }">
-            <div style="height: 50px">
+            <div style="height: 50px;margin-left: 20px;margin-top: 35px;">
               <div class="logo" style="background: #FDCE82">
                 <i class="iconfont icon-huoyuerenshu"/>
               </div>
@@ -34,7 +34,7 @@
         </el-col>
         <el-col :span="8">
           <el-card class="card" :body-style="{ padding: '0px' }">
-            <div style="height: 50px">
+            <div style="height: 50px;margin-left: 20px;margin-top: 35px;">
               <div class="logo" style="background: #DFDFDF;">
                 <i class="iconfont icon-tingyong"/>
               </div>
@@ -308,8 +308,6 @@ export default {
 <style scoped>
   .card {
     height: 120px;
-    padding-top: 35px;
-    padding-left: 20px;
   }
 
   .logo {

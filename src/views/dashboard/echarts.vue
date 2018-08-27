@@ -3,7 +3,7 @@
     <el-row :gutter="15" style="margin-left: 25px;margin-right: 25px;height: 120px;">
       <el-col :span="6">
         <el-card class="card" :body-style="{ padding: '0px' }">
-          <div style="height: 50px">
+          <div style="height: 50px;margin-left: 20px;margin-top: 35px;">
             <div class="logo" style="background: #4AD2DB">
               <i class="iconfont icon-waihurenwu"/>
             </div>
@@ -18,7 +18,7 @@
       </el-col>
       <el-col :span="6">
         <el-card class="card" :body-style="{ padding: '0px' }">
-          <div style="height: 50px">
+          <div style="height: 50px;margin-left: 20px;margin-top: 35px;">
             <div class="logo" style="background: #FDCE82">
               <i class="iconfont icon-xiaoshoushu"/>
             </div>
@@ -33,7 +33,7 @@
       </el-col>
       <el-col :span="6">
         <el-card class="card" :body-style="{ padding: '0px' }">
-          <div style="height: 50px">
+          <div style="height: 50px;margin-left: 20px;margin-top: 35px;">
             <div class="logo" style="background: #30CDAA;line-height: 60px;">
               <i class="fa fa-calendar-check-o"/>
             </div>
@@ -48,7 +48,7 @@
       </el-col>
       <el-col :span="6">
         <el-card class="card" :body-style="{ padding: '0px' }">
-          <div style="height: 50px;">
+          <div style="height: 50px;margin-left: 20px;margin-top: 35px;">
             <div class="logo" style="background: #0299CC;">
               <i class="iconfont icon-youxiaotonghuashichang"/>
             </div>
@@ -126,8 +126,8 @@
 <style scoped>
   .card {
     height: 120px;
-    padding-top: 35px;
-    padding-left: 20px;
+    /*padding-top: 35px;*/
+    /*padding-left: 20px;*/
   }
   .logo {
     width: 50px;
