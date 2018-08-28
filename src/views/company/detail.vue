@@ -35,144 +35,11 @@
           <el-col :span="22" style="margin-top: 20px"><span class="detail-label" style="line-height: normal">备注:</span><div class="detail-value" style="max-width:600px;line-height:normal;word-wrap:break-word; word-break:normal;">{{form.remark}}</div></el-col>
         </el-row>
       </el-form>
-      <div class="detail-title" style="margin-top: 22px;">
-        <span class="list-tit">管理员列表</span>
-        <el-button class="add_btn" @click="createManager">
-          <i class="fa fa-plus" style="color: #fff;margin-right: 10px"></i>新建管理员
-        </el-button>
-      </div>
-      <el-table :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit
-                highlight-current-row style="width: 100%;">
-        <el-table-column align="center" label="序号">
-          <template slot-scope="scope">{{scope.row.userCode}}</template>
-        </el-table-column>
-        <el-table-column align="center" label="姓名">
-          <template slot-scope="scope">{{scope.row.name}}</template>
-        </el-table-column>
-        <el-table-column align="center" label="职务">
-          <template slot-scope="scope">{{scope.row.level}}</template>
-        </el-table-column>
-        <el-table-column align="center" label="联系手机">
-          <template slot-scope="scope">{{scope.row.mobile}}</template>
-        </el-table-column>
-        <el-table-column align="center" label="登录账号">
-          <template slot-scope="scope">{{scope.row.userName}}</template>
-        </el-table-column>
-        <el-table-column align="center" label="状态">
-          <template slot-scope="scope">
-            <div class="switch">
-              <el-switch class="sw"
-                         v-model="scope.row.enabled"
-                         active-color="#0299CC"
-                         inactive-color="#C0CCDA"
-                         @change="changeMode(scope.row.id, scope.row.enabled)">
-              </el-switch>
-              <div v-if="scope.row.enabled" class="switch-open">开启</div>
-              <div v-else class="switch-close">停用</div>
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column align="center" label="操作">
-          <template slot-scope="scope">
-            <a size="small" class="common_btn"
-               @click="updateInfoDialog = true;updateInfo = scope.row;updateForm.name = updateInfo.name;updateForm.level = updateInfo.level;updateForm.mobile = updateInfo.mobile;">修改信息
-            </a>
-            |
-            <a size="small" class="common_btn"
-               @click="updatePwdDialog = true;updateInfo = scope.row">修改密码
-            </a>
-          </template>
-        </el-table-column>
-      </el-table>
-      <div v-show="!listLoading" class="pagination-container">
-        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-                       :current-page.sync="currentPage"
-                       background
-                       :page-sizes="[10,20,30, 50]" :page-size="listQuery.pageSize"
-                       layout="total, sizes, prev, pager, next, jumper" :total="total">
-        </el-pagination>
-      </div>
-      <el-dialog title="修改信息" :visible.sync="updateInfoDialog" width="30%">
-        <el-form :model="updateForm" :rules="rulesManager" ref="updateForm" label-width="80px"
-                 style="margin-right: 20px;">
-          <el-form-item label="姓名" prop="name" class="txt">
-            <el-input v-model="updateForm.name" placeholder="输入管理员姓名" maxlength="50"/>
-          </el-form-item>
-          <el-form-item label="职务" class="txt">
-            <el-input v-model="updateForm.level" placeholder="输入职务" maxlength="255"/>
-          </el-form-item>
-          <el-form-item label="联系手机" class="txt" prop="mobile">
-            <el-input v-model="updateForm.mobile" placeholder="请输入联系电话" maxlength="11"/>
-          </el-form-item>
-        </el-form>
-        <div style="text-align: right">
-          <el-button class="search_btn" @click="cancelUpdateUsers('updateForm')">取 消</el-button>
-          <el-button class="add_btn" @click="updateUsers('updateForm')">确 定</el-button>
-        </div>
-      </el-dialog>
-      <el-dialog title="修改密码" :visible.sync="updatePwdDialog" width="30%">
-        <el-form :model="pwdForm" :rules="rulesManager" ref="pwdForm" label-width="80px"
-                 style="margin-right: 20px;">
-          <el-form-item label="新密码" prop="password" class="txt">
-            <el-input v-model="pwdForm.password" placeholder="输入登录密码" maxlength="12"></el-input>
-          </el-form-item>
-        </el-form>
-        <div style="text-align: right">
-          <el-button class="search_btn" @click="cancelResetPassword('pwdForm')">取 消</el-button>
-          <el-button class="add_btn" @click="resetPassword('pwdForm')">确 定</el-button>
-        </div>
-      </el-dialog>
-    </div>
-    <div class="update-detail" v-if="updateStatus==='createManager'">
-      <el-form :model="manager" :rules="rulesManager" ref="manager" label-width="100px">
-        <el-row v-show="false"/>
-        <el-row :gutter="20">
-          <el-col :span="17">
-            <el-form-item label="姓名" prop="name">
-              <el-input v-model="manager.name" placeholder="输入管理员姓名" maxlength="50"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="20">
-          <el-col :span="17">
-            <el-form-item label="职务">
-              <el-input v-model="manager.level" placeholder="输入职务" maxlength="255"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="20">
-          <el-col :span="17">
-            <el-form-item label="联系手机" prop="mobile">
-              <el-input v-model="manager.mobile" placeholder="请输入联系电话" maxlength="11"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="20">
-          <el-col :span="17">
-            <el-form-item label="登录账号" prop="username">
-              <el-input v-model="manager.username" placeholder="输入登录账号" maxlength="50"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="20">
-          <el-col :span="17">
-            <el-form-item label="登录密码" prop="password">
-              <el-input v-model="manager.password" placeholder="输入登录密码" maxlength="12"></el-input>
-            </el-form-item>
-
-          </el-col>
-        </el-row>
-        <el-col :span="17" class="dialog-footer" style="text-align: center">
-          <el-button class="add_btn" @click="newManager('manager')">提 交</el-button>
-          <el-button class="search_btn" @click="cancelManager('manager')">取 消</el-button>
-        </el-col>
-      </el-form>
     </div>
   </div>
 </template>
 
 <script>
-  import {getToken} from '@/common/js/auth'
   import {
     addUser,
     getUsers,
@@ -183,57 +50,10 @@
 
   export default {
     data () {
-      const validateName = (rule, value, callback) => {
-        if (!value) {
-          callback(new Error('请输入管理员姓名'))
-        } else {
-          callback()
-        }
-      }
-      const validateUser = (rule, value, callback) => {
-        var reg = /^[0-9a-zA-Z]+$/
-        if (!value) {
-          callback(new Error('请输入登录账号'))
-        } else if (value.length < 4) {
-          callback(new Error('登录账号不能少于4位'))
-        } else if (!reg.test(value)) {
-          callback(new Error('请您输入数字或字母'))
-        } else {
-          callback()
-        }
-      }
-      const validatePass = (rule, value, callback) => {
-        var reg = /^[0-9a-zA-Z]+$/
-        if (!value) {
-          callback(new Error('请输入登录密码'))
-        } else if (value.length < 6) {
-          callback(new Error('密码不能少于6位'))
-        } else if (!reg.test(value)) {
-          callback(new Error('请您输入数字或字母'))
-        } else {
-          callback()
-        }
-      }
-      const validateMobile = (rule, value, callback) => {
-        if (value) {
-          let reg = /^((1[3-8][0-9])+\d{8})$/
-          let flag = reg.test(value)
-          if (!flag) {
-            callback(new Error('请输入正确的手机号'))
-          } else {
-            callback()
-          }
-        } else {
-          callback()
-        }
-      }
       return {
         dialogVisible: false,
         form: {
           companyCode: null
-        },
-        headers: {
-          Authorization: getToken()
         },
         value: '',
         updateStatus: '',
@@ -242,22 +62,6 @@
           view: '公司详情页'
         },
         centerDialogVisible: false,
-        updateInfoDialog: false,
-        updatePwdDialog: false,
-        rulesManager: {
-          name: [
-            {required: true, trigger: 'blur', validator: validateName}
-          ],
-          username: [
-            {required: true, trigger: 'blur', validator: validateUser}
-          ],
-          password: [
-            {required: true, trigger: 'blur', validator: validatePass}
-          ],
-          mobile: [
-            {required: false, trigger: 'blur', validator: validateMobile}
-          ]
-        },
         manager: {
           authorities: [{
             'name': 'ROLE_ADMIN'
@@ -287,7 +91,6 @@
     created () {
       let obj = this.$route.query
       this.listQuery.companyId = obj.id
-      this.getList()
       this.form = obj
       if (this.form.logo) {
         this.form.logo = process.env.BASE_API + '/file?fileUuid=' + this.$route.query.logo
@@ -314,107 +117,6 @@
           result = result.replace(/\s/g, '')
         }
         return result
-      },
-
-      cancelResetPassword (formName) {
-        this.updateInfo = null
-        this.updatePwdDialog = false
-        this.$refs[formName].resetFields()
-      },
-      resetPassword (formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            this.pwdForm.password = this.trim(this.pwdForm.password, 'g')
-            resetPWD(this.updateInfo.id, this.pwdForm.password).then(res => {
-              this.$message({
-                message: '操作成功',
-                type: 'success'
-              })
-              this.updatePwdDialog = false
-              this.$refs[formName].resetFields()
-            })
-          } else {
-            return false
-          }
-        })
-      },
-      newManager (formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            this.manager.companyId = this.form.id
-            this.manager.password = this.trim(this.manager.password, 'g')
-            this.manager.username = this.trim(this.manager.username, 'g')
-            addUser(this.manager)
-              .then((res) => {
-                this.$message({
-                  message: '创建成功',
-                  type: 'success'
-                })
-                this.$refs[formName].resetFields()
-                this.updateStatus = 'view'
-                this.getList()
-              })
-          } else {
-            return false
-          }
-        })
-      },
-      cancelUpdateUsers (formName) {
-        this.updateInfo = null
-        this.updateInfoDialog = false
-        this.$refs[formName].resetFields()
-      },
-      updateUsers (formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            this.manager.companyId = this.form.id
-            this.manager.level = this.updateForm.level
-            this.manager.name = this.updateForm.name
-            this.manager.mobile = this.updateForm.mobile
-            this.manager.userName = this.trim(this.updateInfo.userName, 'g')
-            this.manager.userCode = this.updateInfo.userCode
-            this.manager.enabled = this.updateInfo.enabled
-            updateUsers(this.updateInfo.id, this.manager).then(res => {
-              this.$message({
-                message: '操作成功',
-                type: 'success'
-              })
-              this.updateInfoDialog = false
-              this.$refs[formName].resetFields()
-              this.getList()
-            })
-          } else {
-            return false
-          }
-        })
-      },
-      getList () {
-        this.listLoading = true
-        getUsers(this.listQuery).then(response => {
-          this.list = response.data.content
-          this.total = response.data.totalElements
-          this.listLoading = false
-        })
-      },
-      handleSizeChange (val) {
-        this.listQuery.pageSize = val
-        this.getList()
-      },
-      handleCurrentChange (val) {
-        this.listQuery.pageIndex = val - 1
-        this.getList()
-      },
-      createManager () {
-        this.manager.name = null
-        this.manager.level = null
-        this.manager.mobile = null
-        this.manager.username = null
-        this.manager.password = null
-        this.updateStatus = 'createManager'
-      },
-      cancelManager (formName) {
-        this.$refs[formName].resetFields()
-        this.updateStatus = 'view'
       },
       modifyStat () {
         this.$router.push({name: 'create', query: this.form})
