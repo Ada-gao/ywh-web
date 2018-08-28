@@ -21,16 +21,149 @@
       <div class="read-detail">
         <el-form :model="account" class="form-border">
           <el-row>
-            <el-col :span="8"><span class="detail-label">账户ID:</span><span class="detail-value">{{account.accountCode}}</span></el-col>
-            <el-col :span="8"><span class="detail-label">账户名称:</span><span class="detail-value">{{account.accountName}}</span></el-col>
-            <el-col :span="8"><span class="detail-label">账户类型:</span><span class="detail-value">{{account.accountType}}</span></el-col>
-            <el-col :span="8"><span class="detail-label">Account ID:</span><span class="detail-value">{{account.accountId}}</span></el-col>
-            <el-col :span="8"><span class="detail-label">账户到期时间:</span><span class="detail-value">{{account.expireDate}}</span></el-col>
-            <el-col :span="8"><span class="detail-label">账户状态:</span><span class="detail-value">{{account.accountStatus}}</span></el-col>
-            <el-col :span="8"><span class="detail-label">key:</span><span class="detail-value">{{account.accountKey}}</span></el-col>
-            <el-col :span="8"><span class="detail-label">余额提醒:</span><span class="detail-value">{{account.balanceThreshold}}</span></el-col>
+            <el-col :span="8"><span class="detail-label">账户ID:</span><span
+              class="detail-value">{{account.accountCode}}</span></el-col>
+            <el-col :span="8"><span class="detail-label">账户名称:</span><span
+              class="detail-value">{{account.accountName}}</span></el-col>
+            <el-col :span="8"><span class="detail-label">账户类型:</span><span
+              class="detail-value">{{account.accountType}}</span></el-col>
+            <el-col :span="8"><span class="detail-label">Account ID:</span><span class="detail-value">{{account.accountId}}</span>
+            </el-col>
+            <el-col :span="8"><span class="detail-label">账户到期时间:</span><span
+              class="detail-value">{{account.expireDate}}</span></el-col>
+            <el-col :span="8"><span class="detail-label">账户状态:</span><span class="detail-value">{{account.accountStatus}}</span>
+            </el-col>
+            <el-col :span="8"><span class="detail-label">key:</span><span
+              class="detail-value">{{account.accountKey}}</span></el-col>
+            <el-col :span="8"><span class="detail-label">余额提醒:</span><span class="detail-value">{{account.balanceThreshold}}</span>
+            </el-col>
           </el-row>
         </el-form>
+        <div class="detail-title" style="margin-top: 22px;">
+          <span class="list-tit">管理员列表</span>
+          <el-button class="add_btn" @click="showCreateAdminDialog">
+            <i class="fa fa-plus" style="color: #fff;margin-right: 10px"></i>新建管理员
+          </el-button>
+        </div>
+        <el-table :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit
+                  highlight-current-row style="width: 100%;">
+          <el-table-column align="center" label="序号">
+            <template slot-scope="scope">{{scope.row.userCode}}</template>
+          </el-table-column>
+          <el-table-column align="center" label="姓名">
+            <template slot-scope="scope">{{scope.row.name}}</template>
+          </el-table-column>
+          <el-table-column align="center" label="职务">
+            <template slot-scope="scope">{{scope.row.level}}</template>
+          </el-table-column>
+          <el-table-column align="center" label="联系手机">
+            <template slot-scope="scope">{{scope.row.mobile}}</template>
+          </el-table-column>
+          <el-table-column align="center" label="登录账号">
+            <template slot-scope="scope">{{scope.row.username}}</template>
+          </el-table-column>
+          <el-table-column align="center" label="状态">
+            <template slot-scope="scope">
+              <div class="switch">
+                <el-switch class="sw"
+                           v-model="scope.row.enabled"
+                           active-color="#0299CC"
+                           inactive-color="#C0CCDA"
+                           @change="changeMode(scope.row.id, scope.row.enabled)">
+                </el-switch>
+                <div v-if="scope.row.enabled" class="switch-open">开启</div>
+                <div v-else class="switch-close">停用</div>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column align="center" label="操作">
+            <template slot-scope="scope">
+              <a size="small" class="common_btn"
+                 @click="showUpdateInfoDialog(scope.row)">修改信息
+              </a>
+              |
+              <a size="small" class="common_btn"
+                 @click="showUpdatePwdDialog(scope.row)">修改密码
+              </a>
+            </template>
+          </el-table-column>
+        </el-table>
+        <div v-show="!listLoading" class="pagination-container">
+          <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
+                         :current-page.sync="currentPage"
+                         background
+                         :page-sizes="[10,20,30, 50]" :page-size="listQuery.pageSize"
+                         layout="total, sizes, prev, pager, next, jumper" :total="total">
+          </el-pagination>
+        </div>
+        <el-dialog title="新建管理员" :visible.sync="createAdminDialog" width="50%">
+          <el-form :model="adminForm" ref="adminForm" :rules="adminRules" label-width="100px">
+            <el-row>
+              <el-col :span="11">
+                <el-form-item label="姓名" prop="name">
+                  <el-input v-model="adminForm.name" placeholder="输入管理员姓名" maxlength="50"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="11">
+                <el-form-item label="职务">
+                  <el-input v-model="adminForm.level" placeholder="输入职务" maxlength="255"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="11">
+                <el-form-item label="登录账号" prop="username">
+                  <el-input v-model="adminForm.username" placeholder="输入登录账号" maxlength="50"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="11">
+                <el-form-item label="登录密码" prop="password">
+                  <el-input v-model="adminForm.password" placeholder="输入登录密码" maxlength="12"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-col :span="11">
+              <el-form-item label="联系手机" prop="mobile">
+                <el-input v-model="adminForm.mobile" placeholder="请输入联系电话" maxlength="11"></el-input>
+              </el-form-item>
+            </el-col>
+            <div style="text-align: right">
+              <el-button class="search_btn" @click="createAdminDialog = false">取 消</el-button>
+              <el-button class="add_btn" @click="createAdminFrom('adminForm')">确 定</el-button>
+            </div>
+          </el-form>
+        </el-dialog>
+
+        <el-dialog title="修改信息" :visible.sync="updateInfoDialog" width="30%">
+          <el-form :model="adminForm" :rules="adminRules" ref="updateForm" label-width="80px"
+                   style="margin-right: 20px;">
+            <el-form-item label="姓名" prop="name" class="txt">
+              <el-input v-model="adminForm.name" placeholder="输入管理员姓名" maxlength="50"/>
+            </el-form-item>
+            <el-form-item label="职务" class="txt">
+              <el-input v-model="adminForm.level" placeholder="输入职务" maxlength="255"/>
+            </el-form-item>
+            <el-form-item label="联系手机" class="txt" prop="mobile">
+              <el-input v-model="adminForm.mobile" placeholder="请输入联系电话" maxlength="11"/>
+            </el-form-item>
+          </el-form>
+          <div style="text-align: right">
+            <el-button class="search_btn" @click="updateInfoDialog = false">取 消</el-button>
+            <el-button class="add_btn" @click="updateUsers('updateForm')">确 定</el-button>
+          </div>
+        </el-dialog>
+        <el-dialog title="修改密码" :visible.sync="updatePwdDialog" width="30%">
+          <el-form :model="adminForm" :rules="adminRules" ref="pwdForm" label-width="80px"
+                   style="margin-right: 20px;">
+            <el-form-item label="新密码" prop="password" class="txt">
+              <el-input v-model="adminForm.password" placeholder="输入登录密码" maxlength="12"></el-input>
+            </el-form-item>
+          </el-form>
+          <div style="text-align: right">
+            <el-button class="search_btn" @click="updatePwdDialog = false">取 消</el-button>
+            <el-button class="add_btn" @click="resetPassword('pwdForm')">确 定</el-button>
+          </div>
+        </el-dialog>
       </div>
     </div>
     <div v-show="radio==='公司信息'">
@@ -45,30 +178,48 @@
       <div class="margin-line"></div>
       <div class="read-detail">
         <el-form :model="form" class="form-border">
-        <el-row>
-          <el-col :span="11"><span class="detail-label">公司ID:</span><span class="detail-value">{{form.companyCode}}</span></el-col>
-          <el-col :span="11"><span class="detail-label">公司名称:</span><span class="detail-value">{{form.companyName}}</span></el-col>
-          <el-col :span="11"><span class="detail-label">公司简称:</span><span class="detail-value">{{form.shortName}}</span></el-col>
-          <el-col :span="11"><span class="detail-label">所在地:</span><span class="detail-value">{{form.companyProvince}}-{{form.companyCity}}</span></el-col>
-          <el-col :span="11"><span class="detail-label">公司地址:</span><span class="detail-value">{{form.companyAddress}}</span></el-col>
-          <el-col :span="11"><span class="detail-label">所属行业:</span><span class="detail-value">{{form.industryType}}</span></el-col>
-          <el-col :span="11"><span class="detail-label">公司规模:</span><span class="detail-value">{{form.orgSize}}</span></el-col>
-          <el-col :span="11"><span class="detail-label">联系人:</span><span class="detail-value">{{form.contact}}</span></el-col>
-          <el-col :span="11"><span class="detail-label">职务:</span><span class="detail-value">{{form.occupation}}</span></el-col>
-          <el-col :span="11"><span class="detail-label">联系手机:</span><span class="detail-value">{{form.contactMobile}}</span></el-col>
-          <el-col :span="11"><span class="detail-label">企业邮箱:</span><span class="detail-value">{{form.email}}</span></el-col>
-          <el-col :span="11"><span class="detail-label">企业微信:</span><span class="detail-value">{{form.wechatNo}}</span></el-col>
-          <el-col :span="22">
-            <span class="detail-label" alt="" style="line-height: 80px;">公司LOGO:</span>
-            <img :src="form.logo" v-if="form.logo" style="width: 120px; height: 80px;">
-          </el-col>
-          <el-col :span="22" style="margin-top: 20px">
-            <span class="detail-label" alt="" style="line-height: 80px;">公司资质:</span>
-            <img :src="form.companyQualification" v-if="form.companyQualification" style="width: 120px; height: 80px;">
-          </el-col>
-          <el-col :span="22" style="margin-top: 20px"><span class="detail-label" style="line-height: normal">备注:</span><div class="detail-value" style="max-width:600px;line-height:normal;word-wrap:break-word; word-break:normal;">{{form.remark}}</div></el-col>
-        </el-row>
-      </el-form>
+          <el-row>
+            <el-col :span="11"><span class="detail-label">公司ID:</span><span
+              class="detail-value">{{form.companyCode}}</span></el-col>
+            <el-col :span="11"><span class="detail-label">公司名称:</span><span
+              class="detail-value">{{form.companyName}}</span></el-col>
+            <el-col :span="11"><span class="detail-label">公司简称:</span><span
+              class="detail-value">{{form.shortName}}</span></el-col>
+            <el-col :span="11"><span class="detail-label">所在地:</span><span class="detail-value">{{form.companyProvince}}-{{form.companyCity}}</span>
+            </el-col>
+            <el-col :span="11"><span class="detail-label">公司地址:</span><span
+              class="detail-value">{{form.companyAddress}}</span></el-col>
+            <el-col :span="11"><span class="detail-label">所属行业:</span><span
+              class="detail-value">{{form.industryType}}</span></el-col>
+            <el-col :span="11"><span class="detail-label">公司规模:</span><span class="detail-value">{{form.orgSize}}</span>
+            </el-col>
+            <el-col :span="11"><span class="detail-label">联系人:</span><span class="detail-value">{{form.contact}}</span>
+            </el-col>
+            <el-col :span="11"><span class="detail-label">职务:</span><span
+              class="detail-value">{{form.occupation}}</span></el-col>
+            <el-col :span="11"><span class="detail-label">联系手机:</span><span
+              class="detail-value">{{form.contactMobile}}</span></el-col>
+            <el-col :span="11"><span class="detail-label">企业邮箱:</span><span class="detail-value">{{form.email}}</span>
+            </el-col>
+            <el-col :span="11"><span class="detail-label">企业微信:</span><span
+              class="detail-value">{{form.wechatNo}}</span></el-col>
+            <el-col :span="22">
+              <span class="detail-label" alt="" style="line-height: 80px;">公司LOGO:</span>
+              <img :src="form.logo" v-if="form.logo" style="width: 120px; height: 80px;">
+            </el-col>
+            <el-col :span="22" style="margin-top: 20px">
+              <span class="detail-label" alt="" style="line-height: 80px;">公司资质:</span>
+              <img :src="form.companyQualification" v-if="form.companyQualification"
+                   style="width: 120px; height: 80px;">
+            </el-col>
+            <el-col :span="22" style="margin-top: 20px"><span class="detail-label"
+                                                              style="line-height: normal">备注:</span>
+              <div class="detail-value"
+                   style="max-width:600px;line-height:normal;word-wrap:break-word; word-break:normal;">{{form.remark}}
+              </div>
+            </el-col>
+          </el-row>
+        </el-form>
       </div>
     </div>
     <div v-show="radio==='消费记录'">
@@ -79,34 +230,126 @@
 </template>
 
 <script>
-  import {accountCompany} from '@/api/api'
+  import {accountCompany, addAdmin, getAdmin, resetPWD, updateUsers, userEnabled} from '@/api/api'
 
   export default {
     data() {
+      const validateName = (rule, value, callback) => {
+        if (!value) {
+          callback(new Error('请输入管理员姓名'))
+        } else {
+          callback()
+        }
+      }
+      const validateUser = (rule, value, callback) => {
+        var reg = /^[0-9a-zA-Z]+$/
+        if (!value) {
+          callback(new Error('请输入登录账号'))
+        } else if (value.length < 4) {
+          callback(new Error('登录账号不能少于4位'))
+        } else if (!reg.test(value)) {
+          callback(new Error('请您输入数字或字母'))
+        } else {
+          callback()
+        }
+      }
+      const validatePass = (rule, value, callback) => {
+        var reg = /^[0-9a-zA-Z]+$/
+        if (!value) {
+          callback(new Error('请输入登录密码'))
+        } else if (value.length < 6) {
+          callback(new Error('密码不能少于6位'))
+        } else if (!reg.test(value)) {
+          callback(new Error('请您输入数字或字母'))
+        } else {
+          callback()
+        }
+      }
+      const validateMobile = (rule, value, callback) => {
+        if (value) {
+          let reg = /^((1[3-8][0-9])+\d{8})$/
+          let flag = reg.test(value)
+          if (!flag) {
+            callback(new Error('请输入正确的手机号'))
+          } else {
+            callback()
+          }
+        } else {
+          callback()
+        }
+      }
       return {
         radio: '账户信息',
         tab1Status: true,
         form: {},
-        account:{}
+        account: {},
+        listLoading: null,
+        list: null,
+        total: null,
+        currentPage: 1,
+        listQuery: {
+          companyId: 0,
+          authorityName: 'ROLE_ADMIN',
+          pageIndex: 0,
+          pageSize: 10
+        },
+        updateInfoDialog: false,
+        updatePwdDialog: false,
+        createAdminDialog: false,
+        adminRules: {
+          name: [
+            {required: true, trigger: 'blur', validator: validateName}
+          ],
+          username: [
+            {required: true, trigger: 'blur', validator: validateUser}
+          ],
+          password: [
+            {required: true, trigger: 'blur', validator: validatePass}
+          ],
+          mobile: [
+            {required: false, trigger: 'blur', validator: validateMobile}
+          ]
+        },
+        adminForm: {},
+        accountId:''
       }
     },
     created() {
       this.form = this.$route.query
+      this.accountId = this.form.id
       this.getCompany()
+      this.getList()
     },
     methods: {
-      changeRadio(label){
+      getList() {
+        this.listLoading = true
+        this.listQuery.accountId = this.accountId;
+        getAdmin(this.listQuery).then(response => {
+          this.list = response.data.content
+          this.total = response.data.totalElements
+          this.listLoading = false
+        })
+      },
+      handleSizeChange(val) {
+        this.listQuery.pageSize = val
+        this.getList()
+      },
+      handleCurrentChange(val) {
+        this.listQuery.pageIndex = val - 1
+        this.getList()
+      },
+      changeRadio(label) {
         if (label === '消费记录') {
 
-        }else  if (label === '充值情况') {
+        } else if (label === '充值情况') {
 
         }
       },
-      getCompany(){
-        accountCompany(this.form.id).then(response => {
+      getCompany() {
+        accountCompany(this.accountId).then(response => {
           this.account = response.data
-          this.account.accountType = this.account.accountType === 'Charge' ? '付费使用': '试用体验'
-          this.account.accountStatus = this.account.accountStatus ? '生效': '失效'
+          this.account.accountType = this.account.accountType === 'Charge' ? '付费使用' : '试用体验'
+          this.account.accountStatus = this.account.accountStatus ? '生效' : '失效'
           this.account.balanceThreshold = this.account.balanceThreshold * 0.01
           let date = new Date(this.account.expireDate)
           let month = date.getMonth() + 1;
@@ -121,12 +364,83 @@
           }
         })
       },
+      showCreateAdminDialog() {
+        this.adminForm = {
+          authorities: [{
+            'name': 'ROLE_ADMIN'
+          }],
+        }
+        this.createAdminDialog = true;
+      },
+      showUpdateInfoDialog(val) {
+        this.adminForm = val
+        this.adminForm.authorities = [{
+          'name': 'ROLE_ADMIN'
+        }]
+        this.updateInfoDialog = true;
+      },
+      showUpdatePwdDialog(val) {
+        this.adminForm = val
+        this.adminForm.password = ''
+        this.adminForm.authorities = [{
+          'name': 'ROLE_ADMIN'
+        }]
+        this.updatePwdDialog = true;
+      },
+      createAdminFrom(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            addAdmin(this.accountId, this.adminForm)
+              .then((res) => {
+                this.$message({
+                  message: '创建成功',
+                  type: 'success'
+                })
+                this.getList()
+                this.createAdminDialog = false
+              })
+          } else {
+            return false
+          }
+        })
+      },
+      resetPassword(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            resetPWD(this.adminForm.id, this.adminForm.password).then(res => {
+              this.$message({
+                message: '操作成功',
+                type: 'success'
+              })
+              this.updatePwdDialog = false
+            })
+          } else {
+            return false
+          }
+        })
+      },
+      updateUsers(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            updateUsers(this.adminForm.id, this.adminForm).then(res => {
+              this.$message({
+                message: '操作成功',
+                type: 'success'
+              })
+              this.updateInfoDialog = false
+              this.getList()
+            })
+          } else {
+            return false
+          }
+        })
+      },
     }
   }
 </script>
 
 <style lang="scss">
-  .detail-label{
+  .detail-label {
     width: 100px;
     margin-right: 10px;
     font-size: 13px;
@@ -135,15 +449,18 @@
     float: left;
     color: #252525;
   }
-  .detail-value{
+
+  .detail-value {
     font-size: 14px;
     float: left;
     line-height: 40px;
     color: #000000;
   }
+
   .switch {
     display: inline-flex;
   }
+
   .switch-open {
     font-size: 10px;
     width: 55px;
@@ -166,13 +483,15 @@
     pointer-events: none;
   }
 
-  .txt>.el-form-item__label{
-    line-height: 40px!important;
+  .txt > .el-form-item__label {
+    line-height: 40px !important;
   }
-  .sw>.el-switch__core{
-    width: 55px!important;
-    line-height: 40px!important;
+
+  .sw > .el-switch__core {
+    width: 55px !important;
+    line-height: 40px !important;
   }
+
   .upd_btn {
     float: right;
     border: none;

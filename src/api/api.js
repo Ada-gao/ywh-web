@@ -40,6 +40,8 @@ export const getAuthDustries = () => axios.get('/industry/auth/getAllTypes')
 export const getAuthDustryByType = typeId => axios.get('/industry/auth/getIndustrysByTypeId/' + typeId)
 // user/sale
 export const getUsers = params => axios.get('/users/queryUsers', {params: params})
+export const getAdmin = params => axios.get('/users/getAdmin', {params: params})
+export const addAdmin = (id, params) => axios.post('/users/addAdmin?accountId=' + id, params)
 export const getUsersCount = () => axios.get('/users/salesCount')
 export const getStatistic = () => axios.get('/task/statisByCompany')
 export const getUserById = id => axios.get('/users/' + id)
