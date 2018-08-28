@@ -381,7 +381,7 @@ export default {
           this.downImg = this.downImg.substring(cc + 1, this.downImg.length)
           let formData = new FormData()
           formData.append('file', data)
-          if (this.isLogo){
+          if (this.isLogo) {
             uploadLogo(formData).then(res => {
               this.imgurl = res.data
               this.form.logo = process.env.BASE_API + '/file?fileUuid=' + res.data

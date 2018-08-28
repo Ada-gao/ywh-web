@@ -10,7 +10,7 @@
         <el-menu-item index="6" route="/task"><i class="fa fa-phone"/><span slot="title">任务管理 ok</span></el-menu-item>
         <el-submenu index="7">
           <template slot="title"><i class="iconfont icon-xiaoxishezhi" style="color: #ffffff"></i><span slot="title" style="color: #ffffff">推送管理</span></template>
-          <el-menu-item index="7-1" route="/rule"><i class="iconfont icon-guize"/><span slot="title">推送规则</span></el-menu-item>
+          <el-menu-item index="7-1" route="/push/rule"><i class="iconfont icon-guize"/><span slot="title">推送规则</span></el-menu-item>
           <el-menu-item index="7-2" route="/push"><i class="iconfont icon-fasong"/><span slot="title">信息推送</span></el-menu-item>
         </el-submenu>
         <el-menu-item index="8" v-show="sysUser === 'superadmin'" route="/trial"><i class="fa fa-list-ul"/><span slot="title">试用管理 --</span></el-menu-item>

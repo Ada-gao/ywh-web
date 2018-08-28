@@ -6,7 +6,8 @@ export const getUser = () => axios.get('/auth/user')
 // company
 export const getCompanies = () => axios.get('/companies')
 export const getTeams = params => axios.get('/companies/queryTeams', {params: params})
-export function uploadLogo (file) {
+
+export function uploadLogo(file) {
   return axios({
     url: '/file/upload',
     method: 'post',
@@ -16,7 +17,8 @@ export function uploadLogo (file) {
     }
   })
 }
-export function uploadCompanyQualification (file) {
+
+export function uploadCompanyQualification(file) {
   return axios({
     url: '/file/uploadCompanyQualification',
     method: 'post',
@@ -69,7 +71,8 @@ export const getProductList = () => axios.get('/product/list')
 
 // trial
 export const getTrial = params => axios.get('/trial/getPage', {params: params})
-export function getTrailDet (id, params) {
+
+export function getTrailDet(id, params) {
   let para = qs.stringify(params)
   return axios({
     url: '/trial/updateStatus/' + id,
@@ -78,6 +81,13 @@ export function getTrailDet (id, params) {
   })
 }
 
+//account
+export const account = params => axios.post('/account', params)
+export const getAccounts = params => axios.get('/account/getPage', {params: params})
+export const recharge = params => axios.post('/account/recharge', params)
+export const getAccountByCompanyId = id => axios.get('/account/getAccountByCompanyId/' + id)
+export const getRechargePage = params => axios.get('/account/recharge', {params: params})
+export const accountCompany = id => axios.get('/account/' + id)
 // feedback
 export const getFeedback = params => axios.get('/feedback/getPage', {params: params})
 export const getFdDetail = id => axios.get('/feedback/getImg/' + id)

@@ -121,7 +121,7 @@
 </template>
 
 <script>
-import {getCompanies,getBatch} from '@/api/api'
+import {getCompanies, getBatch} from '@/api/api'
 import { provinceAndCityData } from 'element-china-area-data' // 省市区数据
 import { mapGetters } from 'vuex'
 
@@ -144,12 +144,12 @@ export default {
       currentPage: 1,
       states:[
         {
-          label:'生效',
-          value:'1'
+          label: '生效',
+          value: '1'
         },
         {
-          label:'待审核',
-          value: '0'
+          label: '待审核',
+          value:  '0'
         }
       ]
     }

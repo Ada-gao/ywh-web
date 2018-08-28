@@ -433,7 +433,7 @@
 
 <style lang="scss">
   .detail-label{
-    width: 70px;
+    width: 100px;
     margin-right: 10px;
     font-size: 13px;
     line-height: 40px;

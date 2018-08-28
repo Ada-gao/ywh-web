@@ -9,7 +9,7 @@
         <el-row :gutter="20">
           <el-col :span="10">
             <el-form-item label="所属公司" prop="companyId">
-              <el-select v-model="form.companyId" placeholder="请选择公司" style="width: 100%">
+              <el-select v-model="form.companyId" placeholder="请选择所属公司" style="width: 100%" @change="changeCompany" filterable>
                 <el-option
                   v-for="item in companies"
                   :key="item.id"
@@ -20,27 +20,34 @@
             </el-form-item>
           </el-col>
           <el-col :span="10">
-            <el-form-item label="所属账户" prop="team">
-              <el-input v-model="form.team" placeholder="请输入所属账户" maxlength="20"></el-input>
+            <el-form-item label="所属账户" prop="accountId">
+              <el-select v-model="form.accountId" placeholder="请选择所属账户" style="width: 100%" filterable>
+                <el-option
+                  v-for="item in accounts"
+                  :key="item.accountId"
+                  :label="item.accountName"
+                  :value="item.accountId">
+                </el-option>
+              </el-select>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="10">
-            <el-form-item label="充值金额(元)" prop="team">
-              <el-input v-model="form.team" placeholder="请输入充值金额" maxlength="20"></el-input>
+            <el-form-item label="充值金额(元)" prop="money">
+              <el-input v-model="form.money" placeholder="请输入充值金额" maxlength="20"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="10">
-            <el-form-item label="确认金额(元)" prop="team">
-              <el-input v-model="form.team" placeholder="再次输入充值金额" maxlength="20"></el-input>
+            <el-form-item label="确认金额(元)" prop="confirmMoney">
+              <el-input v-model="form.confirmMoney" placeholder="请再次输入充值金额" maxlength="20"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="20">
             <el-form-item label="备注">
-              <el-input type="textarea" :rows="3" v-model="form.remark" placeholder="请输入备注内容" maxlength="200"></el-input>
+              <el-input type="textarea" :rows="3" v-model="form.remark" placeholder="请输入备注内容"  maxlength="200"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -54,202 +61,89 @@
 </template>
 
 <script>
-  import {getToken} from '@/common/js/auth'
-  import {transferCompById} from '@/common/js/util'
-  import {addUser, getCompanies, getUserById, resetPWD, taskDoneRate, updSale, userEnabled} from '@/api/api'
+  import {getCompanies, recharge ,getAccountByCompanyId} from '@/api/api'
 
   export default {
     data() {
-      const validateUser = (rule, value, callback) => {
-        var reg = /^[0-9a-zA-Z]+$/
+      const checkNumber = (rule, value, callback) => {
+        var reg = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
         if (!value) {
-          callback(new Error('请输入登录账号'))
-        } else if (value.length < 4) {
-          callback(new Error('登录账号不能少于4位'))
-        } else if (!(reg.test(value))) {
-          callback(new Error('请您输入数字或字母'))
+          return callback(new Error('请输入充值金额'))
         } else {
-          callback()
-        }
-      }
-      const validatePass = (rule, value, callback) => {
-        var reg = /^[0-9a-zA-Z]+$/
-        if (!value) {
-          callback(new Error('请输入登录密码'))
-        } else if (value.length < 6) {
-          callback(new Error('密码不能少于6位'))
-        } else if (!(reg.test(value))) {
-          callback(new Error('请您输入数字或字母'))
-        } else {
-          callback()
-        }
-      }
-      const validateMobile = (rule, value, callback) => {
-        let reg = /^((1[3-8][0-9])+\d{8})$/
-        let flag = reg.test(value)
-        if (!value || !flag) {
-          callback(new Error('请输入正确的手机号'))
-        } else {
-          callback()
-        }
-      }
-      const validateWechatNo = (rule, value, callback) => {
-        if (value) {
-          if (value.length < 6 || value.length > 20) {
-            callback(new Error('请输入正确的微信'))
+          if (!(reg.test(value))) {
+            callback(new Error('请输入有效金额'))
           } else {
             callback()
           }
+        }
+      }
+      const checkNumber2 = (rule, value, callback) => {
+        if (!value) {
+          return callback(new Error('请输入确认充值金额'))
         } else {
-          callback()
+          if (this.form.money != this.form.confirmMoney) {
+            callback(new Error('二次输入的充值金额不一致'))
+          } else {
+            callback()
+          }
         }
       }
       return {
         rules: {
           companyId: [
-            {required: true, trigger: 'blur', message: '请选择公司'}
+            {required: true, trigger: 'blur', message: '请选择所属公司'}
           ],
-          team: [
-            {required: true, trigger: 'blur', message: '请输入所属团队'}
+          accountId: [
+            {required: true, trigger: 'blur', message: '请选择所属账户'}
           ],
-          name: [
-            {required: true, trigger: 'blur', message: '请输入销售名称'}
+          money: [
+            {required: true, trigger: 'blur', validator: checkNumber}
           ],
-          level: [
-            {required: true, trigger: 'blur', message: '请输入对应职级'}
-          ],
-          username: [
-            {required: true, trigger: 'blur', validator: validateUser}
-          ],
-          password: [
-            {required: true, trigger: 'blur', validator: validatePass}
-          ],
-          wechatNo: [
-            {required: false, trigger: 'blur', validator: validateWechatNo}
-          ],
-          mobile: [
-            {required: true, trigger: 'blur', validator: validateMobile}
+          confirmMoney: [
+            {required: true, trigger: 'blur',validator: checkNumber2}
           ]
         },
-        form: {
-          authorities: [
-            {
-              name: 'ROLE_SALE'
-            }
-          ]
-        },
-        selectedOptions: [],
-        fileList: [],
-        value: '',
-        list: [],
-        listLoading: true,
-        tableKey: 0,
-        total: null,
-        listQuery: {
-          page: 1,
-          limit: 20
-        },
-        companies: [],
-        companyName: '',
-        ruleForm: {
-          password: null
-        }
+        form: {},
+        companies:[],
+        accounts:[]
       }
     },
     created() {
-      this.id = this.$route.query.id
-      this.companyName = this.$route.query.companyName
-      this.getList()
       this.getQuery()
-      this.listLoading = false
     },
     methods: {
-      getList() {
-        getUserById(this.id).then(res => {
-          this.form = res.data
-          this.form.createdDate = new Date(this.form.createdDate).toLocaleDateString()
-        })
-        taskDoneRate(this.id).then(res => {
-          this.list.push(res.data)
-          if (this.list.length > 0) {
-            if (this.list[0].totalTaskCompleteCnt &&
-              this.list[0].totalTaskCompleteCnt > 0 &&
-              this.list[0].totalTaskCnt &&
-              this.list[0].totalTaskCnt > 0) {
-              this.list[0].completeRate = parseInt(this.list[0].totalTaskCompleteCnt / this.list[0].totalTaskCnt * 100) + '%'
-            } else {
-              this.list[0].completeRate = 0
-            }
-          }
-        })
-      },
       getQuery() {
-        if (this.updateStatus !== 'view') {
-          getCompanies().then(res => {
-            this.companies = res.data
-          })
-        }
-      },
-      updateStat() {
-        this.updateStatus = 'update'
-        this.$router.replace({path: this.$route.fullPath, query: {updateStatus: this.updateStatus}})
-        this.getQuery()
+        getCompanies().then(res => {
+          this.companies = res.data
+        })
       },
       create(formName) {
         const set = this.$refs
         set[formName].validate(valid => {
           if (valid) {
-            this.form.password = this.trim(this.form.password, 'g')
-            this.form.username = this.trim(this.form.username, 'g')
-            if (this.updateStatus === 'create') {
-              addUser(this.form)
-                .then((res) => {
-                  this.$message({
-                    message: '创建成功',
-                    type: 'success'
-                  })
-                  this.$router.push({path: '/salesman'})
-                })
-            } else {
-              updSale(this.form.id, this.form).then(res => {
+            this.form.money = this.form.money * 100
+            recharge(this.form)
+              .then((res) => {
                 this.$message({
-                  message: '修改成功',
+                  message: '充值成功',
                   type: 'success'
                 })
-                this.updateStatus = 'view'
-                this.companyName = transferCompById(this.form.companyId, this.companies)
+                this.$router.push({path: '/system'})
               })
-            }
           } else {
             return false
           }
         })
       },
-      changeMode(val) {
-        userEnabled(this.form.id, val).then(res => {
-          this.value3 = val
-          if (val) {
-            this.$message({
-              message: '启用成功',
-              type: 'success'
-            })
-          } else {
-            this.$message({
-              message: '停用成功',
-              type: 'success'
-            })
-          }
-        })
-      },
-      cancel(formName) {
+      cancel() {
         this.$router.push({path: '/system'})
       },
-      handleSizeChange(val) {
-        this.listQuery.limit = val
+      changeCompany (value) {
+        delete this.form.accountId
+        getAccountByCompanyId(value).then(res => {
+          this.accounts = res.data
+        })
       },
-      handleCurrentChange(val) {
-        this.listQuery.page = val
-      }
     }
   }
 </script>

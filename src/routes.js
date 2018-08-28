@@ -40,6 +40,7 @@ import count from './views/report/count'
 import system from './views/system/system'
 import open from './views/system/open'
 import recharge from './views/system/recharge'
+import systemDetail from './views/system/detail'
 // 12、问题反馈
 import feedback from './views/feedback'
 import fddetail from './views/feedback/detail'
@@ -133,7 +134,7 @@ let routes = [
     leaf: true,
     children: [
       {menuId: 91, path: '/push', component: push, name: 'push'},
-      {menuId: 92, path: '/rule', component: rule, name: 'rule'},
+      {menuId: 92, path: '/push/rule', component: rule, name: 'rule'},
       {menuId: 93, path: '/push/message', component: pMessage, name: 'pMessage'},
       {menuId: 94, path: '/push/create', component: pCreate, name: 'pCreate'}
     ]
@@ -181,8 +182,9 @@ let routes = [
     leaf: true,
     children: [
       {menuId: 131, path: '/system', component: system, name: '系统管理'},
-      {menuId: 132, path: '/open', component: open, name: 'open'},
-      {menuId: 133, path: '/recharge', component: recharge, name: 'recharge'}
+      {menuId: 132, path: '/system/open', component: open, name: 'open'},
+      {menuId: 133, path: '/system/recharge', component: recharge, name: 'recharge'},
+      {menuId: 133, path: '/system/detail', component: systemDetail, name: 'systemDetail'}
     ]
   },
   {

@@ -8,18 +8,18 @@
       <el-form :model="form" :rules="rules" ref="form" label-width="140px">
         <el-row :gutter="20">
           <el-col :span="10">
-            <el-form-item label="账户名称" prop="name">
-              <el-input v-model="form.name" placeholder="请输入账户名称" maxlength="10"></el-input>
+            <el-form-item label="账户名称" prop="accountName">
+              <el-input v-model="form.accountName" placeholder="请输入账户名称" maxlength="20"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="10">
-            <el-form-item label="账户类型" prop="companyId">
-              <el-select v-model="form.companyId" placeholder="请选择账户类型" style="width: 100%">
+            <el-form-item label="账户类型" prop="accountType">
+              <el-select v-model="form.accountType" placeholder="请选择账户类型" style="width: 100%">
                 <el-option
-                  v-for="item in companies"
-                  :key="item.id"
-                  :label="item.companyName"
-                  :value="item.id">
+                  v-for="item in types"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -27,44 +27,49 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="10">
-            <el-form-item label="余额提醒" prop="team">
-              <el-input v-model="form.team" placeholder="请输入余额提醒" maxlength="20"></el-input>
+            <el-form-item label="余额提醒" prop="balanceThreshold">
+              <el-input v-model="form.balanceThreshold" placeholder="请输入余额提醒" maxlength="20"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="10">
-            <el-form-item label="账户到期时间" prop="team">
-              <el-input v-model="form.team" placeholder="请输入账户到期时间" maxlength="20"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="20">
-          <el-col :span="10">
-            <el-form-item label="姓名" prop="team">
-              <el-input v-model="form.team" placeholder="请输入姓名" maxlength="20"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="10">
-            <el-form-item label="职务" prop="team">
-              <el-input v-model="form.team" placeholder="请输入职务" maxlength="20"></el-input>
+            <el-form-item label="账户到期时间">
+              <el-date-picker
+                v-model="form.expireDate"
+                type="date"
+                style="width: 100%"
+                placeholder="选择账户到期时间">
+              </el-date-picker>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="10">
-            <el-form-item label="登录账号" prop="team">
-              <el-input v-model="form.team" placeholder="请输入登录账号" maxlength="20"></el-input>
+            <el-form-item label="姓名" prop="name">
+              <el-input v-model="form.name" placeholder="请输入姓名" maxlength="20"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="10">
-            <el-form-item label="登录密码" prop="team">
-              <el-input v-model="form.team" placeholder="请输入登录密码" maxlength="20"></el-input>
+            <el-form-item label="职务">
+              <el-input v-model="form.level" placeholder="请输入职务" maxlength="20"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="10">
-            <el-form-item label="联系手机" prop="team">
-              <el-input v-model="form.team" placeholder="请输入联系手机" maxlength="20"></el-input>
+            <el-form-item label="登录账号" prop="userName">
+              <el-input v-model="form.userName" placeholder="请输入登录账号" maxlength="20"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="登录密码" prop="passWord">
+              <el-input v-model="form.passWord" placeholder="请输入登录密码" maxlength="20"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="10">
+            <el-form-item label="联系手机" prop="mobile">
+              <el-input v-model="form.mobile" placeholder="请输入联系手机" maxlength="11"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="10">
@@ -90,12 +95,22 @@
 </template>
 
 <script>
-  import {getToken} from '@/common/js/auth'
-  import {transferCompById} from '@/common/js/util'
-  import {addUser, getCompanies, getUserById, resetPWD, taskDoneRate, updSale, userEnabled} from '@/api/api'
+  import {getCompanies, account} from '@/api/api'
 
   export default {
     data() {
+      const checkNumber = (rule, value, callback) => {
+        var reg = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
+        if (!value) {
+          return callback(new Error('请输入余额提醒'))
+        } else {
+          if (!(reg.test(value))) {
+            callback(new Error('请输入有效金额'))
+          } else {
+            callback()
+          }
+        }
+      }
       const validateUser = (rule, value, callback) => {
         var reg = /^[0-9a-zA-Z]+$/
         if (!value) {
@@ -123,168 +138,82 @@
       const validateMobile = (rule, value, callback) => {
         let reg = /^((1[3-8][0-9])+\d{8})$/
         let flag = reg.test(value)
-        if (!value || !flag) {
+        if (value && !flag) {
           callback(new Error('请输入正确的手机号'))
-        } else {
-          callback()
-        }
-      }
-      const validateWechatNo = (rule, value, callback) => {
-        if (value) {
-          if (value.length < 6 || value.length > 20) {
-            callback(new Error('请输入正确的微信'))
-          } else {
-            callback()
-          }
         } else {
           callback()
         }
       }
       return {
         rules: {
-          companyId: [
-            {required: true, trigger: 'blur', message: '请选择公司'}
+          accountName: [
+            {required: true, trigger: 'blur', message: '请输入账户名称'}
           ],
-          team: [
-            {required: true, trigger: 'blur', message: '请输入所属团队'}
+          accountType: [
+            {required: true, trigger: 'blur', message: '请选择账户类型'}
+          ],
+          balanceThreshold: [
+            {required: true, trigger: 'blur', validator: checkNumber}
           ],
           name: [
-            {required: true, trigger: 'blur', message: '请输入销售名称'}
+            {required: true, trigger: 'blur', message: '请输入姓名'}
           ],
-          level: [
-            {required: true, trigger: 'blur', message: '请输入对应职级'}
-          ],
-          username: [
+          userName: [
             {required: true, trigger: 'blur', validator: validateUser}
           ],
-          password: [
+          passWord: [
             {required: true, trigger: 'blur', validator: validatePass}
           ],
-          wechatNo: [
-            {required: false, trigger: 'blur', validator: validateWechatNo}
-          ],
           mobile: [
-            {required: true, trigger: 'blur', validator: validateMobile}
-          ]
+            {required: false, trigger: 'blur', validator: validateMobile}
+          ],
+          companyId: [
+            {required: true, trigger: 'blur', message: '请选择所属公司'}
+          ],
         },
-        form: {
-          authorities: [
-            {
-              name: 'ROLE_SALE'
-            }
-          ]
-        },
-        selectedOptions: [],
-        fileList: [],
-        value: '',
-        list: [],
-        listLoading: true,
-        tableKey: 0,
-        total: null,
-        listQuery: {
-          page: 1,
-          limit: 20
-        },
+        form: {},
         companies: [],
-        companyName: '',
-        ruleForm: {
-          password: null
-        }
+        types: [
+          {
+            label: '付费使用',
+            value: 'Charge'
+          },
+          {
+            label: '试用体验',
+            value: 'Trial'
+          }
+        ],
       }
     },
     created() {
-      this.id = this.$route.query.id
-      this.companyName = this.$route.query.companyName
-      this.getList()
       this.getQuery()
-      this.listLoading = false
     },
     methods: {
-      getList() {
-        getUserById(this.id).then(res => {
-          this.form = res.data
-          this.form.createdDate = new Date(this.form.createdDate).toLocaleDateString()
-        })
-        taskDoneRate(this.id).then(res => {
-          this.list.push(res.data)
-          if (this.list.length > 0) {
-            if (this.list[0].totalTaskCompleteCnt &&
-              this.list[0].totalTaskCompleteCnt > 0 &&
-              this.list[0].totalTaskCnt &&
-              this.list[0].totalTaskCnt > 0) {
-              this.list[0].completeRate = parseInt(this.list[0].totalTaskCompleteCnt / this.list[0].totalTaskCnt * 100) + '%'
-            } else {
-              this.list[0].completeRate = 0
-            }
-          }
-        })
-      },
       getQuery() {
-        if (this.updateStatus !== 'view') {
-          getCompanies().then(res => {
-            this.companies = res.data
-          })
-        }
-      },
-      updateStat() {
-        this.updateStatus = 'update'
-        this.$router.replace({path: this.$route.fullPath, query: {updateStatus: this.updateStatus}})
-        this.getQuery()
+        getCompanies().then(res => {
+          this.companies = res.data
+        })
       },
       create(formName) {
         const set = this.$refs
         set[formName].validate(valid => {
           if (valid) {
-            this.form.password = this.trim(this.form.password, 'g')
-            this.form.username = this.trim(this.form.username, 'g')
-            if (this.updateStatus === 'create') {
-              addUser(this.form)
-                .then((res) => {
-                  this.$message({
-                    message: '创建成功',
-                    type: 'success'
-                  })
-                  this.$router.push({path: '/salesman'})
-                })
-            } else {
-              updSale(this.form.id, this.form).then(res => {
+            this.form.balanceThreshold = this.form.balanceThreshold * 100
+            account(this.form)
+              .then((res) => {
                 this.$message({
-                  message: '修改成功',
+                  message: '创建成功',
                   type: 'success'
                 })
-                this.updateStatus = 'view'
-                this.companyName = transferCompById(this.form.companyId, this.companies)
+                this.$router.push({path: '/system'})
               })
-            }
           } else {
             return false
           }
         })
       },
-      changeMode(val) {
-        userEnabled(this.form.id, val).then(res => {
-          this.value3 = val
-          if (val) {
-            this.$message({
-              message: '启用成功',
-              type: 'success'
-            })
-          } else {
-            this.$message({
-              message: '停用成功',
-              type: 'success'
-            })
-          }
-        })
-      },
-      cancel(formName) {
+      cancel() {
         this.$router.push({path: '/system'})
-      },
-      handleSizeChange(val) {
-        this.listQuery.limit = val
-      },
-      handleCurrentChange(val) {
-        this.listQuery.page = val
       }
     }
   }
