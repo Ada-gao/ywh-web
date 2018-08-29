@@ -105,7 +105,7 @@
         },
         form: {},
         companies:[],
-        accounts:[]
+        accounts:[],
       }
     },
     created() {
@@ -129,6 +129,8 @@
                   type: 'success'
                 })
                 this.$router.push({path: '/system'})
+              }).catch(() => {
+                this.form.money = this.form.money * 0.01
               })
           } else {
             return false
@@ -136,7 +138,8 @@
         })
       },
       cancel() {
-        this.$router.push({path: '/system'})
+        window.history.go(-1)
+         // this.$router.push({path: '/system'})
       },
       changeCompany (value) {
         delete this.form.accountId

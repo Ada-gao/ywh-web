@@ -206,6 +206,8 @@
                   type: 'success'
                 })
                 this.$router.push({path: '/system'})
+              }).catch(() => {
+                this.form.balanceThreshold = this.form.balanceThreshold * 0.01
               })
           } else {
             return false

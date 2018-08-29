@@ -137,7 +137,7 @@
     <div class="detail-title">
       <span class="list-tit">充值列表</span>
       <el-button class="add_btn" @click="handleExport">
-        <i class="fa fa-plus" style="color: #fff;margin-right: 10px"></i>批量导出
+        <i class="iconfont icon-piliangdaochu" style="color: #fff;margin-right: 10px"></i>批量导出
       </el-button>
     </div>
     <el-table :data="list2" v-loading="listLoading2" element-loading-text="给我一点时间" border fit highlight-current-row style="width: 100%">
@@ -166,7 +166,8 @@
         <template slot-scope="scope"><span>{{scope.row.userName}}</span></template>
       </el-table-column>
     </el-table>
-    <div v-show="!listLoading2" class="pagination-container">
+    <div v-show="!listLoading2">
+      <div style="float: right;line-height: 30px;color: #0299CC;font-size: 14px">累计充值金额：100000元</div>
       <el-pagination @size-change="handleSizeChange2" @current-change="handleCurrentChange2"
                      :current-page.sync="currentPage2" background :page-sizes="[10,20,30, 50]" :page-size="listQuery2.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total2">
       </el-pagination>
@@ -248,9 +249,7 @@
           this.listLoading2 = false
           this.list2.forEach(item => {
             let date = new Date(item.createTime)
-            let month = date.getMonth() + 1;
-            let day = date.getDate();
-            item.createTime = date.getFullYear() + '-' + (month < 10 ? '0' : '') + month + '-' + (day < 10 ? '0' : '') + day
+            item.createTime = date.getFullYear() + '.' + (date.getMonth() + 1) + '.' + date.getDate() + ' ' +date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
           })
         })
       },

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div style="margin-bottom: 20px">
-      <el-radio-group v-model="radio" @change="changeRadio">
+      <el-radio-group v-model="radio">
         <el-radio-button label="账户信息"></el-radio-button>
         <el-radio-button label="公司信息"></el-radio-button>
         <el-radio-button label="消费记录"></el-radio-button>
@@ -88,7 +88,7 @@
             </template>
           </el-table-column>
         </el-table>
-        <div v-show="!listLoading" class="pagination-container">
+        <div v-show="!listLoading">
           <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
                          :current-page.sync="currentPage"
                          background
@@ -96,6 +96,38 @@
                          layout="total, sizes, prev, pager, next, jumper" :total="total">
           </el-pagination>
         </div>
+        <el-dialog title="修改账户" :visible.sync="updateAccountDialog" width="50%">
+          <el-form :model="accountForm" ref="accountForm" :rules="adminRules" label-width="100px">
+            <el-row>
+              <el-col :span="11">
+                <el-form-item label="账户名称" prop="accountName">
+                  <el-input v-model="accountForm.accountName" placeholder="请输入账户名称" maxlength="20"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="11">
+                <el-form-item label="余额提醒" prop="balanceThreshold">
+                  <el-input v-model="accountForm.balanceThreshold" placeholder="请输入余额提醒" maxlength="20"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="11">
+                <el-form-item label="账户到期时间">
+                  <el-date-picker
+                    v-model="accountForm.expireDate"
+                    type="date"
+                    style="width: 100%"
+                    placeholder="选择账户到期时间">
+                  </el-date-picker>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <div style="text-align: right">
+              <el-button class="search_btn" @click="updateAccountDialog = false">取 消</el-button>
+              <el-button class="add_btn" @click="updateAccount('accountForm')">确 定</el-button>
+            </div>
+          </el-form>
+        </el-dialog>
         <el-dialog title="新建管理员" :visible.sync="createAdminDialog" width="50%">
           <el-form :model="adminForm" ref="adminForm" :rules="adminRules" label-width="100px">
             <el-row>
@@ -122,18 +154,19 @@
                 </el-form-item>
               </el-col>
             </el-row>
-            <el-col :span="11">
-              <el-form-item label="联系手机" prop="mobile">
-                <el-input v-model="adminForm.mobile" placeholder="请输入联系电话" maxlength="11"></el-input>
-              </el-form-item>
-            </el-col>
+            <el-row>
+              <el-col :span="11">
+                <el-form-item label="联系手机" prop="mobile">
+                  <el-input v-model="adminForm.mobile" placeholder="请输入联系电话" maxlength="11"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
             <div style="text-align: right">
               <el-button class="search_btn" @click="createAdminDialog = false">取 消</el-button>
               <el-button class="add_btn" @click="createAdminFrom('adminForm')">确 定</el-button>
             </div>
           </el-form>
         </el-dialog>
-
         <el-dialog title="修改信息" :visible.sync="updateInfoDialog" width="30%">
           <el-form :model="adminForm" :rules="adminRules" ref="updateForm" label-width="80px"
                    style="margin-right: 20px;">
@@ -169,9 +202,8 @@
     <div v-show="radio==='公司信息'">
       <div class="detail-title">
         <span class="list-tit">{{radio}}</span>
-        <el-button class="upd_btn" @click="modifyStat">
-          <i class="fa fa-edit"
-             style="font-size: 22px;margin-right: 5px;vertical-align: middle;"></i>
+        <el-button class="upd_btn" @click="handleUpdate">
+          <i class="fa fa-edit" style="font-size: 22px;margin-right: 5px;vertical-align: middle;"></i>
           <i style="font-style: normal;">修改</i>
         </el-button>
       </div>
@@ -223,14 +255,85 @@
       </div>
     </div>
     <div v-show="radio==='消费记录'">
+      <div class="detail-title" style="margin-top: 22px;">
+        <span class="list-tit">{{radio}}</span>
+        <el-button class="add_btn" @click="handleExport">
+          <i class="iconfont icon-piliangdaochu" style="color: #fff;margin-right: 10px"></i>批量导出
+        </el-button>
+      </div>
+      <el-table :data="list2" v-loading="listLoading2" element-loading-text="给我一点时间" border fit highlight-current-row style="width: 100%;">
+        <el-table-column align="center" label="消费流水号">
+          <template slot-scope="scope">{{scope.row.consumptionCode}}</template>
+        </el-table-column>
+        <el-table-column align="center" label="消费产品">
+          <template slot-scope="scope">{{scope.row.consumptionProduct}}</template>
+        </el-table-column>
+        <el-table-column align="center" label="消费内容">
+          <template slot-scope="scope">{{scope.row.name}}</template>
+        </el-table-column>
+        <el-table-column align="center" label="消费金额">
+          <template slot-scope="scope">{{scope.row.money}}</template>
+        </el-table-column>
+        <el-table-column align="center" label="消费时间">
+          <template slot-scope="scope">{{scope.row.createTime}}</template>
+        </el-table-column>
+        <el-table-column align="center" label="消费状态">
+          <template slot-scope="scope">{{scope.row.status?'消费成功':'消费失败'}}</template>
+        </el-table-column>
+        <el-table-column align="center" label="操作人">
+          <template slot-scope="scope">{{scope.row.userName}}</template>
+        </el-table-column>
+      </el-table>
+      <div v-show="!listLoading2">
+        <div style="float: right;line-height: 30px;color: #0299CC;font-size: 14px">累计消费金额：100000元</div>
+        <el-pagination @size-change="handleSizeChange2" @current-change="handleCurrentChange2"
+                       :current-page.sync="currentPage2"
+                       :page-sizes="[10,20,30, 50]" :page-size="listQuery2.pageSize"
+                       layout="total, sizes, prev, pager, next, jumper" :total="total2">
+        </el-pagination>
+      </div>
     </div>
     <div v-show="radio==='充值情况'">
+      <div class="detail-title" style="margin-top: 22px;">
+        <span class="list-tit">{{radio}}</span>
+        <el-button class="add_btn" @click="handleExportRecharge">
+          <i class="iconfont icon-piliangdaochu" style="color: #fff;margin-right: 10px"></i>批量导出
+        </el-button>
+        <el-button class="add_btn" @click="handleRecharge" style="margin-right: 20px">
+          <i class="iconfont icon-chongzhi" style="color: #fff;margin-right: 10px"></i>帐号充值
+        </el-button>
+      </div>
+      <el-table :data="list3" v-loading="listLoading3" element-loading-text="给我一点时间" border fit highlight-current-row style="width: 100%;">
+        <el-table-column align="center" label="充值编号">
+          <template slot-scope="scope">{{scope.row.rechargeCode}}</template>
+        </el-table-column>
+        <el-table-column align="center" label="充值金额">
+          <template slot-scope="scope">{{scope.row.money}}</template>
+        </el-table-column>
+        <el-table-column align="center" label="充值时间">
+          <template slot-scope="scope">{{scope.row.createTime}}</template>
+        </el-table-column>
+        <el-table-column align="center" label="充值状态">
+          <template slot-scope="scope">{{scope.row.status?'充值成功':'充值失败'}}</template>
+        </el-table-column>
+        <el-table-column align="center" label="操作人">
+          <template slot-scope="scope">{{scope.row.userName}}</template>
+        </el-table-column>
+      </el-table>
+      <div v-show="!listLoading3">
+        <div style="float: right;line-height: 30px;color: #0299CC;font-size: 14px">累计充值金额：100000元</div>
+        <el-pagination @size-change="handleSizeChange3" @current-change="handleCurrentChange3"
+                       :current-page.sync="currentPage3"
+                       :page-sizes="[10,20,30, 50]" :page-size="listQuery3.pageSize"
+                       layout="total, sizes, prev, pager, next, jumper" :total="total3">
+        </el-pagination>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-  import {accountCompany, addAdmin, getAdmin, resetPWD, updateUsers, userEnabled} from '@/api/api'
+  import {accountCompany,updateAccount,getRechargePageById, addAdmin, getAdmin,getConsumptionPage, resetPWD, updateUsers, userEnabled} from '@/api/api'
 
   export default {
     data() {
@@ -278,6 +381,18 @@
           callback()
         }
       }
+      const checkNumber = (rule, value, callback) => {
+        var reg = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
+        if (!value) {
+          return callback(new Error('请输入余额提醒'))
+        } else {
+          if (!(reg.test(value))) {
+            callback(new Error('请输入有效金额'))
+          } else {
+            callback()
+          }
+        }
+      }
       return {
         radio: '账户信息',
         tab1Status: true,
@@ -288,15 +403,21 @@
         total: null,
         currentPage: 1,
         listQuery: {
-          companyId: 0,
           authorityName: 'ROLE_ADMIN',
           pageIndex: 0,
           pageSize: 10
         },
+        updateAccountDialog:false,
         updateInfoDialog: false,
         updatePwdDialog: false,
         createAdminDialog: false,
         adminRules: {
+          accountName: [
+            {required: true, trigger: 'blur', message: '请输入账户名称'}
+          ],
+          balanceThreshold: [
+            {required: true, trigger: 'blur', validator: checkNumber}
+          ],
           name: [
             {required: true, trigger: 'blur', validator: validateName}
           ],
@@ -311,7 +432,24 @@
           ]
         },
         adminForm: {},
-        accountId:''
+        accountForm:{},
+        accountId: '',
+        listLoading2: null,
+        list2: null,
+        total2: null,
+        currentPage2: 1,
+        listQuery2: {
+          pageIndex: 0,
+          pageSize: 10
+        },
+        listLoading3: null,
+        list3: null,
+        total3: null,
+        currentPage3: 1,
+        listQuery3: {
+          pageIndex: 0,
+          pageSize: 10
+        },
       }
     },
     created() {
@@ -319,8 +457,18 @@
       this.accountId = this.form.id
       this.getCompany()
       this.getList()
+      this.getConsumption()
+      this.getRecharge()
     },
     methods: {
+      changeMode (id, enabled) {
+        userEnabled(id, enabled).then(res => {
+          this.$message({
+            message: '操作成功',
+            type: 'success'
+          })
+        })
+      },
       getList() {
         this.listLoading = true
         this.listQuery.accountId = this.accountId;
@@ -338,12 +486,73 @@
         this.listQuery.pageIndex = val - 1
         this.getList()
       },
-      changeRadio(label) {
-        if (label === '消费记录') {
-
-        } else if (label === '充值情况') {
-
-        }
+      handleSizeChange2(val) {
+        this.listQuery2.pageSize = val
+        this.getList()
+      },
+      handleCurrentChange2(val) {
+        this.listQuery2.pageIndex = val - 1
+        this.getList()
+      },
+      handleSizeChange3(val) {
+        this.listQuery3.pageSize = val
+        this.getList()
+      },
+      handleCurrentChange3(val) {
+        this.listQuery3.pageIndex = val - 1
+        this.getList()
+      },
+      getConsumption(){
+        getConsumptionPage(this.accountId,this.listQuery2).then(response => {
+          this.list2 = response.data.content
+          this.total2 = response.data.totalElements
+          this.listLoading2 = false
+          this.list2.forEach(item => {
+            if (item.consumptionProduct === 'CommunicationFee'){
+              item.consumptionProduct = '营销线索'
+            }else if (item.consumptionProduct === 'OutboundNameFee'){
+              item.consumptionProduct = '通信费'
+            }
+            let date = new Date(item.createTime)
+            item.createTime = date.getFullYear() + '.' + (date.getMonth() + 1) + '.' + date.getDate() + ' ' +date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
+          })
+        })
+      },
+      getRecharge(){
+        getRechargePageById(this.accountId,this.listQuery3).then(response => {
+          this.list3 = response.data.content
+          this.total3 = response.data.totalElements
+          this.listLoading3 = false
+          this.list3.forEach(item => {
+            let date = new Date(item.createTime)
+            item.createTime = date.getFullYear() + '.' + (date.getMonth() + 1) + '.' + date.getDate() + ' ' +date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
+          })
+        })
+      },
+      handleExport(obj){
+        alert('批量导出消费记录')
+      },
+      handleExportRecharge(obj){
+        alert('批量导出充值记录')
+      },
+      handleUpdate(){
+        this.$router.push({path: '/company/create', query: this.form})
+      },
+      handleRecharge(){
+        this.$router.push({name: 'recharge'})
+      },
+      modifyStat(){
+        this.accountForm.accountName = this.account.accountName
+        this.accountForm.accountType = this.account.accountType === '试用体验' ?'Trial':'Charge'
+        this.accountForm.balanceThreshold = this.account.balanceThreshold
+        this.accountForm.companyId = this.account.companyId
+        // this.accountForm.expireDate = this.account.expireDate
+        this.accountForm.level = this.account.level
+        this.accountForm.mobile = this.account.mobile
+        this.accountForm.name = this.account.name
+        this.accountForm.passWord = this.account.passWord
+        this.accountForm.userName = this.account.userName
+        this.updateAccountDialog = true
       },
       getCompany() {
         accountCompany(this.accountId).then(response => {
@@ -373,14 +582,14 @@
         this.createAdminDialog = true;
       },
       showUpdateInfoDialog(val) {
-        this.adminForm = val
+        this.adminForm = JSON.parse(JSON.stringify(val))
         this.adminForm.authorities = [{
           'name': 'ROLE_ADMIN'
         }]
         this.updateInfoDialog = true;
       },
       showUpdatePwdDialog(val) {
-        this.adminForm = val
+        this.adminForm = JSON.parse(JSON.stringify(val))
         this.adminForm.password = ''
         this.adminForm.authorities = [{
           'name': 'ROLE_ADMIN'
@@ -429,6 +638,25 @@
               })
               this.updateInfoDialog = false
               this.getList()
+            })
+          } else {
+            return false
+          }
+        })
+      },
+      updateAccount(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            this.accountForm.balanceThreshold = this.accountForm.balanceThreshold * 100
+            updateAccount(this.accountId, this.accountForm).then(res => {
+              this.$message({
+                message: '操作成功',
+                type: 'success'
+              })
+              this.updateAccountDialog = false
+              this.getCompany()
+            }).catch(() => {
+              this.accountForm.balanceThreshold = this.accountForm.balanceThreshold * 0.01
             })
           } else {
             return false

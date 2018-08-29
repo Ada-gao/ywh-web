@@ -524,7 +524,8 @@ export default {
                 message: '修改成功',
                 type: 'success'
               })
-              this.$router.push({path: '/company'})
+              // this.$router.push({path: '/company'})
+              window.history.go(-1)
             })
         } else {
           return false
@@ -532,7 +533,8 @@ export default {
       })
     },
     cancel (formName) {
-      this.$router.push({path: '/company'})
+      // this.$router.push({path: '/company'})
+      window.history.go(-1)
     },
     handleChange (value) {
     },
