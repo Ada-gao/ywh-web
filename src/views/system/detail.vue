@@ -267,7 +267,7 @@
           <i class="iconfont icon-piliangdaochu" style="color: #fff;margin-right: 10px"></i>批量导出
         </el-button>
       </div>
-      <el-table :data="list2" v-loading="listLoading2" element-loading-text="给我一点时间" border fit highlight-current-row style="width: 100%;">
+      <el-table id="consumeTable" :data="list2" v-loading="listLoading2" element-loading-text="给我一点时间" border fit highlight-current-row style="width: 100%;">
         <el-table-column align="center" label="消费流水号">
           <template slot-scope="scope">{{scope.row.consumptionCode}}</template>
         </el-table-column>
@@ -309,14 +309,14 @@
           <i class="iconfont icon-chongzhi" style="color: #fff;margin-right: 10px"></i>帐号充值
         </el-button>
       </div>
-      <el-table :data="list3" v-loading="listLoading3" element-loading-text="给我一点时间" border fit highlight-current-row style="width: 100%;">
+      <el-table id="rechargeTable" :data="list3" v-loading="listLoading3" element-loading-text="给我一点时间" border fit highlight-current-row style="width: 100%;">
         <el-table-column align="center" label="充值编号">
           <template slot-scope="scope">{{scope.row.rechargeCode}}</template>
         </el-table-column>
         <el-table-column align="center" label="充值金额">
           <template slot-scope="scope">{{scope.row.money}}</template>
         </el-table-column>
-        <el-table-column align="center" label="充值时间">
+        <el-table-column align="center" label="充值时间" >
           <template slot-scope="scope">{{scope.row.createTime}}</template>
         </el-table-column>
         <el-table-column align="center" label="充值状态">
@@ -340,7 +340,8 @@
 
 <script>
   import {accountCompany,updateAccount,getRechargePageById, addAdmin, getAdmin,getConsumptionPage, enabledAccount,resetPWD, updateUsers, userEnabled} from '@/api/api'
-
+  import FileSaver from 'file-saver'
+  import XLSX from 'xlsx'
   export default {
     data() {
       const validateName = (rule, value, callback) => {
@@ -542,7 +543,7 @@
               item.consumptionProduct = '通信费'
             }
             let date = new Date(item.createTime)
-            item.createTime = date.getFullYear() + '.' + (date.getMonth() + 1) + '.' + date.getDate() + ' ' +date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
+            item.createTime = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() + ' ' +date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
           })
         })
       },
@@ -554,15 +555,29 @@
           this.listLoading3 = false
           this.list3.forEach(item => {
             let date = new Date(item.createTime)
-            item.createTime = date.getFullYear() + '.' + (date.getMonth() + 1) + '.' + date.getDate() + ' ' +date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
+            item.createTime = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() + ' ' +date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
           })
         })
       },
-      handleExport(obj){
-        alert('批量导出消费记录')
+      handleExport(){
+        var wb = XLSX.utils.table_to_book(document.querySelector('#consumeTable'))
+        var wbout = XLSX.write(wb, {bookType: 'xlsx', bookSST: true, type: 'array'})
+        try {
+          FileSaver.saveAs(new Blob([wbout], {type: 'application/octet-stream'}), '消费记录列表.xlsx')
+        } catch (e) {
+          if (typeof console !== 'undefined') console.log(e, wbout)
+        }
+        return wbout
       },
-      handleExportRecharge(obj){
-        alert('批量导出充值记录')
+      handleExportRecharge(){
+        var wb = XLSX.utils.table_to_book(document.querySelector('#rechargeTable'))
+        var wbout = XLSX.write(wb, {bookType: 'xlsx', bookSST: true, type: 'array'})
+        try {
+          FileSaver.saveAs(new Blob([wbout], {type: 'application/octet-stream'}), '充值记录列表.xlsx')
+        } catch (e) {
+          if (typeof console !== 'undefined') console.log(e, wbout)
+        }
+        return wbout
       },
       handleUpdate(){
         this.$router.push({path: '/company/create', query: this.form})

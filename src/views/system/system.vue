@@ -4,12 +4,14 @@
       <el-row :gutter="1" style="background: #e3e3e3">
         <el-col :span="12">
           <div class="card-item">
-            <el-button class="card-button-left" @click="handleOpen" icon="iconfont icon-kaitong"><span>开通账户</span></el-button>
+            <el-button class="card-button-left" @click="handleOpen" icon="iconfont icon-kaitong"><span>开通账户</span>
+            </el-button>
           </div>
         </el-col>
         <el-col :span="12">
           <div class="card-item">
-            <el-button class="card-button-right" @click="handleRecharge" icon="iconfont icon-recharge"><span>账户充值</span></el-button>
+            <el-button class="card-button-right" @click="handleRecharge" icon="iconfont icon-recharge"><span>账户充值</span>
+            </el-button>
           </div>
         </el-col>
       </el-row>
@@ -20,10 +22,14 @@
       </div>
       <el-row>
         <el-col :span="14">
-          <el-input @keyup.enter.native="handleFilter" style="width: 190px;" class="filter-item" placeholder="输入所属公司名称" v-model="listQuery.companyName"></el-input>
-          <el-input @keyup.enter.native="handleFilter" style="width: 190px;" class="filter-item" placeholder="输入联系人姓名" v-model="listQuery.name"></el-input>
-          <el-input @keyup.enter.native="handleFilter" style="width: 190px;" class="filter-item" placeholder="输入账户ID" v-model="listQuery.accountCode"></el-input>
-          <el-button class="filter-item" type="primary" icon="search" @click="handleFilter"><i class="fa fa-search"></i>查询</el-button>
+          <el-input @keyup.enter.native="handleFilter" style="width: 190px;" class="filter-item" placeholder="输入所属公司名称"
+                    v-model="listQuery.companyName"></el-input>
+          <el-input @keyup.enter.native="handleFilter" style="width: 190px;" class="filter-item" placeholder="输入联系人姓名"
+                    v-model="listQuery.name"></el-input>
+          <el-input @keyup.enter.native="handleFilter" style="width: 190px;" class="filter-item" placeholder="输入账户ID"
+                    v-model="listQuery.accountCode"></el-input>
+          <el-button class="filter-item" type="primary" icon="search" @click="handleFilter"><i class="fa fa-search"></i>查询
+          </el-button>
         </el-col>
         <el-col :span="10" style="text-align: right;">
           <el-select v-model="listQuery.type"
@@ -54,7 +60,8 @@
     <div class="detail-title">
       <span class="list-tit">账户列表</span>
     </div>
-    <el-table :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit highlight-current-row style="width: 100%">
+    <el-table :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit highlight-current-row
+              style="width: 100%">
       <el-table-column align="center" label="账户ID">
         <template slot-scope="scope"><span>{{scope.row.accountCode}}</span></template>
       </el-table-column>
@@ -86,15 +93,18 @@
         <template slot-scope="scope"><span>{{scope.row.accountType === 'Charge' ? '付费使用': '试用体验'}}</span></template>
       </el-table-column>
       <el-table-column align="center" label="账户状态">
-        <template slot-scope="scope"><span :style="scope.row.accountStatus?'color:#009801':'color:#D0021B'">{{scope.row.accountStatus?'生效':'失效'}}</span></template>
+        <template slot-scope="scope"><span :style="scope.row.accountStatus?'color:#009801':'color:#D0021B'">{{scope.row.accountStatus?'生效':'失效'}}</span>
+        </template>
       </el-table-column>
       <el-table-column align="center" label="操作">
-        <template slot-scope="scope"><a size="small" class="common_btn" @click="handleUpdate(scope.row)">查看详情</a></template>
+        <template slot-scope="scope"><a size="small" class="common_btn" @click="handleUpdate(scope.row)">查看详情</a>
+        </template>
       </el-table-column>
     </el-table>
     <div v-show="!listLoading" class="pagination-container">
       <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-                     :current-page.sync="currentPage" background :page-sizes="[10,20,30, 50]" :page-size="listQuery.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total">
+                     :current-page.sync="currentPage" background :page-sizes="[10,20,30, 50]"
+                     :page-size="listQuery.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total">
       </el-pagination>
     </div>
 
@@ -104,9 +114,13 @@
       </div>
       <el-row :gutter="10" style="margin-top: 10px">
         <el-col :span="14">
-          <el-input @keyup.enter.native="handleFilter3" style="width: 190px;" class="filter-item" placeholder="输入充值帐号" v-model="listQuery2.accountName"></el-input>
-          <el-input @keyup.enter.native="handleFilter3" style="width: 190px;" class="filter-item" placeholder="输入所属公司" v-model="listQuery2.companyName"></el-input>
-          <el-button class="filter-item" type="primary" icon="search" @click="handleFilter3"><i class="fa fa-search"></i>查询</el-button>
+          <el-input @keyup.enter.native="handleFilter3" style="width: 190px;" class="filter-item" placeholder="输入充值帐号"
+                    v-model="listQuery2.accountName"></el-input>
+          <el-input @keyup.enter.native="handleFilter3" style="width: 190px;" class="filter-item" placeholder="输入所属公司"
+                    v-model="listQuery2.companyName"></el-input>
+          <el-button class="filter-item" type="primary" icon="search" @click="handleFilter3"><i
+            class="fa fa-search"></i>查询
+          </el-button>
         </el-col>
         <el-col :span="10" style="text-align: right;">
           <el-select v-model="listQuery2.accountType"
@@ -136,11 +150,12 @@
     </div>
     <div class="detail-title">
       <span class="list-tit">充值列表</span>
-      <el-button class="add_btn" @click="handleExport">
+      <el-button class="add_btn" @click="exportExcel">
         <i class="iconfont icon-piliangdaochu" style="color: #fff;margin-right: 10px"></i>批量导出
       </el-button>
     </div>
-    <el-table :data="list2" v-loading="listLoading2" element-loading-text="给我一点时间" border fit highlight-current-row style="width: 100%">
+    <el-table id="rechargeTable" :data="list2" v-loading="listLoading2" element-loading-text="给我一点时间" border fit highlight-current-row
+              style="width: 100%">
       <el-table-column align="center" label="充值流水号">
         <template slot-scope="scope"><span>{{scope.row.rechargeCode}}</span></template>
       </el-table-column>
@@ -156,7 +171,7 @@
       <el-table-column align="center" label="充值金额">
         <template slot-scope="scope"><span>{{scope.row.money}}</span></template>
       </el-table-column>
-      <el-table-column align="center" label="充值时间">
+      <el-table-column align="center" label="充值时间" >
         <template slot-scope="scope"><span>{{scope.row.createTime}}</span></template>
       </el-table-column>
       <el-table-column align="center" label="充值状态">
@@ -169,7 +184,8 @@
     <div v-show="!listLoading2">
       <div style="float: right;line-height: 30px;color: #0299CC;font-size: 14px">累计充值金额：{{money}}元</div>
       <el-pagination @size-change="handleSizeChange2" @current-change="handleCurrentChange2"
-                     :current-page.sync="currentPage2" background :page-sizes="[10,20,30, 50]" :page-size="listQuery2.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total2">
+                     :current-page.sync="currentPage2" background :page-sizes="[10,20,30, 50]"
+                     :page-size="listQuery2.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total2">
       </el-pagination>
     </div>
 
@@ -177,7 +193,9 @@
 </template>
 
 <script>
-  import {getAccounts,getRechargePage} from "../../api/api";
+  import {getAccounts, getRechargePage} from "../../api/api";
+  import FileSaver from 'file-saver'
+  import XLSX from 'xlsx'
 
   export default {
     data() {
@@ -236,6 +254,16 @@
       this.getRechargePage()
     },
     methods: {
+      exportExcel() {
+        var wb = XLSX.utils.table_to_book(document.querySelector('#rechargeTable'))
+        var wbout = XLSX.write(wb, {bookType: 'xlsx', bookSST: true, type: 'array'})
+        try {
+          FileSaver.saveAs(new Blob([wbout], {type: 'application/octet-stream'}), '充值列表.xlsx')
+        } catch (e) {
+          if (typeof console !== 'undefined') console.log(e, wbout)
+        }
+        return wbout
+      },
       getAccounts() {
         getAccounts(this.listQuery).then(response => {
           this.list = response.data.content
@@ -251,7 +279,7 @@
           this.listLoading2 = false
           this.list2.forEach(item => {
             let date = new Date(item.createTime)
-            item.createTime = date.getFullYear() + '.' + (date.getMonth() + 1) + '.' + date.getDate() + ' ' +date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
+            item.createTime = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
           })
         })
       },
@@ -332,9 +360,7 @@
       handleUpdate(obj) {
         this.$router.push({name: 'systemDetail', query: obj})
       },
-      handleExport(obj) {
-        alert('批量导出')
-      }
+
     }
   }
 </script>
@@ -352,20 +378,20 @@
   .card-button-left, .card-button-left:hover {
     width: 180px;
     height: 50px;
-    color: #FFFFFF!important;
+    color: #FFFFFF !important;
     font-size: 16px;
     border-radius: 4px;
-    background: #0299CC!important;;
-    border-color: #0299CC!important;
+    background: #0299CC !important;;
+    border-color: #0299CC !important;
   }
 
-  .card-button-right, .card-button-right:hover{
+  .card-button-right, .card-button-right:hover {
     width: 180px;
     height: 50px;
-    color: #FFFFFF!important;
+    color: #FFFFFF !important;
     font-size: 16px;
     border-radius: 4px;
-    background: #F8C065!important;
-    border-color: #F8C065!important;
+    background: #F8C065 !important;
+    border-color: #F8C065 !important;
   }
 </style>
