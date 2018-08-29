@@ -22,7 +22,7 @@
           <el-menu-item index="10-3" route="/report/record"><i class="iconfont icon-tonghuahuawuliang"/><span slot="title">历史通话记录</span></el-menu-item>
           <el-menu-item index="10-4" route="/report/count"><i class="iconfont icon-lishi"/><span slot="title">话务统计</span></el-menu-item>
         </el-submenu>
-        <el-menu-item index="11" v-show="sysUser === 'superadmin'" route="/system"><i class="iconfont icon-quanxian"/><span slot="title">系统管理</span></el-menu-item>
+        <el-menu-item index="11" v-show="sysUser === 'superadmin'" route="/system"><i class="iconfont icon-quanxian"/><span slot="title">系统管理 ok</span></el-menu-item>
         <el-menu-item index="12" v-show="sysUser === 'superadmin'" route="/feedback"><i class="fa fa-question-circle"/><span slot="title">问题反馈 --</span></el-menu-item>
       </el-menu>
     <el-container>

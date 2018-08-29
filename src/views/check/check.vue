@@ -1,129 +1,97 @@
 <template>
   <section>
-    <div class="filter-container">
-      <div class="detail-title">
-        <span class="list-tit">公司查询</span>
+    <div style="margin-bottom: 20px">
+      <el-radio-group v-model="radio">
+        <el-radio-button label="审核管理"></el-radio-button>
+        <el-radio-button label="历史审核查询"></el-radio-button>
+      </el-radio-group>
+    </div>
+    <div v-show="radio==='审核管理'">
+      <div class="filter-container">
+        <div class="detail-title">
+          <span class="list-tit">{{radio}}</span>
+        </div>
+        <el-row>
+          <el-col :span="14">
+            <el-input @keyup.enter.native="handleFilter" style="width: 190px;" class="filter-item" placeholder="输入公司名称"
+                      v-model="listQuery.companyName"/>
+            <el-date-picker v-model="listQuery.date"
+                            type="daterange"
+                            style="width: 275px"
+                            start-placeholder="开始日期"
+                            end-placeholder="结束日期"/>
+            <el-button class="filter-item" type="primary" icon="search" @click="handleFilter"><i class="fa fa-search"/>查询
+            </el-button>
+          </el-col>
+          <el-col :span="10" style="text-align: right;">
+            <el-select v-model="listQuery.type" placeholder="审核类型" clearable @change="handleFilter1">
+              <el-option
+                v-for="item in types"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-col>
+        </el-row>
       </div>
-      <el-row style="margin-top: 10px">
-        <el-col :span="8">
-          <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="输入公司名称关键词"
-                    v-model="listQuery.companyName">
-          </el-input>
-          <el-button class="filter-item" type="primary" icon="search" @click="handleFilter"><i class="fa fa-search"></i>查询</el-button>
-        </el-col>
-        <el-col :span="16" style="text-align: right;">
-          <el-select v-model="listQuery.companyProvince"
-                     placeholder="省份筛选"
-                     clearable
-                     @change="handleFilter1">
-            <el-option
-              v-for="item in provinceData"
-              :key="item.value"
-              :label="item.label"
-              :value="item">
-            </el-option>
-          </el-select>
-          <el-select v-model="listQuery.industryType"
-                     placeholder="行业筛选"
-                     clearable
-                     @change="handleFilter1">
-            <el-option
-              v-for="item in industry"
-              :key="item.id"
-              :label="item.name"
-              :value="item.name">
-            </el-option>
-          </el-select>
-          <el-select v-model="listQuery.orgSize"
-                     placeholder="公司规模筛选"
-                     clearable
-                     @change="handleFilter1">
-            <el-option
-              v-for="item in orgSize"
-              :key="item.value"
-              :label="item.label"
-              :value="item.label">
-            </el-option>
-          </el-select>
-        </el-col>
-      </el-row>
+      <div class="detail-title">
+        <span class="list-tit">待审核列表</span>
+      </div>
+      <el-table :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit
+                highlight-current-row style="width: 100%">
+        <el-table-column align="center" label="审核流水号">
+          <template slot-scope="scope">
+            <span>{{scope.row.reviewCode}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" label="所属公司">
+          <template slot-scope="scope">
+            <span>{{scope.row.companyName}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" label="审核类型">
+          <template slot-scope="scope">
+            <span>{{scope.row.type}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" label="创建时间">
+          <template slot-scope="scope">
+            <span>{{scope.row.createTime}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" label="审核状态">
+          <template slot-scope="scope">
+            <span :style="scope.row.status==='已通过'?'color:#009801':'color:#F7BA2A'">{{scope.row.status}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" label="操作" width="150">
+          <template slot-scope="scope">
+            <a size="small" class="common_btn" @click="handleUpdate(scope.row)">查看详情</a>
+          </template>
+        </el-table-column>
+      </el-table>
+      <div v-show="!listLoading">
+        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
+                       :current-page.sync="currentPage"
+                       background
+                       :page-sizes="[10,20,30, 50]" :page-size="listQuery.pageSize"
+                       layout="total, sizes, prev, pager, next, jumper" :total="total">
+        </el-pagination>
+      </div>
     </div>
-    <div class="detail-title">
-      <span class="list-tit">公司列表</span>
-      <el-button class="add_btn" @click="handleCreate" v-if="sysUser === 'superadmin'">
-        <i class="fa fa-plus" style="color: #fff;margin-right: 10px"></i>新建公司
-      </el-button>
+    <div v-show="radio==='历史审核查询'">
     </div>
-    <el-table :key='tableKey' :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit
-              highlight-current-row style="width: 100%">
-
-      <el-table-column align="center" label="公司ID">
-        <template slot-scope="scope">
-          <span>{{scope.row.companyCode}}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column align="center" label="公司名称" class-name="left">
-        <template slot-scope="scope">
-          <span>{{scope.row.companyName}}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column align="center" label="公司地址">
-        <template slot-scope="scope">
-          <span>{{scope.row.companyAddress}}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column align="center" label="公司所在省份">
-        <template slot-scope="scope">
-          <span>{{scope.row.companyProvince}}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column align="center" label="公司行业" show-overflow-tooltip>
-        <template slot-scope="scope">
-          <span>{{scope.row.industryType}}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column align="center" label="公司规模">
-        <template slot-scope="scope">
-          <span>{{scope.row.orgSize}}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column align="center" label="操作" fixed="right" width="150">
-        <template slot-scope="scope">
-          <a size="small" class="common_btn"
-             @click="handleUpdate(scope.row)">查看详情
-          </a>
-        </template>
-      </el-table-column>
-    </el-table>
-
-    <div v-show="!listLoading" class="pagination-container">
-      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-                     :current-page.sync="currentPage"
-                     background
-                     :page-sizes="[10,20,30, 50]" :page-size="listQuery.pageSize"
-                     layout="total, sizes, prev, pager, next, jumper" :total="total">
-      </el-pagination>
-    </div>
-
   </section>
 </template>
 
 <script>
-  import { getCompanyPage, getAuthDustries, getOrgSize } from '@/api/api'
-  import { provinceAndCityData } from 'element-china-area-data' // 省市区数据
-  import { mapGetters } from 'vuex'
+  import {review} from '@/api/api'
 
   export default {
-    components: {},
-    data () {
+    data() {
       return {
-        tableKey: 0,
+        radio: '审核管理',
         total: null,
         listLoading: true,
         listQuery: {
@@ -131,83 +99,89 @@
           pageSize: 10
         },
         list: null,
-        sys_user_add: true,
-        value: '',
-        provinceData: provinceAndCityData,
-        industry: [],
-        orgSize: [],
-        currentPage: 1
+        currentPage: 1,
+        types: [
+          {
+            label: '外呼名单',
+            value: 'OutboundName'
+          },
+          {
+            label: '短信模板',
+            value: 'SmsTemplate'
+          }
+        ],
       }
     },
-    computed: {
-      ...mapGetters([
-        'sysUser'
-      ])
-    },
-    created () {
+    created() {
       this.getList()
     },
     methods: {
-      getList () {
-        getCompanyPage(this.listQuery).then(res => {
+      getList() {
+        let pageTab = 'PENDING'
+        if (this.radio != '审核管理') {
+          pageTab = 'HISTORY'
+        }
+        if (this.listQuery.date) {
+          this.listQuery.startDate = this.listQuery.date[0]
+          this.listQuery.endDate = this.listQuery.date[1]
+        } else {
+          delete this.listQuery.startDate;
+          delete this.listQuery.endDate;
+        }
+        let query = JSON.parse(JSON.stringify(this.listQuery))
+        delete query.date
+        review(pageTab, query).then(res => {
           this.list = res.data.content
           this.total = res.data.totalElements
           this.listLoading = false
-          getOrgSize().then(res => {
-            this.orgSize = res.data
-            this.list.forEach(item => {
-            })
+          this.list.forEach(item => {
+            if (item.type === 'OutboundName') {
+              item.type = '外呼名单'
+            } else if (item.type === 'SmsTemplate') {
+              item.type = '推送规则'
+            }
+            if (item.status === '0') {
+              item.status = '待审核'
+            } else {
+              item.status = '已通过'
+            }
+            let date = new Date(item.createTime)
+            item.createTime = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
           })
         })
-        getAuthDustries().then(res => {
-          this.industry = res.data
-        })
       },
-      handleUpdate (obj) {
-        this.$router.push({name: 'detail', query: obj})
+      handleUpdate(obj) {
+        alert(obj)
+        // this.$router.push({name: 'detail', query: obj})
       },
-      handleSizeChange (val) {
+      handleSizeChange(val) {
         this.listQuery.pageSize = val
         this.getList()
       },
-      handleCurrentChange (val) {
+      handleCurrentChange(val) {
         this.listQuery.pageIndex = val - 1
         this.getList()
       },
-      handleFilter () {
-        this.listQuery.companyProvince = null
-        this.listQuery.industryType = null
-        this.listQuery.orgSize = null
-        delete this.listQuery.orgSize
-        delete this.listQuery.companyProvince
-        delete this.listQuery.industryType
+      handleFilter() {
+        delete this.listQuery.type
         if (!this.listQuery.companyName) {
           delete this.listQuery.companyName
         }
+        if (!this.listQuery.date) {
+          delete this.listQuery.date
+        }
         this.listQuery.pageIndex = 0
         this.getList()
       },
-      handleFilter1 () {
-        if (this.listQuery.companyProvince) {
-          this.listQuery.companyProvince = this.listQuery.companyProvince.label || this.listQuery.companyProvince
-        }
-        this.listQuery.companyName = ''
+      handleFilter1() {
         delete this.listQuery.companyName
-        if (!this.listQuery.companyProvince) {
-          delete this.listQuery.companyProvince
-        }
-        if (!this.listQuery.industryType) {
-          delete this.listQuery.industryType
-        }
-        if (!this.listQuery.orgSize) {
-          delete this.listQuery.orgSize
+        delete this.listQuery.date
+        if (!this.listQuery.type) {
+          delete this.listQuery.type
         }
         this.listQuery.pageIndex = 0
         this.getList()
       },
-      handleCreate () {
-        this.$router.push({path: '/company/create'})
-      }
     }
   }
 </script>

@@ -184,6 +184,7 @@
     <div v-show="!listLoading2">
       <div style="float: right;line-height: 30px;color: #0299CC;font-size: 14px">累计充值金额：{{money}}元</div>
       <el-pagination @size-change="handleSizeChange2" @current-change="handleCurrentChange2"
+                     background
                      :current-page.sync="currentPage2" background :page-sizes="[10,20,30, 50]"
                      :page-size="listQuery2.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total2">
       </el-pagination>

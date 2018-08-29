@@ -94,7 +94,8 @@ export const getConsumptionPage = (id, params) => axios.get('/account/getConsump
 export const getRechargePageById = (id, params) => axios.get('/account/getRechargePage/' + id, {params: params})
 export const updateAccount = (id, params) => axios.put('/account/' + id, params)
 export const enabledAccount = (id, status) => axios.put('/account/enabledAccount/' + id + '?status=' + status)
-
+// review
+export const review = (pageTab, params) => axios.get('/review/' + pageTab , {params: params})
 // feedback
 export const getFeedback = params => axios.get('/feedback/getPage', {params: params})
 export const getFdDetail = id => axios.get('/feedback/getImg/' + id)

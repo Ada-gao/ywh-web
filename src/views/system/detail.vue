@@ -294,6 +294,7 @@
         <div style="float: right;line-height: 30px;color: #0299CC;font-size: 14px">累计消费金额：{{consumeMoney}}元</div>
         <el-pagination @size-change="handleSizeChange2" @current-change="handleCurrentChange2"
                        :current-page.sync="currentPage2"
+                       background
                        :page-sizes="[10,20,30, 50]" :page-size="listQuery2.pageSize"
                        layout="total, sizes, prev, pager, next, jumper" :total="total2">
         </el-pagination>
@@ -330,6 +331,7 @@
         <div style="float: right;line-height: 30px;color: #0299CC;font-size: 14px">累计充值金额：{{rechargeMoney}}元</div>
         <el-pagination @size-change="handleSizeChange3" @current-change="handleCurrentChange3"
                        :current-page.sync="currentPage3"
+                       background
                        :page-sizes="[10,20,30, 50]" :page-size="listQuery3.pageSize"
                        layout="total, sizes, prev, pager, next, jumper" :total="total3">
         </el-pagination>
