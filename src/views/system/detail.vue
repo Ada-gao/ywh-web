@@ -11,6 +11,12 @@
     <div v-show="radio==='账户信息'">
       <div class="detail-title">
         <span class="list-tit">{{radio}}</span>
+        <span style="float: right;color: #0299cc" >{{accountStatus ? '启用' : '停用'}}</span>
+        <el-switch
+          v-model="accountStatus"
+          class="switch-btn"
+          @change="changeMode">
+        </el-switch>
         <el-button class="upd_btn" @click="modifyStat">
           <i class="fa fa-edit"
              style="font-size: 22px;margin-right: 5px;vertical-align: middle;"></i>
@@ -31,7 +37,7 @@
             </el-col>
             <el-col :span="8"><span class="detail-label">账户到期时间:</span><span
               class="detail-value">{{account.expireDate}}</span></el-col>
-            <el-col :span="8"><span class="detail-label">账户状态:</span><span class="detail-value">{{account.accountStatus}}</span>
+            <el-col :span="8"><span class="detail-label">账户状态:</span><span class="detail-value">{{accountStatus? '生效' : '失效'}}</span>
             </el-col>
             <el-col :span="8"><span class="detail-label">key:</span><span
               class="detail-value">{{account.accountKey}}</span></el-col>
@@ -69,7 +75,7 @@
                            v-model="scope.row.enabled"
                            active-color="#0299CC"
                            inactive-color="#C0CCDA"
-                           @change="changeMode(scope.row.id, scope.row.enabled)">
+                           @change="switchMode(scope.row.id, scope.row.enabled)">
                 </el-switch>
                 <div v-if="scope.row.enabled" class="switch-open">开启</div>
                 <div v-else class="switch-close">停用</div>
@@ -114,7 +120,7 @@
               <el-col :span="11">
                 <el-form-item label="账户到期时间">
                   <el-date-picker
-                    v-model="accountForm.expireDate"
+                    v-model="timeDefaultShow"
                     type="date"
                     style="width: 100%"
                     placeholder="选择账户到期时间">
@@ -285,7 +291,7 @@
         </el-table-column>
       </el-table>
       <div v-show="!listLoading2">
-        <div style="float: right;line-height: 30px;color: #0299CC;font-size: 14px">累计消费金额：100000元</div>
+        <div style="float: right;line-height: 30px;color: #0299CC;font-size: 14px">累计消费金额：{{consumeMoney}}元</div>
         <el-pagination @size-change="handleSizeChange2" @current-change="handleCurrentChange2"
                        :current-page.sync="currentPage2"
                        :page-sizes="[10,20,30, 50]" :page-size="listQuery2.pageSize"
@@ -321,7 +327,7 @@
         </el-table-column>
       </el-table>
       <div v-show="!listLoading3">
-        <div style="float: right;line-height: 30px;color: #0299CC;font-size: 14px">累计充值金额：100000元</div>
+        <div style="float: right;line-height: 30px;color: #0299CC;font-size: 14px">累计充值金额：{{rechargeMoney}}元</div>
         <el-pagination @size-change="handleSizeChange3" @current-change="handleCurrentChange3"
                        :current-page.sync="currentPage3"
                        :page-sizes="[10,20,30, 50]" :page-size="listQuery3.pageSize"
@@ -333,7 +339,7 @@
 </template>
 
 <script>
-  import {accountCompany,updateAccount,getRechargePageById, addAdmin, getAdmin,getConsumptionPage, resetPWD, updateUsers, userEnabled} from '@/api/api'
+  import {accountCompany,updateAccount,getRechargePageById, addAdmin, getAdmin,getConsumptionPage, enabledAccount,resetPWD, updateUsers, userEnabled} from '@/api/api'
 
   export default {
     data() {
@@ -394,6 +400,9 @@
         }
       }
       return {
+        consumeMoney:0,
+        rechargeMoney:0,
+        timeDefaultShow:null,
         radio: '账户信息',
         tab1Status: true,
         form: {},
@@ -450,18 +459,36 @@
           pageIndex: 0,
           pageSize: 10
         },
+        accountStatus: null,
       }
     },
     created() {
       this.form = this.$route.query
       this.accountId = this.form.id
+      this.accountStatus = this.form.accountStatus
       this.getCompany()
       this.getList()
       this.getConsumption()
       this.getRecharge()
     },
     methods: {
-      changeMode (id, enabled) {
+      changeMode (val){
+        enabledAccount(this.accountId, val).then(res => {
+          this.accountStatus = val
+          if (val) {
+            this.$message({
+              message: '启用成功',
+              type: 'success'
+            })
+          } else {
+            this.$message({
+              message: '停用成功',
+              type: 'success'
+            })
+          }
+        })
+      },
+      switchMode (id, enabled) {
         userEnabled(id, enabled).then(res => {
           this.$message({
             message: '操作成功',
@@ -504,6 +531,7 @@
       },
       getConsumption(){
         getConsumptionPage(this.accountId,this.listQuery2).then(response => {
+          this.consumeMoney = response.data.statisResult;
           this.list2 = response.data.content
           this.total2 = response.data.totalElements
           this.listLoading2 = false
@@ -520,6 +548,7 @@
       },
       getRecharge(){
         getRechargePageById(this.accountId,this.listQuery3).then(response => {
+          this.rechargeMoney = response.data.statisResult;
           this.list3 = response.data.content
           this.total3 = response.data.totalElements
           this.listLoading3 = false
@@ -543,15 +572,8 @@
       },
       modifyStat(){
         this.accountForm.accountName = this.account.accountName
-        this.accountForm.accountType = this.account.accountType === '试用体验' ?'Trial':'Charge'
         this.accountForm.balanceThreshold = this.account.balanceThreshold
-        this.accountForm.companyId = this.account.companyId
-        // this.accountForm.expireDate = this.account.expireDate
-        this.accountForm.level = this.account.level
-        this.accountForm.mobile = this.account.mobile
-        this.accountForm.name = this.account.name
-        this.accountForm.passWord = this.account.passWord
-        this.accountForm.userName = this.account.userName
+        this.timeDefaultShow = new Date(this.account.expireDate)
         this.updateAccountDialog = true
       },
       getCompany() {
@@ -647,6 +669,7 @@
       updateAccount(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
+            this.accountForm.expireDate = this.timeDefaultShow
             this.accountForm.balanceThreshold = this.accountForm.balanceThreshold * 100
             updateAccount(this.accountId, this.accountForm).then(res => {
               this.$message({
@@ -733,7 +756,13 @@
     }
 
   }
-
+  .switch-btn {
+    float: right;
+    margin-left: 30px;
+    display: inline-block;
+    line-height: 40px;
+    margin-right: 3px;
+  }
   .form-border {
     border: 1px solid #EFEFEF;
     border-radius: 5px;

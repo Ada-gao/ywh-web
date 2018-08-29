@@ -167,7 +167,7 @@
       </el-table-column>
     </el-table>
     <div v-show="!listLoading2">
-      <div style="float: right;line-height: 30px;color: #0299CC;font-size: 14px">累计充值金额：100000元</div>
+      <div style="float: right;line-height: 30px;color: #0299CC;font-size: 14px">累计充值金额：{{money}}元</div>
       <el-pagination @size-change="handleSizeChange2" @current-change="handleCurrentChange2"
                      :current-page.sync="currentPage2" background :page-sizes="[10,20,30, 50]" :page-size="listQuery2.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total2">
       </el-pagination>
@@ -182,6 +182,7 @@
   export default {
     data() {
       return {
+        money: 0,
         list: null,
         listLoading: true,
         total: 0,
@@ -244,6 +245,7 @@
       },
       getRechargePage() {
         getRechargePage(this.listQuery2).then(response => {
+          this.money = response.data.statisResult;
           this.list2 = response.data.content
           this.total2 = response.data.totalElements
           this.listLoading2 = false
