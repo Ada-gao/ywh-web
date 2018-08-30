@@ -96,6 +96,7 @@ export const updateAccount = (id, params) => axios.put('/account/' + id, params)
 export const enabledAccount = (id, status) => axios.put('/account/enabledAccount/' + id + '?status=' + status)
 // review
 export const review = (pageTab, params) => axios.get('/review/' + pageTab , {params: params})
+export const putReview = (id, status,content) => axios.put('/review/' + id + '?status=' + status + '&content=' + content)
 // feedback
 export const getFeedback = params => axios.get('/feedback/getPage', {params: params})
 export const getFdDetail = id => axios.get('/feedback/getImg/' + id)

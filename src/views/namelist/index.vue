@@ -87,7 +87,7 @@
 
       <el-table-column align="center" label="名单状态">
         <template slot-scope="scope">
-          <span :style="scope.row.status==='生效'?'color:#17C263':'color:#F7BA2A'">{{scope.row.status}}</span>
+          <span :style="scope.row.status==='生效'?'color:#17C263': scope.row.status==='待审核'?'color:#F7BA2A':'color:#D0021B'">{{scope.row.status}}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="名单导入时间">
@@ -144,12 +144,16 @@ export default {
       currentPage: 1,
       states:[
         {
-          label: '生效',
-          value: '1'
-        },
-        {
           label: '待审核',
           value:  '0'
+        },
+        {
+          label: '审核失败',
+          value:  '1'
+        },
+        {
+          label: '生效',
+          value: '2'
         }
       ]
     }
@@ -177,6 +181,8 @@ export default {
             item.maskPhoneNo = '否'
           }
           if (item.status == 1){
+            item.status = '审核失败'
+          }else if (item.status == 2){
             item.status = '生效'
           }else{
             item.status = '待审核'

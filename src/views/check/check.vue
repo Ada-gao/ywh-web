@@ -81,6 +81,94 @@
       </div>
     </div>
     <div v-show="radio==='历史审核查询'">
+      <div class="filter-container">
+        <div class="detail-title">
+          <span class="list-tit">{{radio}}</span>
+        </div>
+        <el-row>
+          <el-col :span="14">
+            <el-input @keyup.enter.native="handleFilter2" style="width: 190px;" class="filter-item" placeholder="输入公司名称"
+                      v-model="listQuery2.companyName"/>
+            <el-date-picker v-model="listQuery2.date"
+                            type="daterange"
+                            style="width: 275px"
+                            start-placeholder="开始日期"
+                            end-placeholder="结束日期"/>
+            <el-button class="filter-item" type="primary" icon="search" @click="handleFilter2"><i class="fa fa-search"/>查询
+            </el-button>
+          </el-col>
+          <el-col :span="10" style="text-align: right;">
+            <el-select v-model="listQuery2.status"
+                       placeholder="审核状态"
+                       clearable
+                       @change="handleFilter3">
+              <el-option
+                v-for="item in states"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+            <el-select v-model="listQuery2.type" placeholder="审核类型" clearable @change="handleFilter3">
+              <el-option
+                v-for="item in types"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-col>
+        </el-row>
+      </div>
+      <div class="detail-title">
+        <span class="list-tit">审核列表</span>
+      </div>
+      <el-table :data="list2" v-loading="listLoading2" element-loading-text="给我一点时间" border fit
+                highlight-current-row style="width: 100%">
+        <el-table-column align="center" label="审核流水号">
+          <template slot-scope="scope">
+            <span>{{scope.row.reviewCode}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" label="所属公司">
+          <template slot-scope="scope">
+            <span>{{scope.row.companyName}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" label="审核类型">
+          <template slot-scope="scope">
+            <span>{{scope.row.type}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" label="创建时间">
+          <template slot-scope="scope">
+            <span>{{scope.row.createTime}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" label="处理时间">
+          <template slot-scope="scope">
+            <span>{{scope.row.updateTime}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" label="审核状态">
+          <template slot-scope="scope">
+            <span :style="scope.row.status==='已通过'?'color:#009801':'color:#F7BA2A'">{{scope.row.status}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" label="操作" width="150">
+          <template slot-scope="scope">
+            <a size="small" class="common_btn" @click="handleUpdate(scope.row)">查看详情</a>
+          </template>
+        </el-table-column>
+      </el-table>
+      <div v-show="!listLoading2">
+        <el-pagination @size-change="handleSizeChange2" @current-change="handleCurrentChange2"
+                       :current-page.sync="currentPage2"
+                       background
+                       :page-sizes="[10,20,30, 50]" :page-size="listQuery2.pageSize"
+                       layout="total, sizes, prev, pager, next, jumper" :total="total2">
+        </el-pagination>
+      </div>
     </div>
   </section>
 </template>
@@ -110,17 +198,32 @@
             value: 'SmsTemplate'
           }
         ],
+        total2: null,
+        listLoading2: true,
+        listQuery2: {
+          pageIndex: 0,
+          pageSize: 10
+        },
+        list2: null,
+        currentPage2: 1,
+        states:[
+          {
+            label: '审核失败',
+            value:  '1'
+          },
+          {
+            label: '审核通过',
+            value: '2'
+          }
+        ]
       }
     },
     created() {
       this.getList()
+      this.getList2()
     },
     methods: {
       getList() {
-        let pageTab = 'PENDING'
-        if (this.radio != '审核管理') {
-          pageTab = 'HISTORY'
-        }
         if (this.listQuery.date) {
           this.listQuery.startDate = this.listQuery.date[0]
           this.listQuery.endDate = this.listQuery.date[1]
@@ -130,7 +233,7 @@
         }
         let query = JSON.parse(JSON.stringify(this.listQuery))
         delete query.date
-        review(pageTab, query).then(res => {
+        review('PENDING', query).then(res => {
           this.list = res.data.content
           this.total = res.data.totalElements
           this.listLoading = false
@@ -150,9 +253,51 @@
           })
         })
       },
+      getList2() {
+        if (this.listQuery2.date) {
+          this.listQuery2.startDate = this.listQuery2.date[0]
+          this.listQuery2.endDate = this.listQuery2.date[1]
+        } else {
+          delete this.listQuery2.startDate;
+          delete this.listQuery2.endDate;
+        }
+        let query = JSON.parse(JSON.stringify(this.listQuery2))
+        delete query.date
+        review('HISTORY', query).then(res => {
+          this.list2 = res.data.content
+          this.total2 = res.data.totalElements
+          this.listLoading2 = false
+          this.list2.forEach(item => {
+            if (item.type === 'OutboundName') {
+              item.type = '外呼名单'
+            } else if (item.type === 'SmsTemplate') {
+              item.type = '推送规则'
+            }
+            if (item.status === '0') {
+              item.status = '待审核'
+            } if (item.status === '1') {
+              item.status = '审核失败'
+            } else {
+              item.status = '已通过'
+            }
+            let date = new Date(item.createTime)
+            item.createTime = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
+            let date2 = new Date(item.updateTime)
+            item.updateTime = date2.getFullYear() + '-' + (date2.getMonth() + 1) + '-' + date2.getDate()
+          })
+        })
+      },
       handleUpdate(obj) {
-        alert(obj)
-        // this.$router.push({name: 'detail', query: obj})
+        if (this.radio === '审核管理'){
+          obj.check = true
+        } else{
+          obj.check = false
+        }
+        if (obj.type === '外呼名单') {
+          this.$router.push({name: 'namedetail', query: obj})
+        }else{
+          alert('推送规则')
+        }
       },
       handleSizeChange(val) {
         this.listQuery.pageSize = val
@@ -181,6 +326,38 @@
         }
         this.listQuery.pageIndex = 0
         this.getList()
+      },
+      handleSizeChange2(val) {
+        this.listQuery2.pageSize = val
+        this.getList2()
+      },
+      handleCurrentChange2(val) {
+        this.listQuery2.pageIndex = val - 1
+        this.getList2()
+      },
+      handleFilter2() {
+        delete this.listQuery2.states
+        delete this.listQuery2.type
+        if (!this.listQuery2.companyName) {
+          delete this.listQuery2.companyName
+        }
+        if (!this.listQuery2.date) {
+          delete this.listQuery2.date
+        }
+        this.listQuery2.pageIndex = 0
+        this.getList2()
+      },
+      handleFilter3() {
+        delete this.listQuery2.companyName
+        delete this.listQuery2.date
+        if (!this.listQuery2.states) {
+          delete this.listQuery2.states
+        }
+        if (!this.listQuery2.type) {
+          delete this.listQuery2.type
+        }
+        this.listQuery2.pageIndex = 0
+        this.getList2()
       },
     }
   }
