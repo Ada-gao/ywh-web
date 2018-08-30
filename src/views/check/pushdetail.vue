@@ -2,16 +2,11 @@
   <div class="app-container">
     <div class="detail-title">
       <span class="list-tit">推送规则详情</span>
-      <span style="float: right;color: #0299cc">{{form.enabled ? '启用' : '停用'}}</span>
-      <el-switch
-        v-model="form.enabled"
-        class="switch-btn"
-        @change="changeMode">
-      </el-switch>
-      <el-button class="upd_btn"
-                 @click="updateStat">
-        <i class="fa fa-edit" style="font-size: 22px;margin-right: 5px;vertical-align: middle;"></i>
-        <i style="font-style: normal;">修改</i>
+      <el-button class="add_btn" @click="handleCheck(false)" v-show="obj.check">
+        <i class="iconfont icon-jujue" style="color: #fff;margin-right: 10px"></i>不通过
+      </el-button>
+      <el-button class="add_btn" @click="handleCheck(true)" v-show="obj.check">
+        <i class="iconfont icon-tongguo" style="color: #fff;margin-right: 10px"></i>通过
       </el-button>
     </div>
     <div class="margin-line"></div>
@@ -70,27 +65,60 @@
         </el-row>
       </el-form>
     </div>
+    <el-dialog title="审核通过" :visible.sync="agreeDialog" width="30%">
+      <el-form :model="checkForm" :rules="checkRules" ref="checkForm" label-width="100px">
+        <el-form-item label="确定审核通过吗？请输入短信模版！" class="txt" label-width="260px"/>
+        <el-form-item label="模版Code" prop="content" class="txt">
+          <el-input v-model="checkForm.content" placeholder="请输入模版Code" maxlength="12"></el-input>
+        </el-form-item>
+      </el-form>
+      <div style="text-align: right">
+        <el-button class="search_btn" @click="agreeDialog = false">取 消</el-button>
+        <el-button class="add_btn" @click="commit('2')">确 定</el-button>
+      </div>
+    </el-dialog>
+    <el-dialog title="审核不通过" :visible.sync="refuseDialog" width="30%">
+      <el-form :model="checkForm" :rules="checkRules" ref="checkForm" label-width="80px">
+        <el-form-item label="确定审核不通过吗？请输入驳回原因！" class="txt" label-width="260px"/>
+        <el-form-item label="驳回原因" prop="content" class="txt">
+          <el-input  type="textarea" v-model="checkForm.content" :rows="3"  placeholder="请输入驳回原因" maxlength="12"></el-input>
+        </el-form-item>
+      </el-form>
+      <div style="text-align: right">
+        <el-button class="search_btn" @click="refuseDialog = false">取 消</el-button>
+        <el-button class="add_btn" @click="commit('1')">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-  import { getMessage ,enabeldRule} from '@/api/api'
+  import { getMessage ,enabeldRule,putReview} from '@/api/api'
 
   export default {
     data () {
       return {
+        obj: {},
         form: {},
         nextAction:'',
-        lastCallResult:''
+        lastCallResult:'',
+        agreeDialog:false,
+        refuseDialog:false,
+        checkForm:{},
+        checkRules: {
+          content: [
+            {required: true, trigger: 'blur', message: '请输入内容'}
+          ],
+        },
       }
     },
     created () {
-      this.form = this.$route.query
+      this.obj = this.$route.query
       this.getQuery()
     },
     methods: {
       getQuery () {
-        getMessage(this.form.id).then(res => {
+        getMessage(this.obj.productId).then(res => {
           this.form = res.data
           if(this.form.nextAction === 'CALL_AGAIN'){
             this.nextAction = '继续外呼'
@@ -110,22 +138,27 @@
           }
         })
       },
-      updateStat () {
-        this.$router.push({name: 'pCreate', query: this.form})
+      handleCheck (obj) {
+        delete this.checkForm.content
+        if (obj){
+          this.agreeDialog = true
+        } else{
+          this.refuseDialog = true
+        }
       },
-      changeMode (val) {
-        enabeldRule(this.form.id, val).then(res => {
-          this.form.enabled = val
-          if (val) {
-            this.$message({
-              message: '启用成功',
-              type: 'success'
-            })
+      commit (status) {
+        this.$refs['checkForm'].validate(valid => {
+          if (valid) {
+            putReview(this.obj.id,status,this.checkForm.content)
+              .then((res) => {
+                this.$message({
+                  message: '操作成功',
+                  type: 'success'
+                })
+                this.$router.push({path: '/check'})
+              })
           } else {
-            this.$message({
-              message: '停用成功',
-              type: 'success'
-            })
+            return false
           }
         })
       },
@@ -134,28 +167,7 @@
 </script>
 
 <style lang="scss" scoped>
-  .detail-title {
-    /*margin-bottom: 20px;*/
-    .upd_btn {
-      float: right;
-      border: none;
-      color: #0299CC;
-      i {
-        margin-right: 2px;
-        vertical-align: text-bottom;
-      }
-      &:hover {
-        background: #ffff;
-      }
-    }
-    .switch-btn {
-      float: right;
-      margin-left: 30px;
-      display: inline-block;
-      line-height: 40px;
-      margin-right: 3px;
-    }
-  }
+
   .form-border {
     border: 1px solid #EFEFEF;
     border-radius: 5px;

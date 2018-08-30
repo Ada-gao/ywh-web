@@ -97,6 +97,12 @@ export const enabledAccount = (id, status) => axios.put('/account/enabledAccount
 // review
 export const review = (pageTab, params) => axios.get('/review/' + pageTab , {params: params})
 export const putReview = (id, status,content) => axios.put('/review/' + id + '?status=' + status + '&content=' + content)
+// push
+export const message = params => axios.post('/message', params)
+export const putMessage = (id, params) => axios.put('/message/' + id, params)
+export const getMessage = id => axios.get('/message/' + id)
+export const messageRulePage = params => axios.get('/message/messageRulePage', {params: params})
+export const enabeldRule = (id, enabled) => axios.put('/message/enabledRule/' + id + '?enabled=' + enabled)
 // feedback
 export const getFeedback = params => axios.get('/feedback/getPage', {params: params})
 export const getFdDetail = id => axios.get('/feedback/getImg/' + id)

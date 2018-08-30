@@ -32,6 +32,7 @@ import trialdetail from './views/trial/detail'
 // 9、审核管理
 import check from './views/check/check'
 import namedetail from './views/check/namedetail'
+import pushdetail from './views/check/pushdetail'
 // 10、报表统计
 import workload from './views/report/workload'
 import reportTask from './views/report/task'
@@ -159,7 +160,8 @@ let routes = [
     leaf: true,
     children: [
       {menuId: 111, path: '/check', component: check, name: '审核管理'},
-      {menuId: 112, path: '/check/namedetail', component: namedetail, name: 'namedetail'}
+      {menuId: 112, path: '/check/namedetail', component: namedetail, name: 'namedetail'},
+      {menuId: 112, path: '/check/pushdetail', component: pushdetail, name: 'pushdetail'}
     ]
   },
   {

@@ -245,8 +245,10 @@
             }
             if (item.status === '0') {
               item.status = '待审核'
-            } else {
-              item.status = '已通过'
+            } if (item.status === '1') {
+              item.status = '审核失败'
+            } else if (item.status === '2') {
+              item.status = '生效'
             }
             let date = new Date(item.createTime)
             item.createTime = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
@@ -296,7 +298,7 @@
         if (obj.type === '外呼名单') {
           this.$router.push({name: 'namedetail', query: obj})
         }else{
-          alert('推送规则')
+          this.$router.push({name: 'pushdetail', query: obj})
         }
       },
       handleSizeChange(val) {
