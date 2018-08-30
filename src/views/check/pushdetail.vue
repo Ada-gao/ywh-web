@@ -81,7 +81,7 @@
       <el-form :model="checkForm" :rules="checkRules" ref="checkForm" label-width="80px">
         <el-form-item label="确定审核不通过吗？请输入驳回原因！" class="txt" label-width="260px"/>
         <el-form-item label="驳回原因" prop="content" class="txt">
-          <el-input  type="textarea" v-model="checkForm.content" :rows="3"  placeholder="请输入驳回原因" maxlength="12"></el-input>
+          <el-input  type="textarea" v-model="checkForm.content" :rows="3"  placeholder="请输入驳回原因" maxlength="50"></el-input>
         </el-form-item>
       </el-form>
       <div style="text-align: right">

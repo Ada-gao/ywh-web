@@ -2,28 +2,28 @@
   <el-container style="height: 100%;">
       <el-menu class="el-menu-nav" :collapse="isCollapse" router="true" default-active="1">
         <el-menu-item disabled><i class="fa fa-flash" :style="isCollapse ? 'font-size:22px' : 'font-size:14px'"/><span slot="title" >雷鸣外呼管理平台</span></el-menu-item>
-        <el-menu-item index="1" route="/dashboard"><i class="fa fa-home"/><span slot="title">首页-工作台 ok</span></el-menu-item>
+        <el-menu-item index="1" route="/dashboard"><i class="fa fa-home"/><span slot="title">首页-工作台</span></el-menu-item>
         <el-menu-item index="2" v-show="sysUser != 'superadmin'" route="/account"><i class="iconfont icon-zhanghu"/><span slot="title">账户管理 no</span></el-menu-item>
-        <el-menu-item index="3" route="/company"><i class="iconfont icon-gongsiguanli"/><span slot="title">公司管理 ok</span></el-menu-item>
-        <el-menu-item index="4" route="/salesman"><i class="iconfont icon-xiaoshoushu"/><span slot="title">销售管理 ok</span></el-menu-item>
-        <el-menu-item index="5" route="/list"><i class="fa fa-list-alt"/><span slot="title">名单管理 ok</span></el-menu-item>
-        <el-menu-item index="6" route="/task"><i class="fa fa-phone"/><span slot="title">任务管理 ok</span></el-menu-item>
+        <el-menu-item index="3" route="/company"><i class="iconfont icon-gongsiguanli"/><span slot="title">公司管理</span></el-menu-item>
+        <el-menu-item index="4" route="/salesman"><i class="iconfont icon-xiaoshoushu"/><span slot="title">销售管理</span></el-menu-item>
+        <el-menu-item index="5" route="/list"><i class="iconfont icon-guize"/><span slot="title">名单管理</span></el-menu-item>
+        <el-menu-item index="6" route="/task"><i class="fa fa-phone"/><span slot="title">任务管理</span></el-menu-item>
         <el-submenu index="7">
           <template slot="title"><i class="iconfont icon-xiaoxishezhi" style="color: #ffffff"></i><span slot="title" style="color: #ffffff">推送管理</span></template>
-          <el-menu-item index="7-1" route="/push/rule"><i class="iconfont icon-guize"/><span slot="title">推送规则 ok</span></el-menu-item>
-          <el-menu-item index="7-2" route="/push"><i class="iconfont icon-fasong"/><span slot="title">信息推送</span></el-menu-item>
+          <el-menu-item index="7-1" route="/push/rule"><i class="iconfont icon-guize"/><span slot="title">推送规则</span></el-menu-item>
+          <el-menu-item index="7-2" route="/push"><i class="iconfont icon-fasong"/><span slot="title">信息推送 no</span></el-menu-item>
         </el-submenu>
-        <el-menu-item index="8" v-show="sysUser === 'superadmin'" route="/trial"><i class="fa fa-list-ul"/><span slot="title">试用管理 --</span></el-menu-item>
-        <el-menu-item index="9" v-show="sysUser === 'superadmin'" route="/check"><i class="iconfont icon-shenheguanli"/><span slot="title">审核管理 ok</span></el-menu-item>
+        <el-menu-item index="8" v-show="sysUser === 'superadmin'" route="/trial"><i class="fa fa-list-ul"/><span slot="title">试用管理 no</span></el-menu-item>
+        <el-menu-item index="9" v-show="sysUser === 'superadmin'" route="/check"><i class="iconfont icon-shenheguanli"/><span slot="title">审核管理</span></el-menu-item>
         <el-submenu index="10" v-show="sysUser === 'superadmin'">
-          <template slot="title"><i class="iconfont icon-chart" style="color: #ffffff"></i><span slot="title" style="color: #ffffff">报表统计</span></template>
+          <template slot="title"><i class="iconfont icon-chart" style="color: #ffffff"></i><span slot="title" style="color: #ffffff">报表统计 no</span></template>
           <el-menu-item index="10-1" route="/report/workload"><i class="iconfont icon-wodegongzuoliang"/><span slot="title">工作量统计</span></el-menu-item>
           <el-menu-item index="10-2" route="/report/task"><i class="iconfont icon-boda"/><span slot="title">外呼任务统计</span></el-menu-item>
           <el-menu-item index="10-3" route="/report/record"><i class="iconfont icon-tonghuahuawuliang"/><span slot="title">历史通话记录</span></el-menu-item>
           <el-menu-item index="10-4" route="/report/count"><i class="iconfont icon-lishi"/><span slot="title">话务统计</span></el-menu-item>
         </el-submenu>
-        <el-menu-item index="11" v-show="sysUser === 'superadmin'" route="/system"><i class="iconfont icon-quanxian"/><span slot="title">系统管理 ok</span></el-menu-item>
-        <el-menu-item index="12" v-show="sysUser === 'superadmin'" route="/feedback"><i class="fa fa-question-circle"/><span slot="title">问题反馈 --</span></el-menu-item>
+        <el-menu-item index="11" v-show="sysUser === 'superadmin'" route="/system"><i class="iconfont icon-quanxian"/><span slot="title">系统管理</span></el-menu-item>
+        <el-menu-item index="12" v-show="sysUser === 'superadmin'" route="/feedback"><i class="fa fa-question-circle"/><span slot="title">问题反馈 no</span></el-menu-item>
       </el-menu>
     <el-container>
       <el-header>
@@ -147,7 +147,7 @@
      opacity: 1;
      height: 60px;
      line-height: 60px;
-     border-bottom: 1px solid rgba(219,219,219,0.50);
+     /*border-bottom: 1px solid rgba(219,219,219,0.50);*/
    }
   .el-menu-item.is-active{
     color: #ffffff;
