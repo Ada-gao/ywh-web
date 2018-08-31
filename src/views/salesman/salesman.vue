@@ -4,7 +4,7 @@
       <el-row :gutter="20" style="margin-left: 20px;margin-right: 20px;">
         <el-col :span="8">
           <el-card class="card" :body-style="{ padding: '0px' }">
-            <div style="height: 50px;margin-left: 20px;margin-top: 35px;">
+            <div style="height: 50px;margin-left: 20px;margin-top: 35px;" @click="selectStatus('')">
               <div class="logo" style="background: #4AD2DB">
                 <i class="iconfont icon-xiaoshoushu"/>
               </div>
@@ -19,7 +19,7 @@
         </el-col>
         <el-col :span="8">
           <el-card class="card" :body-style="{ padding: '0px' }">
-            <div style="height: 50px;margin-left: 20px;margin-top: 35px;">
+            <div style="height: 50px;margin-left: 20px;margin-top: 35px;" @click="selectStatus('1')">
               <div class="logo" style="background: #FDCE82">
                 <i class="iconfont icon-huoyuerenshu"/>
               </div>
@@ -34,7 +34,7 @@
         </el-col>
         <el-col :span="8">
           <el-card class="card" :body-style="{ padding: '0px' }">
-            <div style="height: 50px;margin-left: 20px;margin-top: 35px;">
+            <div style="height: 50px;margin-left: 20px;margin-top: 35px;" @click="selectStatus('0')">
               <div class="logo" style="background: #DFDFDF;">
                 <i class="iconfont icon-tingyong"/>
               </div>
@@ -62,7 +62,7 @@
           <el-select v-model="listQuery.status"
                      placeholder="状态"
                      clearable
-                     @change="handleCompany">
+                     @change="handleFilter1">
             <el-option
               v-for="item in status"
               :key="item.value"
@@ -261,26 +261,27 @@ export default {
       this.getList()
     },
     handleFilter () {
-      this.listQuery.pageIndex = 0
-      this.listQuery.companyId = null
-      this.listQuery.team = null
+      delete this.listQuery.status
       delete this.listQuery.companyId
       delete this.listQuery.team
       if (!this.listQuery.name) {
         delete this.listQuery.name
       }
+      this.listQuery.pageIndex = 0
       this.getList()
     },
     handleFilter1 () {
-      this.listQuery.pageIndex = 0
-      this.listQuery.name = ''
       delete this.listQuery.name
-      if (!this.listQuery.team) {
-        delete this.listQuery.team
+      if (!this.listQuery.status) {
+        delete this.listQuery.status
       }
       if (!this.listQuery.companyId) {
         delete this.listQuery.companyId
       }
+      if (!this.listQuery.team) {
+        delete this.listQuery.team
+      }
+      this.listQuery.pageIndex = 0
       this.getList()
     },
     handleCreate (status) {
@@ -301,6 +302,14 @@ export default {
       }
       this.handleFilter1()
     },
+    selectStatus(val){
+      if (val){
+        this.listQuery.status = val
+      } else{
+        delete this.listQuery.status
+      }
+      this.handleFilter1()
+    }
   }
 }
 </script>

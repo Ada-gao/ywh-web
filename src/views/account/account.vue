@@ -544,19 +544,19 @@
       },
       handleSizeChange2(val) {
         this.listQuery2.pageSize = val
-        this.getList()
+        this.getConsumption()
       },
       handleCurrentChange2(val) {
         this.listQuery2.pageIndex = val - 1
-        this.getList()
+        this.getConsumption()
       },
       handleSizeChange3(val) {
         this.listQuery3.pageSize = val
-        this.getList()
+        this.getRecharge()
       },
       handleCurrentChange3(val) {
         this.listQuery3.pageIndex = val - 1
-        this.getList()
+        this.getRecharge()
       },
       getConsumption(){
         getConsumptionPage(this.accountId,this.listQuery2).then(response => {
