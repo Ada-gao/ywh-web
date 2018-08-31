@@ -1,7 +1,8 @@
 <template>
   <el-container style="height: 100%;">
       <el-menu class="el-menu-nav" :collapse="isCollapse" router="true" default-active="1">
-        <el-menu-item disabled><i class="fa fa-flash" :style="isCollapse ? 'font-size:22px' : 'font-size:14px'"/><span slot="title" >雷鸣外呼管理平台</span></el-menu-item>
+        <!--<el-menu-item disabled><i class="fa fa-flash" :style="isCollapse ? 'font-size:22px' : 'font-size:14px'"/><span slot="title" >雷鸣外呼管理平台</span></el-menu-item>-->
+        <el-menu-item disabled><i class="fa fa-flash"/><span slot="title" >雷鸣外呼管理平台</span></el-menu-item>
         <el-menu-item index="1" route="/dashboard"><i class="fa fa-home"/><span slot="title">首页-工作台</span></el-menu-item>
         <el-menu-item index="2" v-show="sysUser != 'superadmin'" route="/account"><i class="iconfont icon-zhanghu"/><span slot="title">账户管理</span></el-menu-item>
         <el-menu-item index="3" route="/company"><i class="iconfont icon-gongsiguanli"/><span slot="title">公司管理</span></el-menu-item>

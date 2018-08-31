@@ -14,7 +14,7 @@
           </el-col>
           <el-col :span="10">
             <el-form-item label="公司简称">
-              <el-input v-model="form.shortName" placeholder="请输入公司简称" maxlength="50"></el-input>
+              <el-input v-model="form.shortName" placeholder="请输入公司简称" maxlength="10"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -47,7 +47,7 @@
           </el-col>
           <el-col :span="10">
             <el-form-item label="公司地址" prop="companyAddress">
-              <el-input v-model="form.companyAddress" placeholder="请输入公司地址" maxlength="200"></el-input>
+              <el-input v-model="form.companyAddress" placeholder="请输入公司地址" maxlength="100"></el-input>
             </el-form-item>
           </el-col>
         </el-row>

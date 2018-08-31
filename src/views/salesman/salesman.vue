@@ -151,7 +151,7 @@
 
       <el-table-column align="center" label="状态">
         <template slot-scope="scope">
-          <span>{{scope.row.enabled?'活跃':'停用'}}</span>
+          <span :style="scope.row.enabled?'color:#009801':'color:#D0021B'">{{scope.row.enabled?'启用':'停用'}}</span>
         </template>
       </el-table-column>
 
@@ -197,7 +197,7 @@ export default {
       value: '',
       status: [
         {
-          name : '活跃',
+          name : '启用',
           value : '1'
         },
         {
