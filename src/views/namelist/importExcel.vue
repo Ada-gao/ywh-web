@@ -177,7 +177,7 @@ export default {
       this.error = ''
       if (this.tableHeader[0] === '联系人姓名' && this.tableHeader[1] === '手机号' && this.tableHeader[2] === '年龄' && this.tableHeader[3] === '性别' && this.tableHeader[4] === '所在地') {
         for (let i = 0; i < this.tableData.length; i++) {
-          if (!this.tableData[i].联系人姓名 || this.tableData[i].联系人姓名 === 'undefined' || this.tableData[i].联系人姓名.length > 50) {
+          if (this.tableData[i].联系人姓名 && this.tableData[i].联系人姓名.length > 50) {
             this.error += '‘联系人姓名’'
           }
           if (this.checkMobile(this.tableData[i].手机号) || this.checkTelphone(this.tableData[i].手机号)) {
