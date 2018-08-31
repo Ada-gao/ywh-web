@@ -64,7 +64,6 @@ let routes = [
     menuId: 3,
     path: '/',
     component: Home,
-    iconCls: 'fa fa-home',
     leaf: true, // 只有一个节点
     children: [
       {menuId: 31, path: '/dashboard', component: dashboard, name: '首页-工作台'}
@@ -74,7 +73,6 @@ let routes = [
     menuId: 4,
     path: '/',
     component: Home,
-    iconCls: 'fa fa-sitemap',
     leaf: true,
     children: [
       {menuId: 41, path: '/account', component: account, name: '账户管理'}
@@ -84,7 +82,6 @@ let routes = [
     menuId: 5,
     path: '/',
     component: Home,
-    iconCls: 'fa fa-sitemap',
     leaf: true,
     children: [
       {menuId: 51, path: '/company', component: company, name: '公司管理'},
@@ -96,7 +93,6 @@ let routes = [
     menuId: 6,
     path: '/',
     component: Home,
-    iconCls: 'fa fa-users',
     leaf: true,
     children: [
       {menuId: 61, path: '/salesman', component: salesman, name: '销售管理'},
@@ -108,7 +104,6 @@ let routes = [
     menuId: 7,
     path: '/',
     component: Home,
-    iconCls: 'fa fa-list-alt',
     leaf: true,
     children: [
       {menuId: 71, path: '/list', component: list, name: '名单管理'},
@@ -120,7 +115,6 @@ let routes = [
     menuId: 8,
     path: '/',
     component: Home,
-    iconCls: 'fa fa-phone',
     leaf: true,
     children: [
       {menuId: 81, path: '/task', component: task, name: '任务管理'},
@@ -132,7 +126,6 @@ let routes = [
     menuId: 9,
     path: '/',
     component: Home,
-    iconCls: 'fa fa-phone',
     leaf: true,
     children: [
       {menuId: 91, path: '/push', component: push, name: 'push'},
@@ -145,7 +138,6 @@ let routes = [
     menuId: 10,
     path: '/',
     component: Home,
-    iconCls: 'fa fa-list-ul',
     leaf: true,
     children: [
       {menuId: 101, path: '/trial', component: trial, name: '试用管理'},
@@ -156,7 +148,6 @@ let routes = [
     menuId: 11,
     path: '/',
     component: Home,
-    iconCls: 'fa fa-phone',
     leaf: true,
     children: [
       {menuId: 111, path: '/check', component: check, name: '审核管理'},
@@ -168,8 +159,6 @@ let routes = [
     menuId: 12,
     path: '/',
     component: Home,
-    name: '报表统计',
-    iconCls: 'fa fa-cog',
     leaf: false,
     children: [
       {menuId: 121, path: '/report/workload', component: workload, name: '工作量统计', iconCls: 'fa fa-wpforms'},
@@ -182,7 +171,6 @@ let routes = [
     menuId: 13,
     path: '/',
     component: Home,
-    iconCls: 'fa fa-phone',
     leaf: true,
     children: [
       {menuId: 131, path: '/system', component: system, name: '系统管理'},
@@ -195,7 +183,6 @@ let routes = [
     menuId: 14,
     path: '/',
     component: Home,
-    iconCls: 'fa fa-question-circle',
     leaf: true,
     children: [
       {menuId: 141, path: '/feedback', component: feedback, name: '问题反馈'},
