@@ -33,7 +33,7 @@
           <el-select v-model="listQuery.productName"
                      placeholder="产品名称"
                      clearable
-                     @change="handleFilter1">
+                     @change="handleFilter2">
             <el-option
               v-for="item in products"
               :key="item"
@@ -196,9 +196,9 @@
         getTeams(params).then(res => {
           this.teams = res.data
         })
-        getProductList().then(res => {
-          this.products = res.data
-        })
+        // getProductList().then(res => {
+        //   this.products = res.data
+        // })
       },
       handleSizeChange(val) {
         this.listQuery.pageSize = val
@@ -209,19 +209,27 @@
         this.getList()
       },
       handleFilter() {
-        this.listQuery.pageIndex = 0
-        this.listQuery.team = null
-        this.listQuery.productName = null
         delete this.listQuery.productName
         delete this.listQuery.team
         if (!this.listQuery.taskName) {
           delete this.listQuery.taskName
         }
+        this.listQuery.pageIndex = 0
         this.getList()
       },
       handleFilter1() {
+        delete this.listQuery.taskName
+        delete this.listQuery.productName
+        if (!this.listQuery.team) {
+          delete this.listQuery.team
+        }
         this.listQuery.pageIndex = 0
-        this.listQuery.taskName = ''
+        this.getList()
+        getTeam(this.listQuery.team).then((res) => {
+          this.products = res.data
+        })
+      },
+      handleFilter2() {
         delete this.listQuery.taskName
         if (!this.listQuery.team) {
           delete this.listQuery.team
@@ -229,10 +237,8 @@
         if (!this.listQuery.productName) {
           delete this.listQuery.productName
         }
+        this.listQuery.pageIndex = 0
         this.getList()
-        getTeam(this.listQuery.team).then((res) => {
-          this.products = res.data
-        })
       },
       handleCreate() {
         this.$router.push({name: 'newTask'})
