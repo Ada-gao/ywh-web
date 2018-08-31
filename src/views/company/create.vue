@@ -172,7 +172,8 @@
         </el-row>
       </el-form>
       <el-col :span="20" slot="footer" class="dialog-footer" style="text-align: center">
-        <el-button class="add_btn" v-show="updateStatus==='create' || updateStatus==='update'" @click="create('form')">提 交</el-button>
+        <el-button class="add_btn" v-show="updateStatus==='update'" @click="update('form')">提 交</el-button>
+        <el-button class="add_btn" v-show="updateStatus==='create'" @click="create('form')">提 交</el-button>
         <el-button class="search_btn" @click="cancel('form')">取 消</el-button>
       </el-col>
       <el-dialog
@@ -525,7 +526,7 @@ export default {
                 type: 'success'
               })
               // this.$router.push({path: '/company'})
-              window.history.go(-1)
+              window.history.go(-1)//这样写 有bug
             })
         } else {
           return false

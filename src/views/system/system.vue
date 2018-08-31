@@ -1,7 +1,7 @@
 <template>
   <section>
-    <el-card :body-style="{ padding: '0px' }" style="height: 140px;padding-top: 45px;padding-bottom: 45px;">
-      <el-row :gutter="1" style="background: #e3e3e3">
+    <el-card :body-style="{ padding: '0px' }" style="height: 140px;">
+      <el-row :gutter="1" style="background: #e3e3e3;margin-top: 45px;margin-bottom: 45px;">
         <el-col :span="12">
           <div class="card-item">
             <el-button class="card-button-left" @click="handleOpen" icon="iconfont icon-kaitong"><span>开通账户</span>

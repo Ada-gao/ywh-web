@@ -1,108 +1,223 @@
 <template>
-  <section>
-    <div class="filter-container">
-      <div class="detail-title">
-        <span class="list-tit">公司查询</span>
-      </div>
-      <el-row style="margin-top: 10px">
-        <el-col :span="8">
-          <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="输入公司名称关键词"
-                    v-model="listQuery.companyName">
-          </el-input>
-          <el-button class="filter-item" type="primary" icon="search" @click="handleFilter"><i class="fa fa-search"></i>查询</el-button>
+  <div>
+    <el-card :body-style="{ padding: '0px' }" style="height: 140px;">
+      <el-row :gutter="2" style="background: #e3e3e3;margin-top: 35px;margin-bottom: 35px;">
+        <el-col :span="12">
+         <div style="background: #FFFFFF;">
+            <span
+              style="width:70px;height:70px;background: #4AD2DB;line-height: 70px;text-align: center;float: left;border-radius: 4px;margin-right: 20px;margin-left: 100px;">
+              <i class="iconfont icon-yue-copy" style="color: #FFFFFF;font-size: 50px;"></i>
+          </span>
+           <span style="font-size: 14px;color: #475669;">账户余额</span>
+           <div style="margin-top: 10px;">
+             <span style="color: #4AD2DB;"><span style="font-size: 28px;">{{account.balance?account.balance:'0.00'}}</span><span style="font-size: 14px">元</span></span>
+             <span style="font-size: 12px;margin-left: 20px;" v-show="account.balance < account.balanceThreshold">
+              <i class="iconfont icon-wenti" style="color:#D0021B;"/>
+              <span style="color: #475669;">余额不足，请尽快充值！{{userInfo}}</span>
+            </span>
+           </div>
+         </div>
         </el-col>
-        <el-col :span="16" style="text-align: right;">
-          <el-select v-model="listQuery.companyProvince"
-                     placeholder="省份筛选"
-                     clearable
-                     @change="handleFilter1">
-            <el-option
-              v-for="item in provinceData"
-              :key="item.value"
-              :label="item.label"
-              :value="item">
-            </el-option>
-          </el-select>
-          <el-select v-model="listQuery.industryType"
-                     placeholder="行业筛选"
-                     clearable
-                     @change="handleFilter1">
-            <el-option
-              v-for="item in industry"
-              :key="item.id"
-              :label="item.name"
-              :value="item.name">
-            </el-option>
-          </el-select>
-          <el-select v-model="listQuery.orgSize"
-                     placeholder="公司规模筛选"
-                     clearable
-                     @change="handleFilter1">
-            <el-option
-              v-for="item in orgSize"
-              :key="item.value"
-              :label="item.label"
-              :value="item.label">
-            </el-option>
-          </el-select>
+        <el-col :span="12" style="background: #FFFFFF;">
+          <span
+            style="width:70px;height:70px;background: #FDCE82;line-height: 70px;text-align: center;float: left;border-radius: 4px;margin-right: 20px;margin-left: 100px">
+              <i class="iconfont icon-yue-copy" style="color: #FFFFFF;font-size: 50px;"></i>
+          </span>
+          <span style="font-size: 14px;color: #475669;">累计消费金额</span>
+          <div style="margin-top: 10px;">
+            <span style="color: #FDCE82;"><span style="font-size: 28px;">{{account.totalConsumption?account.totalConsumption:'0.00'}}</span><span style="font-size: 14px">元</span></span>
+          </div>
         </el-col>
       </el-row>
+    </el-card>
+
+    <div class="detail-title" style="margin-top: 20px">
+      <span class="list-tit">账户信息<span style="color: #B2B2B2;font-size: 12px">（变更账号信息，请联系对接商务经理，谢谢）</span></span>
     </div>
-    <div class="detail-title">
-      <span class="list-tit">公司列表</span>
-      <el-button class="add_btn" @click="handleCreate" v-if="sysUser === 'superadmin'">
-        <i class="fa fa-plus" style="color: #fff;margin-right: 10px"></i>新建公司
+    <div class="margin-line"></div>
+    <el-form :model="account" class="form-border">
+      <el-row>
+        <el-col :span="8">
+          <span class="detail-label">账户ID:</span><span class="detail-value">{{account.accountCode}}</span></el-col>
+        <el-col :span="8">
+          <span class="detail-label">账户名称:</span><span class="detail-value">{{account.accountName}}</span></el-col>
+        <el-col :span="8">
+          <span class="detail-label">账户类型:</span><span class="detail-value">{{account.accountType}}</span></el-col>
+        <el-col :span="8">
+          <span class="detail-label">Account ID:</span><span class="detail-value">{{account.accountId}}</span>
+        </el-col>
+        <el-col :span="8">
+          <span class="detail-label">账户到期时间:</span><span class="detail-value">{{account.expireDate}}</span></el-col>
+        <el-col :span="8">
+          <span class="detail-label">账户状态:</span><span class="detail-value">{{account.accountStatus}}</span>
+        </el-col>
+        <el-col :span="8">
+          <span class="detail-label">key:</span><span class="detail-value">{{account.accountKey}}</span></el-col>
+      </el-row>
+    </el-form>
+
+    <div class="detail-title" style="margin-top: 20px">
+      <span class="list-tit">公司信息<span style="color: #B2B2B2;font-size: 12px">（变更公司信息，请联系对接商务经理，谢谢）</span></span>
+    </div>
+    <div class="margin-line"></div>
+    <el-form :model="company" class="form-border">
+      <el-row>
+        <el-col :span="8">
+          <span class="detail-label">公司ID:</span><span class="detail-value">{{company.companyCode}}</span></el-col>
+        <el-col :span="8">
+          <span class="detail-label">公司名称:</span><span class="detail-value">{{company.companyName}}</span></el-col>
+        <el-col :span="8">
+          <span class="detail-label">公司简称:</span><span class="detail-value">{{company.shortName}}</span></el-col>
+        <el-col :span="8">
+          <span class="detail-label">所属行业:</span><span class="detail-value">{{company.industryType}}</span>
+        </el-col>
+        <el-col :span="8">
+          <span class="detail-label">公司规模:</span><span class="detail-value">{{company.orgSize}}</span></el-col>
+        <el-col :span="8">
+          <span class="detail-label">所在地:</span><span class="detail-value">{{company.companyProvince}}</span>
+        </el-col>
+        <el-col :span="8">
+          <span class="detail-label">公司地址:</span><span class="detail-value">{{company.companyAddress}}</span>
+        </el-col>
+        <el-col :span="8">
+          <span class="detail-label">联系人:</span><span class="detail-value">{{company.contact}}</span>
+        </el-col>
+        <el-col :span="8">
+          <span class="detail-label">联系人电话:</span><span class="detail-value">{{company.contactMobile}}</span>
+        </el-col>
+        <el-col :span="8">
+          <span class="detail-label">职务:</span><span class="detail-value">{{company.occupation}}</span>
+        </el-col>
+        <el-col :span="8">
+          <span class="detail-label">企业微信:</span><span class="detail-value">{{company.wechatNo}}</span>
+        </el-col>
+        <el-col :span="8">
+          <span class="detail-label">公司logo:</span><span class="detail-value"><img :src.sync="company.logo" alt="" v-if="company.logo" style="width: 120px; height: 80px;"></span>
+        </el-col>
+      </el-row>
+    </el-form>
+
+    <div class="detail-title" style="margin-top: 22px;">
+      <span class="list-tit">消费记录</span>
+      <el-button class="add_btn" @click="handleExport">
+        <i class="iconfont icon-piliangdaochu" style="color: #fff;margin-right: 10px"></i>批量导出
       </el-button>
     </div>
-    <el-table :key='tableKey' :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit
-              highlight-current-row style="width: 100%">
+    <el-table id="consumeTable" :data="list2" v-loading="listLoading2" element-loading-text="给我一点时间" border fit highlight-current-row style="width: 100%;">
+      <el-table-column align="center" label="消费流水号">
+        <template slot-scope="scope">{{scope.row.consumptionCode}}</template>
+      </el-table-column>
+      <el-table-column align="center" label="消费产品">
+        <template slot-scope="scope">{{scope.row.consumptionProduct}}</template>
+      </el-table-column>
+      <el-table-column align="center" label="消费内容">
+        <template slot-scope="scope">{{scope.row.name}}</template>
+      </el-table-column>
+      <el-table-column align="center" label="消费金额">
+        <template slot-scope="scope">{{scope.row.money}}</template>
+      </el-table-column>
+      <el-table-column align="center" label="消费时间">
+        <template slot-scope="scope">{{scope.row.createTime}}</template>
+      </el-table-column>
+      <el-table-column align="center" label="消费状态">
+        <template slot-scope="scope">{{scope.row.status?'消费成功':'消费失败'}}</template>
+      </el-table-column>
+      <el-table-column align="center" label="操作人">
+        <template slot-scope="scope">{{scope.row.userName}}</template>
+      </el-table-column>
+    </el-table>
+    <div v-show="!listLoading2">
+      <div style="float: right;line-height: 30px;color: #0299CC;font-size: 14px">累计消费金额：{{consumeMoney}}元</div>
+      <el-pagination @size-change="handleSizeChange2" @current-change="handleCurrentChange2"
+                     :current-page.sync="currentPage2"
+                     background
+                     :page-sizes="[10,20,30, 50]" :page-size="listQuery2.pageSize"
+                     layout="total, sizes, prev, pager, next, jumper" :total="total2">
+      </el-pagination>
+    </div>
 
-      <el-table-column align="center" label="公司ID">
+    <div class="detail-title" style="margin-top: 22px;">
+      <span class="list-tit">充值记录</span>
+      <el-button class="add_btn" @click="handleExportRecharge">
+        <i class="iconfont icon-piliangdaochu" style="color: #fff;margin-right: 10px"></i>批量导出
+      </el-button>
+    </div>
+    <el-table id="rechargeTable" :data="list3" v-loading="listLoading3" element-loading-text="给我一点时间" border fit highlight-current-row style="width: 100%;">
+      <el-table-column align="center" label="充值编号">
+        <template slot-scope="scope">{{scope.row.rechargeCode}}</template>
+      </el-table-column>
+      <el-table-column align="center" label="充值金额">
+        <template slot-scope="scope">{{scope.row.money}}</template>
+      </el-table-column>
+      <el-table-column align="center" label="充值时间" >
+        <template slot-scope="scope">{{scope.row.createTime}}</template>
+      </el-table-column>
+      <el-table-column align="center" label="充值状态">
+        <template slot-scope="scope">{{scope.row.status?'充值成功':'充值失败'}}</template>
+      </el-table-column>
+      <el-table-column align="center" label="操作人">
+        <template slot-scope="scope">{{scope.row.userName}}</template>
+      </el-table-column>
+    </el-table>
+    <div v-show="!listLoading3">
+      <div style="float: right;line-height: 30px;color: #0299CC;font-size: 14px">累计充值金额：{{rechargeMoney}}元</div>
+      <el-pagination @size-change="handleSizeChange3" @current-change="handleCurrentChange3"
+                     :current-page.sync="currentPage3"
+                     background
+                     :page-sizes="[10,20,30, 50]" :page-size="listQuery3.pageSize"
+                     layout="total, sizes, prev, pager, next, jumper" :total="total3">
+      </el-pagination>
+    </div>
+
+    <div class="detail-title" style="margin-top: 22px;">
+      <span class="list-tit">管理员列表</span>
+      <el-button class="add_btn" @click="showCreateAdminDialog">
+        <i class="fa fa-plus" style="color: #fff;margin-right: 10px"></i>新建管理员
+      </el-button>
+    </div>
+    <el-table :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit highlight-current-row style="width: 100%;">
+      <el-table-column align="center" label="序号">
+        <template slot-scope="scope">{{scope.row.userCode}}</template>
+      </el-table-column>
+      <el-table-column align="center" label="姓名">
+        <template slot-scope="scope">{{scope.row.name}}</template>
+      </el-table-column>
+      <el-table-column align="center" label="职务">
+        <template slot-scope="scope">{{scope.row.level}}</template>
+      </el-table-column>
+      <el-table-column align="center" label="联系手机">
+        <template slot-scope="scope">{{scope.row.mobile}}</template>
+      </el-table-column>
+      <el-table-column align="center" label="登录账号">
+        <template slot-scope="scope">{{scope.row.username}}</template>
+      </el-table-column>
+      <el-table-column align="center" label="状态">
         <template slot-scope="scope">
-          <span>{{scope.row.companyCode}}</span>
+          <div class="switch">
+            <el-switch class="sw"
+                       v-model="scope.row.enabled"
+                       active-color="#0299CC"
+                       inactive-color="#C0CCDA"
+                       @change="switchMode(scope.row.id, scope.row.enabled)">
+            </el-switch>
+            <div v-if="scope.row.enabled" class="switch-open">开启</div>
+            <div v-else class="switch-close">停用</div>
+          </div>
         </template>
       </el-table-column>
-
-      <el-table-column align="center" label="公司名称" class-name="left">
-        <template slot-scope="scope">
-          <span>{{scope.row.companyName}}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column align="center" label="公司地址">
-        <template slot-scope="scope">
-          <span>{{scope.row.companyAddress}}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column align="center" label="公司所在省份">
-        <template slot-scope="scope">
-          <span>{{scope.row.companyProvince}}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column align="center" label="公司行业" show-overflow-tooltip>
-        <template slot-scope="scope">
-          <span>{{scope.row.industryType}}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column align="center" label="公司规模">
-        <template slot-scope="scope">
-          <span>{{scope.row.orgSize}}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column align="center" label="操作" fixed="right" width="150">
+      <el-table-column align="center" label="操作">
         <template slot-scope="scope">
           <a size="small" class="common_btn"
-             @click="handleUpdate(scope.row)">查看详情
+             @click="showUpdateInfoDialog(scope.row)">修改信息
+          </a>
+          |
+          <a size="small" class="common_btn"
+             @click="showUpdatePwdDialog(scope.row)">修改密码
           </a>
         </template>
       </el-table-column>
     </el-table>
-
-    <div v-show="!listLoading" class="pagination-container">
+    <div v-show="!listLoading">
       <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
                      :current-page.sync="currentPage"
                      background
@@ -110,108 +225,406 @@
                      layout="total, sizes, prev, pager, next, jumper" :total="total">
       </el-pagination>
     </div>
+    <el-dialog title="新建管理员" :visible.sync="createAdminDialog" width="50%">
+      <el-form :model="adminForm" ref="adminForm" :rules="adminRules" label-width="100px">
+        <el-row>
+          <el-col :span="11">
+            <el-form-item label="姓名" prop="name">
+              <el-input v-model="adminForm.name" placeholder="输入管理员姓名" maxlength="50"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="11">
+            <el-form-item label="职务">
+              <el-input v-model="adminForm.level" placeholder="输入职务" maxlength="255"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="11">
+            <el-form-item label="登录账号" prop="username">
+              <el-input v-model="adminForm.username" placeholder="输入登录账号" maxlength="50"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="11">
+            <el-form-item label="登录密码" prop="password">
+              <el-input v-model="adminForm.password" placeholder="输入登录密码" maxlength="12"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="11">
+            <el-form-item label="联系手机" prop="mobile">
+              <el-input v-model="adminForm.mobile" placeholder="请输入联系电话" maxlength="11"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <div style="text-align: right">
+          <el-button class="search_btn" @click="createAdminDialog = false">取 消</el-button>
+          <el-button class="add_btn" @click="createAdminFrom('adminForm')">确 定</el-button>
+        </div>
+      </el-form>
+    </el-dialog>
+    <el-dialog title="修改信息" :visible.sync="updateInfoDialog" width="30%">
+      <el-form :model="adminForm" :rules="adminRules" ref="updateForm" label-width="80px"
+               style="margin-right: 20px;">
+        <el-form-item label="姓名" prop="name" class="txt">
+          <el-input v-model="adminForm.name" placeholder="输入管理员姓名" maxlength="50"/>
+        </el-form-item>
+        <el-form-item label="职务" class="txt">
+          <el-input v-model="adminForm.level" placeholder="输入职务" maxlength="255"/>
+        </el-form-item>
+        <el-form-item label="联系手机" class="txt" prop="mobile">
+          <el-input v-model="adminForm.mobile" placeholder="请输入联系电话" maxlength="11"/>
+        </el-form-item>
+      </el-form>
+      <div style="text-align: right">
+        <el-button class="search_btn" @click="updateInfoDialog = false">取 消</el-button>
+        <el-button class="add_btn" @click="updateUsers('updateForm')">确 定</el-button>
+      </div>
+    </el-dialog>
+    <el-dialog title="修改密码" :visible.sync="updatePwdDialog" width="30%">
+        <el-form :model="adminForm" :rules="adminRules" ref="pwdForm" label-width="80px"
+                 style="margin-right: 20px;">
+          <el-form-item label="新密码" prop="password" class="txt">
+            <el-input v-model="adminForm.password" placeholder="输入登录密码" maxlength="12"></el-input>
+          </el-form-item>
+        </el-form>
+        <div style="text-align: right">
+          <el-button class="search_btn" @click="updatePwdDialog = false">取 消</el-button>
+          <el-button class="add_btn" @click="resetPassword('pwdForm')">确 定</el-button>
+        </div>
+      </el-dialog>
 
-  </section>
+  </div>
 </template>
 
 <script>
-  import { getCompanyPage, getAuthDustries, getOrgSize } from '@/api/api'
-  import { provinceAndCityData } from 'element-china-area-data' // 省市区数据
+  import {getRechargePageById, getConsumptionPage,accountCompany,getAdmin,updateUsers,resetPWD,addAdmin,userEnabled} from "../../api/api";
+  import FileSaver from 'file-saver'
+  import XLSX from 'xlsx'
   import { mapGetters } from 'vuex'
-
   export default {
-    components: {},
-    data () {
+    data() {
+      const validateName = (rule, value, callback) => {
+        if (!value) {
+          callback(new Error('请输入管理员姓名'))
+        } else {
+          callback()
+        }
+      }
+      const validateUser = (rule, value, callback) => {
+        var reg = /^[0-9a-zA-Z]+$/
+        if (!value) {
+          callback(new Error('请输入登录账号'))
+        } else if (value.length < 4) {
+          callback(new Error('登录账号不能少于4位'))
+        } else if (!reg.test(value)) {
+          callback(new Error('请您输入数字或字母'))
+        } else {
+          callback()
+        }
+      }
+      const validatePass = (rule, value, callback) => {
+        var reg = /^[0-9a-zA-Z]+$/
+        if (!value) {
+          callback(new Error('请输入登录密码'))
+        } else if (value.length < 6) {
+          callback(new Error('密码不能少于6位'))
+        } else if (!reg.test(value)) {
+          callback(new Error('请您输入数字或字母'))
+        } else {
+          callback()
+        }
+      }
+      const validateMobile = (rule, value, callback) => {
+        if (value) {
+          let reg = /^((1[3-8][0-9])+\d{8})$/
+          let flag = reg.test(value)
+          if (!flag) {
+            callback(new Error('请输入正确的手机号'))
+          } else {
+            callback()
+          }
+        } else {
+          callback()
+        }
+      }
+      const checkNumber = (rule, value, callback) => {
+        var reg = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
+        if (!value) {
+          return callback(new Error('请输入余额提醒'))
+        } else {
+          if (!(reg.test(value))) {
+            callback(new Error('请输入有效金额'))
+          } else {
+            callback()
+          }
+        }
+      }
       return {
-        tableKey: 0,
-        total: null,
+        accountId:null,
+        account: {},
+        company: {},
+        list: null,
         listLoading: true,
+        total: 0,
+        currentPage: 1,
         listQuery: {
           pageIndex: 0,
           pageSize: 10
         },
-        list: null,
-        sys_user_add: true,
-        value: '',
-        provinceData: provinceAndCityData,
-        industry: [],
-        orgSize: [],
-        currentPage: 1
+        adminRules: {
+          accountName: [
+            {required: true, trigger: 'blur', message: '请输入账户名称'}
+          ],
+          balanceThreshold: [
+            {required: true, trigger: 'blur', validator: checkNumber}
+          ],
+          name: [
+            {required: true, trigger: 'blur', validator: validateName}
+          ],
+          username: [
+            {required: true, trigger: 'blur', validator: validateUser}
+          ],
+          password: [
+            {required: true, trigger: 'blur', validator: validatePass}
+          ],
+          mobile: [
+            {required: false, trigger: 'blur', validator: validateMobile}
+          ]
+        },
+        adminForm: {},
+        updateInfoDialog: false,
+        updatePwdDialog: false,
+        createAdminDialog: false,
+        consumeMoney:0,
+        rechargeMoney:0,
+        listLoading2: null,
+        list2: null,
+        total2: null,
+        currentPage2: 1,
+        listQuery2: {
+          pageIndex: 0,
+          pageSize: 10
+        },
+        listLoading3: null,
+        list3: null,
+        total3: null,
+        currentPage3: 1,
+        listQuery3: {
+          pageIndex: 0,
+          pageSize: 10
+        },
       }
     },
-    computed: {
+    computed : {
       ...mapGetters([
-        'sysUser'
+        'getUserInfo'
       ])
     },
-    created () {
+    created() {
+      this.accountId = this.getUserInfo.accountId;
+      this.getCompany()
       this.getList()
+      this.getConsumption()
+      this.getRecharge()
     },
     methods: {
-      getList () {
-        getCompanyPage(this.listQuery).then(res => {
-          this.list = res.data.content
-          this.total = res.data.totalElements
+      getCompany() {
+        accountCompany(this.accountId).then(response => {
+          this.account = response.data
+          this.account.accountType = this.account.accountType === 'Charge' ? '付费使用' : '试用体验'
+          this.account.accountStatus = this.account.accountStatus ? '生效' : '失效'
+          let date = new Date(this.account.expireDate)
+          this.account.expireDate = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
+          this.company = this.account.company
+          if (this.company.logo) {
+            this.company.logo = process.env.BASE_API + '/file?fileUuid=' + this.company.logo
+          }
+          if (this.company.companyQualification) {
+            this.company.companyQualification = process.env.BASE_API + '/file/getCompanyQualification?fileUuid=' + this.company.companyQualification
+          }
+        })
+      },
+      getList() {
+        this.listLoading = true
+        this.listQuery.accountId = this.accountId;
+        getAdmin(this.listQuery).then(response => {
+          this.list = response.data.content
+          this.total = response.data.totalElements
           this.listLoading = false
-          getOrgSize().then(res => {
-            this.orgSize = res.data
-            this.list.forEach(item => {
-            })
-          })
-        })
-        getAuthDustries().then(res => {
-          this.industry = res.data
         })
       },
-      handleUpdate (obj) {
-        this.$router.push({name: 'detail', query: obj})
-      },
-      handleSizeChange (val) {
+      handleSizeChange(val) {
         this.listQuery.pageSize = val
         this.getList()
       },
-      handleCurrentChange (val) {
+      handleCurrentChange(val) {
         this.listQuery.pageIndex = val - 1
         this.getList()
       },
-      handleFilter () {
-        this.listQuery.companyProvince = null
-        this.listQuery.industryType = null
-        this.listQuery.orgSize = null
-        delete this.listQuery.orgSize
-        delete this.listQuery.companyProvince
-        delete this.listQuery.industryType
-        if (!this.listQuery.companyName) {
-          delete this.listQuery.companyName
+      showCreateAdminDialog() {
+        this.adminForm = {
+          authorities: [{
+            'name': 'ROLE_ADMIN'
+          }],
         }
-        this.listQuery.pageIndex = 0
+        this.createAdminDialog = true;
+      },
+      showUpdateInfoDialog(val) {
+        this.adminForm = JSON.parse(JSON.stringify(val))
+        this.adminForm.authorities = [{
+          'name': 'ROLE_ADMIN'
+        }]
+        this.updateInfoDialog = true;
+      },
+      showUpdatePwdDialog(val) {
+        this.adminForm = JSON.parse(JSON.stringify(val))
+        this.adminForm.password = ''
+        this.adminForm.authorities = [{
+          'name': 'ROLE_ADMIN'
+        }]
+        this.updatePwdDialog = true;
+      },
+      createAdminFrom(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            addAdmin(this.accountId, this.adminForm)
+              .then((res) => {
+                this.$message({
+                  message: '创建成功',
+                  type: 'success'
+                })
+                this.getList()
+                this.createAdminDialog = false
+              })
+          } else {
+            return false
+          }
+        })
+      },
+      resetPassword(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            resetPWD(this.adminForm.id, this.adminForm.password).then(res => {
+              this.$message({
+                message: '操作成功',
+                type: 'success'
+              })
+              this.updatePwdDialog = false
+            })
+          } else {
+            return false
+          }
+        })
+      },
+      updateUsers(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            updateUsers(this.adminForm.id, this.adminForm).then(res => {
+              this.$message({
+                message: '操作成功',
+                type: 'success'
+              })
+              this.updateInfoDialog = false
+              this.getList()
+            })
+          } else {
+            return false
+          }
+        })
+      },
+      switchMode (id, enabled) {
+        userEnabled(id, enabled).then(res => {
+          this.$message({
+            message: '操作成功',
+            type: 'success'
+          })
+        })
+      },
+      handleSizeChange2(val) {
+        this.listQuery2.pageSize = val
         this.getList()
       },
-      handleFilter1 () {
-        if (this.listQuery.companyProvince) {
-          this.listQuery.companyProvince = this.listQuery.companyProvince.label || this.listQuery.companyProvince
-        }
-        this.listQuery.companyName = ''
-        delete this.listQuery.companyName
-        if (!this.listQuery.companyProvince) {
-          delete this.listQuery.companyProvince
-        }
-        if (!this.listQuery.industryType) {
-          delete this.listQuery.industryType
-        }
-        if (!this.listQuery.orgSize) {
-          delete this.listQuery.orgSize
-        }
-        this.listQuery.pageIndex = 0
+      handleCurrentChange2(val) {
+        this.listQuery2.pageIndex = val - 1
         this.getList()
       },
-      handleCreate () {
-        this.$router.push({path: '/company/create'})
-      }
+      handleSizeChange3(val) {
+        this.listQuery3.pageSize = val
+        this.getList()
+      },
+      handleCurrentChange3(val) {
+        this.listQuery3.pageIndex = val - 1
+        this.getList()
+      },
+      getConsumption(){
+        getConsumptionPage(this.accountId,this.listQuery2).then(response => {
+          this.consumeMoney = response.data.statisResult;
+          this.list2 = response.data.content
+          this.total2 = response.data.totalElements
+          this.listLoading2 = false
+          this.list2.forEach(item => {
+            if (item.consumptionProduct === 'CommunicationFee'){
+              item.consumptionProduct = '营销线索'
+            }else if (item.consumptionProduct === 'OutboundNameFee'){
+              item.consumptionProduct = '通信费'
+            }
+            let date = new Date(item.createTime)
+            item.createTime = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() + ' ' +date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
+          })
+        })
+      },
+      getRecharge(){
+        getRechargePageById(this.accountId,this.listQuery3).then(response => {
+          this.rechargeMoney = response.data.statisResult;
+          this.list3 = response.data.content
+          this.total3 = response.data.totalElements
+          this.listLoading3 = false
+          this.list3.forEach(item => {
+            let date = new Date(item.createTime)
+            item.createTime = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() + ' ' +date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
+          })
+        })
+      },
+      handleExport(){
+        var wb = XLSX.utils.table_to_book(document.querySelector('#consumeTable'))
+        var wbout = XLSX.write(wb, {bookType: 'xlsx', bookSST: true, type: 'array'})
+        try {
+          FileSaver.saveAs(new Blob([wbout], {type: 'application/octet-stream'}), '消费记录列表.xlsx')
+        } catch (e) {
+          if (typeof console !== 'undefined') console.log(e, wbout)
+        }
+        return wbout
+      },
+      handleExportRecharge(){
+        var wb = XLSX.utils.table_to_book(document.querySelector('#rechargeTable'))
+        var wbout = XLSX.write(wb, {bookType: 'xlsx', bookSST: true, type: 'array'})
+        try {
+          FileSaver.saveAs(new Blob([wbout], {type: 'application/octet-stream'}), '充值记录列表.xlsx')
+        } catch (e) {
+          if (typeof console !== 'undefined') console.log(e, wbout)
+        }
+        return wbout
+      },
     }
   }
 </script>
+<style>
+  .detail-label {
+    width: 100px;
+    margin-right: 10px;
+    font-size: 13px;
+    line-height: 40px;
+    text-align: right;
+    float: left;
+    color: #252525;
+  }
 
-<style scoped>
-
+  .detail-value {
+    font-size: 14px;
+    float: left;
+    line-height: 40px;
+    color: #000000;
+  }
 </style>

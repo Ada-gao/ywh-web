@@ -75,7 +75,10 @@ export default {
               if (res.data.authorities[0].authority === 'ROLE_SALE') {
                 sessionStorage.removeItem('token')
                 alert('管理权限不足，请联系管理员')
-              } else {
+              } else if (res.data.authorities[0].authority === 'ROLE_ADMIN' && !res.data.accountId) {
+                sessionStorage.removeItem('token')
+                alert('帐号信息不存在，请联系管理员')
+              }else {
                 this.$router.push({path: '/dashboard'})
               }
             })

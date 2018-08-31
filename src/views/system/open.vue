@@ -198,7 +198,6 @@
         const set = this.$refs
         set[formName].validate(valid => {
           if (valid) {
-            this.form.balanceThreshold = this.form.balanceThreshold * 100
             account(this.form)
               .then((res) => {
                 this.$message({
@@ -206,8 +205,6 @@
                   type: 'success'
                 })
                 this.$router.push({path: '/system'})
-              }).catch(() => {
-                this.form.balanceThreshold = this.form.balanceThreshold * 0.01
               })
           } else {
             return false

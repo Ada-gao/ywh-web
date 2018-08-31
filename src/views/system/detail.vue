@@ -598,7 +598,7 @@
           this.account = response.data
           this.account.accountType = this.account.accountType === 'Charge' ? '付费使用' : '试用体验'
           this.account.accountStatus = this.account.accountStatus ? '生效' : '失效'
-          this.account.balanceThreshold = this.account.balanceThreshold * 0.01
+          this.account.balanceThreshold = this.account.balanceThreshold
           let date = new Date(this.account.expireDate)
           let month = date.getMonth() + 1;
           let day = date.getDate();
@@ -687,7 +687,6 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.accountForm.expireDate = this.timeDefaultShow
-            this.accountForm.balanceThreshold = this.accountForm.balanceThreshold * 100
             updateAccount(this.accountId, this.accountForm).then(res => {
               this.$message({
                 message: '操作成功',
@@ -695,8 +694,6 @@
               })
               this.updateAccountDialog = false
               this.getCompany()
-            }).catch(() => {
-              this.accountForm.balanceThreshold = this.accountForm.balanceThreshold * 0.01
             })
           } else {
             return false

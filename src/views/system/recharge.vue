@@ -121,7 +121,6 @@
         const set = this.$refs
         set[formName].validate(valid => {
           if (valid) {
-            this.form.money = this.form.money * 100
             recharge(this.form)
               .then((res) => {
                 this.$message({
@@ -129,8 +128,6 @@
                   type: 'success'
                 })
                 this.$router.push({path: '/system'})
-              }).catch(() => {
-                this.form.money = this.form.money * 0.01
               })
           } else {
             return false
