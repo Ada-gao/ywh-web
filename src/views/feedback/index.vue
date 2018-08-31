@@ -82,13 +82,11 @@
 
 <script>
 import {getFeedback} from '@/api/api'
-import {mapGetters} from 'vuex'
 
 export default {
   components: {},
   data () {
     return {
-      tableKey: 0,
       total: null,
       listLoading: true,
       listQuery: {
@@ -97,32 +95,21 @@ export default {
       },
       currentPage: 1,
       list: null,
-      sys_user_add: true,
-      value: '',
-      adminStat: null,
-      orgSize: [],
-      companies: [],
-      products: []
     }
   },
-  computed: {
-    ...mapGetters([
-      'sysUser'
-    ])
-  },
   created () {
-    this.adminStat = this.$store.state.adminStat
     this.getList()
   },
   methods: {
     getList () {
       getFeedback(this.listQuery).then(response => {
         this.list = response.data.content
-        this.list.forEach((item, index) => {
-          item.createTime = new Date(item.createTime).toLocaleDateString()
-        })
         this.total = response.data.totalElements
         this.listLoading = false
+        this.list.forEach(item => {
+          let date = new Date(item.createTime)
+          item.createTime = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
+        })
       })
     },
     handleSizeChange (val) {
@@ -141,7 +128,7 @@ export default {
       this.getList()
     },
     handleUpdate (query) {
-      this.$router.push({name: 'fdDetail', query})
+      this.$router.push({path: '/feedback/detail', query})
     }
   }
 }

@@ -207,7 +207,8 @@ export default {
         getOrgSize().then(res => {
           this.orgSize = res.data
           this.list.forEach(item => {
-            item.createTime = new Date(item.createTime).toLocaleString()
+            let date = new Date(item.createTime)
+            item.createTime = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
           })
         })
       })
