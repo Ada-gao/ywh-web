@@ -19,6 +19,7 @@
     <div class="margin-line"></div>
     <div class="update-detail" v-if="updateStatus==='create'||updateStatus==='update'">
       <el-form :model="form" :rules="rules" ref="form" label-width="100px">
+        <el-row hidden="true"></el-row>
         <el-row :gutter="20">
           <el-col :span="10">
             <el-form-item label="所属公司" prop="companyId">
@@ -266,9 +267,6 @@
           companyId: [
             {required: true, trigger: 'blur', message: '请选择公司'}
           ],
-          team: [
-            {required: true, trigger: 'blur', message: '请输入所属团队'}
-          ],
           name: [
             {required: true, trigger: 'blur', message: '请输入销售名称'}
           ],
@@ -286,7 +284,10 @@
           ],
           mobile: [
             {required: true, trigger: 'blur', validator: validateMobile}
-          ]
+          ],
+          team: [
+            {required: true, trigger: 'blur', message: '请输入所属团队'}
+          ],
         },
         form: {
           authorities: [
