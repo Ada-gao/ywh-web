@@ -16,7 +16,7 @@
         </el-submenu>
         <el-menu-item index="8" v-show="sysUser === 'superadmin'" route="/trial"><i class="fa fa-list-ul"/><span slot="title">试用管理</span></el-menu-item>
         <el-menu-item index="9" v-show="sysUser === 'superadmin'" route="/check"><i class="iconfont icon-shenheguanli"/><span slot="title">审核管理</span></el-menu-item>
-        <el-submenu index="10" v-show="sysUser === 'superadmin'">
+        <el-submenu index="10">
           <template slot="title"><i class="iconfont icon-chart" style="color: #ffffff"></i><span slot="title" style="color: #ffffff">报表统计 no</span></template>
           <el-menu-item index="10-1" route="/report/workload"><i class="iconfont icon-wodegongzuoliang"/><span slot="title">工作量统计</span></el-menu-item>
           <el-menu-item index="10-2" route="/report/task"><i class="iconfont icon-boda"/><span slot="title">外呼任务统计</span></el-menu-item>

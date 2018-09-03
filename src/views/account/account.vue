@@ -34,7 +34,6 @@
     <div class="detail-title" style="margin-top: 20px">
       <span class="list-tit">账户信息<span style="color: #B2B2B2;font-size: 12px">（变更账号信息，请联系对接商务经理，谢谢）</span></span>
     </div>
-    <div class="margin-line"></div>
     <el-form :model="account" class="form-border">
       <el-row>
         <el-col :span="8">
@@ -59,7 +58,6 @@
     <div class="detail-title" style="margin-top: 20px">
       <span class="list-tit">公司信息<span style="color: #B2B2B2;font-size: 12px">（变更公司信息，请联系对接商务经理，谢谢）</span></span>
     </div>
-    <div class="margin-line"></div>
     <el-form :model="company" class="form-border">
       <el-row>
         <el-col :span="8">
