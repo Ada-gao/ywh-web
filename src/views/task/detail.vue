@@ -44,14 +44,12 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="外呼话术：">
-              <!--<span>{{form.salesTalk}}</span>-->
-              <span class="blue-color">点击查看</span>
               <el-popover
-                ref="popover"
                 placement="right"
                 width="200"
+                :content="form.salesTalk"
                 trigger="click">
-                <span v-html="form.salesTalk"></span>
+                <span  slot="reference" class="blue-color">点击查看</span>
               </el-popover>
             </el-form-item>
           </el-col>
