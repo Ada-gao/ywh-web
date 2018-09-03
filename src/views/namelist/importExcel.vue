@@ -39,16 +39,16 @@
             <el-form-item label="名单来源" prop="source">
               <el-select v-model="form.source" placeholder="请选择名单来源" style="width: 100%">
                 <el-option v-show="sysUser === 'superadmin'"
-                  v-for="(item,index) in superSources"
-                  :key="index"
-                  :label="item"
-                  :value="item">
+                           v-for="(item,index) in superSources"
+                           :key="index"
+                           :label="item"
+                           :value="item">
                 </el-option>
-               <el-option v-show="sysUser != 'superadmin'"
-                  v-for="(item,index) in sources"
-                  :key="index"
-                  :label="item"
-                  :value="item">
+                <el-option v-show="sysUser != 'superadmin'"
+                           v-for="(item,index) in sources"
+                           :key="index"
+                           :label="item"
+                           :value="item">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -73,129 +73,157 @@
         </el-row>
       </el-form>
       <!--<div class="dialog-footer" style="text-align: center; margin-top: 20px">-->
-        <!--<el-button class="add_btn" @click="submit">提 交</el-button>-->
+      <!--<el-button class="add_btn" @click="submit">提 交</el-button>-->
       <!--</div>-->
     </div>
     <div class="detail-title" style="margin-top: 30px">
       <span class="list-tit">名单列表</span>
-      <el-button :class="form.companyId && form.groupName &&tableData.length > 0 ? 'add_btn' : 'insert_btn'" @click="showDialog">
+      <el-button
+        :class="form.companyId && form.groupName &&tableData.length && checkSuccess> 0 ? 'add_btn' : 'insert_btn'"
+        @click="showDialog">
         <i class="fa fa-sign-out" style="margin-right: 10px"></i>确认导入
       </el-button>
 
       <span style="float:right;">共有<i style="color:#0299CC;font-style: normal;">{{tableData.length}}</i>条</span>
     </div>
-    <el-table :data="tableData" border highlight-current-row style="width: 100%;margin-top:10px;">
+    <el-table :data="tableData" v-show="errorData.length == 0" border highlight-current-row
+              style="width: 100%;margin-top:10px;">
       <el-table-column v-for='item of tableHeader' :prop="item" :label="item" :key='item'>
+      </el-table-column>
+    </el-table>
+    <el-table :data="errorData" v-show="errorData.length > 0" border highlight-current-row
+              style="width: 100%;margin-top:10px;">
+      <el-table-column v-for='item of errorHeader' :prop="item" :label="item" :key='item'>
       </el-table-column>
     </el-table>
   </div>
 </template>
 
 <script>
-import UploadExcelComponent from '@/components/uploadExcel.vue'
-import { addNameExcel, getCompanies } from '@/api/api'
-import { replaceKey } from '@/common/js/util'
-import { mapGetters } from 'vuex'
+  import UploadExcelComponent from '@/components/uploadExcel.vue'
+  import {addNameExcel, getCompanies} from '@/api/api'
+  import {replaceKey} from '@/common/js/util'
+  import {mapGetters} from 'vuex'
 
-export default {
-  name: 'uploadExcel',
-  components: { UploadExcelComponent },
-  data () {
-    return {
-      dialogVisible: false,
-      tableData: [],
-      tableHeader: [],
-      formData: null,
-      form: {
-        maskPhoneNo: true
-      },
-      companies: [],
-      downloadUrl: '/static/excel/外呼名单导入模版.xlsx',
-      rules: {
-        companyId: [
-          { required: true, message: '请选择所属公司', trigger: 'blur' }
+  export default {
+    name: 'uploadExcel',
+    components: {UploadExcelComponent},
+    data() {
+      return {
+        dialogVisible: false,
+        tableData: [],
+        tableHeader: [],
+        errorData: [],
+        errorHeader: [
+          '错误行', '错误项'
         ],
-        groupName: [
-          { required: true, message: '请输入名单名称', trigger: 'blur' }
+        checkSuccess: true,
+        formData: null,
+        form: {
+          maskPhoneNo: true
+        },
+        companies: [],
+        downloadUrl: '/static/excel/外呼名单导入模版.xlsx',
+        rules: {
+          companyId: [
+            {required: true, message: '请选择所属公司', trigger: 'blur'}
+          ],
+          groupName: [
+            {required: true, message: '请输入名单名称', trigger: 'blur'}
+          ],
+          source: [
+            {required: true, message: '请选择名单来源', trigger: 'blur'}
+          ],
+          filename: [
+            {required: true, message: '请选择上传文件', trigger: 'blur, change'}
+          ]
+        },
+        filename: '',
+        superSources: [
+          '自有',
+          '营销'
         ],
-        source: [
-          { required: true, message: '请选择名单来源', trigger: 'blur' }
-        ],
-        filename: [
-          { required: true, message: '请选择上传文件', trigger: 'blur, change' }
+        sources: [
+          '自有',
         ]
+      }
+    },
+    computed: {
+      ...mapGetters([
+        'sysUser'
+      ])
+    },
+    created() {
+      this.getQuery()
+    },
+    methods: {
+      getQuery() {
+        getCompanies().then(res => {
+          this.companies = res.data
+        })
       },
-      filename: '',
-      error: '',
-      superSources:[
-        '自有',
-        '营销'
-      ],
-      sources:[
-        '自有',
-      ]
-    }
-  },
-  computed : {
-    ...mapGetters([
-      'sysUser'
-    ])
-  },
-  created () {
-    this.getQuery()
-  },
-  methods: {
-    getQuery () {
-      getCompanies().then(res => {
-        this.companies = res.data
-      })
-    },
-    selected (data) {
-      this.tableHeader = data.header
-      this.tableData = data.results
-      this.form.filename = data.filename
-    },
-    showDialog () {
-      if (this.form.companyId && this.form.groupName && this.tableData.length > 0) {
-        this.dialogVisible = true
-      }
-    },
-    checkMobile (value) {
-      if (value) {
-        return /^((1[3-8][0-9])+\d{8})$/.test(value)
-      }
-      return false
-    },
-    checkTelphone (value) {
-      if (value) {
-        return /^(0[0-9]{2,3}-)([2-9][0-9]{6,7})+$/.test(value)
-      }
-      return false
-    },
-    submit () {
-      this.dialogVisible = false
-      this.error = ''
-      if (this.tableHeader[0] === '联系人姓名' && this.tableHeader[1] === '手机号' && this.tableHeader[2] === '年龄' && this.tableHeader[3] === '性别' && this.tableHeader[4] === '所在地') {
-        for (let i = 0; i < this.tableData.length; i++) {
-          if (this.tableData[i].联系人姓名 && this.tableData[i].联系人姓名.length > 50) {
-            this.error += '‘联系人姓名’'
+      selected(data) {
+        this.tableHeader = data.header
+        this.tableData = data.results
+        this.form.filename = data.filename
+        this.checkExcel()
+      },
+      checkExcel() {
+        if (this.tableHeader[0] === '联系人姓名' && this.tableHeader[1] === '手机号' && this.tableHeader[2] === '年龄' && this.tableHeader[3] === '性别' && this.tableHeader[4] === '所在地') {
+          this.errorData = []
+          let index = 0
+          for (let i = 0; i < this.tableData.length; i++) {
+            if (this.tableData[i].联系人姓名) {
+              if (this.tableData[i].联系人姓名.length > 50) {
+                this.errorData[index] = new Object()
+                this.errorData[index].错误行 = i + 2
+                this.errorData[index].错误项 = '联系人姓名（不能超过50个字）'
+                index++
+              }
+            }
+            if (!this.tableData[i].手机号) {
+              this.errorData[index] = new Object()
+              this.errorData[index].错误行 = i + 2
+              this.errorData[index].错误项 = '手机号（不能为空）'
+              index++
+            } else {
+              if (!this.checkMobile(this.tableData[i].手机号) || !this.checkTelphone(this.tableData[i].手机号)) {
+                this.errorData[index] = new Object()
+                this.errorData[index].错误行 = i + 2
+                this.errorData[index].错误项 = '手机号（不合法）'
+                index++
+              }
+            }
           }
-          if (this.checkMobile(this.tableData[i].手机号) || this.checkTelphone(this.tableData[i].手机号)) {
-
+          if (this.errorData.length > 0) {
+            this.checkSuccess = false
           } else {
-            this.error += '‘手机号’'
+            this.checkSuccess = true
           }
-          if (this.error) {
-            this.error = '第' + (i + 1) + '行' + this.error + '格式有误'
-            break
-          }
+        } else {
+          this.$message.error('导入的模版不正确，请核对后重新导入')
+          this.checkSuccess = false
         }
-      } else {
-        this.error = '导入的模版不正确，请核对后重新导入'
-      }
-      if (this.error) {
-        this.$message.error(this.error)
-      } else {
+      },
+      showDialog() {
+        if (this.form.companyId && this.form.groupName && this.tableData.length > 0 && this.checkSuccess) {
+          this.dialogVisible = true
+        }
+      },
+      checkMobile(value) {
+        if (value) {
+          return /^((1[3-8][0-9])+\d{8})$/.test(value)
+        }
+        return false
+      },
+      checkTelphone(value) {
+        if (value) {
+          return /^(0[0-9]{2,3}-)([2-9][0-9]{6,7})+$/.test(value)
+        }
+        return false
+      },
+      submit() {
+        this.dialogVisible = false
         let keyMap = {
           联系人姓名: 'contactName',
           手机号: 'phoneNo',
@@ -222,7 +250,6 @@ export default {
       }
     }
   }
-}
 </script>
 
 <style lang="scss" scoped>
@@ -235,8 +262,8 @@ export default {
       cursor: not-allowed;
     }
     /*.add_btn {*/
-      /*padding: 12px;*/
-      /*border:none;*/
+    /*padding: 12px;*/
+    /*border:none;*/
     /*}*/
   }
 

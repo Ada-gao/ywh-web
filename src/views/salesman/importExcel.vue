@@ -47,116 +47,205 @@
         </el-row>
       </el-form>
       <!--<div class="dialog-footer" style="text-align: center; margin-top: 20px">-->
-        <!--<el-button class="add_btn" @click="submit">提 交</el-button>-->
+      <!--<el-button class="add_btn" @click="submit">提 交</el-button>-->
       <!--</div>-->
     </div>
     <div class="detail-title" style="margin-top:30px">
       <span class="list-tit">销售列表</span>
-      <el-button :class="tableData.length > 0 && form.companyId ? 'add_btn' : 'insert_btn'" @click="showDialog">
+      <el-button :class="tableData.length > 0 && form.companyId && checkSuccess ? 'add_btn' : 'insert_btn'"
+                 @click="showDialog">
         <i class="fa fa-sign-out" style="margin-right: 10px"></i>确认导入
       </el-button>
 
       <span style="float:right;">共有<i style="color:#0299CC;font-style: normal;">{{tableData.length}}</i>条</span>
     </div>
-    <el-table :data="tableData" border highlight-current-row style="width: 100%;margin-top:10px;">
+    <el-table :data="tableData" v-show="errorData.length == 0" border highlight-current-row
+              style="width: 100%;margin-top:10px;">
       <el-table-column v-for='item of tableHeader' :prop="item" :label="item" :key='item'>
+      </el-table-column>
+    </el-table>
+    <el-table :data="errorData" v-show="errorData.length > 0" border highlight-current-row
+              style="width: 100%;margin-top:10px;">
+      <el-table-column v-for='item of errorHeader' :prop="item" :label="item" :key='item'>
       </el-table-column>
     </el-table>
   </div>
 </template>
 
 <script>
-import UploadExcelComponent from '@/components/uploadExcel.vue'
-import { addBatch, getCompanies } from '@/api/api'
-import { replaceKey } from '@/common/js/util'
+  import UploadExcelComponent from '@/components/uploadExcel.vue'
+  import {addBatch, getCompanies} from '@/api/api'
+  import {replaceKey} from '@/common/js/util'
 
-export default {
-  name: 'uploadExcel',
-  components: { UploadExcelComponent },
-  data () {
-    return {
-      dialogVisible: false,
-      tableData: [],
-      tableHeader: [],
-      formData: null,
-      companies: [],
-      form: {},
-      downloadUrl: '/static/excel/销售人员导入模版.xlsx',
-      rules: {
-        companyId: [
-          { required: true, message: '请选择所属公司', trigger: 'blur' }
+  export default {
+    name: 'uploadExcel',
+    components: {UploadExcelComponent},
+    data() {
+      return {
+        dialogVisible: false,
+        tableData: [],
+        tableHeader: [],
+        errorData: [],
+        errorHeader: [
+          '错误行', '错误项'
         ],
-        filename: [
-          { required: true, message: '请选择上传文件', trigger: 'blur,change' }
-        ]
+        checkSuccess: true,
+        formData: null,
+        companies: [],
+        form: {},
+        downloadUrl: '/static/excel/销售人员导入模版.xlsx',
+        rules: {
+          companyId: [
+            {required: true, message: '请选择所属公司', trigger: 'blur'}
+          ],
+          filename: [
+            {required: true, message: '请选择上传文件', trigger: 'blur,change'}
+          ]
+        },
+      }
+    },
+    created() {
+      this.getQuery()
+    },
+    methods: {
+      getQuery() {
+        getCompanies().then(res => {
+          this.companies = res.data
+        })
       },
-      error: ''
-    }
-  },
-  created () {
-    this.getQuery()
-  },
-  methods: {
-    getQuery () {
-      getCompanies().then(res => {
-        this.companies = res.data
-      })
-    },
-    selected (data) {
-      this.tableHeader = data.header
-      this.tableData = data.results
-      this.form.filename = data.filename
-    },
-    showDialog () {
-      if (this.form.companyId && this.tableData.length > 0) {
-        this.dialogVisible = true
-      }
-    },
-    checkMobile (value) {
-      if (value) {
-        return /^((1[3-8][0-9])+\d{8})$/.test(value)
-      }
-      return false
-    },
-    submit () {
-      this.dialogVisible = false
-      this.error = ''
-      var reg = /^[0-9a-zA-Z]+$/
-      var reg2 = /(^\s+)|(\s+$)|\s+/g
-      if (this.tableHeader[0] === '销售姓名' && this.tableHeader[1] === '所属团队' && this.tableHeader[2] === '对应职级' && this.tableHeader[3] === '手机号' && this.tableHeader[4] === '用户名' && this.tableHeader[5] === '微信号' && this.tableHeader[6] === '密码') {
-        for (let i = 0; i < this.tableData.length; i++) {
-          if (!this.tableData[i].销售姓名 || this.tableData[i].销售姓名 === 'undefined' || this.tableData[i].销售姓名.length > 50) {
-            this.error += '‘销售姓名’'
+      selected(data) {
+        this.tableHeader = data.header
+        this.tableData = data.results
+        this.form.filename = data.filename
+        this.checkExcel();
+      },
+      checkExcel() {
+        var reg = /^[0-9a-zA-Z]+$/
+        if (this.tableHeader[0] === '销售姓名' && this.tableHeader[1] === '所属团队' && this.tableHeader[2] === '对应职级' && this.tableHeader[3] === '手机号' && this.tableHeader[4] === '用户名' && this.tableHeader[5] === '微信号' && this.tableHeader[6] === '密码') {
+          this.errorData = []
+          let index = 0
+          for (let i = 0; i < this.tableData.length; i++) {
+            if (!this.tableData[i].销售姓名) {
+              this.errorData[index] = new Object()
+              this.errorData[index].错误行 = i + 2
+              this.errorData[index].错误项 = '销售姓名（不能为空）'
+              index++
+            } else if (this.tableData[i].销售姓名.length > 10) {
+              this.errorData[index] = new Object()
+              this.errorData[index].错误行 = i + 2
+              this.errorData[index].错误项 = '销售姓名（不能超过10个字）'
+              index++
+            }
+            if (!this.tableData[i].所属团队) {
+              this.errorData[index] = new Object()
+              this.errorData[index].错误行 = i + 2
+              this.errorData[index].错误项 = '所属团队（不能为空）'
+              index++
+            } else if (this.tableData[i].所属团队.length > 20) {
+              this.errorData[index] = new Object()
+              this.errorData[index].错误行 = i + 2
+              this.errorData[index].错误项 = '所属团队（不能超过20个字）'
+              index++
+            }
+            if (!this.tableData[i].对应职级) {
+              this.errorData[index] = new Object()
+              this.errorData[index].错误行 = i + 2
+              this.errorData[index].错误项 = '对应职级（不能为空）'
+              index++
+            } else if (this.tableData[i].对应职级.length > 10) {
+              this.errorData[index] = new Object()
+              this.errorData[index].错误行 = i + 2
+              this.errorData[index].错误项 = '对应职级（不能超过10个字）'
+            }
+            if (!this.tableData[i].手机号) {
+              this.errorData[index] = new Object()
+              this.errorData[index].错误行 = i + 2
+              this.errorData[index].错误项 = '手机号（不能为空）'
+              index++
+            } else if (!this.checkMobile(this.tableData[i].手机号)) {
+              this.errorData[index] = new Object()
+              this.errorData[index].错误行 = i + 2
+              this.errorData[index].错误项 = '手机号（不合法）'
+            }
+            if (!this.tableData[i].用户名) {
+              this.errorData[index] = new Object()
+              this.errorData[index].错误行 = i + 2
+              this.errorData[index].错误项 = '用户名（不能为空）'
+              index++
+            } else if (this.tableData[i].用户名.length < 4) {
+              this.errorData[index] = new Object()
+              this.errorData[index].错误行 = i + 2
+              this.errorData[index].错误项 = '用户名（不能少于4个字）'
+              index++
+            } else if (this.tableData[i].用户名.length > 50) {
+              this.errorData[index] = new Object()
+              this.errorData[index].错误行 = i + 2
+              this.errorData[index].错误项 = '用户名（不能超过50个字）'
+              index++
+            } else if (!reg.test(this.tableData[i].用户名)) {
+              this.errorData[index] = new Object()
+              this.errorData[index].错误行 = i + 2
+              this.errorData[index].错误项 = '用户名（只能是数字和字母组合）'
+              index++
+            }
+            if (this.tableData[i].微信号) {
+              if (this.tableData[i].微信号.length < 6) {
+                this.errorData[index] = new Object()
+                this.errorData[index].错误行 = i + 2
+                this.errorData[index].错误项 = '微信号（不能少于6个字）'
+                index++
+              } else if (this.tableData[i].微信号.length > 20) {
+                this.errorData[index] = new Object()
+                this.errorData[index].错误行 = i + 2
+                this.errorData[index].错误项 = '微信号（不能超过20个字）'
+                index++
+              }
+            }
+            if (!this.tableData[i].密码) {
+              this.errorData[index] = new Object()
+              this.errorData[index].错误行 = i + 2
+              this.errorData[index].错误项 = '密码（不能为空）'
+              index++
+            } else if (this.tableData[i].密码.length < 6) {
+              this.errorData[index] = new Object()
+              this.errorData[index].错误行 = i + 2
+              this.errorData[index].错误项 = '密码（不能少于6个字）'
+              index++
+            } else if (this.tableData[i].密码.length > 12) {
+              this.errorData[index] = new Object()
+              this.errorData[index].错误行 = i + 2
+              this.errorData[index].错误项 = '密码（不能超过12个字）'
+              index++
+            } else if (!reg.test(this.tableData[i].密码)) {
+              this.errorData[index] = new Object()
+              this.errorData[index].错误行 = i + 2
+              this.errorData[index].错误项 = '密码（只能是数字和字母组合）'
+              index++
+            }
           }
-          if (!this.tableData[i].所属团队 || this.tableData[i].所属团队 === 'undefined' || this.tableData[i].所属团队.length > 20) {
-            this.error += '‘所属团队’'
+          if (this.errorData.length > 0) {
+            this.checkSuccess = false
+          } else {
+            this.checkSuccess = true
           }
-          if (!this.tableData[i].对应职级 || this.tableData[i].对应职级 === 'undefined' || this.tableData[i].对应职级.length > 255) {
-            this.error += '‘对应职级’'
-          }
-          if (!this.checkMobile(this.tableData[i].手机号) || this.tableData[i].对应职级 === 'undefined') {
-            this.error += '‘手机号’'
-          }
-          if (!this.tableData[i].用户名 || this.tableData[i].用户名 === 'undefined' || this.tableData[i].用户名.length < 4 || this.tableData[i].用户名.length > 50 || !reg.test(this.tableData[i].用户名) || reg2.test(this.tableData[i].用户名)) {
-            this.error += '‘用户名’'
-          }
-          if (!this.tableData[i].微信号 || this.tableData[i].微信号 === 'undefined' || this.tableData[i].微信号.length < 6 || this.tableData[i].微信号.length > 20) {
-            this.error += '‘微信号’'
-          }
-          if (!this.tableData[i].密码 || this.tableData[i].密码 === 'undefined' || this.tableData[i].密码.length < 6 || this.tableData[i].密码.length > 12 || !reg.test(this.tableData[i].密码) || reg2.test(this.tableData[i].密码)) {
-            this.error += '‘密码’'
-          }
-          if (this.error) {
-            this.error = '第' + (i + 1) + '行' + this.error + '格式有误'
-            break
-          }
+        } else {
+          this.$message.error('导入的模版不正确，请核对后重新导入')
+          this.checkSuccess = false
         }
-      } else {
-        this.error = '导入的模版不正确，请核对后重新导入'
-      }
-      if (this.error) {
-        this.$message.error(this.error)
-      } else {
+      },
+      showDialog() {
+        if (this.form.companyId && this.tableData.length > 0 && this.checkSuccess) {
+          this.dialogVisible = true
+        }
+      },
+      checkMobile(value) {
+        if (value) {
+          return /^((1[3-8][0-9])+\d{8})$/.test(value)
+        }
+        return false
+      },
+      submit() {
+        this.dialogVisible = false
         let keyMap = {
           销售姓名: 'name',
           所属团队: 'team',
@@ -180,7 +269,6 @@ export default {
       }
     }
   }
-}
 </script>
 <style lang="scss" scoped>
   .app-container {
@@ -192,8 +280,8 @@ export default {
       cursor: not-allowed;
     }
     /*.add_btn {*/
-      /*padding: 12px;*/
-      /*border:none;*/
+    /*padding: 12px;*/
+    /*border:none;*/
     /*}*/
   }
 </style>
