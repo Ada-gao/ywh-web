@@ -159,7 +159,7 @@
         var wb = XLSX.utils.table_to_book(document.querySelector('#consumeTable'))
         var wbout = XLSX.write(wb, {bookType: 'xlsx', bookSST: true, type: 'array'})
         try {
-          FileSaver.saveAs(new Blob([wbout], {type: 'application/octet-stream'}), '话务统计列表.xlsx')
+          FileSaver.saveAs(new Blob([wbout], {type: 'application/octet-stream'}), '话务列表.xlsx')
         } catch (e) {
           if (typeof console !== 'undefined') console.log(e, wbout)
         }
