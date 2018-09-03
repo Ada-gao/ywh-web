@@ -95,8 +95,8 @@ export const getRechargePageById = (id, params) => axios.get('/account/getRechar
 export const updateAccount = (id, params) => axios.put('/account/' + id, params)
 export const enabledAccount = (id, status) => axios.put('/account/enabledAccount/' + id + '?status=' + status)
 // review
-export const review = (pageTab, params) => axios.get('/review/' + pageTab , {params: params})
-export const putReview = (id, status,content) => axios.put('/review/' + id + '?status=' + status + '&content=' + content)
+export const review = (pageTab, params) => axios.get('/review/' + pageTab, {params: params})
+export const putReview = (id, status, content) => axios.put('/review/' + id + '?status=' + status + '&content=' + content)
 // push
 export const message = params => axios.post('/message', params)
 export const putMessage = (id, params) => axios.put('/message/' + id, params)
@@ -106,4 +106,10 @@ export const enabeldRule = (id, enabled) => axios.put('/message/enabledRule/' + 
 // feedback
 export const getFeedback = params => axios.get('/feedback/getPage', {params: params})
 export const getFdDetail = id => axios.get('/feedback/getImg/' + id)
-export const getTeam = team => axios.get('/task/getProductByTeam?team=' + team)
+export const getProductByTeam = team => axios.get('/task/getProductByTeam?team=' + team)
+// report
+export const workload = params => axios.get('/reportMgmt/workload', {params: params})
+export const getCallStatis = params => axios.get('/reportMgmt/getCallStatis', {params: params})
+export const getCallHistory = params => axios.get('/reportMgmt/getCallHistory', {params: params})
+
+export const accounts = params => axios.get('/account/getAccount'  , {params: params})

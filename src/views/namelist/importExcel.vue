@@ -187,7 +187,9 @@
               this.errorData[index].错误项 = '手机号（不能为空）'
               index++
             } else {
-              if (!this.checkMobile(this.tableData[i].手机号) || !this.checkTelphone(this.tableData[i].手机号)) {
+              if (this.checkMobile(this.tableData[i].手机号) || this.checkTelphone(this.tableData[i].手机号)) {
+
+              }else{
                 this.errorData[index] = new Object()
                 this.errorData[index].错误行 = i + 2
                 this.errorData[index].错误项 = '手机号（不合法）'

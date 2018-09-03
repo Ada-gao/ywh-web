@@ -143,7 +143,7 @@
 </template>
 
 <script>
-  import {getAdminTasks, getProductList, getTeam, getTeams} from '@/api/api'
+  import {getAdminTasks, getProductList, getProductByTeam, getTeams} from '@/api/api'
   import {mapGetters} from 'vuex'
 
   export default {
@@ -225,7 +225,7 @@
         }
         this.listQuery.pageIndex = 0
         this.getList()
-        getTeam(this.listQuery.team).then((res) => {
+        getProductByTeam(this.listQuery.team).then((res) => {
           this.products = res.data
         })
       },

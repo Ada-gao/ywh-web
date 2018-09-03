@@ -1,217 +1,231 @@
 <template>
-  <section>
+  <div>
     <div class="filter-container">
-      <div class="detail-title">
-        <span class="list-tit">公司查询</span>
-      </div>
-      <el-row style="margin-top: 10px">
-        <el-col :span="8">
-          <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="输入公司名称关键词"
-                    v-model="listQuery.companyName">
-          </el-input>
-          <el-button class="filter-item" type="primary" icon="search" @click="handleFilter"><i class="fa fa-search"></i>查询</el-button>
+      <el-row>
+        <el-col :span="14">
+          <el-input @keyup.enter.native="handleFilter"
+                    style="width: 200px;"
+                    class="filter-item"
+                    placeholder="输入销售名称"
+                    v-model="listQuery.saleName"/>
+          <el-input @keyup.enter.native="handleFilter"
+                    style="width: 200px;"
+                    class="filter-item"
+                    placeholder="输入所属公司名称"
+                    v-model="listQuery.companyName"/>
+          <el-button class="filter-item"
+                     type="primary"
+                     icon="search"
+                     @click="handleFilter"><i class="fa fa-search"></i>查询
+          </el-button>
         </el-col>
-        <el-col :span="16" style="text-align: right;">
-          <el-select v-model="listQuery.companyProvince"
-                     placeholder="省份筛选"
+        <el-col :span="10" style="text-align: right;">
+          <el-select v-model="listQuery.accountId"
+                     placeholder="所属账户"
                      clearable
                      @change="handleFilter1">
             <el-option
-              v-for="item in provinceData"
-              :key="item.value"
-              :label="item.label"
+              v-for="item in accounts"
+              :key="item.accountId"
+              :label="item.accountName"
+              :value="item.accountId">
+            </el-option>
+          </el-select>
+          <el-select v-model="listQuery.team"
+                     placeholder="所属团队"
+                     clearable
+                     @change="handleFilter1">
+            <el-option
+              v-for="item in teams"
+              :key="item"
+              :label="item"
               :value="item">
-            </el-option>
-          </el-select>
-          <el-select v-model="listQuery.industryType"
-                     placeholder="行业筛选"
-                     clearable
-                     @change="handleFilter1">
-            <el-option
-              v-for="item in industry"
-              :key="item.id"
-              :label="item.name"
-              :value="item.name">
-            </el-option>
-          </el-select>
-          <el-select v-model="listQuery.orgSize"
-                     placeholder="公司规模筛选"
-                     clearable
-                     @change="handleFilter1">
-            <el-option
-              v-for="item in orgSize"
-              :key="item.value"
-              :label="item.label"
-              :value="item.label">
             </el-option>
           </el-select>
         </el-col>
       </el-row>
     </div>
     <div class="detail-title">
-      <span class="list-tit">公司列表</span>
-      <el-button class="add_btn" @click="handleCreate" v-if="sysUser === 'superadmin'">
-        <i class="fa fa-plus" style="color: #fff;margin-right: 10px"></i>新建公司
+      <span class="list-tit">工作量列表</span>
+      <el-button class="add_btn" @click="handleExport">
+        <i class="iconfont icon-piliangdaochu" style="color: #fff;margin-right: 10px"></i>批量导出
       </el-button>
     </div>
-    <el-table :key='tableKey' :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit
-              highlight-current-row style="width: 100%">
-
-      <el-table-column align="center" label="公司ID">
+    <el-table
+      id="consumeTable"
+      :data="list"
+      v-loading="listLoading"
+      element-loading-text="给我一点时间"
+      border fit
+      highlight-current-row
+      style="width: 100%">
+      <el-table-column align="center" label="销售名称">
         <template slot-scope="scope">
-          <span>{{scope.row.companyCode}}</span>
+          <span>{{scope.row.uname}}</span>
         </template>
       </el-table-column>
-
-      <el-table-column align="center" label="公司名称" class-name="left">
+      <el-table-column align="center" label="所属公司">
         <template slot-scope="scope">
           <span>{{scope.row.companyName}}</span>
         </template>
       </el-table-column>
-
-      <el-table-column align="center" label="公司地址">
+      <el-table-column align="center" label="所属账户">
         <template slot-scope="scope">
-          <span>{{scope.row.companyAddress}}</span>
+          <span>{{scope.row.accountName}}</span>
         </template>
       </el-table-column>
-
-      <el-table-column align="center" label="公司所在省份">
+      <el-table-column align="center" label="所属团队">
         <template slot-scope="scope">
-          <span>{{scope.row.companyProvince}}</span>
+          <span>{{scope.row.team}}</span>
         </template>
       </el-table-column>
-
-      <el-table-column align="center" label="公司行业" show-overflow-tooltip>
+      <el-table-column align="center" label="有效通话时长">
         <template slot-scope="scope">
-          <span>{{scope.row.industryType}}</span>
+          <span>{{scope.row.totalEffectiveDuration}}</span>
         </template>
       </el-table-column>
-
-      <el-table-column align="center" label="公司规模">
+      <el-table-column align="center" label="目标任务数">
         <template slot-scope="scope">
-          <span>{{scope.row.orgSize}}</span>
+          <span>{{scope.row.totalTaskgroupCnt}}</span>
         </template>
       </el-table-column>
-
-      <el-table-column align="center" label="操作" fixed="right" width="150">
+      <el-table-column align="center" label="目标通话客户数">
         <template slot-scope="scope">
-          <a size="small" class="common_btn"
-             @click="handleUpdate(scope.row)">查看详情
-          </a>
+          <span>{{scope.row.totalTaskCnt}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="实际任务数">
+        <template slot-scope="scope">
+          <span>{{scope.row.completeGroupCnt}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="实际通话客户数">
+        <template slot-scope="scope">
+          <span>{{scope.row.totalTaskCompleteCnt}}</span>
         </template>
       </el-table-column>
     </el-table>
-
-    <div v-show="!listLoading" class="pagination-container">
-      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
+    <div v-show="!listLoading">
+      <el-pagination @size-change="handleSizeChange"
+                     @current-change="handleCurrentChange"
                      :current-page.sync="currentPage"
+                     :page-sizes="[10,20,30, 50]"
                      background
-                     :page-sizes="[10,20,30, 50]" :page-size="listQuery.pageSize"
-                     layout="total, sizes, prev, pager, next, jumper" :total="total">
+                     :page-size="listQuery.pageSize"
+                     layout="total, sizes, prev, pager, next, jumper"
+                     :total="total">
       </el-pagination>
     </div>
-
-  </section>
+  </div>
 </template>
 
 <script>
-  import { getCompanyPage, getAuthDustries, getOrgSize } from '@/api/api'
-  import { provinceAndCityData } from 'element-china-area-data' // 省市区数据
   import { mapGetters } from 'vuex'
-
+  import FileSaver from 'file-saver'
+  import XLSX from 'xlsx'
+  import {workload, getTeams,accounts} from '@/api/api'
   export default {
-    components: {},
-    data () {
+    computed : {
+      ...mapGetters([
+        'getUserInfo'
+      ])
+    },
+    data() {
       return {
-        tableKey: 0,
         total: null,
         listLoading: true,
         listQuery: {
           pageIndex: 0,
           pageSize: 10
         },
+        currentPage: 1,
         list: null,
-        sys_user_add: true,
-        value: '',
-        provinceData: provinceAndCityData,
-        industry: [],
-        orgSize: [],
-        currentPage: 1
+        accounts: [],
+        teams: [],
       }
     },
-    computed: {
-      ...mapGetters([
-        'sysUser'
-      ])
-    },
-    created () {
+    created() {
       this.getList()
+      this.getQuery()
     },
     methods: {
-      getList () {
-        getCompanyPage(this.listQuery).then(res => {
-          this.list = res.data.content
-          this.total = res.data.totalElements
+      getList() {
+        workload(this.listQuery).then(response => {
+          let data = response.data.content
+          this.total = response.data.totalElements
           this.listLoading = false
-          getOrgSize().then(res => {
-            this.orgSize = res.data
-            this.list.forEach(item => {
-            })
+          this.list  = []
+          data.forEach((item,index) => {
+            let obj = new Object()
+            obj.uname = item[0];
+            obj.companyName = item[1];
+            obj.accountName = item[2];
+            obj.team = item[3];
+            obj.totalEffectiveDuration = item[4];
+            obj.totalTaskgroupCnt = item[5];
+            obj.totalTaskCnt = item[6];
+            obj.completeGroupCnt = item[7];
+            obj.totalTaskCompleteCnt = item[8]
+            this.list[index] = obj
           })
         })
-        getAuthDustries().then(res => {
-          this.industry = res.data
+      },
+      getQuery() {
+        let params = {
+          companyId: this.getUserInfo.companyId
+        }
+        getTeams(params).then(res => {
+          this.teams = res.data
+        })
+        accounts(params).then(res => {
+          this.accounts = res.data
         })
       },
-      handleUpdate (obj) {
-        this.$router.push({name: 'detail', query: obj})
-      },
-      handleSizeChange (val) {
+      handleSizeChange(val) {
         this.listQuery.pageSize = val
         this.getList()
       },
-      handleCurrentChange (val) {
+      handleCurrentChange(val) {
         this.listQuery.pageIndex = val - 1
         this.getList()
       },
-      handleFilter () {
-        this.listQuery.companyProvince = null
-        this.listQuery.industryType = null
-        this.listQuery.orgSize = null
-        delete this.listQuery.orgSize
-        delete this.listQuery.companyProvince
-        delete this.listQuery.industryType
+      handleFilter() {
+        delete this.listQuery.accountId
+        delete this.listQuery.team
+        if (!this.listQuery.saleName) {
+          delete this.listQuery.saleName
+        }
         if (!this.listQuery.companyName) {
           delete this.listQuery.companyName
         }
         this.listQuery.pageIndex = 0
         this.getList()
       },
-      handleFilter1 () {
-        if (this.listQuery.companyProvince) {
-          this.listQuery.companyProvince = this.listQuery.companyProvince.label || this.listQuery.companyProvince
-        }
-        this.listQuery.companyName = ''
+      handleFilter1() {
+        delete this.listQuery.saleName
         delete this.listQuery.companyName
-        if (!this.listQuery.companyProvince) {
-          delete this.listQuery.companyProvince
+        if (!this.listQuery.accountId) {
+          delete this.listQuery.accountId
         }
-        if (!this.listQuery.industryType) {
-          delete this.listQuery.industryType
-        }
-        if (!this.listQuery.orgSize) {
-          delete this.listQuery.orgSize
+        if (!this.listQuery.team) {
+          delete this.listQuery.team
         }
         this.listQuery.pageIndex = 0
         this.getList()
       },
-      handleCreate () {
-        this.$router.push({path: '/company/create'})
-      }
+      handleExport(){
+        var wb = XLSX.utils.table_to_book(document.querySelector('#consumeTable'))
+        var wbout = XLSX.write(wb, {bookType: 'xlsx', bookSST: true, type: 'array'})
+        try {
+          FileSaver.saveAs(new Blob([wbout], {type: 'application/octet-stream'}), '工作量统计列表.xlsx')
+        } catch (e) {
+          if (typeof console !== 'undefined') console.log(e, wbout)
+        }
+        return wbout
+      },
     }
   }
 </script>
-
-<style scoped>
+<style scoped lang="scss">
 
 </style>
