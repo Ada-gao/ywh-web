@@ -544,6 +544,7 @@
             }else if (item.consumptionProduct === 'OutboundNameFee'){
               item.consumptionProduct = '通信费'
             }
+            item.money = item.money*0.01
             let date = new Date(item.createTime)
             item.createTime = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() + ' ' +date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
           })

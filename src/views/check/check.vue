@@ -62,7 +62,10 @@
         </el-table-column>
         <el-table-column align="center" label="审核状态">
           <template slot-scope="scope">
-            <span :style="scope.row.status==='已通过'?'color:#009801':'color:#F7BA2A'">{{scope.row.status}}</span>
+            <div style="cursor:pointer;" @click="showStatusDialog(scope.row)">
+              <span style="color:#F7BA2A">{{scope.row.status}}</span>
+              <i class="fa fa-cog" style="color: #a9a4a4;margin-left: 10px"></i>
+            </div>
           </template>
         </el-table-column>
         <el-table-column align="center" label="操作" width="150">
@@ -79,6 +82,28 @@
                        layout="total, sizes, prev, pager, next, jumper" :total="total">
         </el-pagination>
       </div>
+      <el-dialog title="审核" :visible.sync="updateStatusDialog" width="25%">
+        <el-radio-group v-model="checkRadio" @change="resetForm" style="text-align: center;width: 100%">
+          <el-radio label="通过"></el-radio>
+          <el-radio label="不通过" style="margin-left: 120px"></el-radio>
+        </el-radio-group>
+        <el-form :model="checkForm" :rules="checkRules" ref="checkForm" label-width="100px" style="margin-top: 20px">
+          <div v-if="checkRadio==='通过' && item && item.type != '外呼名单'">
+            <el-form-item label="模版Code" prop="content" class="txt">
+              <el-input v-model="checkForm.content" placeholder="请输入模版Code" maxlength="12"></el-input>
+            </el-form-item>
+          </div>
+          <div v-else-if="checkRadio==='不通过'">
+            <el-form-item label="驳回原因" prop="content" class="txt">
+              <el-input  type="textarea" v-model="checkForm.content" :rows="3"  placeholder="请输入驳回原因" maxlength="50"></el-input>
+            </el-form-item>
+          </div>
+        </el-form>
+        <div style="text-align: right;margin-top: 30px">
+          <el-button class="search_btn" @click="updateStatusDialog = false">取 消</el-button>
+          <el-button class="add_btn" @click="handlerCheck">确 定</el-button>
+        </div>
+      </el-dialog>
     </div>
     <div v-show="radio==='历史审核查询'">
       <div class="filter-container">
@@ -152,7 +177,7 @@
         </el-table-column>
         <el-table-column align="center" label="审核状态">
           <template slot-scope="scope">
-            <span :style="scope.row.status==='已通过'?'color:#009801':'color:#F7BA2A'">{{scope.row.status}}</span>
+            <span :style="scope.row.status==='已通过'?'color:#009801':'color:#FF4C4C'">{{scope.row.status}}</span>
           </template>
         </el-table-column>
         <el-table-column align="center" label="操作" width="150">
@@ -174,11 +199,20 @@
 </template>
 
 <script>
-  import {review} from '@/api/api'
+  import {review,putReview} from '@/api/api'
 
   export default {
     data() {
       return {
+        checkForm:{},
+        checkRules: {
+          content: [
+            {required: true, trigger: 'blur', message: '请输入内容'}
+          ],
+        },
+        updateStatusDialog:false,
+        item:null,
+        checkRadio: '',
         radio: '审核管理',
         total: null,
         listLoading: true,
@@ -275,11 +309,9 @@
             } else if (item.type === 'SmsTemplate') {
               item.type = '推送规则'
             }
-            if (item.status === '0') {
-              item.status = '待审核'
-            } if (item.status === '1') {
+            if (item.status === '1') {
               item.status = '审核失败'
-            } else {
+            } else  if (item.status === '2'){
               item.status = '已通过'
             }
             let date = new Date(item.createTime)
@@ -361,6 +393,36 @@
         this.listQuery2.pageIndex = 0
         this.getList2()
       },
+      showStatusDialog(val) {
+        this.item = JSON.parse(JSON.stringify(val))
+        this.checkRadio = '通过'
+        this.updateStatusDialog = true
+        this.resetForm()
+      },
+      resetForm(){
+        this.$refs['checkForm'].resetFields();
+      },
+      handlerCheck() {
+        let status = '1'
+        if (this.checkRadio != '通过'){
+          status = '2'
+        }
+        this.$refs['checkForm'].validate(valid => {
+          if (valid) {
+            putReview(this.item.id,status,this.checkForm.content)
+              .then((res) => {
+                this.$message({
+                  message: '操作成功',
+                  type: 'success'
+                })
+                this.getList()
+              })
+          } else {
+            return false
+          }
+        })
+        this.updateStatusDialog = false
+      }
     }
   }
 </script>

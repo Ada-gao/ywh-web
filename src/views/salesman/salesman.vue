@@ -54,9 +54,10 @@
       <el-row style="margin-top: 10px">
         <el-col :span="8">
           <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="输入销售姓名"
-                v-model="listQuery.name">
+                    v-model="listQuery.name">
           </el-input>
-          <el-button class="filter-item" type="primary" icon="search" @click="handleFilter"><i class="fa fa-search"></i>查询</el-button>
+          <el-button class="filter-item" type="primary" icon="search" @click="handleFilter"><i class="fa fa-search"></i>查询
+          </el-button>
         </el-col>
         <el-col :span="16" style="text-align: right;">
           <el-select v-model="listQuery.status"
@@ -96,75 +97,68 @@
       </el-row>
     </div>
     <div class="detail-title">
-        <span class="list-tit">销售列表</span>
-        <el-button v-if="sysUser.username!=='sale'" class="add_btn" @click="handleCreate('add')">
-          <i class="fa fa-plus" style="color: #fff;margin-right: 10px"></i>新建销售
-        </el-button>
-        <el-button v-if="sysUser.username!=='sale'" class="add_btn" @click="handleCreate('import')">
-          <i class="fa fa-sign-out" style="color: #fff;margin-right: 10px"></i>批量导入
-        </el-button>
-      </div>
-    <el-table :key='tableKey' :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit
+      <span class="list-tit">销售列表</span>
+      <el-button v-if="sysUser.username!=='sale'" class="add_btn" @click="handleCreate('add')">
+        <i class="fa fa-plus" style="color: #fff;margin-right: 10px"></i>新建销售
+      </el-button>
+      <el-button v-if="sysUser.username!=='sale'" class="add_btn" @click="handleCreate('import')">
+        <i class="fa fa-sign-out" style="color: #fff;margin-right: 10px"></i>批量导入
+      </el-button>
+    </div>
+    <el-table :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit
               highlight-current-row style="width: 100%">
-
       <el-table-column align="center" label="销售ID" width="130px">
         <template slot-scope="scope">
           <span>{{scope.row.userCode}}</span>
         </template>
       </el-table-column>
-
       <el-table-column align="center" label="销售名称">
         <template slot-scope="scope">
           <span>{{scope.row.name}}</span>
         </template>
       </el-table-column>
-
       <el-table-column align="center" label="所属团队">
         <template slot-scope="scope">
           <span>{{scope.row.team}}</span>
         </template>
       </el-table-column>
-
       <el-table-column align="center" label="所属公司">
         <template slot-scope="scope">
           <span>{{scope.row.companyName}}</span>
         </template>
       </el-table-column>
-
       <el-table-column align="center" label="所在省份">
         <template slot-scope="scope">
           <span>{{scope.row.companyProvince}}</span>
         </template>
       </el-table-column>
-
       <el-table-column align="center" label="所属行业">
         <template slot-scope="scope">
-        <span>{{scope.row.industryType}}</span>
+          <span>{{scope.row.industryType}}</span>
         </template>
       </el-table-column>
-
       <el-table-column align="center" label="公司规模">
         <template slot-scope="scope">
           <span>{{scope.row.orgSize}}</span>
         </template>
       </el-table-column>
-
       <el-table-column align="center" label="状态">
         <template slot-scope="scope">
-          <span :style="scope.row.enabled?'color:#009801':'color:#D0021B'">{{scope.row.enabled?'启用':'停用'}}</span>
+          <div style="cursor:pointer;" @click="showStatusDialog(scope.row)">
+            <span :style="scope.row.enabled?'color:#009801':'color:#D0021B'">{{scope.row.enabled?'启用':'停用'}}</span>
+            <i class="fa fa-cog" style="color: #a9a4a4;margin-left: 10px"></i>
+          </div>
         </template>
       </el-table-column>
-
       <el-table-column align="center" label="操作" width="130px">
         <template slot-scope="scope">
           <a size="small" class="common_btn"
-            @click="handleUpdate(scope.row)">查看详情
+             @click="handleUpdate(scope.row)">查看详情
           </a>
         </template>
       </el-table-column>
     </el-table>
-
-    <div v-show="!listLoading" class="pagination-container">
+    <div v-show="!listLoading">
       <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
                      :current-page.sync="currentPage"
                      background
@@ -172,146 +166,181 @@
                      layout="total, sizes, prev, pager, next, jumper" :total="total">
       </el-pagination>
     </div>
-
+    <el-dialog title="修改状态" :visible.sync="updateStatusDialog" width="20%">
+    <el-radio-group v-model="radio" style="text-align: center;width: 100%">
+      <el-radio label="启用"></el-radio>
+      <el-radio label="停用" style="margin-left: 100px"></el-radio>
+    </el-radio-group>
+    <div style="text-align: right;margin-top: 30px">
+      <el-button class="search_btn" @click="updateStatusDialog = false">取 消</el-button>
+      <el-button class="add_btn" @click="enabledSale">确 定</el-button>
+    </div>
+  </el-dialog>
   </section>
 </template>
 
 <script>
-import { getUsers, getCompanies, getOrgSize, getTeams, statisSales } from '@/api/api'
-import { mapGetters } from 'vuex'
+  import {getCompanies, getTeams, getUsers, statisSales, userEnabled} from '@/api/api'
+  import {mapGetters} from 'vuex'
 
-export default {
-  components: {},
-  data () {
-    return {
-      tableKey: 0,
-      total: null,
-      listLoading: true,
-      listQuery: {
-        pageIndex: 0,
-        pageSize: 10,
-        authorityName: 'ROLE_SALE'
-      },
-      list: null,
-      sys_user_add: true,
-      value: '',
-      status: [
-        {
-          name : '启用',
-          value : '1'
+  export default {
+    components: {},
+    data() {
+      return {
+        updateStatusDialog: false,
+        total: null,
+        listLoading: true,
+        listQuery: {
+          pageIndex: 0,
+          pageSize: 10,
+          authorityName: 'ROLE_SALE'
         },
-        {
-          name : '停用',
-          value : '0'
-        }
-      ],
-      companies: [],
-      teams: [],
-      orgSize: [],
-      currentPage: 1,
-      totalSalesCnt:0,
-      enabledSalesCnt:0,
-      disabledSalesCnt:0
-    }
-  },
-  computed: {
-    ...mapGetters([
-      'sysUser'
-    ])
-  },
-  created () {
-    this.getList()
-    this.getQuery()
-    this.statisSales()
-  },
-  methods: {
-    getList () {
-      getUsers(this.listQuery).then(response => {
-        this.list = response.data.content
-        this.total = response.data.totalElements
-        this.listLoading = false
-        getOrgSize().then(res => {
-          this.orgSize = res.data
-          this.list.forEach(item => {
-          })
+        item: null,
+        radio: '',
+        list: null,
+        status: [
+          {
+            name: '启用',
+            value: '1'
+          },
+          {
+            name: '停用',
+            value: '0'
+          }
+        ],
+        companies: [],
+        teams: [],
+        currentPage: 1,
+        totalSalesCnt: 0,
+        enabledSalesCnt: 0,
+        disabledSalesCnt: 0
+      }
+    },
+    computed: {
+      ...mapGetters([
+        'sysUser'
+      ])
+    },
+    created() {
+      this.getList()
+      this.getQuery()
+      this.getStatisSales()
+    },
+    methods: {
+      getList() {
+        getUsers(this.listQuery).then(response => {
+          this.list = response.data.content
+          this.total = response.data.totalElements
+          this.listLoading = false
         })
-      })
-    },
-    getQuery () {
-      getCompanies().then(res => {
-        this.companies = res.data
-      })
-    },
-    statisSales () {
-      statisSales('').then(res => {
-        this.totalSalesCnt = res.data.totalSalesCnt
-        this.enabledSalesCnt = res.data.enabledSalesCnt
-        this.disabledSalesCnt = res.data.disabledSalesCnt
-      })
-    },
-    handleUpdate (item) {
-      this.$router.push({name: 'salesmanDetail', query: item})
-    },
-    handleSizeChange (val) {
-      this.listQuery.pageSize = val
-      this.getList()
-    },
-    handleCurrentChange (val) {
-      this.listQuery.pageIndex = val - 1
-      this.getList()
-    },
-    handleFilter () {
-      delete this.listQuery.status
-      delete this.listQuery.companyId
-      delete this.listQuery.team
-      if (!this.listQuery.name) {
-        delete this.listQuery.name
-      }
-      this.listQuery.pageIndex = 0
-      this.getList()
-    },
-    handleFilter1 () {
-      delete this.listQuery.name
-      if (!this.listQuery.status) {
+      },
+      getQuery() {
+        getCompanies().then(res => {
+          this.companies = res.data
+        })
+      },
+      getStatisSales() {
+        statisSales('').then(res => {
+          this.totalSalesCnt = res.data.totalSalesCnt
+          this.enabledSalesCnt = res.data.enabledSalesCnt
+          this.disabledSalesCnt = res.data.disabledSalesCnt
+        })
+      },
+      handleUpdate(item) {
+        this.$router.push({name: 'salesmanDetail', query: item})
+      },
+      handleSizeChange(val) {
+        this.listQuery.pageSize = val
+        this.getList()
+      },
+      handleCurrentChange(val) {
+        this.listQuery.pageIndex = val - 1
+        this.getList()
+      },
+      handleFilter() {
         delete this.listQuery.status
-      }
-      if (!this.listQuery.companyId) {
         delete this.listQuery.companyId
-      }
-      if (!this.listQuery.team) {
         delete this.listQuery.team
+        if (!this.listQuery.name) {
+          delete this.listQuery.name
+        }
+        this.listQuery.pageIndex = 0
+        this.getList()
+      },
+      handleFilter1() {
+        delete this.listQuery.name
+        if (!this.listQuery.status) {
+          delete this.listQuery.status
+        }
+        if (!this.listQuery.companyId) {
+          delete this.listQuery.companyId
+        }
+        if (!this.listQuery.team) {
+          delete this.listQuery.team
+        }
+        this.listQuery.pageIndex = 0
+        this.getList()
+      },
+      handleCreate(status) {
+        if (status === 'add') {
+          this.$router.push({name: 'salesmanDetail', query: {id: '0'}})
+        } else {
+          this.$router.push({path: '/salesman/excel'})
+        }
+      },
+      handleCompany(val) {
+        if (val) {
+          getTeams({companyId: this.listQuery.companyId, status: this.listQuery.status}).then(res => {
+            this.teams = res.data
+            this.listQuery.team = null
+          })
+        } else {
+          this.teams = []
+        }
+        this.handleFilter1()
+      },
+      selectStatus(val) {
+        if (val) {
+          this.listQuery.status = val
+        } else {
+          delete this.listQuery.status
+        }
+        this.handleFilter1()
+      },
+      showStatusDialog(val) {
+        this.item = JSON.parse(JSON.stringify(val))
+        if (this.item.enabled) {
+          this.radio = '启用'
+        } else {
+          this.radio = '停用'
+        }
+        this.updateStatusDialog = true
+      },
+      enabledSale() {
+        let enabled = false
+        if (this.radio === '启用') {
+          enabled = true
+        }
+        if (enabled != this.item.enabled){
+          userEnabled(this.item.id, enabled).then(res => {
+            this.getList()
+            if (enabled) {
+              this.$message({
+                message: '启用成功',
+                type: 'success'
+              })
+            } else {
+              this.$message({
+                message: '停用成功',
+                type: 'success'
+              })
+            }
+          })
+        }
+        this.updateStatusDialog = false
       }
-      this.listQuery.pageIndex = 0
-      this.getList()
-    },
-    handleCreate (status) {
-      if (status === 'add') {
-        this.$router.push({name: 'salesmanDetail', query: { id: '0' }})
-      } else {
-        this.$router.push({path: '/salesman/excel'})
-      }
-    },
-    handleCompany (val) {
-      if (val) {
-        getTeams({companyId: this.listQuery.companyId,status: this.listQuery.status}).then(res => {
-          this.teams = res.data
-          this.listQuery.team = null
-        })
-      } else {
-        this.teams = []
-      }
-      this.handleFilter1()
-    },
-    selectStatus(val){
-      if (val){
-        this.listQuery.status = val
-      } else{
-        delete this.listQuery.status
-      }
-      this.handleFilter1()
     }
   }
-}
 </script>
 
 <style scoped>
@@ -333,17 +362,17 @@ export default {
     font-size: 28px
   }
 
-  .info{
+  .info {
     margin-left: 12px;
     float: left;
   }
 
-  .info .title{
+  .info .title {
     font-size: 14px;
     color: #475669;
   }
 
-  .info .count{
+  .info .count {
     font-size: 28px;
   }
 </style>
