@@ -22,7 +22,7 @@
     <div class="detail-title">
       <span class="list-tit">反馈列表</span>
     </div>
-    <el-table :key='tableKey'
+    <el-table
               :data="list"
               v-loading="listLoading"
               element-loading-text="给我一点时间"
@@ -65,7 +65,7 @@
       </el-table-column>
     </el-table>
 
-    <div v-show="!listLoading" class="pagination-container">
+    <div v-show="!listLoading">
       <el-pagination @size-change="handleSizeChange"
                      @current-change="handleCurrentChange"
                      :current-page.sync="currentPage"
