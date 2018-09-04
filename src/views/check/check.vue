@@ -1,7 +1,7 @@
 <template>
   <section>
     <div style="margin-bottom: 20px">
-      <el-radio-group v-model="radio" text-color="#FFFFFF" fill="#0299CC">
+      <el-radio-group v-model="radio" text-color="#FFFFFF" fill="#0299CC" @change="changeRadio">
         <el-radio-button label="审核管理"></el-radio-button>
         <el-radio-button label="历史审核查询"></el-radio-button>
       </el-radio-group>
@@ -19,6 +19,7 @@
                             type="daterange"
                             style="width: 275px"
                             start-placeholder="开始日期"
+                            :default-time="['00:00:00', '23:59:59']"
                             end-placeholder="结束日期"/>
             <el-button class="filter-item" type="primary" icon="search" @click="handleFilter"><i class="fa fa-search"/>查询
             </el-button>
@@ -118,7 +119,8 @@
                             type="daterange"
                             style="width: 275px"
                             start-placeholder="开始日期"
-                            end-placeholder="结束日期"/>
+                            end-placeholder="结束日期"
+                            :default-time="['00:00:00', '23:59:59']"/>
             <el-button class="filter-item" type="primary" icon="search" @click="handleFilter2"><i class="fa fa-search"/>查询
             </el-button>
           </el-col>
@@ -253,14 +255,20 @@
       }
     },
     created() {
-      this.getList()
-      this.getList2()
+      this.changeRadio()
     },
     methods: {
+      changeRadio(){
+        if (this.radio === '审核管理'){
+          this.getList()
+        } else{
+          this.getList2()
+        }
+      },
       getList() {
         if (this.listQuery.date) {
-          this.listQuery.startDate = new Date(this.listQuery.date[0]).toLocaleDateString()
-          this.listQuery.endDate = new Date(this.listQuery.date[1]).toLocaleDateString()
+          this.listQuery.startDate = this.listQuery.date[0]
+          this.listQuery.endDate = this.listQuery.date[1]
         } else {
           delete this.listQuery.startDate;
           delete this.listQuery.endDate;

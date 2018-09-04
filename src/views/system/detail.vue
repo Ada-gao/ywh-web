@@ -123,7 +123,8 @@
                     v-model="timeDefaultShow"
                     type="date"
                     style="width: 100%"
-                    placeholder="选择账户到期时间">
+                    placeholder="选择账户到期时间"
+                    :picker-options="pickerOptions0">
                   </el-date-picker>
                 </el-form-item>
               </el-col>
@@ -414,6 +415,11 @@
         list: null,
         total: null,
         currentPage: 1,
+        pickerOptions0: {
+          disabledDate(time) {
+            return time.getTime() < Date.now() - 8.64e7;
+          }
+        },
         listQuery: {
           authorityName: 'ROLE_ADMIN',
           pageIndex: 0,
