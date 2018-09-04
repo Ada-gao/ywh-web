@@ -412,7 +412,7 @@
       },
       handlerCheck() {
         let status = '1'
-        if (this.checkRadio != '通过'){
+        if (this.checkRadio === '通过'){
           status = '2'
         }
         this.$refs['checkForm'].validate(valid => {

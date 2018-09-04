@@ -125,7 +125,7 @@
       </el-table-column>
     </el-table>
     <div v-show="!listLoading2">
-      <div style="float: right;line-height: 30px;color: #0299CC;font-size: 14px">累计消费金额：{{consumeMoney}}元</div>
+      <div style="float: right;line-height: 30px;color: #0299CC;font-size: 14px">累计消费金额：{{consumeMoney * 0.01}}元</div>
       <el-pagination @size-change="handleSizeChange2" @current-change="handleCurrentChange2"
                      :current-page.sync="currentPage2"
                      background
@@ -145,7 +145,7 @@
         <template slot-scope="scope">{{scope.row.rechargeCode}}</template>
       </el-table-column>
       <el-table-column align="center" label="充值金额">
-        <template slot-scope="scope">{{scope.row.money}}</template>
+        <template slot-scope="scope">{{scope.row.money * 0.01}}</template>
       </el-table-column>
       <el-table-column align="center" label="充值时间" >
         <template slot-scope="scope">{{scope.row.createTime}}</template>
@@ -158,7 +158,7 @@
       </el-table-column>
     </el-table>
     <div v-show="!listLoading3">
-      <div style="float: right;line-height: 30px;color: #0299CC;font-size: 14px">累计充值金额：{{rechargeMoney}}元</div>
+      <div style="float: right;line-height: 30px;color: #0299CC;font-size: 14px">累计充值金额：{{rechargeMoney * 0.01}}元</div>
       <el-pagination @size-change="handleSizeChange3" @current-change="handleCurrentChange3"
                      :current-page.sync="currentPage3"
                      background
@@ -675,6 +675,7 @@
   .detail-value {
     font-size: 14px;
     float: left;
+    width: 300px!important;
     line-height: 40px;
     color: #000000;
   }
