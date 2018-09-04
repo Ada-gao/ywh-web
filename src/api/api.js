@@ -84,6 +84,7 @@ export function getTrailDet(id, params) {
 }
 
 //account
+export const getLoginLogPage = params => axios.get('/account/getLoginLogPage', {params: params})
 export const account = params => axios.post('/account', params)
 export const getAccounts = params => axios.get('/account/getPage', {params: params})
 export const recharge = params => axios.post('/account/recharge', params)
@@ -111,5 +112,4 @@ export const getProductByTeam = team => axios.get('/task/getProductByTeam?team='
 export const workload = params => axios.get('/reportMgmt/workload', {params: params})
 export const getCallStatis = params => axios.get('/reportMgmt/getCallStatis', {params: params})
 export const getCallHistory = params => axios.get('/reportMgmt/getCallHistory', {params: params})
-
 export const accounts = params => axios.get('/account/getAccount'  , {params: params})

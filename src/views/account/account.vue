@@ -2,7 +2,7 @@
   <div>
     <el-card :body-style="{ padding: '0px' }" style="height: 140px;">
       <el-row :gutter="2" style="background: #e3e3e3;margin-top: 35px;margin-bottom: 35px;">
-        <el-col :span="12">
+        <el-col :span="12" style="background: #FFFFFF;">
          <div style="background: #FFFFFF;">
             <span
               style="width:70px;height:70px;background: #4AD2DB;line-height: 70px;text-align: center;float: left;border-radius: 4px;margin-right: 20px;margin-left: 100px;">
@@ -223,6 +223,31 @@
                      layout="total, sizes, prev, pager, next, jumper" :total="total">
       </el-pagination>
     </div>
+
+    <div class="detail-title" style="margin-top: 22px;">
+      <span class="list-tit">登录情况</span>
+    </div>
+    <el-table :data="list4" v-loading="listLoading4" element-loading-text="给我一点时间" border fit highlight-current-row style="width: 100%;">
+      <el-table-column align="center" label="登录账号">
+        <template slot-scope="scope">{{scope.row.loginName}}</template>
+      </el-table-column>
+      <el-table-column align="center" label="登录时间">
+        <template slot-scope="scope">{{scope.row.loginTime}}</template>
+      </el-table-column>
+      <el-table-column align="center" label="登录IP地址" >
+        <template slot-scope="scope">{{scope.row.ipaddr}}</template>
+      </el-table-column>
+    </el-table>
+    <div v-show="!listLoading4">
+      <div style="float: right;line-height: 30px;color: #0299CC;font-size: 14px">累计登录次数：{{total4}}次</div>
+      <el-pagination @size-change="handleSizeChange4" @current-change="handleCurrentChange4"
+                     :current-page.sync="currentPage4"
+                     background
+                     :page-sizes="[10,20,30, 50]" :page-size="listQuery4.pageSize"
+                     layout="total, sizes, prev, pager, next, jumper" :total="total4">
+      </el-pagination>
+    </div>
+
     <el-dialog title="新建管理员" :visible.sync="createAdminDialog" width="50%">
       <el-form :model="adminForm" ref="adminForm" :rules="adminRules" label-width="100px">
         <el-row>
@@ -297,7 +322,7 @@
 </template>
 
 <script>
-  import {getRechargePageById, getConsumptionPage,accountCompany,getAdmin,updateUsers,resetPWD,addAdmin,userEnabled} from "../../api/api";
+  import {getRechargePageById,getLoginLogPage, getConsumptionPage,accountCompany,getAdmin,updateUsers,resetPWD,addAdmin,userEnabled} from "../../api/api";
   import FileSaver from 'file-saver'
   import XLSX from 'xlsx'
   import { mapGetters } from 'vuex'
@@ -413,6 +438,14 @@
           pageIndex: 0,
           pageSize: 10
         },
+        listLoading4: null,
+        list4: null,
+        total4: null,
+        currentPage4: 1,
+        listQuery4: {
+          pageIndex: 0,
+          pageSize: 10
+        },
       }
     },
     computed : {
@@ -426,6 +459,7 @@
       this.getList()
       this.getConsumption()
       this.getRecharge()
+      this.getLoginInfo()
     },
     methods: {
       getCompany() {
@@ -555,6 +589,25 @@
       handleCurrentChange3(val) {
         this.listQuery3.pageIndex = val - 1
         this.getRecharge()
+      },
+      handleSizeChange4(val) {
+        this.listQuery4.pageSize = val
+        this.getLoginInfo()
+      },
+      handleCurrentChange4(val) {
+        this.listQuery4.pageIndex = val - 1
+        this.getLoginInfo()
+      },
+      getLoginInfo(){
+        getLoginLogPage(this.listQuery4).then(response => {
+          this.list4 = response.data.content
+          this.total4 = response.data.totalElements
+          this.listLoading4 = false
+          this.list4.forEach(item => {
+            let date = new Date(item.loginTime)
+            item.loginTime = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() + ' ' +date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
+          })
+        })
       },
       getConsumption(){
         getConsumptionPage(this.accountId,this.listQuery2).then(response => {
