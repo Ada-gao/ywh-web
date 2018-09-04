@@ -1,7 +1,7 @@
 <template>
   <div>
     <div style="margin-bottom: 20px">
-      <el-radio-group v-model="radio">
+      <el-radio-group v-model="radio" text-color="#FFFFFF" fill="#0299CC">
         <el-radio-button label="账户信息"></el-radio-button>
         <el-radio-button label="公司信息"></el-radio-button>
         <el-radio-button label="消费记录"></el-radio-button>

@@ -1,7 +1,7 @@
 <template>
   <section>
     <div style="margin-bottom: 20px">
-      <el-radio-group v-model="radio">
+      <el-radio-group v-model="radio" text-color="#FFFFFF" fill="#0299CC">
         <el-radio-button label="审核管理"></el-radio-button>
         <el-radio-button label="历史审核查询"></el-radio-button>
       </el-radio-group>

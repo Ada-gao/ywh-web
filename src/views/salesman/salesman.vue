@@ -4,14 +4,14 @@
       <el-row :gutter="20" style="margin-left: 20px;margin-right: 20px;">
         <el-col :span="8">
           <el-card class="card" :body-style="{ padding: '0px' }">
-            <div style="height: 50px;margin-left: 20px;margin-top: 35px;" @click="selectStatus('')">
+            <div style="height: 140px;padding-left: 20px;padding-top: 35px;cursor:pointer;" @click="selectStatus('')">
               <div class="logo" style="background: #4AD2DB">
                 <i class="iconfont icon-xiaoshoushu"/>
               </div>
               <div class="info">
                 <div class="title">销售人员总数</div>
                 <div class="count" style="color: #4AD2DB">
-                  {{totalSalesCnt}}<span style="font-size: 14px">人</span>
+                  {{totalSalesCnt?totalSalesCnt:0}}<span style="font-size: 14px">人</span>
                 </div>
               </div>
             </div>
@@ -19,14 +19,14 @@
         </el-col>
         <el-col :span="8">
           <el-card class="card" :body-style="{ padding: '0px' }">
-            <div style="height: 50px;margin-left: 20px;margin-top: 35px;" @click="selectStatus('1')">
+            <div style="height: 140px;padding-left: 20px;padding-top: 35px;cursor:pointer;" @click="selectStatus('1')">
               <div class="logo" style="background: #FDCE82">
                 <i class="iconfont icon-huoyuerenshu"/>
               </div>
               <div class="info">
                 <div class="title">活跃人数</div>
                 <div class="count" style="color: #FDCE82">
-                  {{enabledSalesCnt}}<span style="font-size: 14px">人</span>
+                  {{enabledSalesCnt?enabledSalesCnt:0}}<span style="font-size: 14px">人</span>
                 </div>
               </div>
             </div>
@@ -34,14 +34,14 @@
         </el-col>
         <el-col :span="8">
           <el-card class="card" :body-style="{ padding: '0px' }">
-            <div style="height: 50px;margin-left: 20px;margin-top: 35px;" @click="selectStatus('0')">
+            <div style="height: 140px;padding-left: 20px;padding-top: 35px;cursor:pointer;" @click="selectStatus('0')">
               <div class="logo" style="background: #DFDFDF;">
                 <i class="iconfont icon-tingyong"/>
               </div>
               <div class="info">
                 <div class="title">停用人数</div>
                 <div class="count" style="color: #4A4A4A">
-                  {{disabledSalesCnt}}<span style="font-size: 14px">人</span>
+                  {{disabledSalesCnt?disabledSalesCnt:0}}<span style="font-size: 14px">人</span>
                 </div>
               </div>
             </div>
@@ -167,15 +167,15 @@
       </el-pagination>
     </div>
     <el-dialog title="修改状态" :visible.sync="updateStatusDialog" width="20%">
-    <el-radio-group v-model="radio" style="text-align: center;width: 100%">
-      <el-radio label="启用"></el-radio>
-      <el-radio label="停用" style="margin-left: 100px"></el-radio>
-    </el-radio-group>
-    <div style="text-align: right;margin-top: 30px">
-      <el-button class="search_btn" @click="updateStatusDialog = false">取 消</el-button>
-      <el-button class="add_btn" @click="enabledSale">确 定</el-button>
-    </div>
-  </el-dialog>
+      <el-radio-group v-model="radio" style="text-align: center;width: 100%">
+        <el-radio label="启用"></el-radio>
+        <el-radio label="停用" style="margin-left: 100px"></el-radio>
+      </el-radio-group>
+      <div style="text-align: right;margin-top: 30px">
+        <el-button class="search_btn" @click="updateStatusDialog = false">取 消</el-button>
+        <el-button class="add_btn" @click="enabledSale">确 定</el-button>
+      </div>
+    </el-dialog>
   </section>
 </template>
 
@@ -321,7 +321,7 @@
         if (this.radio === '启用') {
           enabled = true
         }
-        if (enabled != this.item.enabled){
+        if (enabled != this.item.enabled) {
           userEnabled(this.item.id, enabled).then(res => {
             this.getList()
             if (enabled) {
