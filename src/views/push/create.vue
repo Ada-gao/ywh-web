@@ -19,8 +19,7 @@
         <el-row>
           <el-col :span="7">
             <el-form-item label="所属公司" prop="companyId">
-              <el-select v-model="form.companyId" placeholder="选择/输入所属公司" @change="changeCompany" filterable
-                         style="width: 100%">
+              <el-select v-model="form.companyId" placeholder="选择/输入所属公司" @change="changeCompany" filterable style="width: 100%">
                 <el-option
                   v-for="item in companies"
                   :key="item.id"
@@ -32,7 +31,7 @@
           </el-col>
           <el-col :span="7">
             <el-form-item label="所属团队" prop="team">
-              <el-select v-model="form.team" placeholder="选择/输入所属团队" filterable style="width: 100%">
+              <el-select v-model="form.team" placeholder="选择/输入所属团队" filterable clearable style="width: 100%">
                 <el-option
                   v-for="item in teamList"
                   :key="item"
@@ -44,7 +43,7 @@
           </el-col>
           <el-col :span="7">
             <el-form-item label="关联名单">
-              <el-select v-model="form.outboundNameGroupId" placeholder="选择/输入关联名单" filterable style="width: 100%">
+              <el-select v-model="form.outboundNameGroupId" placeholder="选择/输入关联名单" filterable clearable style="width: 100%">
                 <el-option
                   v-for="item in associateList"
                   :key="item.id"
@@ -77,7 +76,7 @@
           </el-col>
           <el-col :span="7">
             <el-form-item label="下一步行动计划">
-              <el-select v-model="form.nextAction" placeholder="请选择下一步行动计划" style="width: 100%">
+              <el-select v-model="form.nextAction" placeholder="请选择下一步行动计划" clearable style="width: 100%">
                 <el-option
                   v-for="item in actions"
                   :key="item.value"
@@ -89,7 +88,7 @@
           </el-col>
           <el-col :span="7">
             <el-form-item label="外呼状态" prop="lastCallResult">
-              <el-select v-model="form.lastCallResult" placeholder="请选择外呼状态" filterable style="width: 100%" @change="changeStatus">
+              <el-select v-model="form.lastCallResult" placeholder="请选择外呼状态" clearable style="width: 100%" @change="changeStatus">
                 <el-option
                   v-for="item in status"
                   :key="item.value"

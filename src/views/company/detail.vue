@@ -91,4 +91,26 @@
     line-height: 40px;
     color: #000000;
   }
+  .detail-title {
+    /*margin-bottom: 20px;*/
+    .upd_btn {
+      float: right;
+      border: none;
+      color: #0299CC;
+      i {
+        margin-right: 2px;
+        vertical-align: text-bottom;
+      }
+      &:hover {
+        background: #ffff;
+      }
+    }
+    .switch-btn {
+      float: right;
+      margin-left: 30px;
+      display: inline-block;
+      line-height: 40px;
+      margin-right: 3px;
+    }
+  }
 </style>
