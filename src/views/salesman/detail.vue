@@ -25,6 +25,7 @@
             <el-form-item label="所属公司" prop="companyId">
               <el-select v-model="form.companyId"
                          placeholder="请选择公司"
+                         @change="changeCompany"
                          style="width: 100%">
                 <el-option
                   v-for="item in companies"
@@ -342,6 +343,9 @@
       this.listLoading = false
     },
     methods: {
+      changeCompany(){
+        this.$refs['form'].validateField('companyId')
+      },
       // 去除空格
       trim(str, global) {
         var result

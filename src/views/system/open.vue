@@ -14,7 +14,7 @@
           </el-col>
           <el-col :span="10">
             <el-form-item label="账户类型" prop="accountType">
-              <el-select v-model="form.accountType" placeholder="请选择账户类型" style="width: 100%">
+              <el-select v-model="form.accountType" placeholder="请选择账户类型" style="width: 100%" @change="$refs['form'].validateField('accountType')">
                 <el-option
                   v-for="item in types"
                   :key="item.value"
@@ -75,7 +75,7 @@
           </el-col>
           <el-col :span="10">
             <el-form-item label="所属公司" prop="companyId">
-              <el-select v-model="form.companyId" placeholder="请选择公司" style="width: 100%">
+              <el-select v-model="form.companyId" placeholder="请选择公司" style="width: 100%" @change="$refs['form'].validateField('companyId')">
                 <el-option
                   v-for="item in companies"
                   :key="item.id"

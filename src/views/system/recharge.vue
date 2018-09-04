@@ -21,7 +21,7 @@
           </el-col>
           <el-col :span="10">
             <el-form-item label="所属账户" prop="accountId">
-              <el-select v-model="form.accountId" placeholder="请选择所属账户" style="width: 100%" filterable>
+              <el-select v-model="form.accountId" placeholder="请选择所属账户" style="width: 100%" filterable @change="$refs['form'].validateField('accountId')">
                 <el-option
                   v-for="item in accounts"
                   :key="item.accountId"

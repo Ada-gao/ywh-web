@@ -89,7 +89,7 @@
           </el-col>
           <el-col :span="7">
             <el-form-item label="外呼状态" prop="lastCallResult">
-              <el-select v-model="form.lastCallResult" placeholder="请选择外呼状态" filterable style="width: 100%">
+              <el-select v-model="form.lastCallResult" placeholder="请选择外呼状态" filterable style="width: 100%" @change="changeStatus">
                 <el-option
                   v-for="item in status"
                   :key="item.value"
@@ -248,9 +248,13 @@
         }
       },
       changeCompany(value) {
+        this.$refs['form'].validateField('companyId')
         delete this.form.team
         delete this.form.outboundNameGroupId
         this.getList(value)
+      },
+      changeStatus(){
+        this.$refs['form'].validateField('lastCallResult')
       },
       getList(value){
         getTeams({companyId: value}).then(res => {

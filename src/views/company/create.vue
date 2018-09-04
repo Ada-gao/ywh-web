@@ -145,7 +145,8 @@
         <el-row :gutter="20">
           <el-col :span="20">
             <el-form-item label="公司资质" prop="companyQualification">
-              <img :src.sync="form.companyQualification" alt="" v-if="form.companyQualification" style="width: 120px; height: 80px;">
+              <img :src.sync="form.companyQualification" alt="" v-if="form.companyQualification"
+                   style="width: 120px; height: 80px;">
               <el-upload
                 class="upload-demo"
                 style="display: inline-block"
@@ -228,154 +229,153 @@
 </template>
 
 <script>
-import VueCropper from 'vue-cropper'
-import {getToken} from '@/common/js/auth'
-import {
-  addCompanies,
-  getAuthDustries,
-  getAuthDustryByType,
-  getOrgSize,
-  putCompanies,
-  uploadLogo,
-  uploadCompanyQualification
-} from '@/api/api'
-import {retransfer, transferIndustry} from '@/common/js/util'
-import {provinceAndCityData} from 'element-china-area-data' // 省市区数据
+  import VueCropper from 'vue-cropper'
+  import {getToken} from '@/common/js/auth'
+  import {
+    addCompanies,
+    getAuthDustries,
+    getAuthDustryByType,
+    getOrgSize,
+    putCompanies,
+    uploadCompanyQualification,
+    uploadLogo
+  } from '@/api/api'
+  import {retransfer, transferIndustry} from '@/common/js/util'
+  import {provinceAndCityData} from 'element-china-area-data' // 省市区数据
 
-export default {
-  components: {
-    VueCropper
-  },
-  data () {
-    const validatePass1 = (rule, value, callback) => {
-      let reg = /^((1[3-8][0-9])+\d{8})$/
-      let flag = reg.test(value)
-      if (!value || !flag) {
-        callback(new Error('请输入正确的手机号'))
-      } else {
-        callback()
-      }
-    }
-    const validateEmail = (rule, value, callback) => {
-      var reg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/
-      let flag = reg.test(value)
-      if (!value || !flag) {
-        callback(new Error('请输入正确的企业邮箱'))
-      } else {
-        callback()
-      }
-    }
-    const validateWechatNo = (rule, value, callback) => {
-      if (value) {
-        if (value.length < 6 || value.length > 20){
-          callback(new Error('请输入正确的企业微信'))
-        }else{
+  export default {
+    components: {
+      VueCropper
+    },
+    data() {
+      const validatePass1 = (rule, value, callback) => {
+        let reg = /^((1[3-8][0-9])+\d{8})$/
+        let flag = reg.test(value)
+        if (!value || !flag) {
+          callback(new Error('请输入正确的手机号'))
+        } else {
           callback()
         }
-      } else {
-        callback()
       }
-    }
-    return {
-      crap: false,
-      imgurl: '',
-      previews: {},
-      isLogo: true,
-      option: {
-        img: '',
-        size: 1,
-        full: false,
-        outputType: 'png',
-        canMove: true,
-        original: false,
-        canMoveBox: true,
-        autoCrop: true,
-        autoCropWidth: 200,
-        autoCropHeight: 200,
-        fixed: true,
-        fixedNumber: [3, 2]
-      },
-      downImg: '#',
-      dialogVisible: false,
-      form: {
-        logo: null
-      },
-      companyCode: '',
-      companyId: null,
-      headers: {
-        Authorization: getToken()
-      },
-      fileList: [],
-      value: '',
-      updateStatus: '',
-      textMap: {
-        create: '新建公司',
-        update: '修改公司详情页',
-      },
-      coInfo: {
-        orgSize: [],
-        industry: [],
-        industryType: []
-      },
-      industryType: [],
-      provinceData: provinceAndCityData,
-      cityData: [],
-      rules: {
-        companyName: [
-          {required: true, trigger: 'blur', message: '请输入公司名称'}
-        ],
-        companyCity: [
-          {required: true, trigger: 'blur', message: '请选择公司所属地区'}
-        ],
-        companyAddress: [
-          {required: true, trigger: 'blur', message: '请输入公司详细地址'}
-        ],
-        industry: [
-          {required: true, trigger: 'blur', message: '请选择公司行业'}
-        ],
-        orgSize: [
-          {required: true, trigger: 'blur', message: '请选择公司规模'}
-        ],
-        contact: [
-          {required: true, trigger: 'blur', message: '请输入联系人'}
-        ],
-        occupation: [
-          {required: true, trigger: 'blur', message: '请输入对应职务'}
-        ],
-        contactMobile: [
-          {required: true, trigger: 'blur', validator: validatePass1}
-        ],
-        email: [
-          {required: true, trigger: 'blur', validator: validateEmail}
-        ],
-        wechatNo: [
-          {required: false, trigger: 'blur', validator: validateWechatNo}
-        ],
-        companyQualification: [
-          {required: true, trigger: 'blur', message: '请上传公司资质'}
-        ]
-      },
-      uploadUrl: process.env.BASE_API + '/file/upload',
-      imgUrl: process.env.BASE_API + '/file/',
-      centerDialogVisible: false
-    }
-  },
-  created () {
-    let obj = this.$route.query
-    if (obj && obj.id) {
-      this.form = obj
-      this.updateStatus = 'update'
-    } else {
-      this.updateStatus = 'create'
-    }
-    this.getOrgSize()
-  },
-  methods: {
-    realTime (data) {
-      this.previews = data
+      const validateEmail = (rule, value, callback) => {
+        var reg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/
+        let flag = reg.test(value)
+        if (!value || !flag) {
+          callback(new Error('请输入正确的企业邮箱'))
+        } else {
+          callback()
+        }
+      }
+      const validateWechatNo = (rule, value, callback) => {
+        if (value) {
+          if (value.length < 6 || value.length > 20) {
+            callback(new Error('请输入正确的企业微信'))
+          } else {
+            callback()
+          }
+        } else {
+          callback()
+        }
+      }
+      return {
+        crap: false,
+        imgurl: '',
+        previews: {},
+        isLogo: true,
+        option: {
+          img: '',
+          size: 1,
+          full: false,
+          outputType: 'png',
+          canMove: true,
+          original: false,
+          canMoveBox: true,
+          autoCrop: true,
+          autoCropWidth: 200,
+          autoCropHeight: 200,
+          fixed: true,
+          fixedNumber: [3, 2]
+        },
+        downImg: '#',
+        dialogVisible: false,
+        form: {
+          logo: null
+        },
+        companyCode: '',
+        companyId: null,
+        headers: {
+          Authorization: getToken()
+        },
+        fileList: [],
+        value: '',
+        updateStatus: '',
+        textMap: {
+          create: '新建公司',
+          update: '修改公司详情页',
+        },
+        coInfo: {
+          orgSize: [],
+          industry: [],
+          industryType: []
+        },
+        industryType: [],
+        provinceData: provinceAndCityData,
+        cityData: [],
+        rules: {
+          companyName: [
+            {required: true, trigger: 'blur', message: '请输入公司名称'}
+          ],
+          companyCity: [
+            {required: true, trigger: 'blur', message: '请选择公司所属地区'}
+          ],
+          companyAddress: [
+            {required: true, trigger: 'blur', message: '请输入公司详细地址'}
+          ],
+          industry: [
+            {required: true, trigger: 'blur', message: '请选择公司行业'}
+          ],
+          orgSize: [
+            {required: true, trigger: 'blur', message: '请选择公司规模'}
+          ],
+          contact: [
+            {required: true, trigger: 'blur', message: '请输入联系人'}
+          ],
+          occupation: [
+            {required: true, trigger: 'blur', message: '请输入对应职务'}
+          ],
+          contactMobile: [
+            {required: true, trigger: 'blur', validator: validatePass1}
+          ],
+          email: [
+            {required: true, trigger: 'blur', validator: validateEmail}
+          ],
+          wechatNo: [
+            {required: false, trigger: 'blur', validator: validateWechatNo}
+          ],
+          companyQualification: [
+            {required: true, trigger: 'blur', message: '请上传公司资质'}
+          ]
+        },
+        uploadUrl: process.env.BASE_API + '/file/upload',
+        imgUrl: process.env.BASE_API + '/file/',
+        centerDialogVisible: false
+      }
     },
-    down (type) {
-      if (type === 'blob') {
+    created() {
+      let obj = this.$route.query
+      if (obj && obj.id) {
+        this.form = obj
+        this.updateStatus = 'update'
+      } else {
+        this.updateStatus = 'create'
+      }
+      this.getOrgSize()
+    },
+    methods: {
+      realTime(data) {
+        this.previews = data
+      },
+      down(type) {
         this.$refs.cropper.getCropBlob((data) => {
           this.downImg = window.URL.createObjectURL(data)
           let cc = this.downImg.lastIndexOf('/')
@@ -388,192 +388,180 @@ export default {
               this.form.logo = process.env.BASE_API + '/file?fileUuid=' + res.data
               this.dialogVisible = false
             })
-          } else{
+          } else {
             uploadCompanyQualification(formData).then(res => {
               this.imgurl = res.data
               this.form.companyQualification = process.env.BASE_API + '/file/getCompanyQualification?fileUuid=' + res.data
               this.dialogVisible = false
+              this.$refs['form'].validateField('companyQualification')
             })
           }
         })
-      } else {
-        this.$refs.cropper.getCropData((data) => {
-          this.downImg = data
-          let formData = new FormData()
-          formData.append('file', data)
-          if (this.isLogo){
-            uploadLogo(formData).then(res => {
-              this.imgurl = res.data
-              this.form.logo = process.env.BASE_API + '/file?fileUuid=' + res.data
-              this.dialogVisible = false
+      },
+      imgLoad(msg) {
+      },
+      modifyStat() {
+        this.updateStatus = 'update'
+        this.getOrgSize()
+      },
+      getOrgSize() {
+        getOrgSize().then(res => {
+          this.coInfo.orgSize = res.data
+        })
+        getAuthDustries().then(res => {
+          this.coInfo.industryType = res.data
+          if (this.updateStatus === 'update') {
+            let transferId = retransfer(this.form.industryType, this.coInfo.industryType)
+            getAuthDustryByType(transferId).then(res => {
+              this.coInfo.industry = res.data
             })
-          } else{
-            uploadCompanyQualification(formData).then(res => {
-              this.imgurl = res.data
-              this.form.companyQualification = process.env.BASE_API + '/file/getCompanyQualification?fileUuid=' + res.data
-              alert(this.form.companyQualification)
-              this.dialogVisible = false
+            let idx = this.provinceData.findIndex((item, index) => {
+              return item.label === this.form.companyProvince
             })
+            this.cityData = this.provinceData[idx].children
           }
         })
-      }
-    },
-    imgLoad (msg) {},
-    modifyStat () {
-      this.updateStatus = 'update'
-      this.getOrgSize()
-    },
-    getOrgSize () {
-      getOrgSize().then(res => {
-        this.coInfo.orgSize = res.data
-      })
-      getAuthDustries().then(res => {
-        this.coInfo.industryType = res.data
-        if (this.updateStatus === 'update') {
-          let transferId = retransfer(this.form.industryType, this.coInfo.industryType)
-          getAuthDustryByType(transferId).then(res => {
-            this.coInfo.industry = res.data
-          })
-          let idx = this.provinceData.findIndex((item, index) => {
-            return item.label === this.form.companyProvince
-          })
-          this.cityData = this.provinceData[idx].children
+      },
+      changeProvince(val) {
+        this.$refs['form'].validateField('companyCity')
+        let idx = this.provinceData.findIndex((item, index) => {
+          return item.label === val
+        })
+        var cityarr = []
+        if (!this.provinceData[idx].children || typeof this.provinceData[idx].children === 'undefined' || this.provinceData[idx].children.length === 0) {
+          this.form.companyCity = null
+          cityarr.label = '市辖区'
+          this.cityData = []
+          this.cityData[0] = cityarr
+          return
         }
-      })
-    },
-    changeProvince (val) {
-      let idx = this.provinceData.findIndex((item, index) => {
-        return item.label === val
-      })
-      var cityarr = []
-      if (!this.provinceData[idx].children || typeof this.provinceData[idx].children === 'undefined' || this.provinceData[idx].children.length === 0) {
+        this.cityData = this.provinceData[idx].children
         this.form.companyCity = null
-        cityarr.label = '市辖区'
-        this.cityData = []
-        this.cityData[0] = cityarr
-        return
-      }
-      this.cityData = this.provinceData[idx].children
-      this.form.companyCity = null
-    },
-    changeCity (val) {
-      this.cityData = this.cityData.slice(0)
-    },
-    changeIndustry (val) {
-      this.form.industry = ''
-      getAuthDustryByType(val).then(res => {
-        this.coInfo.industry = res.data
-      })
-    },
-    changeIndustryType (val) {
-      this.coInfo.industry = this.coInfo.industry.slice(0)
-      this.form.industry = transferIndustry(val, this.coInfo.industry)
-    },
-    create (formName) {
-      let logo = this.form.logo
-      let companyQualification = this.form.companyQualification
-      if (typeof this.form.industryType === 'number') {
-        this.form.industryType = transferIndustry(this.form.industryType, this.coInfo.industryType)
-      }
-      this.$refs[formName].validate(valid => {
-        if (valid) {
-          if (logo) {
-            let index = logo.lastIndexOf('=')
-            this.form.logo = logo.substring(index + 1, logo.length)
-          }
-          if (companyQualification) {
-            let index = companyQualification.lastIndexOf('=')
-            this.form.companyQualification = companyQualification.substring(index + 1, companyQualification.length)
-          }
-          addCompanies(this.form)
-            .then(res => {
-              this.$message({
-                message: '新建成功',
-                type: 'success'
-              })
-              this.companyCode = res.data.companyCode
-              this.companyId = res.data.id
-              this.$router.push({path: '/company'})
-            })
-        } else {
-          return false
+      },
+      changeCity(val) {
+        this.$refs['form'].validateField('companyCity')
+        this.cityData = this.cityData.slice(0)
+      },
+      changeIndustry(val) {
+        this.form.industry = ''
+        getAuthDustryByType(val).then(res => {
+          this.coInfo.industry = res.data
+        })
+      },
+      changeIndustryType(val) {
+        this.$refs['form'].validateField('industry')
+        this.coInfo.industry = this.coInfo.industry.slice(0)
+        this.form.industry = transferIndustry(val, this.coInfo.industry)
+      },
+      create(formName) {
+        let logo = this.form.logo
+        let companyQualification = this.form.companyQualification
+        if (typeof this.form.industryType === 'number') {
+          this.form.industryType = transferIndustry(this.form.industryType, this.coInfo.industryType)
         }
-      })
-    },
-    update (formName) {
-      const set = this.$refs
-      let id = this.form.id || this.companyId
-      let logo = this.form.logo
-      let companyQualification = this.form.companyQualification
-      this.form.companyCode = this.form.companyCode || this.companyCode
-      if (window.Boolean(this.form.industryType - 0)) {
-        this.form.industryType = transferIndustry(this.form.industryType, this.coInfo.industryType)
-      }
-      set[formName].validate(valid => {
-        if (valid) {
-          if (logo) {
-            let index = logo.lastIndexOf('=')
-            this.form.logo = logo.substring(index + 1, logo.length)
-          }
-          if (companyQualification) {
-            let index = companyQualification.lastIndexOf('=')
-            this.form.companyQualification = companyQualification.substring(index + 1, companyQualification.length)
-          }
-          putCompanies(id, this.form)
-            .then(() => {
-              this.$message({
-                message: '修改成功',
-                type: 'success'
+        this.$refs[formName].validate(valid => {
+          if (valid) {
+            if (logo) {
+              let index = logo.lastIndexOf('=')
+              this.form.logo = logo.substring(index + 1, logo.length)
+            }
+            if (companyQualification) {
+              let index = companyQualification.lastIndexOf('=')
+              this.form.companyQualification = companyQualification.substring(index + 1, companyQualification.length)
+            }
+            addCompanies(this.form)
+              .then(res => {
+                this.$message({
+                  message: '新建成功',
+                  type: 'success'
+                })
+                this.companyCode = res.data.companyCode
+                this.companyId = res.data.id
+                this.$router.push({path: '/company'})
               })
-              // this.$router.push({path: '/company'})
-              window.history.go(-1)//这样写 有bug
-            })
-        } else {
-          return false
+          } else {
+            return false
+          }
+        })
+      },
+      update(formName) {
+        const set = this.$refs
+        let id = this.form.id || this.companyId
+        let logo = this.form.logo
+        let companyQualification = this.form.companyQualification
+        this.form.companyCode = this.form.companyCode || this.companyCode
+        if (window.Boolean(this.form.industryType - 0)) {
+          this.form.industryType = transferIndustry(this.form.industryType, this.coInfo.industryType)
         }
-      })
-    },
-    cancel (formName) {
-      // this.$router.push({path: '/company'})
-      window.history.go(-1)
-    },
-    handleChange (value) {
-    },
-    handleSuccess (res, file, fileList) {
-      alert('handleSuccess')
-    },
-    beforeAvatarUpload1 (file) {
-      this.option.img = window.URL.createObjectURL(file)
-      this.isLogo = true
-      this.dialogVisible = true
-      return false
-    },
-    beforeAvatarUpload2 (file) {
-      this.option.img = window.URL.createObjectURL(file)
-      this.isLogo = false
-      this.dialogVisible = true
-      return false
-    },
-    dialogRouter (status) {
-      if (status === 'view') {
-        this.updateStatus = 'view'
-        this.centerDialogVisible = false
-      } else {
-        this.$router.push({path: '/company'})
+        set[formName].validate(valid => {
+          if (valid) {
+            if (logo) {
+              let index = logo.lastIndexOf('=')
+              this.form.logo = logo.substring(index + 1, logo.length)
+            }
+            if (companyQualification) {
+              let index = companyQualification.lastIndexOf('=')
+              this.form.companyQualification = companyQualification.substring(index + 1, companyQualification.length)
+            }
+            putCompanies(id, this.form)
+              .then(() => {
+                this.$message({
+                  message: '修改成功',
+                  type: 'success'
+                })
+                // this.$router.push({path: '/company'})
+                window.history.go(-1)//这样写 有bug
+              })
+          } else {
+            return false
+          }
+        })
+      },
+      cancel(formName) {
+        // this.$router.push({path: '/company'})
+        window.history.go(-1)
+      },
+      handleChange(value) {
+      },
+      handleSuccess(res, file, fileList) {
+        alert('handleSuccess')
+      },
+      beforeAvatarUpload1(file) {
+        this.option.img = window.URL.createObjectURL(file)
+        this.isLogo = true
+        this.dialogVisible = true
+        return false
+      },
+      beforeAvatarUpload2(file) {
+        this.option.img = window.URL.createObjectURL(file)
+        this.isLogo = false
+        this.dialogVisible = true
+        return false
+      },
+      dialogRouter(status) {
+        if (status === 'view') {
+          this.updateStatus = 'view'
+          this.centerDialogVisible = false
+        } else {
+          this.$router.push({path: '/company'})
+        }
+      },
+      changeOrgSize(val) {
+        this.$refs['form'].validateField('orgSize')
       }
-    },
-    changeOrgSize (val) {}
+    }
   }
-}
 </script>
 
 <style lang="scss">
-  .txt>.el-form-item__label{
-    line-height: 3rem!important;
+  .txt > .el-form-item__label {
+    line-height: 3rem !important;
   }
-  .sw>.el-switch__core{
-    width: 50px!important;
+
+  .sw > .el-switch__core {
+    width: 50px !important;
   }
+
   .upd_btn {
     float: right;
     border: none;
