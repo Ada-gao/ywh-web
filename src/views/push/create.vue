@@ -61,7 +61,7 @@
             <el-radio label="外呼前"></el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-row v-show="form.triggerScene === '外呼后'">
+        <el-row v-if="form.triggerScene === '外呼后'">
           <el-col :span="7">
             <el-form-item label="有效通话时长/秒" prop="duration">
               <el-select v-model="form.lessOrGreater" style="width: 26%">
@@ -242,8 +242,6 @@
         if (this.form.triggerScene != '外呼后'){
           delete this.form.duration
           delete this.form.nextAction
-          this.form.lastCallResult = 'NOT_CALL'
-        }else{
           delete this.form.lastCallResult
         }
       },

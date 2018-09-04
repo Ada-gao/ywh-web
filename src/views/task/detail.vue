@@ -175,7 +175,7 @@
       <el-dialog title="修改次数" :visible.sync="updateDialog" width="30%">
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="120px">
           <el-form-item label="外呼次数限制" prop="times" class="txt">
-            <el-input v-model="ruleForm.times" placeholder="请输入外呼次数限制" maxlength="12"></el-input>
+            <el-input v-model="ruleForm.times" placeholder="请输入外呼次数限制" maxlength="8"></el-input>
           </el-form-item>
         </el-form>
         <div style="text-align: right">

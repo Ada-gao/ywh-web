@@ -177,17 +177,6 @@
         <el-button class="add_btn" v-show="updateStatus==='create'" @click="create('form')">提 交</el-button>
         <el-button class="search_btn" @click="cancel('form')">取 消</el-button>
       </el-col>
-      <el-dialog
-        title="操作成功"
-        :visible.sync="centerDialogVisible"
-        width="30%"
-        center>
-        <span>{{this.form.companyName}}新建成功</span>
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="dialogRouter('view')">查看详情</el-button>
-          <el-button type="primary" @click="dialogRouter('')">返回列表</el-button>
-        </span>
-      </el-dialog>
     </div>
     <el-dialog :visible.sync="dialogVisible" width="30%">
       <div class="cropper-content">
@@ -358,7 +347,6 @@
         },
         uploadUrl: process.env.BASE_API + '/file/upload',
         imgUrl: process.env.BASE_API + '/file/',
-        centerDialogVisible: false
       }
     },
     created() {
@@ -509,8 +497,9 @@
                   message: '修改成功',
                   type: 'success'
                 })
-                this.$router.push({path: '/company'})
+                // this.$router.push({path: '/company'})
                 // window.history.go(-1)//这样写 有bug
+                this.$router.go(-1)
               })
           } else {
             return false
@@ -519,7 +508,7 @@
       },
       cancel(formName) {
         // this.$router.push({path: '/company'})
-        window.history.go(-1)
+        this.$router.go(-1)
       },
       handleChange(value) {
       },
@@ -537,14 +526,6 @@
         this.isLogo = false
         this.dialogVisible = true
         return false
-      },
-      dialogRouter(status) {
-        if (status === 'view') {
-          this.updateStatus = 'view'
-          this.centerDialogVisible = false
-        } else {
-          this.$router.push({path: '/company'})
-        }
       },
       changeOrgSize(val) {
         this.$refs['form'].validateField('orgSize')

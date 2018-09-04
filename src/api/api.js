@@ -5,6 +5,7 @@ export const requestLogin = params => axios.post('/auth/login', params)
 export const getUser = () => axios.get('/auth/user')
 // company
 export const getCompanies = () => axios.get('/companies')
+
 export const getTeams = params => axios.get('/companies/queryTeams', {params: params})
 
 export function uploadLogo(file) {
@@ -113,3 +114,5 @@ export const workload = params => axios.get('/reportMgmt/workload', {params: par
 export const getCallStatis = params => axios.get('/reportMgmt/getCallStatis', {params: params})
 export const getCallHistory = params => axios.get('/reportMgmt/getCallHistory', {params: params})
 export const accounts = params => axios.get('/account/getAccount'  , {params: params})
+
+export const getCompanyById = (id) => axios.get('/companies/'+id)
