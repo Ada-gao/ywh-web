@@ -259,8 +259,8 @@
     methods: {
       getList() {
         if (this.listQuery.date) {
-          this.listQuery.startDate = this.listQuery.date[0]
-          this.listQuery.endDate = this.listQuery.date[1]
+          this.listQuery.startDate = new Date(this.listQuery.date[0]).toLocaleDateString()
+          this.listQuery.endDate = new Date(this.listQuery.date[1]).toLocaleDateString()
         } else {
           delete this.listQuery.startDate;
           delete this.listQuery.endDate;

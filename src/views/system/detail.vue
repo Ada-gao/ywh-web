@@ -307,7 +307,7 @@
           <i class="iconfont icon-piliangdaochu" style="color: #fff;margin-right: 10px"></i>批量导出
         </el-button>
         <el-button class="add_btn" @click="handleRecharge" style="margin-right: 20px">
-          <i class="iconfont icon-chongzhi" style="color: #fff;margin-right: 10px"></i>帐号充值
+          <i class="iconfont icon-chongzhi" style="color: #fff;margin-right: 10px"></i>账户充值
         </el-button>
       </div>
       <el-table id="rechargeTable" :data="list3" v-loading="listLoading3" element-loading-text="给我一点时间" border fit highlight-current-row style="width: 100%;">

@@ -33,7 +33,7 @@
         </el-col>
         <el-col :span="10" style="text-align: right;">
           <el-select v-model="listQuery.type"
-                     placeholder="帐号类型"
+                     placeholder="账户类型"
                      clearable
                      @change="handleFilter1">
             <el-option
@@ -44,7 +44,7 @@
             </el-option>
           </el-select>
           <el-select v-model="listQuery.status"
-                     placeholder="帐号状态"
+                     placeholder="账户状态"
                      clearable
                      @change="handleFilter1">
             <el-option
@@ -114,7 +114,7 @@
       </div>
       <el-row :gutter="10" style="margin-top: 10px">
         <el-col :span="14">
-          <el-input @keyup.enter.native="handleFilter3" style="width: 190px;" class="filter-item" placeholder="输入充值帐号"
+          <el-input @keyup.enter.native="handleFilter3" style="width: 190px;" class="filter-item" placeholder="输入充值帐户"
                     v-model="listQuery2.accountName"></el-input>
           <el-input @keyup.enter.native="handleFilter3" style="width: 190px;" class="filter-item" placeholder="输入所属公司"
                     v-model="listQuery2.companyName"></el-input>
@@ -159,13 +159,13 @@
       <el-table-column align="center" label="充值流水号">
         <template slot-scope="scope"><span>{{scope.row.rechargeCode}}</span></template>
       </el-table-column>
-      <el-table-column align="center" label="充值帐号">
+      <el-table-column align="center" label="充值帐户">
         <template slot-scope="scope"><span>{{scope.row.accountName}}</span></template>
       </el-table-column>
       <el-table-column align="center" label="所属公司">
         <template slot-scope="scope"><span>{{scope.row.companyName}}</span></template>
       </el-table-column>
-      <el-table-column align="center" label="帐号类型">
+      <el-table-column align="center" label="帐户类型">
         <template slot-scope="scope"><span>{{scope.row.accountType === 'Charge' ? '付费使用': '试用体验'}}</span></template>
       </el-table-column>
       <el-table-column align="center" label="充值金额">

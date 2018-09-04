@@ -156,6 +156,7 @@
               this.errorData[index] = new Object()
               this.errorData[index].错误行 = i + 2
               this.errorData[index].错误项 = '对应职级（不能超过10个字）'
+              index++
             }
             if (!this.tableData[i].手机号) {
               this.errorData[index] = new Object()
@@ -166,6 +167,7 @@
               this.errorData[index] = new Object()
               this.errorData[index].错误行 = i + 2
               this.errorData[index].错误项 = '手机号（不合法）'
+              index++
             }
             if (!this.tableData[i].用户名) {
               this.errorData[index] = new Object()
