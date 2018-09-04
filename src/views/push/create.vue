@@ -9,7 +9,7 @@
         <el-row>
           <el-col :span="7">
             <el-form-item label="信息推送规则名称" prop="ruleName">
-              <el-input v-model="form.ruleName" placeholder="请输入信息推送规则名称"></el-input>
+              <el-input v-model="form.ruleName" placeholder="请输入信息推送规则名称" max-length="20"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -72,7 +72,7 @@
                   :value="item">
                 </el-option>
               </el-select>
-              <el-input v-model="form.duration" placeholder="请输入时长" style="width: 72%;"/>
+              <el-input v-model="form.duration" placeholder="请输入时长" style="width: 72%;"  max-length="8"/>
             </el-form-item>
           </el-col>
           <el-col :span="7">

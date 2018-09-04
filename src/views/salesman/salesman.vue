@@ -119,12 +119,12 @@
       </el-table-column>
       <el-table-column align="center" label="所属团队">
         <template slot-scope="scope">
-          <span>{{scope.row.team}}</span>
+          <span class="max-line2">{{scope.row.team}}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="所属公司">
         <template slot-scope="scope">
-          <span>{{scope.row.companyName}}</span>
+          <span class="max-line2">{{scope.row.companyName}}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="所在省份">
@@ -324,6 +324,7 @@
         if (enabled != this.item.enabled) {
           userEnabled(this.item.id, enabled).then(res => {
             this.getList()
+            this.getStatisSales()
             if (enabled) {
               this.$message({
                 message: '启用成功',

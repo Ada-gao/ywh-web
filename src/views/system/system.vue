@@ -66,10 +66,10 @@
         <template slot-scope="scope"><span>{{scope.row.accountCode}}</span></template>
       </el-table-column>
       <el-table-column align="center" label="账户名称">
-        <template slot-scope="scope"><span>{{scope.row.accountName}}</span></template>
+        <template slot-scope="scope"><span class="max-line2">{{scope.row.accountName}}</span></template>
       </el-table-column>
       <el-table-column align="center" label="所属公司">
-        <template slot-scope="scope"><span>{{scope.row.companyName}}</span></template>
+        <template slot-scope="scope"><span class="max-line2">{{scope.row.companyName}}</span></template>
       </el-table-column>
       <el-table-column align="center" label="所属行业">
         <template slot-scope="scope"><span>{{scope.row.industry}}</span></template>
@@ -163,7 +163,9 @@
         <template slot-scope="scope"><span>{{scope.row.accountName}}</span></template>
       </el-table-column>
       <el-table-column align="center" label="所属公司">
-        <template slot-scope="scope"><span>{{scope.row.companyName}}</span></template>
+        <template slot-scope="scope">
+          <span class="max-line2">{{scope.row.companyName}}</span>
+        </template>
       </el-table-column>
       <el-table-column align="center" label="帐户类型">
         <template slot-scope="scope"><span>{{scope.row.accountType === 'Charge' ? '付费使用': '试用体验'}}</span></template>

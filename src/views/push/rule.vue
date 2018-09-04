@@ -65,7 +65,7 @@
       </el-table-column>
       <el-table-column align="center" label="所属公司">
         <template slot-scope="scope">
-          <span>{{scope.row.companyName}}</span>
+          <span class="max-line2">{{scope.row.companyName}}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="所属团队">

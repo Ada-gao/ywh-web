@@ -61,17 +61,17 @@
       style="width: 100%">
       <el-table-column align="center" label="任务名称">
         <template slot-scope="scope">
-          <span>{{scope.row.taskName}}</span>
+          <span class="max-line2">{{scope.row.taskName}}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="推广产品">
         <template slot-scope="scope">
-          <span>{{scope.row.productName}}</span>
+          <span class="max-line2">{{scope.row.productName}}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="所属公司">
         <template slot-scope="scope">
-          <span>{{scope.row.companyName}}</span>
+          <span class="max-line2">{{scope.row.companyName}}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="所属团队">
@@ -81,7 +81,7 @@
       </el-table-column>
       <el-table-column align="center" label="名单名称">
         <template slot-scope="scope">
-          <span>{{scope.row.groupName}}</span>
+          <span class="max-line2">{{scope.row.groupName}}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="完成数">

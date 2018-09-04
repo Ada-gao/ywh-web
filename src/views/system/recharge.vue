@@ -136,9 +136,9 @@
       },
       cancel() {
         window.history.go(-1)
-         // this.$router.push({path: '/system'})
       },
       changeCompany (value) {
+        this.$refs['form'].validateField('companyId')
         delete this.form.accountId
         getAccountByCompanyId(value).then(res => {
           this.accounts = res.data

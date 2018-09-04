@@ -63,7 +63,7 @@
 
       <el-table-column align="center" label="公司名称">
         <template slot-scope="scope">
-          <span>{{scope.row.companyName}}</span>
+          <span class="max-line2">{{scope.row.companyName}}</span>
         </template>
       </el-table-column>
 

@@ -509,8 +509,8 @@
                   message: '修改成功',
                   type: 'success'
                 })
-                // this.$router.push({path: '/company'})
-                window.history.go(-1)//这样写 有bug
+                this.$router.push({path: '/company'})
+                // window.history.go(-1)//这样写 有bug
               })
           } else {
             return false

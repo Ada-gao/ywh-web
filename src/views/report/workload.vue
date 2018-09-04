@@ -61,22 +61,22 @@
       style="width: 100%">
       <el-table-column align="center" label="销售名称">
         <template slot-scope="scope">
-          <span>{{scope.row.uname}}</span>
+          <span class="max-line2">{{scope.row.uname}}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="所属公司">
         <template slot-scope="scope">
-          <span>{{scope.row.companyName}}</span>
+          <span class="max-line2">{{scope.row.companyName}}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="所属账户">
         <template slot-scope="scope">
-          <span>{{scope.row.accountName}}</span>
+          <span class="max-line2">{{scope.row.accountName}}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="所属团队">
         <template slot-scope="scope">
-          <span>{{scope.row.team}}</span>
+          <span class="max-line2">{{scope.row.team}}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="有效通话时长">

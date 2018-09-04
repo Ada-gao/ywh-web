@@ -146,6 +146,7 @@
   .detail-value{
     font-size: 14px;
     float: left;
+    width: 400px;
     line-height: 40px;
     color: #000000;
   }

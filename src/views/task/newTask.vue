@@ -112,19 +112,19 @@
         <el-row :gutter="20" class="define-rule-box">
           <el-col :span="8">
             <el-form-item label="有效通话时长（秒）" prop="minimumDuration">
-              <el-input placeholder="有效通话时长" v-model="taskGroup.minimumDuration"></el-input>
+              <el-input placeholder="有效通话时长" v-model="taskGroup.minimumDuration" maxlength="8"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="有效任务数（通）：通/人/天" prop="effectiveTasks">
-              <el-input placeholder="有效任务数" v-model="taskGroup.effectiveTasks"></el-input>
+              <el-input placeholder="有效任务数" v-model="taskGroup.effectiveTasks" maxlength="8"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20" class="define-rule-box">
           <el-col :span="8">
             <el-form-item label="外呼次数限制" prop="limitedTimes">
-              <el-input placeholder="外呼次数限制" v-model="taskGroup.limitedTimes"></el-input>
+              <el-input placeholder="外呼次数限制" v-model="taskGroup.limitedTimes" maxlength="8"></el-input>
             </el-form-item>
           </el-col>
          <!-- <el-col :span="8">
@@ -141,7 +141,7 @@
           </el-col>-->
           <el-col :span="8">
             <el-form-item label="外呼频率（间隔）天" prop="interv">
-              <el-input placeholder="外呼频率间隔" v-model="taskGroup.interv"></el-input>
+              <el-input placeholder="外呼频率间隔" v-model="taskGroup.interv" maxlength="8"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
