@@ -121,16 +121,16 @@
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-radio v-model="pushForm.sendOccasion" label="Immediately">立即发送<span
+          <el-radio v-model="pushForm.sendOccasion" label="Immediately" @change="$refs['pushForm'].validateField('delayMinute')">立即发送<span
             style="font-size: 12px;color: #B2B2B2;">（保存后立即发送）</span></el-radio>
         </el-form-item>
         <el-form-item>
-          <el-radio v-model="pushForm.sendOccasion" label="Delay">通话结束后立即发送</el-radio>
+          <el-radio v-model="pushForm.sendOccasion" label="Delay" @change="$refs['pushForm'].validateField('delayMinute')">通话结束后立即发送</el-radio>
         </el-form-item>
         <el-form-item prop="delayMinute">
           <el-radio v-model="pushForm.sendOccasion" label="Stop">
             通话结束后
-            <el-input v-model="pushForm.delayMinute" style="width: 64px;margin-left: 10px;margin-right: 10px;"
+            <el-input v-model="pushForm.delayMinute" style="width: 80px;margin-left: 10px;margin-right: 10px;"
                       maxlength="6"/>
             分后发送
           </el-radio>
