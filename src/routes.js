@@ -27,7 +27,6 @@ import rule from './views/push/rule'
 import ruleDetail from './views/push/ruleDetail'
 import createRule from './views/push/createRule'
 import pushDetail from './views/push/pushDetail'
-import createPush from './views/push/createPush'
 // 8、试用管理
 import trial from './views/trial'
 import trialdetail from './views/trial/detail'
@@ -135,7 +134,6 @@ let routes = [
       {menuId: 93, path: '/push/ruleDetail', component: ruleDetail, name: 'ruleDetail'},
       {menuId: 94, path: '/push/createRule', component: createRule, name: 'createRule'},
       {menuId: 95, path: '/push/pushDetail', component: pushDetail, name: 'pushDetail'},
-      {menuId: 96, path: '/push/createPush', component: createPush, name: 'createPush'}
     ]
   },
   {

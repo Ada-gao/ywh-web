@@ -646,6 +646,7 @@
       createAdminFrom(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
+            this.adminForm.companyId = this.form.id
             addAdmin(this.accountId, this.adminForm)
               .then((res) => {
                 this.$message({

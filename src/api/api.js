@@ -116,3 +116,8 @@ export const getCallHistory = params => axios.get('/reportMgmt/getCallHistory', 
 export const accounts = params => axios.get('/account/getAccount'  , {params: params})
 
 export const getCompanyById = (id) => axios.get('/companies/'+id)
+
+//message
+export const getEnabledRule = () => axios.get('/message/getEnabledRule')
+export const getMessageHistoryGroupPage = params => axios.get('/message/getMessageHistoryGroupPage', {params: params})
+export const addMessageGroup = params => axios.post('/message/addMessageGroup', params)
