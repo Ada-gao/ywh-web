@@ -19,7 +19,7 @@
         <el-row>
           <el-col :span="7">
             <el-form-item label="所属公司" prop="companyId">
-              <el-select v-model="form.companyId" placeholder="选择/输入所属公司" @change="changeCompany" filterable style="width: 100%">
+              <el-select v-model="form.companyId" placeholder="选择/输入所属公司" @change="changeCompany" filterable style="width: 100%" :disabled="sysUser === 'superadmin'?false:true">
                 <el-option
                   v-for="item in companies"
                   :key="item.id"
@@ -135,8 +135,14 @@
 
 <script>
   import {getCompanies, getNames, getTeams, message,putMessage} from '@/api/api'
-
+  import { mapGetters } from 'vuex'
   export default {
+    computed : {
+      ...mapGetters([
+        'sysUser',
+        'getUserInfo'
+      ])
+    },
     data() {
       const checkNumber = (rule, value, callback) => {
         if (!value) {
@@ -241,6 +247,10 @@
         this.updateStatus = 'create'
       }
       this.getQuery()
+      if (this.getUserInfo.companyId) {
+        this.form.companyId = this.getUserInfo.companyId
+        this.getList()
+      }
     },
     methods: {
       getQuery() {
@@ -255,20 +265,20 @@
           delete this.form.lastCallResult
         }
       },
-      changeCompany(value) {
+      changeCompany() {
         this.$refs['form'].validateField('companyId')
         delete this.form.team
         delete this.form.outboundNameGroupId
-        this.getList(value)
+        this.getList()
       },
       changeStatus(){
         this.$refs['form'].validateField('lastCallResult')
       },
-      getList(value){
-        getTeams({companyId: value}).then(res => {
+      getList(){
+        getTeams({companyId: this.form.companyId}).then(res => {
           this.teamList = res.data
         })
-        getNames(value).then(res => {
+        getNames(this.form.companyId).then(res => {
           this.associateList = res.data
         })
       },

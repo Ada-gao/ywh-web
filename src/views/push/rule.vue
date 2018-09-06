@@ -24,6 +24,7 @@
           <el-select v-model="listQuery.companyId"
                      placeholder="公司筛选"
                      clearable
+                     :disabled="sysUser === 'superadmin'?false:true"
                      @change="changeCompany">
             <el-option
               v-for="item in companies"
@@ -107,7 +108,14 @@
 
 <script>
   import { messageRulePage,getCompanies,getTeams } from '@/api/api'
+  import { mapGetters } from 'vuex'
   export default {
+    computed : {
+      ...mapGetters([
+        'sysUser',
+        'getUserInfo'
+      ])
+    },
     data () {
       return {
         total: null,
@@ -139,6 +147,10 @@
     created () {
       this.getList()
       this.getQuery()
+      if (this.getUserInfo.companyId) {
+        this.listQuery.companyId = this.getUserInfo.companyId
+        this.changeCompany()
+      }
     },
     methods: {
       getList () {
@@ -164,10 +176,10 @@
           this.companies = res.data
         })
       },
-      changeCompany(value) {
+      changeCompany() {
         delete this.listQuery.ruleName
         delete this.listQuery.team
-        getTeams({companyId: value}).then(res => {
+        getTeams({companyId: this.listQuery.companyId}).then(res => {
           this.teams = res.data
         })
       },
@@ -181,6 +193,9 @@
       },
       handleFilter () {
         delete this.listQuery.status
+        if (this.sysUser === 'superadmin'){
+          delete this.listQuery.companyId
+        }
         delete this.listQuery.team
         if (!this.listQuery.ruleName) {
           delete this.listQuery.ruleName
