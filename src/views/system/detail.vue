@@ -112,7 +112,7 @@
               </el-col>
               <el-col :span="11">
                 <el-form-item label="余额提醒" prop="balanceThreshold">
-                  <el-input v-model="(accountForm.balanceThreshold * 0.01).toFixed(2)" placeholder="请输入余额提醒" maxlength="8"></el-input>
+                  <el-input v-model="accountForm.balanceThreshold" placeholder="请输入余额提醒" maxlength="8"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -597,7 +597,7 @@
       },
       modifyStat(){
         this.accountForm.accountName = this.account.accountName
-        this.accountForm.balanceThreshold = this.account.balanceThreshold
+        this.accountForm.balanceThreshold = (this.account.balanceThreshold*0.01).toFixed(2)
         this.timeDefaultShow = new Date(this.account.expireDate)
         this.updateAccountDialog = true
       },
