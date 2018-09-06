@@ -111,7 +111,7 @@
         })
       },
       updateStat () {
-        this.$router.push({name: 'pCreate', query: this.form})
+        this.$router.push({name: 'createRule', query: this.form})
       },
       changeMode (val) {
         enabeldRule(this.form.id, val).then(res => {

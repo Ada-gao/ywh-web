@@ -24,8 +24,10 @@ import tasklist from './views/task/detail'
 // 7、消息推送管理
 import push from './views/push/push'
 import rule from './views/push/rule'
-import pMessage from './views/push/message'
-import pCreate from './views/push/create'
+import ruleDetail from './views/push/ruleDetail'
+import createRule from './views/push/createRule'
+import pushDetail from './views/push/pushDetail'
+import createPush from './views/push/createPush'
 // 8、试用管理
 import trial from './views/trial'
 import trialdetail from './views/trial/detail'
@@ -128,10 +130,12 @@ let routes = [
     component: Home,
     leaf: true,
     children: [
-      {menuId: 91, path: '/push', component: push, name: 'push'},
+      {menuId: 91, path: '/push/push', component: push, name: 'push'},
       {menuId: 92, path: '/push/rule', component: rule, name: 'rule'},
-      {menuId: 93, path: '/push/message', component: pMessage, name: 'pMessage'},
-      {menuId: 94, path: '/push/create', component: pCreate, name: 'pCreate'}
+      {menuId: 93, path: '/push/ruleDetail', component: ruleDetail, name: 'ruleDetail'},
+      {menuId: 94, path: '/push/createRule', component: createRule, name: 'createRule'},
+      {menuId: 95, path: '/push/pushDetail', component: pushDetail, name: 'pushDetail'},
+      {menuId: 96, path: '/push/createPush', component: createPush, name: 'createPush'}
     ]
   },
   {

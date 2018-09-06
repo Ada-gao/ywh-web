@@ -215,13 +215,13 @@
         this.getList()
       },
       handleDetail (obj) {
-        this.$router.push({name: 'pMessage', query: obj})
+        this.$router.push({name: 'ruleDetail', query: obj})
       },
       handleUpdate (obj) {
-        this.$router.push({name: 'pCreate', query: obj})
+        this.$router.push({name: 'createRule', query: obj})
       },
       handleCreate () {
-        this.$router.push({name: 'pCreate'})
+        this.$router.push({name: 'createRule'})
       }
     }
   }
