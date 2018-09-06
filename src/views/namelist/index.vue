@@ -21,6 +21,7 @@
           <el-select v-model="listQuery.companyId"
                      placeholder="公司筛选"
                      clearable
+                     :disabled="sysUser === 'superadmin'?false:true"
                      @change="handleFilter1">
             <el-option
               v-for="item in companies"
@@ -161,14 +162,18 @@ export default {
       ]
     }
   },
-  computed: {
+  computed : {
     ...mapGetters([
-      'sysUser'
+      'sysUser',
+      'getUserInfo'
     ])
   },
   created () {
     this.getList()
     this.getQuery()
+    if (this.getUserInfo.companyId) {
+      this.listQuery.companyId = this.getUserInfo.companyId
+    }
   },
   methods: {
     //获取批次
@@ -214,7 +219,9 @@ export default {
       this.$router.push({name: 'namelist', query: obj})
     },
     handleFilter () {
-      delete this.listQuery.companyId
+      if (this.sysUser === 'superadmin'){
+        delete this.listQuery.companyId
+      }
       delete this.listQuery.status
       if (!this.listQuery.groupName) {
         delete this.listQuery.groupName

@@ -18,7 +18,7 @@
         <el-row :gutter="20">
           <el-col :span="11" :offset="6">
             <el-form-item label="所属公司" prop="companyId">
-              <el-select v-model="form.companyId" placeholder="请选择所属公司" style="width: 100%">
+              <el-select v-model="form.companyId" placeholder="请选择所属公司" style="width: 100%" :disabled="sysUser === 'superadmin'?false:true">
                 <el-option
                   v-for="item in companies"
                   :key="item.id"
@@ -37,14 +37,8 @@
         <el-row :gutter="20">
           <el-col :span="11" :offset="6">
             <el-form-item label="名单来源" prop="source">
-              <el-select v-model="form.source" placeholder="请选择名单来源" style="width: 100%">
-                <el-option v-show="sysUser === 'superadmin'"
-                           v-for="(item,index) in superSources"
-                           :key="index"
-                           :label="item"
-                           :value="item">
-                </el-option>
-                <el-option v-show="sysUser != 'superadmin'"
+              <el-select v-model="form.source" placeholder="请选择名单来源" style="width: 100%" :disabled="sysUser === 'superadmin'?false:true">
+                <el-option
                            v-for="(item,index) in sources"
                            :key="index"
                            :label="item"
@@ -139,22 +133,24 @@
           ]
         },
         filename: '',
-        superSources: [
-          '自有',
-          '营销'
-        ],
         sources: [
           '自有',
+          '营销'
         ]
       }
     },
-    computed: {
+    computed : {
       ...mapGetters([
-        'sysUser'
+        'sysUser',
+        'getUserInfo'
       ])
     },
     created() {
       this.getQuery()
+      if (this.getUserInfo.companyId) {
+        this.form.companyId = this.getUserInfo.companyId
+        this.form.source = '自有'
+      }
     },
     methods: {
       getQuery() {

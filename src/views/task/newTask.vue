@@ -13,6 +13,7 @@
               <el-select v-model="taskGroup.companyId"
                          placeholder="选择/输入所属公司"
                          @change="changeCompany"
+                         :disabled="sysUser === 'superadmin'?false:true"
                          filterable>
                 <el-option
                   v-for="item in companies"
@@ -165,11 +166,17 @@ import 'quill/dist/quill.snow.css'
 import { getToken } from '@/common/js/auth'
 import { nextActionList } from '@/common/js/util'
 import {createTask, getCompanies, getTeams, getNames} from '@/api/api'
-
+import { mapGetters } from 'vuex'
 export default {
   // components: {
   //   quillEditor
   // },
+  computed : {
+    ...mapGetters([
+      'sysUser',
+      'getUserInfo'
+    ])
+  },
   data () {
     const checkNumber = (rule, value, callback) => {
       if (!value) {
@@ -305,15 +312,20 @@ export default {
     this.listLoading = false
     this.nextActionList = nextActionList()
     this.getQuery()
+    // alert(JSON.stringify(this.getUserInfo.companyId))
+    if (this.getUserInfo.companyId) {
+      this.taskGroup.companyId = this.getUserInfo.companyId
+      this.changeCompany()
+    }
   },
   methods: {
-    changeCompany (value) {
+    changeCompany () {
       this.taskGroup.team = ''
       this.taskGroup.outboundNameGroupId = null
-      getTeams({companyId: value}).then(res => {
+      getTeams({companyId: this.taskGroup.companyId}).then(res => {
         this.teamList = res.data
       })
-      getNames(value).then(res => {
+      getNames(this.taskGroup.companyId).then(res => {
         this.associateList = res.data
       })
     },

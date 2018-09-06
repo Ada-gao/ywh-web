@@ -74,6 +74,7 @@
           <el-select v-model="listQuery.companyId"
                      placeholder="公司筛选"
                      clearable
+                     :disabled="sysUser === 'superadmin'?false:true"
                      @change="handleCompany">
             <el-option
               v-for="item in companies"
@@ -216,15 +217,20 @@
         disabledSalesCnt: 0
       }
     },
-    computed: {
+    computed : {
       ...mapGetters([
-        'sysUser'
+        'sysUser',
+        'getUserInfo'
       ])
     },
     created() {
       this.getList()
       this.getQuery()
       this.getStatisSales()
+      if (this.getUserInfo.companyId) {
+        this.listQuery.companyId = this.getUserInfo.companyId
+        this.handleCompany()
+      }
     },
     methods: {
       getList() {
@@ -259,7 +265,9 @@
       },
       handleFilter() {
         delete this.listQuery.status
-        delete this.listQuery.companyId
+        if (this.sysUser === 'superadmin'){
+          delete this.listQuery.companyId
+        }
         delete this.listQuery.team
         if (!this.listQuery.name) {
           delete this.listQuery.name
@@ -288,8 +296,8 @@
           this.$router.push({path: '/salesman/excel'})
         }
       },
-      handleCompany(val) {
-        if (val) {
+      handleCompany() {
+        if (this.listQuery.companyId) {
           getTeams({companyId: this.listQuery.companyId, status: this.listQuery.status}).then(res => {
             this.teams = res.data
             this.listQuery.team = null
