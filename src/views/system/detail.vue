@@ -27,21 +27,21 @@
       <div class="read-detail">
         <el-form :model="account" class="form-border">
           <el-row>
-            <el-col :span="8"><span class="detail-label">账户ID:</span><span
-              class="detail-value">{{account.accountCode}}</span></el-col>
-            <el-col :span="8"><span class="detail-label">账户名称:</span><span
-              class="detail-value">{{account.accountName}}</span></el-col>
-            <el-col :span="8"><span class="detail-label">账户类型:</span><span
-              class="detail-value">{{account.accountType}}</span></el-col>
-            <el-col :span="8"><span class="detail-label">Account ID:</span><span class="detail-value">{{account.accountId}}</span>
+            <el-col :span="8"><span class="sdetail-label">账户ID:</span><span
+              class="sdetail-value">{{account.accountCode}}</span></el-col>
+            <el-col :span="8"><span class="sdetail-label">账户名称:</span><span
+              class="sdetail-value">{{account.accountName}}</span></el-col>
+            <el-col :span="8"><span class="sdetail-label">账户类型:</span><span
+              class="sdetail-value">{{account.accountType}}</span></el-col>
+            <el-col :span="8"><span class="sdetail-label">Account ID:</span><span class="sdetail-value">{{account.accountId}}</span>
             </el-col>
-            <el-col :span="8"><span class="detail-label">账户到期时间:</span><span
-              class="detail-value">{{account.expireDate}}</span></el-col>
-            <el-col :span="8"><span class="detail-label">账户状态:</span><span class="detail-value">{{accountStatus? '生效' : '失效'}}</span>
+            <el-col :span="8"><span class="sdetail-label">账户到期时间:</span><span
+              class="sdetail-value">{{account.expireDate}}</span></el-col>
+            <el-col :span="8"><span class="sdetail-label">账户状态:</span><span class="sdetail-value">{{accountStatus? '生效' : '失效'}}</span>
             </el-col>
-            <el-col :span="8"><span class="detail-label">key:</span><span
-              class="detail-value">{{account.accountKey}}</span></el-col>
-            <el-col :span="8"><span class="detail-label">余额提醒:</span><span class="detail-value">{{account.balanceThreshold * 0.01}}</span>
+            <el-col :span="8"><span class="sdetail-label">key:</span><span
+              class="sdetail-value">{{account.accountKey}}</span></el-col>
+            <el-col :span="8"><span class="sdetail-label">余额提醒:</span><span class="sdetail-value">{{(account.balanceThreshold * 0.01).toFixed(2)}}</span>
             </el-col>
           </el-row>
         </el-form>
@@ -112,7 +112,7 @@
               </el-col>
               <el-col :span="11">
                 <el-form-item label="余额提醒" prop="balanceThreshold">
-                  <el-input v-model="accountForm.balanceThreshold * 0.01" placeholder="请输入余额提醒" maxlength="20"></el-input>
+                  <el-input v-model="(accountForm.balanceThreshold * 0.01).toFixed(2)" placeholder="请输入余额提醒" maxlength="20"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -218,42 +218,42 @@
       <div class="read-detail">
         <el-form :model="form" class="form-border">
           <el-row>
-            <el-col :span="11"><span class="detail-label">公司ID:</span><span
-              class="detail-value">{{form.companyCode}}</span></el-col>
-            <el-col :span="11"><span class="detail-label">公司名称:</span><span
-              class="detail-value">{{form.companyName}}</span></el-col>
-            <el-col :span="11"><span class="detail-label">公司简称:</span><span
-              class="detail-value">{{form.shortName}}</span></el-col>
-            <el-col :span="11"><span class="detail-label">所在地:</span><span class="detail-value">{{form.companyProvince}}-{{form.companyCity}}</span>
+            <el-col :span="11"><span class="sdetail-label">公司ID:</span><span
+              class="sdetail-value">{{form.companyCode}}</span></el-col>
+            <el-col :span="11"><span class="sdetail-label">公司名称:</span><span
+              class="sdetail-value">{{form.companyName}}</span></el-col>
+            <el-col :span="11"><span class="sdetail-label">公司简称:</span><span
+              class="sdetail-value">{{form.shortName}}</span></el-col>
+            <el-col :span="11"><span class="sdetail-label">所在地:</span><span class="sdetail-value">{{form.companyProvince}}-{{form.companyCity}}</span>
             </el-col>
-            <el-col :span="11"><span class="detail-label">公司地址:</span><span
-              class="detail-value">{{form.companyAddress}}</span></el-col>
-            <el-col :span="11"><span class="detail-label">所属行业:</span><span
-              class="detail-value">{{form.industryType}}</span></el-col>
-            <el-col :span="11"><span class="detail-label">公司规模:</span><span class="detail-value">{{form.orgSize}}</span>
+            <el-col :span="11"><span class="sdetail-label">公司地址:</span><span
+              class="sdetail-value">{{form.companyAddress}}</span></el-col>
+            <el-col :span="11"><span class="sdetail-label">所属行业:</span><span
+              class="sdetail-value">{{form.industryType}}</span></el-col>
+            <el-col :span="11"><span class="sdetail-label">公司规模:</span><span class="sdetail-value">{{form.orgSize}}</span>
             </el-col>
-            <el-col :span="11"><span class="detail-label">联系人:</span><span class="detail-value">{{form.contact}}</span>
+            <el-col :span="11"><span class="sdetail-label">联系人:</span><span class="sdetail-value">{{form.contact}}</span>
             </el-col>
-            <el-col :span="11"><span class="detail-label">职务:</span><span
-              class="detail-value">{{form.occupation}}</span></el-col>
-            <el-col :span="11"><span class="detail-label">联系手机:</span><span
-              class="detail-value">{{form.contactMobile}}</span></el-col>
-            <el-col :span="11"><span class="detail-label">企业邮箱:</span><span class="detail-value">{{form.email}}</span>
+            <el-col :span="11"><span class="sdetail-label">职务:</span><span
+              class="sdetail-value">{{form.occupation}}</span></el-col>
+            <el-col :span="11"><span class="sdetail-label">联系手机:</span><span
+              class="sdetail-value">{{form.contactMobile}}</span></el-col>
+            <el-col :span="11"><span class="sdetail-label">企业邮箱:</span><span class="sdetail-value">{{form.email}}</span>
             </el-col>
-            <el-col :span="11"><span class="detail-label">企业微信:</span><span
-              class="detail-value">{{form.wechatNo}}</span></el-col>
+            <el-col :span="11"><span class="sdetail-label">企业微信:</span><span
+              class="sdetail-value">{{form.wechatNo}}</span></el-col>
             <el-col :span="22">
-              <span class="detail-label" alt="" style="line-height: 80px;">公司LOGO:</span>
+              <span class="sdetail-label" alt="" style="line-height: 80px;">公司LOGO:</span>
               <img :src="form.logo" v-if="form.logo" style="width: 120px; height: 80px;">
             </el-col>
             <el-col :span="22" style="margin-top: 20px">
-              <span class="detail-label" alt="" style="line-height: 80px;">公司资质:</span>
+              <span class="sdetail-label" alt="" style="line-height: 80px;">公司资质:</span>
               <img :src="form.companyQualification" v-if="form.companyQualification"
                    style="width: 120px; height: 80px;">
             </el-col>
-            <el-col :span="22" style="margin-top: 20px"><span class="detail-label"
+            <el-col :span="22" style="margin-top: 20px"><span class="sdetail-label"
                                                               style="line-height: normal">备注:</span>
-              <div class="detail-value"
+              <div class="sdetail-value"
                    style="max-width:600px;line-height:normal;word-wrap:break-word; word-break:normal;">{{form.remark}}
               </div>
             </el-col>
@@ -279,7 +279,7 @@
           <template slot-scope="scope">{{scope.row.name}}</template>
         </el-table-column>
         <el-table-column align="center" label="消费金额">
-          <template slot-scope="scope">{{scope.row.money}}</template>
+          <template slot-scope="scope">{{(scope.row.money*0.01).toFixed(2)}}</template>
         </el-table-column>
         <el-table-column align="center" label="消费时间">
           <template slot-scope="scope">{{scope.row.createTime}}</template>
@@ -292,7 +292,7 @@
         </el-table-column>
       </el-table>
       <div v-show="!listLoading2">
-        <div style="float: right;line-height: 30px;color: #0299CC;font-size: 14px">累计消费金额：{{consumeMoney * 0.01}}元</div>
+        <div style="float: right;line-height: 30px;color: #0299CC;font-size: 14px">累计消费金额：{{(consumeMoney * 0.01).toFixed(2)}}元</div>
         <el-pagination @size-change="handleSizeChange2" @current-change="handleCurrentChange2"
                        :current-page.sync="currentPage2"
                        background
@@ -316,7 +316,7 @@
           <template slot-scope="scope">{{scope.row.rechargeCode}}</template>
         </el-table-column>
         <el-table-column align="center" label="充值金额">
-          <template slot-scope="scope">{{scope.row.money * 0.01}}</template>
+          <template slot-scope="scope">{{(scope.row.money * 0.01).toFixed(2)}}</template>
         </el-table-column>
         <el-table-column align="center" label="充值时间" >
           <template slot-scope="scope">{{scope.row.createTime}}</template>
@@ -329,7 +329,7 @@
         </el-table-column>
       </el-table>
       <div v-show="!listLoading3">
-        <div style="float: right;line-height: 30px;color: #0299CC;font-size: 14px">累计充值金额：{{rechargeMoney * 0.01}}元</div>
+        <div style="float: right;line-height: 30px;color: #0299CC;font-size: 14px">累计充值金额：{{(rechargeMoney * 0.01).toFixed(2)}}元</div>
         <el-pagination @size-change="handleSizeChange3" @current-change="handleCurrentChange3"
                        :current-page.sync="currentPage3"
                        background
@@ -495,6 +495,7 @@
               type: 'success'
             })
           }
+          this.getList()
         })
       },
       switchMode (id, enabled) {
@@ -712,7 +713,7 @@
 </script>
 
 <style lang="scss">
-  .detail-label {
+  .sdetail-label {
     width: 100px;
     margin-right: 10px;
     font-size: 13px;
@@ -722,9 +723,10 @@
     color: #252525;
   }
 
-  .detail-value {
+  .sdetail-value {
     font-size: 14px;
     float: left;
+    width: 300px;
     line-height: 40px;
     color: #000000;
   }

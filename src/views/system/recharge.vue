@@ -70,10 +70,14 @@
         if (!value) {
           return callback(new Error('请输入充值金额'))
         } else {
-          if (!(reg.test(value))) {
-            callback(new Error('请输入有效金额'))
-          } else {
-            callback()
+          if (value == 0){
+            callback(new Error('充值金额必须大于0'))
+          }else{
+            if (!(reg.test(value))) {
+              callback(new Error('请输入有效金额'))
+            } else {
+              callback()
+            }
           }
         }
       }
@@ -81,10 +85,11 @@
         if (!value) {
           return callback(new Error('请输入确认充值金额'))
         } else {
-          if (this.form.money != this.form.confirmMoney) {
-            callback(new Error('二次输入的充值金额不一致'))
-          } else {
+          if (this.form.money * 100 == this.form.confirmMoney * 100) {
             callback()
+          } else {
+            callback(new Error('二次输入的充值金额不一致'))
+
           }
         }
       }

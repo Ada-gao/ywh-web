@@ -9,7 +9,7 @@
         <el-row>
           <el-col :span="7">
             <el-form-item label="信息推送规则名称" prop="ruleName">
-              <el-input v-model="form.ruleName" placeholder="请输入信息推送规则名称" max-length="20"></el-input>
+              <el-input v-model="form.ruleName" placeholder="请输入信息推送规则名称" maxlength="50"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -71,7 +71,7 @@
                   :value="item">
                 </el-option>
               </el-select>
-              <el-input v-model="form.duration" placeholder="请输入时长" style="width: 72%;"  max-length="8"/>
+              <el-input v-model="form.duration" placeholder="请输入时长" style="width: 72%;"  maxlength="8"/>
             </el-form-item>
           </el-col>
           <el-col :span="7">
@@ -103,7 +103,7 @@
           <el-col :span="21">
             <el-form-item label="推送规则模版" prop="ruleTemplate">
               <el-input type="textarea" :rows="5" v-model="form.ruleTemplate" placeholder="请输入推送规则模版"
-                        maxlength="50"></el-input>
+                        maxlength="70"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -149,6 +149,17 @@
           }
         }
       }
+      const checkTemplate = (rule, value, callback) => {
+        if (!value) {
+          callback('请输入推送规则模版')
+        } else {
+          if (value.length > 70) {
+            callback(new Error('不能超过70个字'))
+          } else {
+            callback()
+          }
+        }
+      }
       return {
         form: {
           lessOrGreater: '≥',
@@ -174,7 +185,7 @@
             {required: true, trigger: 'blur', message: '请选择外呼状态'}
           ],
           ruleTemplate: [
-            {required: true, trigger: 'blur', message: '请输入推送规则模版'}
+            {required: true, trigger: 'blur', validator: checkTemplate}
           ],
         },
         companies: [],

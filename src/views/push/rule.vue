@@ -60,7 +60,7 @@
       </el-table-column>
       <el-table-column align="center" label="推送规则名称">
         <template slot-scope="scope">
-          <span>{{scope.row.ruleName}}</span>
+          <span class="max-line2">{{scope.row.ruleName}}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="所属公司">
@@ -165,6 +165,7 @@
         })
       },
       changeCompany(value) {
+        delete this.listQuery.ruleName
         delete this.listQuery.team
         getTeams({companyId: value}).then(res => {
           this.teams = res.data

@@ -175,10 +175,14 @@ export default {
       if (!value) {
         return callback(new Error('请输入有效通话时长'))
       } else {
-        if (!/^[0-9]+$/.test(value)) {
-          callback(new Error('请输入数字'))
-        } else {
-          callback()
+        if (value == 0){
+          callback(new Error('输入数字的不能为0'))
+        }else{
+          if (!/^[0-9]+$/.test(value)) {
+            callback(new Error('请输入数字'))
+          } else {
+            callback()
+          }
         }
       }
     }
@@ -186,10 +190,14 @@ export default {
       if (!value) {
         return callback(new Error('请输入有效任务数'))
       } else {
-        if (!/^[0-9]+$/.test(value)) {
-          callback(new Error('请输入数字'))
-        } else {
-          callback()
+        if (value == 0){
+          callback(new Error('输入数字的不能为0'))
+        }else{
+          if (!/^[0-9]+$/.test(value)) {
+            callback(new Error('请输入数字'))
+          } else {
+            callback()
+          }
         }
       }
     }
@@ -197,19 +205,27 @@ export default {
       if (!value) {
         return callback(new Error('请输入外呼频率间隔'))
       } else {
-        if (!/^[0-9]+$/.test(value)) {
-          callback(new Error('请输入数字'))
-        } else {
-          callback()
+        if (value == 0){
+          callback(new Error('输入数字的不能为0'))
+        }else{
+          if (!/^[0-9]+$/.test(value)) {
+            callback(new Error('请输入数字'))
+          } else {
+            callback()
+          }
         }
       }
     }
     const checkNumber4 = (rule, value, callback) => {
       if (value) {
-        if (!/^[0-9]+$/.test(value)) {
-          callback(new Error('请输入数字'))
+        if (value == 0){
+          callback(new Error('输入数字的不能为0'))
         } else {
-          callback()
+          if (!/^[0-9]+$/.test(value)) {
+            callback(new Error('请输入数字'))
+          } else {
+            callback()
+          }
         }
       }else{
         callback()

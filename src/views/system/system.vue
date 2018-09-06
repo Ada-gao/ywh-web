@@ -78,10 +78,10 @@
         <template slot-scope="scope"><span>{{scope.row.companyProvince}}</span></template>
       </el-table-column>
       <el-table-column align="center" label="账户余额">
-        <template slot-scope="scope"><span>{{scope.row.balance * 0.01}}</span></template>
+        <template slot-scope="scope"><span>{{(scope.row.balance * 0.01).toFixed(2)}}</span></template>
       </el-table-column>
       <el-table-column align="center" label="累计消费金额">
-        <template slot-scope="scope"><span>{{scope.row.totalConsumption * 0.01}}</span></template>
+        <template slot-scope="scope"><span>{{(scope.row.totalConsumption * 0.01).toFixed(2)}}</span></template>
       </el-table-column>
       <el-table-column align="center" label="联系人">
         <template slot-scope="scope"><span>{{scope.row.contact}}</span></template>
@@ -93,7 +93,7 @@
         <template slot-scope="scope"><span>{{scope.row.accountType === 'Charge' ? '付费使用': '试用体验'}}</span></template>
       </el-table-column>
       <el-table-column align="center" label="账户状态">
-        <template slot-scope="scope"><span :style="scope.row.accountStatus?'color:#009801':'color:#D0021B'">{{scope.row.accountStatus?'生效':'失效'}}</span>
+        <template slot-scope="scope"><span :style="scope.row.accountStatus?'color:#009801':'color:#D0021B'">{{scope.row.accountStatus?'启用':'停用'}}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="操作">
@@ -171,7 +171,7 @@
         <template slot-scope="scope"><span>{{scope.row.accountType === 'Charge' ? '付费使用': '试用体验'}}</span></template>
       </el-table-column>
       <el-table-column align="center" label="充值金额">
-        <template slot-scope="scope"><span>{{scope.row.money * 0.01}}</span></template>
+        <template slot-scope="scope"><span>{{(scope.row.money * 0.01).toFixed(2)}}</span></template>
       </el-table-column>
       <el-table-column align="center" label="充值时间" >
         <template slot-scope="scope"><span>{{scope.row.createTime}}</span></template>
@@ -184,7 +184,7 @@
       </el-table-column>
     </el-table>
     <div v-show="!listLoading2">
-      <div style="float: right;line-height: 30px;color: #0299CC;font-size: 14px">累计充值金额：{{money * 0.01}}元</div>
+      <div style="float: right;line-height: 30px;color: #0299CC;font-size: 14px">累计充值金额：{{(money * 0.01).toFixed(2)}}元</div>
       <el-pagination @size-change="handleSizeChange2" @current-change="handleCurrentChange2"
                      background
                      :current-page.sync="currentPage2" background :page-sizes="[10,20,30, 50]"
@@ -232,11 +232,11 @@
         ],
         states: [
           {
-            label: '生效',
+            label: '启用',
             value: 'true'
           },
           {
-            label: '失效',
+            label: '停用',
             value: 'false'
           }
         ],

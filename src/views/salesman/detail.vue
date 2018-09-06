@@ -50,7 +50,7 @@
           </el-col>
           <el-col :span="10">
             <el-form-item label="对应职级" prop="level">
-              <el-input v-model="form.level" placeholder="请输入对应职级" maxlength="255"></el-input>
+              <el-input v-model="form.level" placeholder="请输入对应职级" maxlength="10"></el-input>
             </el-form-item>
           </el-col>
         </el-row>

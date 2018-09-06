@@ -148,6 +148,7 @@
               <img :src.sync="form.companyQualification" alt="" v-if="form.companyQualification"
                    style="width: 120px; height: 80px;">
               <el-upload
+                v-if="sysUser === 'superadmin'"
                 class="upload-demo"
                 style="display: inline-block"
                 :action="uploadUrl"
@@ -218,6 +219,7 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
   import VueCropper from 'vue-cropper'
   import {getToken} from '@/common/js/auth'
   import {
@@ -235,6 +237,11 @@
   export default {
     components: {
       VueCropper
+    },
+    computed : {
+      ...mapGetters([
+        'sysUser'
+      ])
     },
     data() {
       const validatePass1 = (rule, value, callback) => {
@@ -363,7 +370,7 @@
       realTime(data) {
         this.previews = data
       },
-      down(type) {
+      down() {
         this.$refs.cropper.getCropBlob((data) => {
           this.downImg = window.URL.createObjectURL(data)
           let cc = this.downImg.lastIndexOf('/')

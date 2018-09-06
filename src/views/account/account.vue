@@ -10,7 +10,7 @@
           </span>
            <span style="font-size: 14px;color: #475669;">账户余额</span>
            <div style="margin-top: 10px;">
-             <span style="color: #4AD2DB;"><span style="font-size: 28px;">{{account.balance?account.balance*0.01:'0.00'}}</span><span style="font-size: 14px">元</span></span>
+             <span style="color: #4AD2DB;"><span style="font-size: 28px;">{{account.balance?(account.balance*0.01).toFixed(2):'0.00'}}</span><span style="font-size: 14px">元</span></span>
              <span style="font-size: 12px;margin-left: 20px;" v-show="account.balance < account.balanceThreshold">
               <i class="iconfont icon-wenti" style="color:#D0021B;"/>
               <span style="color: #475669;">余额不足，请尽快充值！{{userInfo}}</span>
@@ -25,7 +25,7 @@
           </span>
           <span style="font-size: 14px;color: #475669;">累计消费金额</span>
           <div style="margin-top: 10px;">
-            <span style="color: #FDCE82;"><span style="font-size: 28px;">{{account.totalConsumption?account.totalConsumption*0.01:'0.00'}}</span><span style="font-size: 14px">元</span></span>
+            <span style="color: #FDCE82;"><span style="font-size: 28px;">{{account.totalConsumption?(account.totalConsumption*0.01).toFixed(2):'0.00'}}</span><span style="font-size: 14px">元</span></span>
           </div>
         </el-col>
       </el-row>
@@ -112,7 +112,7 @@
         <template slot-scope="scope">{{scope.row.name}}</template>
       </el-table-column>
       <el-table-column align="center" label="消费金额">
-        <template slot-scope="scope">{{scope.row.money*0.01}}</template>
+        <template slot-scope="scope">{{(scope.row.money*0.01).toFixed(2)}}</template>
       </el-table-column>
       <el-table-column align="center" label="消费时间">
         <template slot-scope="scope">{{scope.row.createTime}}</template>
@@ -125,7 +125,7 @@
       </el-table-column>
     </el-table>
     <div v-show="!listLoading2">
-      <div style="float: right;line-height: 30px;color: #0299CC;font-size: 14px">累计消费金额：{{consumeMoney * 0.01}}元</div>
+      <div style="float: right;line-height: 30px;color: #0299CC;font-size: 14px">累计消费金额：{{(consumeMoney * 0.01).toFixed(2)}}元</div>
       <el-pagination @size-change="handleSizeChange2" @current-change="handleCurrentChange2"
                      :current-page.sync="currentPage2"
                      background
@@ -145,7 +145,7 @@
         <template slot-scope="scope">{{scope.row.rechargeCode}}</template>
       </el-table-column>
       <el-table-column align="center" label="充值金额">
-        <template slot-scope="scope">{{scope.row.money * 0.01}}</template>
+        <template slot-scope="scope">{{(scope.row.money * 0.01).toFixed(2)}}</template>
       </el-table-column>
       <el-table-column align="center" label="充值时间" >
         <template slot-scope="scope">{{scope.row.createTime}}</template>
@@ -158,7 +158,7 @@
       </el-table-column>
     </el-table>
     <div v-show="!listLoading3">
-      <div style="float: right;line-height: 30px;color: #0299CC;font-size: 14px">累计充值金额：{{rechargeMoney * 0.01}}元</div>
+      <div style="float: right;line-height: 30px;color: #0299CC;font-size: 14px">累计充值金额：{{(rechargeMoney * 0.01).toFixed(2)}}元</div>
       <el-pagination @size-change="handleSizeChange3" @current-change="handleCurrentChange3"
                      :current-page.sync="currentPage3"
                      background
