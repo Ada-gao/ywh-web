@@ -28,7 +28,7 @@
         <el-row :gutter="20">
           <el-col :span="10">
             <el-form-item label="余额提醒" prop="balanceThreshold">
-              <el-input v-model="form.balanceThreshold" placeholder="请输入余额提醒" maxlength="20"></el-input>
+              <el-input v-model="form.balanceThreshold" placeholder="请输入余额提醒" maxlength="8"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="10">
