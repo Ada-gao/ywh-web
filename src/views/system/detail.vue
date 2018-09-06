@@ -279,7 +279,7 @@
           <template slot-scope="scope">{{scope.row.name}}</template>
         </el-table-column>
         <el-table-column align="center" label="消费金额">
-          <template slot-scope="scope">{{(scope.row.money*0.01).toFixed(2)}}</template>
+          <template slot-scope="scope">{{scope.row.money}}</template>
         </el-table-column>
         <el-table-column align="center" label="消费时间">
           <template slot-scope="scope">{{scope.row.createTime}}</template>
@@ -551,7 +551,7 @@
             }else if (item.consumptionProduct === 'OutboundNameFee'){
               item.consumptionProduct = '通信费'
             }
-            item.money = item.money*0.01
+            item.money = item.money*0.01.toFixed(2)
             let date = new Date(item.createTime)
             item.createTime = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() + ' ' +date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
           })
