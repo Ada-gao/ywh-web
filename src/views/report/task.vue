@@ -46,7 +46,7 @@
       </el-row>
     </div>
     <div class="detail-title">
-      <span class="list-tit">工作量列表</span>
+      <span class="list-tit">外呼任务列表</span>
       <el-button class="add_btn" @click="handleExport">
         <i class="iconfont icon-piliangdaochu" style="color: #fff;margin-right: 10px"></i>批量导出
       </el-button>
