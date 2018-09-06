@@ -75,22 +75,7 @@
 </script>
 
 <style lang="scss">
-  .detail-label{
-    width: 100px;
-    margin-right: 10px;
-    font-size: 13px;
-    line-height: 40px;
-    text-align: right;
-    float: left;
-    color: #252525;
-  }
-  .detail-value{
-    font-size: 14px;
-    float: left;
-    width: 400px;
-    line-height: 40px;
-    color: #000000;
-  }
+
   .detail-title {
     /*margin-bottom: 20px;*/
     .upd_btn {

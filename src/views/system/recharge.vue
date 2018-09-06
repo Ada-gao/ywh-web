@@ -9,7 +9,7 @@
         <el-row :gutter="20">
           <el-col :span="10">
             <el-form-item label="所属公司" prop="companyId">
-              <el-select v-model="form.companyId" placeholder="请选择所属公司" style="width: 100%" @change="changeCompany" filterable>
+              <el-select v-model="form.companyId" placeholder="请选择所属公司" style="width: 100%" @change="changeCompany" filterable :disabled="banUpdate">
                 <el-option
                   v-for="item in companies"
                   :key="item.id"
@@ -111,6 +111,7 @@
         form: {},
         companies:[],
         accounts:[],
+        banUpdate:false
       }
     },
     created() {
@@ -120,6 +121,11 @@
       getQuery() {
         getCompanies().then(res => {
           this.companies = res.data
+          if (this.$route.query.id) {
+            this.form.companyId = this.$route.query.id
+            this.banUpdate = true
+            this.changeCompany()
+          }
         })
       },
       create(formName) {
@@ -142,10 +148,10 @@
       cancel() {
         window.history.go(-1)
       },
-      changeCompany (value) {
+      changeCompany () {
         this.$refs['form'].validateField('companyId')
         delete this.form.accountId
-        getAccountByCompanyId(value).then(res => {
+        getAccountByCompanyId(this.form.companyId).then(res => {
           this.accounts = res.data
         })
       },

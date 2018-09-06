@@ -188,4 +188,22 @@
     -webkit-box-orient:vertical;
     -webkit-line-clamp:2;
   }
+
+  .detail-label {
+    width: 100px;
+    margin-right: 10px;
+    font-size: 13px;
+    line-height: 40px;
+    text-align: right;
+    float: left;
+    color: #252525;
+  }
+
+  .detail-value {
+    font-size: 14px;
+    line-height: 40px;
+    color: #000000;
+    float: left;
+    width:60%;
+  }
 </style>
