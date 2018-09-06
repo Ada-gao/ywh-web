@@ -93,7 +93,11 @@
         <template slot-scope="scope"><span>{{scope.row.accountType === 'Charge' ? '付费使用': '试用体验'}}</span></template>
       </el-table-column>
       <el-table-column align="center" label="账户状态">
-        <template slot-scope="scope"><span :style="scope.row.accountStatus?'color:#009801':'color:#D0021B'">{{scope.row.accountStatus?'启用':'停用'}}</span>
+        <template slot-scope="scope">
+          <div style="cursor:pointer;" @click="showStatusDialog(scope.row)">
+            <span :style="scope.row.accountStatus?'color:#009801':'color:#D0021B'">{{scope.row.accountStatus?'启用':'停用'}}</span>
+            <i class="fa fa-cog" style="color: #a9a4a4;margin-left: 10px"></i>
+          </div>
         </template>
       </el-table-column>
       <el-table-column align="center" label="操作">
@@ -107,6 +111,16 @@
                      :page-size="listQuery.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total">
       </el-pagination>
     </div>
+    <el-dialog title="修改状态" :visible.sync="updateStatusDialog" width="20%">
+      <el-radio-group v-model="radio" style="text-align: center;width: 100%">
+        <el-radio label="启用"></el-radio>
+        <el-radio label="停用" style="margin-left: 100px"></el-radio>
+      </el-radio-group>
+      <div style="text-align: right;margin-top: 30px">
+        <el-button class="search_btn" @click="updateStatusDialog = false">取 消</el-button>
+        <el-button class="add_btn" @click="enabledAccount">确 定</el-button>
+      </div>
+    </el-dialog>
 
     <div class="filter-container" style="margin-top: 20px">
       <div class="detail-title">
@@ -196,13 +210,16 @@
 </template>
 
 <script>
-  import {getAccounts, getRechargePage} from "../../api/api";
+  import {getAccounts, getRechargePage,enabledAccount} from "../../api/api";
   import FileSaver from 'file-saver'
   import XLSX from 'xlsx'
 
   export default {
     data() {
       return {
+        radio: '',
+        updateStatusDialog: false,
+        item: null,
         money: 0,
         list: null,
         listLoading: true,
@@ -257,6 +274,38 @@
       this.getRechargePage()
     },
     methods: {
+      enabledAccount() {
+        let enabled = false
+        if (this.radio === '启用') {
+          enabled = true
+        }
+        if (enabled != this.item.accountStatus) {
+          enabledAccount(this.item.id, enabled).then(res => {
+            this.item.accountStatus = enabled
+            if (enabled) {
+              this.$message({
+                message: '启用成功',
+                type: 'success'
+              })
+            } else {
+              this.$message({
+                message: '停用成功',
+                type: 'success'
+              })
+            }
+          })
+        }
+        this.updateStatusDialog = false
+      },
+      showStatusDialog(val) {
+        this.item = val
+        if (this.item.accountStatus) {
+          this.radio = '启用'
+        } else {
+          this.radio = '停用'
+        }
+        this.updateStatusDialog = true
+      },
       exportExcel() {
         var wb = XLSX.utils.table_to_book(document.querySelector('#rechargeTable'))
         var wbout = XLSX.write(wb, {bookType: 'xlsx', bookSST: true, type: 'array'})
