@@ -63,6 +63,9 @@
       <el-table-column align="center" label="推送状态">
         <template slot-scope="scope">
           <span :style="scope.row.status==='推送成功'?'color:#009801':'color:#D0021B'">{{scope.row.isComplete}}</span>
+          <el-tooltip effect="dark" placement="bottom"  :content="scope.row.failReason" v-show="scope.row.status!=='推送成功'">
+            <i class="iconfont icon-wenti" style="color:#D0021B"/>
+          </el-tooltip>
         </template>
       </el-table-column>
     </el-table>
