@@ -61,6 +61,8 @@ export const putMessage = (id, params) => axios.put('/message/' + id, params)
 export const getMessage = id => axios.get('/message/' + id)
 export const messageRulePage = params => axios.get('/message/messageRulePage', {params: params})
 export const enabeldRule = (id, enabled) => axios.put('/message/enabledRule/' + id + '?enabled=' + enabled)
+export const updateMessageGroup = (id, params) => axios.put('/message/updateMessageGroup/' + id, params)
+export const getMessageHistory = (id, params) => axios.get('/message/getMessageHistory/'+id, {params: params})
 // company
 export const getCompanies = () => axios.get('/companies')
 export const getTeams = params => axios.get('/companies/queryTeams', {params: params})

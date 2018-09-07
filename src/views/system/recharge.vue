@@ -35,12 +35,12 @@
         <el-row :gutter="20">
           <el-col :span="10">
             <el-form-item label="充值金额(元)" prop="money">
-              <el-input v-model="form.money" placeholder="请输入充值金额" maxlength="20"></el-input>
+              <el-input v-model="form.money" placeholder="请输入充值金额" maxlength="8"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="10">
             <el-form-item label="确认金额(元)" prop="confirmMoney">
-              <el-input v-model="form.confirmMoney" placeholder="请再次输入充值金额" maxlength="20"></el-input>
+              <el-input v-model="form.confirmMoney" placeholder="请再次输入充值金额" maxlength="8"></el-input>
             </el-form-item>
           </el-col>
         </el-row>

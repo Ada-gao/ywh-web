@@ -196,10 +196,14 @@
     data() {
       const checkNumber = (rule, value, callback) => {
         if (value) {
-          if (!/^[0-9]+$/.test(value)) {
-            callback(new Error('请输入数字'))
+          if (value == 0){
+            callback(new Error('输入数字的不能为0'))
           } else {
-            callback()
+            if (!/^[0-9]+$/.test(value)) {
+              callback(new Error('请输入数字'))
+            } else {
+              callback()
+            }
           }
         } else {
           callback(new Error('请输入外呼次数限制'))

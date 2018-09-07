@@ -101,13 +101,13 @@
                      layout="total, sizes, prev, pager, next, jumper" :total="total">
       </el-pagination>
     </div>
-    <el-dialog title="新建推送" :visible.sync="createDialog" width="30%">
+    <el-dialog :title="title" :visible.sync="createDialog" width="30%">
       <el-form :model="pushForm" ref="pushForm" :rules="pushRules" label-width="120px" style="padding-right: 30px;">
         <el-form-item label="推送目标" prop="target">
           <el-input v-model="pushForm.target" placeholder="请输入推送目标" maxlength="50"></el-input>
         </el-form-item>
-        <el-form-item label="信息推送规则" prop="ruleID">
-          <el-select v-model="pushForm.ruleID"
+        <el-form-item label="信息推送规则" prop="ruleId">
+          <el-select v-model="pushForm.ruleId"
                      placeholder="请选择推送规则"
                      clearable
                      style="width: 100%"
@@ -148,7 +148,7 @@
 </template>
 
 <script>
-  import {addMessageGroup, getEnabledRule, getMessageHistoryGroupPage} from '@/api/api'
+  import {addMessageGroup, getEnabledRule, getMessageHistoryGroupPage, updateMessageGroup} from '@/api/api'
 
   export default {
     data() {
@@ -195,7 +195,7 @@
           target: [
             {required: true, trigger: 'blur', message: '请输入推送目标'}
           ],
-          ruleID: [
+          ruleId: [
             {required: true, trigger: 'blur', message: '请选择推送规则'}
           ],
           delayMinute: [
@@ -205,7 +205,9 @@
         pushForm: {
           sendOccasion: 'Immediately'
         },
-        ruleList: {}
+        ruleList: {},
+        title: '',
+        pushItem:null
       }
     },
     created() {
@@ -266,7 +268,7 @@
         this.getList()
       },
       handleFilter1() {
-        this.$refs['pushForm'].validateField('ruleID')
+        this.$refs['pushForm'].validateField('ruleId')
         delete this.listQuery.ruleName
         delete this.listQuery.date
         if (!this.listQuery.status) {
@@ -276,14 +278,28 @@
         this.getList()
       },
       handleDetail(obj) {
-        this.$router.push({name: 'pMessage', query: obj})
+        this.$router.push({name: 'pushDetail', query: obj})
       },
       handleUpdate(obj) {
-        this.$router.push({name: 'pCreate', query: obj})
+        this.getRule()
+        this.createDialog = true
+        this.title = '编辑推送'
+        this.pushItem = JSON.parse(JSON.stringify(obj))
+
+        this.pushForm = {
+          target: this.pushItem.target,
+          ruleId: this.pushItem.ruleId,
+          sendOccasion: this.pushItem.sendOccasion,
+          delayMinute: this.pushItem.sendOccasion==='Stop'?this.pushItem.delayMinute:'',
+        }
       },
       handleCreate() {
         this.getRule()
         this.createDialog = true
+        this.title = '新建推送'
+        this.pushForm = {
+          sendOccasion: 'Immediately'
+        }
         if (this.$refs['pushForm'] !== undefined) {
           this.$refs['pushForm'].resetFields();
         }
@@ -294,15 +310,27 @@
             if (this.pushForm.sendOccasion != 'Stop') {
               delete this.pushForm.delayMinute
             }
-            addMessageGroup(this.pushForm)
-              .then((res) => {
-                this.$message({
-                  message: '创建成功',
-                  type: 'success'
+            if (this.title === '新建推送') {
+              addMessageGroup(this.pushForm)
+                .then((res) => {
+                  this.$message({
+                    message: '创建成功',
+                    type: 'success'
+                  })
+                  this.createDialog = false
+                  this.getList()
                 })
-                this.createDialog = false
-                this.getList()
-              })
+            } else {
+              updateMessageGroup(this.pushItem.id, this.pushForm)
+                .then((res) => {
+                  this.$message({
+                    message: '修改成功',
+                    type: 'success'
+                  })
+                  this.createDialog = false
+                  this.getList()
+                })
+            }
           } else {
             return false
           }
