@@ -50,14 +50,14 @@
           <span class="max-line2">{{scope.row.phoneNum}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="单价（元）">
-        <template slot-scope="scope">
-          <span>{{scope.row.money}}</span>
-        </template>
-      </el-table-column>
       <el-table-column align="center" label="推送时间">
         <template slot-scope="scope">
           <span>{{scope.row.createTime}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="单价（元）">
+        <template slot-scope="scope">
+          <span>{{scope.row.money}}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="推送状态">
