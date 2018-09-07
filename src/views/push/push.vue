@@ -65,19 +65,19 @@
           <span>{{scope.row.createTime}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="推送条数">
+      <el-table-column align="center" label="推送条数" width="80px">
         <template slot-scope="scope">
           <span>{{scope.row.totalCnt}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="失败条数">
+      <el-table-column align="center" label="失败条数" width="80px">
         <template slot-scope="scope">
           <span>{{scope.row.failCnt}}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="推送状态">
         <template slot-scope="scope">
-          <span>{{scope.row.isComplete}}</span>
+          <span :style="scope.row.isComplete==='推送中'?'color:#009801':'color:#D0021B'">{{scope.row.isComplete}}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="操作人">
@@ -121,11 +121,14 @@
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-radio v-model="pushForm.sendOccasion" label="Immediately" @change="$refs['pushForm'].validateField('delayMinute')">立即发送<span
+          <el-radio v-model="pushForm.sendOccasion" label="Immediately"
+                    @change="$refs['pushForm'].validateField('delayMinute')">立即发送<span
             style="font-size: 12px;color: #B2B2B2;">（保存后立即发送）</span></el-radio>
         </el-form-item>
         <el-form-item>
-          <el-radio v-model="pushForm.sendOccasion" label="Delay" @change="$refs['pushForm'].validateField('delayMinute')">通话结束后立即发送</el-radio>
+          <el-radio v-model="pushForm.sendOccasion" label="Delay"
+                    @change="$refs['pushForm'].validateField('delayMinute')">通话结束后立即发送
+          </el-radio>
         </el-form-item>
         <el-form-item prop="delayMinute">
           <el-radio v-model="pushForm.sendOccasion" label="Stop">
@@ -224,13 +227,17 @@
           this.total = res.data.totalElements
           this.listLoading = false
           this.list.forEach(item => {
-            if (item.status === '0') {
-              item.status = '停止推送'
+            if (item.isComplete === '0') {
+              item.isComplete = '停止推送'
             }
-            if (item.status === '1') {
-              item.status = '推送中'
+            if (item.isComplete === '1') {
+              item.isComplete = '推送中'
             }
-            item.createTime = new Date(item.createTime).toLocaleDateString()
+            let date = new Date(item.createTime)
+            let month = date.getMonth() + 1;
+            let day = date.getDate();
+            let minutes = date.getMinutes();
+            item.createTime = date.getFullYear() + '-' + (month < 10 ? '0' : '') + month + '-' + (day < 10 ? '0' : '') + day + ' ' + date.getHours() + ':' + (minutes < 10 ? '0' : '') + minutes
           })
         })
       },
@@ -277,6 +284,9 @@
       handleCreate() {
         this.getRule()
         this.createDialog = true
+        if (this.$refs['pushForm'] !== undefined) {
+          this.$refs['pushForm'].resetFields();
+        }
       },
       createPush() {
         this.$refs['pushForm'].validate(valid => {

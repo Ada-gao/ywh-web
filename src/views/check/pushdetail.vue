@@ -93,7 +93,7 @@
 </template>
 
 <script>
-  import { getMessage ,enabeldRule,putReview} from '@/api/api'
+  import { messageDetail ,enabeldRule,putReview} from '@/api/api'
 
   export default {
     data () {
@@ -119,7 +119,7 @@
     },
     methods: {
       getQuery () {
-        getMessage(this.obj.productId).then(res => {
+        messageDetail(this.obj.productId).then(res => {
           this.form = res.data
           if(this.form.nextAction === 'CALL_AGAIN'){
             this.nextAction = '继续外呼'
