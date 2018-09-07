@@ -209,7 +209,7 @@
 </template>
 
 <script>
-  import {getAccounts, getRechargePage,enabledAccount} from "../../api/api";
+  import * as Api from "@/api/api"
   import FileSaver from 'file-saver'
   import XLSX from 'xlsx'
 
@@ -279,7 +279,7 @@
           enabled = true
         }
         if (enabled != this.item.accountStatus) {
-          enabledAccount(this.item.id, enabled).then(res => {
+          Api.enabledAccount(this.item.id, enabled).then(res => {
             this.item.accountStatus = enabled
             if (enabled) {
               this.$message({
@@ -316,14 +316,14 @@
         return wbout
       },
       getAccounts() {
-        getAccounts(this.listQuery).then(response => {
+        Api.getAccounts(this.listQuery).then(response => {
           this.list = response.data.content
           this.total = response.data.totalElements
           this.listLoading = false
         })
       },
       getRechargePage() {
-        getRechargePage(this.listQuery2).then(response => {
+        Api.getRechargePage(this.listQuery2).then(response => {
           this.money = response.data.statisResult;
           this.list2 = response.data.content
           this.total2 = response.data.totalElements

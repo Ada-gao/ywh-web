@@ -74,7 +74,7 @@
 </template>
 
 <script>
-  import { getMessage ,enabeldRule} from '@/api/api'
+  import * as Api from "@/api/api"
 
   export default {
     data () {
@@ -114,7 +114,7 @@
         this.$router.push({name: 'createRule', query: this.form})
       },
       changeMode (val) {
-        enabeldRule(this.form.id, val).then(res => {
+        Api.enabeldRule(this.form.id, val).then(res => {
           this.form.enabled = val
           if (val) {
             this.$message({

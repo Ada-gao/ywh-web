@@ -107,7 +107,7 @@
 </template>
 
 <script>
-  import {getLists,putReview} from '@/api/api'
+  import * as Api from "@/api/api"
 
   export default {
     components: {},
@@ -142,7 +142,7 @@
     },
     methods: {
       getList () {
-        getLists(this.listQuery).then(response => {
+        Api.getLists(this.listQuery).then(response => {
           this.list = response.data.content
           this.total = response.data.totalElements
           this.listLoading = false
@@ -174,7 +174,7 @@
       commit (status) {
         this.$refs['checkForm'].validate(valid => {
           if (valid) {
-            putReview(this.obj.id,status,this.checkForm.content)
+            Api.putReview(this.obj.id,status,this.checkForm.content)
               .then((res) => {
                 this.$message({
                   message: '操作成功',

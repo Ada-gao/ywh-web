@@ -222,15 +222,7 @@
   import { mapGetters } from 'vuex'
   import VueCropper from 'vue-cropper'
   import {getToken} from '@/common/js/auth'
-  import {
-    addCompanies,
-    getAuthDustries,
-    getAuthDustryByType,
-    getOrgSize,
-    putCompanies,
-    uploadCompanyQualification,
-    uploadLogo
-  } from '@/api/api'
+  import * as Api from "@/api/api"
   import {retransfer, transferIndustry} from '@/common/js/util'
   import {provinceAndCityData} from 'element-china-area-data' // 省市区数据
 
@@ -378,13 +370,13 @@
           let formData = new FormData()
           formData.append('file', data)
           if (this.isLogo) {
-            uploadLogo(formData).then(res => {
+            Api.uploadLogo(formData).then(res => {
               this.imgurl = res.data
               this.form.logo = process.env.BASE_API + '/file?fileUuid=' + res.data
               this.dialogVisible = false
             })
           } else {
-            uploadCompanyQualification(formData).then(res => {
+            Api.uploadCompanyQualification(formData).then(res => {
               this.imgurl = res.data
               this.form.companyQualification = process.env.BASE_API + '/file/getCompanyQualification?fileUuid=' + res.data
               this.dialogVisible = false
@@ -400,14 +392,14 @@
         this.getOrgSize()
       },
       getOrgSize() {
-        getOrgSize().then(res => {
+        Api.getOrgSize().then(res => {
           this.coInfo.orgSize = res.data
         })
-        getAuthDustries().then(res => {
+        Api.getAuthDustries().then(res => {
           this.coInfo.industryType = res.data
           if (this.updateStatus === 'update') {
             let transferId = retransfer(this.form.industryType, this.coInfo.industryType)
-            getAuthDustryByType(transferId).then(res => {
+            Api.getAuthDustryByType(transferId).then(res => {
               this.coInfo.industry = res.data
             })
             let idx = this.provinceData.findIndex((item, index) => {
@@ -439,7 +431,7 @@
       },
       changeIndustry(val) {
         this.form.industry = ''
-        getAuthDustryByType(val).then(res => {
+        Api.getAuthDustryByType(val).then(res => {
           this.coInfo.industry = res.data
         })
       },
@@ -464,7 +456,7 @@
               let index = companyQualification.lastIndexOf('=')
               this.form.companyQualification = companyQualification.substring(index + 1, companyQualification.length)
             }
-            addCompanies(this.form)
+            Api.addCompanies(this.form)
               .then(res => {
                 this.$message({
                   message: '新建成功',
@@ -498,7 +490,7 @@
               let index = companyQualification.lastIndexOf('=')
               this.form.companyQualification = companyQualification.substring(index + 1, companyQualification.length)
             }
-            putCompanies(id, this.form)
+            Api.putCompanies(id, this.form)
               .then(() => {
                 this.$message({
                   message: '修改成功',

@@ -61,7 +61,7 @@
 </template>
 
 <script>
-  import {getCompanies, recharge ,getAccountByCompanyId} from '@/api/api'
+  import * as Api from "@/api/api"
 
   export default {
     data() {
@@ -119,7 +119,7 @@
     },
     methods: {
       getQuery() {
-        getCompanies().then(res => {
+        Api.getCompanies().then(res => {
           this.companies = res.data
           if (this.$route.query.id) {
             this.form.companyId = this.$route.query.id
@@ -132,7 +132,7 @@
         const set = this.$refs
         set[formName].validate(valid => {
           if (valid) {
-            recharge(this.form)
+            Api.recharge(this.form)
               .then((res) => {
                 this.$message({
                   message: '充值成功',
@@ -151,7 +151,7 @@
       changeCompany () {
         this.$refs['form'].validateField('companyId')
         delete this.form.accountId
-        getAccountByCompanyId(this.form.companyId).then(res => {
+        Api.getAccountByCompanyId(this.form.companyId).then(res => {
           this.accounts = res.data
         })
       },

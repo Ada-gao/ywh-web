@@ -82,7 +82,7 @@
   import { mapGetters } from 'vuex'
   import FileSaver from 'file-saver'
   import XLSX from 'xlsx'
-  import {getCallStatis, getTeams,accounts} from '@/api/api'
+  import * as Api from "@/api/api"
   export default {
     computed : {
       ...mapGetters([
@@ -108,7 +108,7 @@
     },
     methods: {
       getList() {
-        getCallStatis(this.listQuery).then(response => {
+        Api.getCallStatis(this.listQuery).then(response => {
           let data = response.data.content
           this.total = response.data.totalElements
           this.listLoading = false
@@ -127,7 +127,7 @@
         let params = {
           companyId: this.getUserInfo.companyId
         }
-        accounts(params).then(res => {
+        Api.accounts(params).then(res => {
           this.accounts = res.data
         })
       },

@@ -107,7 +107,7 @@
 </template>
 
 <script>
-  import { messageRulePage,getCompanies,getTeams } from '@/api/api'
+  import * as Api from "@/api/api"
   import { mapGetters } from 'vuex'
   export default {
     computed : {
@@ -154,7 +154,7 @@
     },
     methods: {
       getList () {
-        messageRulePage(this.listQuery).then(res => {
+        Api.messageRulePage(this.listQuery).then(res => {
           this.list = res.data.content
           this.total = res.data.totalElements
           this.listLoading = false
@@ -172,14 +172,14 @@
         })
       },
       getQuery() {
-        getCompanies().then(res => {
+        Api.getCompanies().then(res => {
           this.companies = res.data
         })
       },
       changeCompany() {
         delete this.listQuery.ruleName
         delete this.listQuery.team
-        getTeams({companyId: this.listQuery.companyId}).then(res => {
+        Api.getTeams({companyId: this.listQuery.companyId}).then(res => {
           this.teams = res.data
         })
       },

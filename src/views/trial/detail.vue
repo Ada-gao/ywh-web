@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import {getTrailDet} from '@/api/api'
+  import * as Api from "@/api/api"
 export default {
   data () {
     return {
@@ -101,7 +101,7 @@ export default {
       let data = {
         status: this.converStatus(this.list.status)
       }
-      getTrailDet(this.list.id, data).then(res => {
+      Api.getTrailDet(this.list.id, data).then(res => {
         this.$message({
           message: '修改成功',
           type: 'success'

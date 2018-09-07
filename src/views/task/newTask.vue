@@ -165,7 +165,7 @@ import 'quill/dist/quill.snow.css'
 // import {quillEditor} from 'vue-quill-editor'
 import { getToken } from '@/common/js/auth'
 import { nextActionList } from '@/common/js/util'
-import {createTask, getCompanies, getTeams, getNames} from '@/api/api'
+import * as Api from "@/api/api"
 import { mapGetters } from 'vuex'
 export default {
   // components: {
@@ -322,15 +322,15 @@ export default {
     changeCompany () {
       this.taskGroup.team = ''
       this.taskGroup.outboundNameGroupId = null
-      getTeams({companyId: this.taskGroup.companyId}).then(res => {
+      Api.getTeams({companyId: this.taskGroup.companyId}).then(res => {
         this.teamList = res.data
       })
-      getNames(this.taskGroup.companyId).then(res => {
+      Api.getNames(this.taskGroup.companyId).then(res => {
         this.associateList = res.data
       })
     },
     getQuery () {
-      getCompanies().then(res => {
+      Api.getCompanies().then(res => {
         this.companies = res.data
       })
     },
@@ -343,7 +343,7 @@ export default {
           this.taskGroup.interv -= 0
           this.taskGroup.effectiveTasks -= 0
           this.taskGroup.minimumDuration -= 0
-          createTask(this.taskGroup)
+          Api.createTask(this.taskGroup)
             .then((res) => {
               this.$message({
                 message: '创建成功',

@@ -125,7 +125,7 @@
 </template>
 
 <script>
-import {getCompanies, getBatch} from '@/api/api'
+  import * as Api from "@/api/api"
 import { provinceAndCityData } from 'element-china-area-data' // 省市区数据
 import { mapGetters } from 'vuex'
 
@@ -178,7 +178,7 @@ export default {
   methods: {
     //获取批次
     getList(){
-      getBatch(this.listQuery).then(response => {
+      Api.getBatch(this.listQuery).then(response => {
         this.list = response.data.content
         this.total = response.data.totalElements
         this.listLoading = false
@@ -203,7 +203,7 @@ export default {
       })
     },
     getQuery () {
-      getCompanies().then(res => {
+      Api.getCompanies().then(res => {
         this.companies = res.data
       })
     },

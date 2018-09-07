@@ -95,7 +95,7 @@
 
 <script>
   import UploadExcelComponent from '@/components/uploadExcel.vue'
-  import {addNameExcel, getCompanies} from '@/api/api'
+  import * as Api from "@/api/api"
   import {replaceKey} from '@/common/js/util'
   import {mapGetters} from 'vuex'
 
@@ -154,7 +154,7 @@
     },
     methods: {
       getQuery() {
-        getCompanies().then(res => {
+        Api.getCompanies().then(res => {
           this.companies = res.data
         })
       },
@@ -238,7 +238,7 @@
         params.groupName = encodeURI(this.form.groupName)
         params.maskPhoneNo = this.form.maskPhoneNo
         params.source = this.form.source
-        addNameExcel(params, table).then(res => {
+        Api.addNameExcel(params, table).then(res => {
           this.$message({
             message: '导入成功',
             type: 'success'

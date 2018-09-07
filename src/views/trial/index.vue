@@ -147,7 +147,7 @@
 </template>
 
 <script>
-import {getTrial, getOrgSize, getTrailDet} from '@/api/api'
+  import * as Api from "@/api/api"
 import {mapGetters} from 'vuex'
 // import { transformText } from '@/common/js/util'
 
@@ -199,12 +199,12 @@ export default {
   },
   methods: {
     getList () {
-      getTrial(this.listQuery).then((response) => {
+      Api.getTrial(this.listQuery).then((response) => {
         this.list = response.data.content
         this.converStatus(this.list)
         this.total = response.data.totalElements
         this.listLoading = false
-        getOrgSize().then(res => {
+        Api.getOrgSize().then(res => {
           this.orgSize = res.data
           this.list.forEach(item => {
             let date = new Date(item.createTime)
@@ -263,7 +263,7 @@ export default {
       let data = {
         status: this.converStatus1(this.radio)
       }
-      getTrailDet(this.id, data).then(res => {
+      Api.getTrailDet(this.id, data).then(res => {
         this.updateTrialText(this.id, this.radio)
         this.$message({
           message: '修改成功',

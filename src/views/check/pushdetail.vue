@@ -93,7 +93,7 @@
 </template>
 
 <script>
-  import { messageDetail ,enabeldRule,putReview} from '@/api/api'
+  import * as Api from "@/api/api"
 
   export default {
     data () {
@@ -119,7 +119,7 @@
     },
     methods: {
       getQuery () {
-        messageDetail(this.obj.productId).then(res => {
+        Api.messageDetail(this.obj.productId).then(res => {
           this.form = res.data
           if(this.form.nextAction === 'CALL_AGAIN'){
             this.nextAction = '继续外呼'
@@ -150,7 +150,7 @@
       commit (status) {
         this.$refs['checkForm'].validate(valid => {
           if (valid) {
-            putReview(this.obj.id,status,this.checkForm.content)
+            Api.putReview(this.obj.id,status,this.checkForm.content)
               .then((res) => {
                 this.$message({
                   message: '操作成功',

@@ -201,7 +201,7 @@
 </template>
 
 <script>
-  import {review,putReview} from '@/api/api'
+  import * as Api from "@/api/api";
 
   export default {
     data() {
@@ -275,7 +275,7 @@
         }
         let query = JSON.parse(JSON.stringify(this.listQuery))
         delete query.date
-        review('PENDING', query).then(res => {
+        Api.review('PENDING', query).then(res => {
           this.list = res.data.content
           this.total = res.data.totalElements
           this.listLoading = false
@@ -307,7 +307,7 @@
         }
         let query = JSON.parse(JSON.stringify(this.listQuery2))
         delete query.date
-        review('HISTORY', query).then(res => {
+        Api.review('HISTORY', query).then(res => {
           this.list2 = res.data.content
           this.total2 = res.data.totalElements
           this.listLoading2 = false
@@ -417,7 +417,7 @@
         }
         this.$refs['checkForm'].validate(valid => {
           if (valid) {
-            putReview(this.item.id,status,this.checkForm.content)
+            Api.putReview(this.item.id,status,this.checkForm.content)
               .then((res) => {
                 this.$message({
                   message: '操作成功',

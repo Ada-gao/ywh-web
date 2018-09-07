@@ -143,7 +143,7 @@
 </template>
 
 <script>
-  import {getAdminTasks, getProductList, getProductByTeam, getTeams} from '@/api/api'
+  import * as Api from "@/api/api"
   import {mapGetters} from 'vuex'
 
   export default {
@@ -177,7 +177,7 @@
     },
     methods: {
       getList() {
-        getAdminTasks(this.listQuery).then(response => {
+        Api.getAdminTasks(this.listQuery).then(response => {
           this.list = response.data.content
           this.total = response.data.totalElements
           this.listLoading = false
@@ -193,7 +193,7 @@
         let params = {
           companyId: this.getUserInfo.companyId
         }
-        getTeams(params).then(res => {
+        Api.getTeams(params).then(res => {
           this.teams = res.data
         })
         // getProductList().then(res => {
@@ -225,7 +225,7 @@
         }
         this.listQuery.pageIndex = 0
         this.getList()
-        getProductByTeam(this.listQuery.team).then((res) => {
+        Api.getProductByTeam(this.listQuery.team).then((res) => {
           this.products = res.data
         })
       },

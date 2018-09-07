@@ -96,7 +96,7 @@
 </template>
 
 <script>
-  import {getCompanies, account} from '@/api/api'
+  import * as Api from "@/api/api"
 
   export default {
     data() {
@@ -196,7 +196,7 @@
     },
     methods: {
       getQuery() {
-        getCompanies().then(res => {
+        Api.getCompanies().then(res => {
           this.companies = res.data
         })
       },
@@ -204,7 +204,7 @@
         const set = this.$refs
         set[formName].validate(valid => {
           if (valid) {
-            account(this.form)
+            Api.account(this.form)
               .then((res) => {
                 this.$message({
                   message: '创建成功',

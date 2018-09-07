@@ -118,7 +118,7 @@
   import { mapGetters } from 'vuex'
   import FileSaver from 'file-saver'
   import XLSX from 'xlsx'
-  import {getAdminTasks, getProductByTeam, getTeams} from '@/api/api'
+  import * as Api from "@/api/api"
   export default {
     computed : {
       ...mapGetters([
@@ -146,7 +146,7 @@
     },
     methods: {
       getList() {
-        getAdminTasks(this.listQuery).then(response => {
+        Api.getAdminTasks(this.listQuery).then(response => {
           this.list = response.data.content
           this.total = response.data.totalElements
           this.listLoading = false
@@ -162,7 +162,7 @@
         let params = {
           companyId: this.getUserInfo.companyId
         }
-        getTeams(params).then(res => {
+        Api.getTeams(params).then(res => {
           this.teams = res.data
         })
       },
@@ -194,7 +194,7 @@
         }
         this.listQuery.pageIndex = 0
         this.getList()
-        getProductByTeam(this.listQuery.team).then((res) => {
+        Api.getProductByTeam(this.listQuery.team).then((res) => {
           this.products = res.data
         })
       },

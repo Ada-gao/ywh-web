@@ -134,7 +134,7 @@
 </template>
 
 <script>
-  import {getCompanies, getNames, getTeams, message,putMessage} from '@/api/api'
+  import * as Api from "@/api/api"
   import { mapGetters } from 'vuex'
   export default {
     computed : {
@@ -254,7 +254,7 @@
     },
     methods: {
       getQuery() {
-        getCompanies().then(res => {
+        Api.getCompanies().then(res => {
           this.companies = res.data
         })
       },
@@ -275,10 +275,10 @@
         this.$refs['form'].validateField('lastCallResult')
       },
       getList(){
-        getTeams({companyId: this.form.companyId}).then(res => {
+        Api.getTeams({companyId: this.form.companyId}).then(res => {
           this.teamList = res.data
         })
-        getNames(this.form.companyId).then(res => {
+        Api.getNames(this.form.companyId).then(res => {
           this.associateList = res.data
         })
       },
@@ -286,7 +286,7 @@
         this.$refs['form'].validate(valid => {
           if (valid) {
             if (this.updateStatus === 'update'){
-              putMessage(this.form.id,this.form)
+              Api.putMessage(this.form.id,this.form)
                 .then((res) => {
                   this.$message({
                     message: '修改成功',
@@ -295,7 +295,7 @@
                   this.$router.push({path: '/push/rule'})
                 })
             } else{
-              message(this.form)
+              Api.message(this.form)
                 .then((res) => {
                   this.$message({
                     message: '创建成功',

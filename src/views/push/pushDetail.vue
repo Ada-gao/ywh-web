@@ -81,7 +81,7 @@
 </template>
 
 <script>
-  import {getMessageHistory} from '@/api/api'
+  import * as Api from "@/api/api"
   import FileSaver from 'file-saver'
   import XLSX from 'xlsx'
   export default {
@@ -123,7 +123,7 @@
         }
         let query = JSON.parse(JSON.stringify(this.listQuery))
         delete query.date
-        getMessageHistory(this.id,query).then(res => {
+        Api.getMessageHistory(this.id,query).then(res => {
           this.list = res.data.content
           this.total = res.data.totalElements
           this.listLoading = false

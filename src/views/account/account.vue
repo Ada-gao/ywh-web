@@ -13,7 +13,7 @@
              <span style="color: #4AD2DB;"><span style="font-size: 28px;">{{account.balance?(account.balance*0.01).toFixed(2):'0.00'}}</span><span style="font-size: 14px">元</span></span>
              <span style="font-size: 12px;margin-left: 20px;" v-show="account.balance < account.balanceThreshold">
               <i class="iconfont icon-wenti" style="color:#D0021B;"/>
-              <span style="color: #475669;">余额不足，请尽快充值！{{userInfo}}</span>
+              <span style="color: #475669;">余额不足，请尽快充值！</span>
             </span>
            </div>
          </div>
@@ -97,7 +97,7 @@
 
     <div class="detail-title" style="margin-top: 22px;">
       <span class="list-tit">消费记录</span>
-      <el-button class="add_btn" @click="handleExport">
+      <el-button class="add_btn" @click="exportExcel('#consumeTable','消费记录列表.xlsx')">
         <i class="iconfont icon-piliangdaochu" style="color: #fff;margin-right: 10px"></i>批量导出
       </el-button>
     </div>
@@ -136,7 +136,7 @@
 
     <div class="detail-title" style="margin-top: 22px;">
       <span class="list-tit">充值记录</span>
-      <el-button class="add_btn" @click="handleExportRecharge">
+      <el-button class="add_btn" @click="exportExcel('#rechargeTable','充值记录列表.xlsx')">
         <i class="iconfont icon-piliangdaochu" style="color: #fff;margin-right: 10px"></i>批量导出
       </el-button>
     </div>
@@ -322,10 +322,10 @@
 </template>
 
 <script>
-  import {getRechargePageById,getLoginLogPage, getConsumptionPage,accountCompany,getAdmin,updateUsers,resetPWD,addAdmin,userEnabled} from "../../api/api";
+  import * as Api from "@/api/api"
+  import { mapGetters } from 'vuex'
   import FileSaver from 'file-saver'
   import XLSX from 'xlsx'
-  import { mapGetters } from 'vuex'
   export default {
     data() {
       const validateName = (rule, value, callback) => {
@@ -462,8 +462,18 @@
       this.getLoginInfo()
     },
     methods: {
+      exportExcel(id, name){
+        var wb = XLSX.utils.table_to_book(document.querySelector(id))
+        var wbout = XLSX.write(wb, {bookType: 'xlsx', bookSST: true, type: 'array'})
+        try {
+          FileSaver.saveAs(new Blob([wbout], {type: 'application/octet-stream'}), name)
+        } catch (e) {
+          if (typeof console !== 'undefined') console.log(e, wbout)
+        }
+        return wbout
+      },
       getCompany() {
-        accountCompany(this.accountId).then(response => {
+        Api.accountCompany(this.accountId).then(response => {
           this.account = response.data
           this.account.accountType = this.account.accountType === 'Charge' ? '付费使用' : '试用体验'
           this.account.accountStatus = this.account.accountStatus ? '生效' : '失效'
@@ -481,7 +491,7 @@
       getList() {
         this.listLoading = true
         this.listQuery.accountId = this.accountId;
-        getAdmin(this.listQuery).then(response => {
+        Api.getAdmin(this.listQuery).then(response => {
           this.list = response.data.content
           this.total = response.data.totalElements
           this.listLoading = false
@@ -522,7 +532,7 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.adminForm.companyId = this.company.id
-            addAdmin(this.accountId, this.adminForm)
+            Api.addAdmin(this.accountId, this.adminForm)
               .then((res) => {
                 this.$message({
                   message: '创建成功',
@@ -539,7 +549,7 @@
       resetPassword(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            resetPWD(this.adminForm.id, this.adminForm.password).then(res => {
+            Api.resetPWD(this.adminForm.id, this.adminForm.password).then(res => {
               this.$message({
                 message: '操作成功',
                 type: 'success'
@@ -554,7 +564,7 @@
       updateUsers(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            updateUsers(this.adminForm.id, this.adminForm).then(res => {
+            Api.updateUsers(this.adminForm.id, this.adminForm).then(res => {
               this.$message({
                 message: '操作成功',
                 type: 'success'
@@ -568,7 +578,7 @@
         })
       },
       switchMode (id, enabled) {
-        userEnabled(id, enabled).then(res => {
+        Api.userEnabled(id, enabled).then(res => {
           this.$message({
             message: '操作成功',
             type: 'success'
@@ -600,7 +610,7 @@
         this.getLoginInfo()
       },
       getLoginInfo(){
-        getLoginLogPage(this.listQuery4).then(response => {
+        Api.getLoginLogPage(this.listQuery4).then(response => {
           this.list4 = response.data.content
           this.total4 = response.data.totalElements
           this.listLoading4 = false
@@ -611,7 +621,7 @@
         })
       },
       getConsumption(){
-        getConsumptionPage(this.accountId,this.listQuery2).then(response => {
+        Api.getConsumptionPage(this.accountId,this.listQuery2).then(response => {
           this.consumeMoney = response.data.statisResult;
           this.list2 = response.data.content
           this.total2 = response.data.totalElements
@@ -628,7 +638,7 @@
         })
       },
       getRecharge(){
-        getRechargePageById(this.accountId,this.listQuery3).then(response => {
+        Api.getRechargePageById(this.accountId,this.listQuery3).then(response => {
           this.rechargeMoney = response.data.statisResult;
           this.list3 = response.data.content
           this.total3 = response.data.totalElements
@@ -638,26 +648,6 @@
             item.createTime = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() + ' ' +date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
           })
         })
-      },
-      handleExport(){
-        var wb = XLSX.utils.table_to_book(document.querySelector('#consumeTable'))
-        var wbout = XLSX.write(wb, {bookType: 'xlsx', bookSST: true, type: 'array'})
-        try {
-          FileSaver.saveAs(new Blob([wbout], {type: 'application/octet-stream'}), '消费记录列表.xlsx')
-        } catch (e) {
-          if (typeof console !== 'undefined') console.log(e, wbout)
-        }
-        return wbout
-      },
-      handleExportRecharge(){
-        var wb = XLSX.utils.table_to_book(document.querySelector('#rechargeTable'))
-        var wbout = XLSX.write(wb, {bookType: 'xlsx', bookSST: true, type: 'array'})
-        try {
-          FileSaver.saveAs(new Blob([wbout], {type: 'application/octet-stream'}), '充值记录列表.xlsx')
-        } catch (e) {
-          if (typeof console !== 'undefined') console.log(e, wbout)
-        }
-        return wbout
       },
     }
   }

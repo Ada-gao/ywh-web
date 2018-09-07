@@ -65,7 +65,7 @@
   </div>
 </template>
 <script>
-  import {getStatistic} from '@/api/api'
+  import * as Api from "@/api/api"
   import {mapGetters} from 'vuex'
   export default {
     data() {
@@ -87,7 +87,7 @@
     },
     methods: {
       getCount() {
-        getStatistic().then(res => {
+        Api.getStatistic().then(res => {
           if (res.data.totalEffectiveDuration === null) {
             this.total.totalEffectiveDuration = '0'
             this.total_min = 0

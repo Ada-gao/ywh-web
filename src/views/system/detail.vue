@@ -342,7 +342,7 @@
 </template>
 
 <script>
-  import {accountCompany,updateAccount,getRechargePageById, addAdmin, getAdmin,getConsumptionPage, enabledAccount,resetPWD, updateUsers, userEnabled} from '@/api/api'
+  import * as Api from "@/api/api"
   import FileSaver from 'file-saver'
   import XLSX from 'xlsx'
   export default {
@@ -482,7 +482,7 @@
     },
     methods: {
       changeMode (val){
-        enabledAccount(this.accountId, val).then(res => {
+        Api.enabledAccount(this.accountId, val).then(res => {
           this.accountStatus = val
           if (val) {
             this.$message({
@@ -499,7 +499,7 @@
         })
       },
       switchMode (id, enabled) {
-        userEnabled(id, enabled).then(res => {
+        Api.userEnabled(id, enabled).then(res => {
           this.$message({
             message: '操作成功',
             type: 'success'
@@ -509,7 +509,7 @@
       getList() {
         this.listLoading = true
         this.listQuery.accountId = this.accountId;
-        getAdmin(this.listQuery).then(response => {
+        Api.getAdmin(this.listQuery).then(response => {
           this.list = response.data.content
           this.total = response.data.totalElements
           this.listLoading = false
@@ -540,7 +540,7 @@
         this.getList()
       },
       getConsumption(){
-        getConsumptionPage(this.accountId,this.listQuery2).then(response => {
+        Api.getConsumptionPage(this.accountId,this.listQuery2).then(response => {
           this.consumeMoney = response.data.statisResult;
           this.list2 = response.data.content
           this.total2 = response.data.totalElements
@@ -558,7 +558,7 @@
         })
       },
       getRecharge(){
-        getRechargePageById(this.accountId,this.listQuery3).then(response => {
+        Api.getRechargePageById(this.accountId,this.listQuery3).then(response => {
           this.rechargeMoney = response.data.statisResult;
           this.list3 = response.data.content
           this.total3 = response.data.totalElements
@@ -602,7 +602,7 @@
         this.updateAccountDialog = true
       },
       getCompany() {
-        accountCompany(this.accountId).then(response => {
+        Api.accountCompany(this.accountId).then(response => {
           this.account = response.data
           this.account.accountType = this.account.accountType === 'Charge' ? '付费使用' : '试用体验'
           this.account.accountStatus = this.account.accountStatus ? '生效' : '失效'
@@ -647,7 +647,7 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.adminForm.companyId = this.form.id
-            addAdmin(this.accountId, this.adminForm)
+            Api.addAdmin(this.accountId, this.adminForm)
               .then((res) => {
                 this.$message({
                   message: '创建成功',
@@ -664,7 +664,7 @@
       resetPassword(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            resetPWD(this.adminForm.id, this.adminForm.password).then(res => {
+            Api.resetPWD(this.adminForm.id, this.adminForm.password).then(res => {
               this.$message({
                 message: '操作成功',
                 type: 'success'
@@ -679,7 +679,7 @@
       updateUsers(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            updateUsers(this.adminForm.id, this.adminForm).then(res => {
+            Api.updateUsers(this.adminForm.id, this.adminForm).then(res => {
               this.$message({
                 message: '操作成功',
                 type: 'success'
@@ -696,7 +696,7 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.accountForm.expireDate = this.timeDefaultShow
-            updateAccount(this.accountId, this.accountForm).then(res => {
+            Api.updateAccount(this.accountId, this.accountForm).then(res => {
               this.$message({
                 message: '操作成功',
                 type: 'success'

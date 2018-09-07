@@ -216,7 +216,7 @@
 <script>
   import {getToken} from '@/common/js/auth'
   import {transferCompById} from '@/common/js/util'
-  import {addUser, getCompanies, getUserById, resetPWD, taskDoneRate, updSale, userEnabled} from '@/api/api'
+  import * as Api from "@/api/api"
   import {mapGetters} from 'vuex'
   export default {
     computed : {
@@ -369,7 +369,7 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.ruleForm.password = this.trim(this.ruleForm.password, 'g')
-            resetPWD(this.id, this.ruleForm.password).then(res => {
+            Api.resetPWD(this.id, this.ruleForm.password).then(res => {
               this.$message({
                 message: '操作成功',
                 type: 'success'
@@ -387,11 +387,11 @@
         this.$refs[formName].resetFields()
       },
       getList() {
-        getUserById(this.id).then(res => {
+        Api.getUserById(this.id).then(res => {
           this.form = res.data
           this.form.createdDate = new Date(this.form.createdDate).toLocaleDateString()
         })
-        taskDoneRate(this.id).then(res => {
+        Api.taskDoneRate(this.id).then(res => {
           this.list.push(res.data)
           if (this.list.length > 0) {
             if (this.list[0].totalTaskCompleteCnt &&
@@ -407,7 +407,7 @@
       },
       getQuery() {
         if (this.updateStatus !== 'view') {
-          getCompanies().then(res => {
+          Api.getCompanies().then(res => {
             this.companies = res.data
           })
         }
@@ -424,7 +424,7 @@
             this.form.password = this.trim(this.form.password, 'g')
             this.form.username = this.trim(this.form.username, 'g')
             if (this.updateStatus === 'create') {
-              addUser(this.form)
+              Api.addUser(this.form)
                 .then((res) => {
                   this.$message({
                     message: '创建成功',
@@ -433,7 +433,7 @@
                   this.$router.push({path: '/salesman'})
                 })
             } else {
-              updSale(this.form.id, this.form).then(res => {
+              Api.updSale(this.form.id, this.form).then(res => {
                 this.$message({
                   message: '修改成功',
                   type: 'success'
@@ -448,7 +448,7 @@
         })
       },
       changeMode(val) {
-        userEnabled(this.form.id, val).then(res => {
+        Api.userEnabled(this.form.id, val).then(res => {
           this.value3 = val
           if (val) {
             this.$message({

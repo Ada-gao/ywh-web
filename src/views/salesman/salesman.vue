@@ -181,7 +181,7 @@
 </template>
 
 <script>
-  import {getCompanies, getTeams, getUsers, statisSales, userEnabled} from '@/api/api'
+  import * as Api from "@/api/api"
   import {mapGetters} from 'vuex'
 
   export default {
@@ -234,19 +234,19 @@
     },
     methods: {
       getList() {
-        getUsers(this.listQuery).then(response => {
+        Api.getUsers(this.listQuery).then(response => {
           this.list = response.data.content
           this.total = response.data.totalElements
           this.listLoading = false
         })
       },
       getQuery() {
-        getCompanies().then(res => {
+        Api.getCompanies().then(res => {
           this.companies = res.data
         })
       },
       getStatisSales() {
-        statisSales('').then(res => {
+        Api.statisSales('').then(res => {
           this.totalSalesCnt = res.data.totalSalesCnt
           this.enabledSalesCnt = res.data.enabledSalesCnt
           this.disabledSalesCnt = res.data.disabledSalesCnt
@@ -298,7 +298,7 @@
       },
       handleCompany() {
         if (this.listQuery.companyId) {
-          getTeams({companyId: this.listQuery.companyId, status: this.listQuery.status}).then(res => {
+          Api.getTeams({companyId: this.listQuery.companyId, status: this.listQuery.status}).then(res => {
             this.teams = res.data
             this.listQuery.team = null
           })
@@ -330,7 +330,7 @@
           enabled = true
         }
         if (enabled != this.item.enabled) {
-          userEnabled(this.item.id, enabled).then(res => {
+          Api.userEnabled(this.item.id, enabled).then(res => {
             this.getList()
             this.getStatisSales()
             if (enabled) {

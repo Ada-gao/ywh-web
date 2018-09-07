@@ -74,7 +74,7 @@
 
 <script>
   import UploadExcelComponent from '@/components/uploadExcel.vue'
-  import {addBatch, getCompanies} from '@/api/api'
+  import * as Api from "@/api/api"
   import {replaceKey} from '@/common/js/util'
   import {mapGetters} from 'vuex'
   export default {
@@ -118,7 +118,7 @@
     },
     methods: {
       getQuery() {
-        getCompanies().then(res => {
+        Api.getCompanies().then(res => {
           this.companies = res.data
         })
       },
@@ -270,7 +270,7 @@
         table.forEach(item => {
           replaceKey(item, keyMap)
         })
-        addBatch(this.form.companyId, table).then(res => {
+        Api.addBatch(this.form.companyId, table).then(res => {
           this.$message({
             message: '导入成功',
             type: 'success'

@@ -148,7 +148,7 @@
 </template>
 
 <script>
-  import {addMessageGroup, getEnabledRule, getMessageHistoryGroupPage, updateMessageGroup} from '@/api/api'
+  import * as Api from "@/api/api"
 
   export default {
     data() {
@@ -224,7 +224,7 @@
         }
         let query = JSON.parse(JSON.stringify(this.listQuery))
         delete query.date
-        getMessageHistoryGroupPage(query).then(res => {
+        Api.getMessageHistoryGroupPage(query).then(res => {
           this.list = res.data.content
           this.total = res.data.totalElements
           this.listLoading = false
@@ -244,7 +244,7 @@
         })
       },
       getRule() {
-        getEnabledRule().then(res => {
+        Api.getEnabledRule().then(res => {
           this.ruleList = res.data
         })
       },
@@ -311,7 +311,7 @@
               delete this.pushForm.delayMinute
             }
             if (this.title === '新建推送') {
-              addMessageGroup(this.pushForm)
+              Api.addMessageGroup(this.pushForm)
                 .then((res) => {
                   this.$message({
                     message: '创建成功',
@@ -321,7 +321,7 @@
                   this.getList()
                 })
             } else {
-              updateMessageGroup(this.pushItem.id, this.pushForm)
+              Api.updateMessageGroup(this.pushItem.id, this.pushForm)
                 .then((res) => {
                   this.$message({
                     message: '修改成功',

@@ -40,9 +40,7 @@
 </template>
 
 <script>
-  import {
-    getCompanyById
-  } from '@/api/api'
+  import * as Api from "@/api/api"
 
   export default {
     data () {
@@ -57,7 +55,7 @@
     },
     methods: {
       getCompaniesInfo(){
-        getCompanyById(this.companyId).then(res => {
+        Api.getCompanyById(this.companyId).then(res => {
           this.form = res.data
           if (this.form.logo) {
             this.form.logo = process.env.BASE_API + '/file?fileUuid=' + res.data.logo

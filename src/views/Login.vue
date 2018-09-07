@@ -24,7 +24,7 @@
 
 <script>
 
-import { requestLogin, getUser } from '../api/api'
+  import * as Api from "@/api/api"
 import NProgress from 'nprogress'
 
 export default {
@@ -67,11 +67,11 @@ export default {
           this.loading = true
           NProgress.start()
           let loginParams = {username: this.loginForm.username, password: this.loginForm.password}
-          requestLogin(loginParams).then(res => {
+          Api.requestLogin(loginParams).then(res => {
             this.loading = false
             NProgress.done()
             sessionStorage.setItem('token', res.data.token)
-            getUser().then(res => {
+            Api.getUser().then(res => {
               if (res.data.authorities[0].authority === 'ROLE_SALE') {
                 sessionStorage.removeItem('token')
                 alert('管理权限不足，请联系管理员')
