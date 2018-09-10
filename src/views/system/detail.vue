@@ -598,7 +598,9 @@
       modifyStat(){
         this.accountForm.accountName = this.account.accountName
         this.accountForm.balanceThreshold = (this.account.balanceThreshold*0.01).toFixed(2)
-        this.timeDefaultShow = new Date(this.account.expireDate)
+        if (this.account.expireDate){
+          this.timeDefaultShow = new Date(this.account.expireDate)
+        }
         this.updateAccountDialog = true
       },
       getCompany() {
@@ -607,10 +609,12 @@
           this.account.accountType = this.account.accountType === 'Charge' ? '付费使用' : '试用体验'
           this.account.accountStatus = this.account.accountStatus ? '生效' : '失效'
           this.account.balanceThreshold = this.account.balanceThreshold
-          let date = new Date(this.account.expireDate)
-          let month = date.getMonth() + 1;
-          let day = date.getDate();
-          this.account.expireDate = date.getFullYear() + '-' + (month < 10 ? '0' : '') + month + '-' + (day < 10 ? '0' : '') + day
+          if (this.account.expireDate) {
+            let date = new Date(this.account.expireDate)
+            let month = date.getMonth() + 1;
+            let day = date.getDate();
+            this.account.expireDate = date.getFullYear() + '-' + (month < 10 ? '0' : '') + month + '-' + (day < 10 ? '0' : '') + day
+          }
           this.form = this.account.company
           if (this.form.logo) {
             this.form.logo = process.env.BASE_API + '/file?fileUuid=' + this.form.logo
