@@ -4,7 +4,7 @@
       <span class="list-tit">{{textMap[updateStatus]}}</span>
     </div>
     <div class="margin-line"></div>
-    <div class="update-detail" v-if="updateStatus==='create'||updateStatus==='update'">
+    <div class="update-detail">
       <el-form :model="form" :rules="rules" ref="form" label-width="100px">
         <el-row :gutter="20">
           <el-col :span="10">
@@ -19,12 +19,12 @@
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="10">
-            <el-form-item label="所在地" prop="companyCity">
+          <el-col :span="5">
+            <el-form-item label="所在地" prop="companyProvince">
               <el-select v-model="form.companyProvince"
                          placeholder="请选择省份"
                          @change="changeProvince"
-                         style="width: 47%;margin-right: 20px">
+                         style="width: 120%;">
                 <el-option
                   v-for="item in provinceData"
                   :key="item.value"
@@ -32,10 +32,14 @@
                   :value="item.label">
                 </el-option>
               </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item prop="companyCity" label-width="50px">
               <el-select v-model="form.companyCity"
                          placeholder="请选择地区"
                          @change="changeCity"
-                         style="width: 47%; float: right;">
+                         style="width: 100%; ">
                 <el-option
                   v-for="item in cityData"
                   :key="item.value"
@@ -52,11 +56,11 @@
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="10">
-            <el-form-item label="所属行业" prop="industry">
+          <el-col :span="5">
+            <el-form-item label="所属行业" prop="industryType">
               <el-select v-model="form.industryType"
                          placeholder="请选择行业大类"
-                         @change="changeIndustry" style="width: 47%;margin-right: 20px;">
+                         @change="changeIndustryType" style="width: 120%;">
                 <el-option
                   v-for="item in coInfo.industryType"
                   :key="item.id"
@@ -64,9 +68,11 @@
                   :value="item.id">
                 </el-option>
               </el-select>
-              <el-select v-model="form.industry"
-                         placeholder="请选择行业小类"
-                         @change="changeIndustryType" style="width: 47%; float: right;">
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item prop="industry" label-width="50px">
+              <el-select v-model="form.industry" placeholder="请选择行业小类" @change="changeIndustry" style="width: 100%;">
                 <el-option
                   v-for="item in coInfo.industry"
                   :key="item.id"
@@ -120,24 +126,20 @@
             </el-form-item>
           </el-col>
         </el-row>
-
         <el-row :gutter="20">
           <el-col :span="20">
             <el-form-item label="公司LOGO" prop="logo">
-              <img :src.sync="form.logo" alt="" v-if="form.logo" style="width: 120px; height: 80px;">
+              <img :src.sync="form.logo" alt="" v-if="form.logo" style="width: 120px; height: 80px;float: left;">
               <el-upload
                 class="upload-demo"
-                style="display: inline-block"
-                :action="uploadUrl"
-                :headers="headers"
-                multiple
+                action=""
                 :limit="1"
-                :on-success="handleSuccess"
-                :before-upload="beforeAvatarUpload1"
-                :file-list="fileList"
-                :show-file-list="false"
+                :before-upload="beforeAvatarUpload"
                 accept=".png, .jpg">
-                <el-button size="small" class="add_btn">选择图片</el-button>
+                <div style="text-align: left;margin-left: 10px;padding-top: 10px;height: 80px">
+                  <el-button size="small" class="add_btn" style="margin-top: 0px">选择图片</el-button>
+                  <div style="font-size: 10px;color: #A1A1A1;margin-top: -10px">文件格式JPG，文件小于2M</div>
+                </div>
               </el-upload>
             </el-form-item>
           </el-col>
@@ -145,22 +147,26 @@
         <el-row :gutter="20">
           <el-col :span="20">
             <el-form-item label="公司资质" prop="companyQualification">
-              <img :src.sync="form.companyQualification" alt="" v-if="form.companyQualification"
-                   style="width: 120px; height: 80px;">
+              <el-input v-model="form.companyQualification" v-show="false" disabled/>
               <el-upload
                 v-if="sysUser === 'superadmin'"
                 class="upload-demo"
-                style="display: inline-block"
                 :action="uploadUrl"
                 :headers="headers"
                 multiple
-                :limit="1"
-                :on-success="handleSuccess"
-                :before-upload="beforeAvatarUpload2"
+                :on-remove="handleRemove"
+                :on-exceed="handleExceed"
+                :limit="5"
+                :on-success="uploadCompanyQualification"
+                :auto-upload="true"
+                list-type="picture-card"
                 :file-list="fileList"
-                :show-file-list="false"
                 accept=".png, .jpg">
-                <el-button size="small" class="add_btn">选择图片</el-button>
+                <div style="text-align: center;vertical-align: center;line-height: 100px;">
+                  <div style="font-size: 13px;color: #0299CC;font-weight: bold;height: 30px;">点击添加图片</div>
+                  <div style="font-size: 10px;color: #A1A1A1;height: 20px;">支持JPG，最多5张</div>
+                  <div style="font-size: 10px;color: #A1A1A1;height: 20px;">文件小于2M</div>
+                </div>
               </el-upload>
             </el-form-item>
           </el-col>
@@ -198,8 +204,7 @@
             :fixed="option.fixed"
             :fixedNumber="option.fixedNumber"
             @realTime="realTime"
-            @imgLoad="imgLoad"
-          ></vueCropper>
+          />
         </div>
         <div class="show-preview"
              :style="{'width': previews.w + 'px', 'height': previews.h + 'px',  'overflow': 'hidden', 'margin': '5px'}">
@@ -211,7 +216,7 @@
 
       <div class="footer-btn">
         <div class="upload-btn">
-          <button @click="down('blob')" class="el-button add_btn el-button--default">确 定</button>
+          <button @click="uploadLogo" class="el-button add_btn el-button--default">确 定</button>
         </div>
       </div>
     </el-dialog>
@@ -219,7 +224,7 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
+  import {mapGetters} from 'vuex'
   import VueCropper from 'vue-cropper'
   import {getToken} from '@/common/js/auth'
   import * as Api from "@/api/api"
@@ -230,7 +235,7 @@
     components: {
       VueCropper
     },
-    computed : {
+    computed: {
       ...mapGetters([
         'sysUser'
       ])
@@ -266,10 +271,7 @@
         }
       }
       return {
-        crap: false,
-        imgurl: '',
         previews: {},
-        isLogo: true,
         option: {
           img: '',
           size: 1,
@@ -284,18 +286,16 @@
           fixed: true,
           fixedNumber: [3, 2]
         },
-        downImg: '#',
         dialogVisible: false,
         form: {
-          logo: null
+          companyQualification:''
         },
         companyCode: '',
         companyId: null,
         headers: {
           Authorization: getToken()
         },
-        fileList: [],
-        value: '',
+
         updateStatus: '',
         textMap: {
           create: '新建公司',
@@ -310,8 +310,14 @@
         provinceData: provinceAndCityData,
         cityData: [],
         rules: {
+          bug: [
+            {required: true, trigger: 'blur', message: 'bug'}
+          ],
           companyName: [
             {required: true, trigger: 'blur', message: '请输入公司名称'}
+          ],
+          companyProvince: [
+            {required: true, trigger: 'blur', message: '请选择公司所属省份'}
           ],
           companyCity: [
             {required: true, trigger: 'blur', message: '请选择公司所属地区'}
@@ -319,8 +325,11 @@
           companyAddress: [
             {required: true, trigger: 'blur', message: '请输入公司详细地址'}
           ],
+          industryType: [
+            {required: true, trigger: 'blur', message: '请选择公司行业大类'}
+          ],
           industry: [
-            {required: true, trigger: 'blur', message: '请选择公司行业'}
+            {required: true, trigger: 'blur', message: '请选择公司行业小类'}
           ],
           orgSize: [
             {required: true, trigger: 'blur', message: '请选择公司规模'}
@@ -344,48 +353,87 @@
             {required: true, trigger: 'blur', message: '请上传公司资质'}
           ]
         },
-        uploadUrl: process.env.BASE_API + '/file/upload',
-        imgUrl: process.env.BASE_API + '/file/',
+        uploadUrl: process.env.BASE_API + '/file/uploadCompanyQualification',
+        fileList: [],
       }
     },
     created() {
       let obj = this.$route.query
       if (obj && obj.id) {
         this.form = obj
+        if (this.form.companyQualification) {
+          let companyQualifications = this.form.companyQualification.split(',');
+          companyQualifications.forEach((item, index) => {
+            this.fileList[index] = new Object();
+            this.fileList[index].url = process.env.BASE_API + '/file/getCompanyQualification?fileUuid=' + item
+          })
+        }
         this.updateStatus = 'update'
       } else {
+        this.form = {
+          companyQualification:''
+        }
         this.updateStatus = 'create'
       }
       this.getOrgSize()
     },
     methods: {
+      handleExceed(files, fileList) {
+        this.$message.warning(`当前限制选择 5 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+      },
+      handleRemove(files, fileList) {
+        console.log(fileList)
+        this.fileList = fileList
+        this.form.companyQualification = ''
+        this.fileList.forEach(item => {
+          let url = item.response
+          if (!url){
+            let index = item.url.lastIndexOf('=')
+            url = item.url.substring(index + 1, item.url.length)
+          }
+          if (this.form.companyQualification) {
+            this.form.companyQualification += "," + url
+          } else {
+            this.form.companyQualification = url
+          }
+        })
+        this.$refs['form'].validateField('companyQualification')
+      },
+      uploadCompanyQualification(response, file, fileList) {
+        console.log(fileList)
+        this.fileList = fileList
+        this.form.companyQualification = ''
+        this.fileList.forEach(item => {
+          let url = item.response
+          if (!url){
+            let index = item.url.lastIndexOf('=')
+            url = item.url.substring(index + 1, item.url.length)
+          }
+          if (this.form.companyQualification) {
+            this.form.companyQualification += "," + url
+          } else {
+            this.form.companyQualification = url
+          }
+        })
+        this.$refs['form'].validateField('companyQualification')
+      },
       realTime(data) {
         this.previews = data
       },
-      down() {
+      beforeAvatarUpload(file) {
+        this.option.img = window.URL.createObjectURL(file)
+        this.dialogVisible = true
+        return false
+      },
+      uploadLogo() {
         this.$refs.cropper.getCropBlob((data) => {
-          this.downImg = window.URL.createObjectURL(data)
-          let cc = this.downImg.lastIndexOf('/')
-          this.downImg = this.downImg.substring(cc + 1, this.downImg.length)
           let formData = new FormData()
           formData.append('file', data)
-          if (this.isLogo) {
-            Api.uploadLogo(formData).then(res => {
-              this.imgurl = res.data
-              this.form.logo = process.env.BASE_API + '/file?fileUuid=' + res.data
-              this.dialogVisible = false
-            })
-          } else {
-            Api.uploadCompanyQualification(formData).then(res => {
-              this.imgurl = res.data
-              this.form.companyQualification = process.env.BASE_API + '/file/getCompanyQualification?fileUuid=' + res.data
-              this.dialogVisible = false
-              this.$refs['form'].validateField('companyQualification')
-            })
-          }
+          Api.uploadLogo(formData).then(res => {
+            this.form.logo = process.env.BASE_API + '/file?fileUuid=' + res.data
+            this.dialogVisible = false
+          })
         })
-      },
-      imgLoad(msg) {
       },
       modifyStat() {
         this.updateStatus = 'update'
@@ -410,7 +458,7 @@
         })
       },
       changeProvince(val) {
-        this.$refs['form'].validateField('companyCity')
+        this.$refs['form'].validateField('companyProvince')
         let idx = this.provinceData.findIndex((item, index) => {
           return item.label === val
         })
@@ -429,32 +477,29 @@
         this.$refs['form'].validateField('companyCity')
         this.cityData = this.cityData.slice(0)
       },
-      changeIndustry(val) {
+      changeIndustryType(val) {
+        this.$refs['form'].validateField('industryType')
         this.form.industry = ''
         Api.getAuthDustryByType(val).then(res => {
           this.coInfo.industry = res.data
         })
       },
-      changeIndustryType(val) {
+      changeIndustry(val) {
         this.$refs['form'].validateField('industry')
         this.coInfo.industry = this.coInfo.industry.slice(0)
         this.form.industry = transferIndustry(val, this.coInfo.industry)
       },
-      create(formName) {
+      create() {
+        // alert(JSON.stringify(this.form))
         let logo = this.form.logo
-        let companyQualification = this.form.companyQualification
         if (typeof this.form.industryType === 'number') {
           this.form.industryType = transferIndustry(this.form.industryType, this.coInfo.industryType)
         }
-        this.$refs[formName].validate(valid => {
+        this.$refs['form'].validate(valid => {
           if (valid) {
             if (logo) {
               let index = logo.lastIndexOf('=')
               this.form.logo = logo.substring(index + 1, logo.length)
-            }
-            if (companyQualification) {
-              let index = companyQualification.lastIndexOf('=')
-              this.form.companyQualification = companyQualification.substring(index + 1, companyQualification.length)
             }
             Api.addCompanies(this.form)
               .then(res => {
@@ -471,24 +516,19 @@
           }
         })
       },
-      update(formName) {
+      update() {
         const set = this.$refs
         let id = this.form.id || this.companyId
         let logo = this.form.logo
-        let companyQualification = this.form.companyQualification
         this.form.companyCode = this.form.companyCode || this.companyCode
         if (window.Boolean(this.form.industryType - 0)) {
           this.form.industryType = transferIndustry(this.form.industryType, this.coInfo.industryType)
         }
-        set[formName].validate(valid => {
+        set['form'].validate(valid => {
           if (valid) {
             if (logo) {
               let index = logo.lastIndexOf('=')
               this.form.logo = logo.substring(index + 1, logo.length)
-            }
-            if (companyQualification) {
-              let index = companyQualification.lastIndexOf('=')
-              this.form.companyQualification = companyQualification.substring(index + 1, companyQualification.length)
             }
             Api.putCompanies(id, this.form)
               .then(() => {
@@ -496,8 +536,6 @@
                   message: '修改成功',
                   type: 'success'
                 })
-                // this.$router.push({path: '/company'})
-                // window.history.go(-1)//这样写 有bug
                 this.$router.go(-1)
               })
           } else {
@@ -505,28 +543,10 @@
           }
         })
       },
-      cancel(formName) {
-        // this.$router.push({path: '/company'})
+      cancel() {
         this.$router.go(-1)
       },
-      handleChange(value) {
-      },
-      handleSuccess(res, file, fileList) {
-        alert('handleSuccess')
-      },
-      beforeAvatarUpload1(file) {
-        this.option.img = window.URL.createObjectURL(file)
-        this.isLogo = true
-        this.dialogVisible = true
-        return false
-      },
-      beforeAvatarUpload2(file) {
-        this.option.img = window.URL.createObjectURL(file)
-        this.isLogo = false
-        this.dialogVisible = true
-        return false
-      },
-      changeOrgSize(val) {
+      changeOrgSize() {
         this.$refs['form'].validateField('orgSize')
       }
     }
@@ -636,4 +656,5 @@
       border-color: #67c23a;
     }
   }
+
 </style>
