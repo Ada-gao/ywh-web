@@ -268,7 +268,6 @@
         this.getList()
       },
       handleFilter1() {
-        this.$refs['pushForm'].validateField('ruleId')
         delete this.listQuery.ruleName
         delete this.listQuery.date
         if (!this.listQuery.status) {

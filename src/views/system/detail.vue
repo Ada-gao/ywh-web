@@ -546,9 +546,9 @@
           this.total2 = response.data.totalElements
           this.listLoading2 = false
           this.list2.forEach(item => {
-            if (item.consumptionProduct === 'CommunicationFee'){
+            if (item.consumptionProduct === 'OutboundNameFee'){
               item.consumptionProduct = '营销线索'
-            }else if (item.consumptionProduct === 'OutboundNameFee'){
+            }else if (item.consumptionProduct === 'CommunicationFee'){
               item.consumptionProduct = '通信费'
             }
             item.money = item.money*0.01.toFixed(2)

@@ -176,13 +176,6 @@
           this.companies = res.data
         })
       },
-      changeCompany() {
-        delete this.listQuery.ruleName
-        delete this.listQuery.team
-        Api.getTeams({companyId: this.listQuery.companyId}).then(res => {
-          this.teams = res.data
-        })
-      },
       handleSizeChange (val) {
         this.listQuery.pageSize = val
         this.getList()
@@ -202,6 +195,13 @@
         }
         this.listQuery.pageIndex = 0
         this.getList()
+      },
+      changeCompany() {
+        delete this.listQuery.team
+        Api.getTeams({companyId: this.listQuery.companyId}).then(res => {
+          this.teams = res.data
+        })
+        this.handleFilter1()
       },
       handleFilter1 () {
         delete this.listQuery.ruleName
