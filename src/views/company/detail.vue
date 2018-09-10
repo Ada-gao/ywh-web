@@ -29,8 +29,10 @@
             <img :src="form.logo" v-if="form.logo" style="width: 120px; height: 80px;">
           </el-col>
           <el-col :span="22" style="margin-top: 20px">
-            <span class="detail-label" alt="" style="line-height: 80px;">公司资质:</span>
-            <img :src="form.companyQualification" v-if="form.companyQualification" style="width: 120px; height: 80px;">
+            <span class="detail-label" style="line-height: 80px;">公司资质:</span>
+            <template v-for="item in companyQualifications">
+              <img :src="item" alt="" style="width: 120px; height: 80px;margin-right: 10px;">
+            </template>
           </el-col>
           <el-col :span="22" style="margin-top: 20px"><span class="detail-label" style="line-height: normal">备注:</span><div class="detail-value" style="max-width:600px;line-height:normal;word-wrap:break-word; word-break:normal;">{{form.remark}}</div></el-col>
         </el-row>
@@ -46,7 +48,8 @@
     data () {
       return {
         form: { },
-        companyId:''
+        companyId:'',
+        companyQualifications:[]
       }
     },
     created () {
@@ -58,10 +61,13 @@
         Api.getCompanyById(this.companyId).then(res => {
           this.form = res.data
           if (this.form.logo) {
-            this.form.logo = process.env.BASE_API + '/file?fileUuid=' + res.data.logo
+            this.form.logo = process.env.BASE_API + '/file?fileUuid=' + this.form.logo
           }
           if (this.form.companyQualification) {
-            this.form.companyQualification = process.env.BASE_API + '/file/getCompanyQualification?fileUuid=' + res.data.companyQualification
+            this.companyQualifications = this.form.companyQualification.split(',');
+            this.companyQualifications.forEach((item,index)=>{
+              this.companyQualifications[index] = process.env.BASE_API + '/file/getCompanyQualification?fileUuid=' + item
+            })
           }
         })
       },
