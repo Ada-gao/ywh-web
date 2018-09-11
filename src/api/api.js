@@ -107,6 +107,9 @@ export const getFdDetail = id => axios.get('/feedback/getImg/' + id)
 export const workload = params => axios.get('/reportMgmt/workload', {params: params})
 export const getCallStatis = params => axios.get('/reportMgmt/getCallStatis', {params: params})
 export const getCallHistory = params => axios.get('/reportMgmt/getCallHistory', {params: params})
+export const excelworkload = params => axios.get('/reportMgmt/excel/workload', {params: params})
+export const excelCallStatis = params => axios.get('/reportMgmt/excel/getCallStatis', {params: params})
+export const excelCallHistory = params => axios.get('/reportMgmt/excel/getCallHistory', {params: params})
 // trial
 export const getTrial = params => axios.get('/trial/getPage', {params: params})
 // product

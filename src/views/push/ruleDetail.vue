@@ -74,7 +74,7 @@
 </template>
 
 <script>
-  import * as Api from "@/api/api"
+  import * as Api from "../../api/api"
 
   export default {
     data () {
@@ -90,7 +90,7 @@
     },
     methods: {
       getQuery () {
-        getMessage(this.form.id).then(res => {
+        Api.getMessage(this.form.id).then(res => {
           this.form = res.data
           if(this.form.nextAction === 'CALL_AGAIN'){
             this.nextAction = '继续外呼'
