@@ -43,6 +43,8 @@
               class="detail-value">{{account.accountKey}}</span></el-col>
             <el-col :span="8"><span class="detail-label">余额提醒:</span><span class="detail-value">{{(account.balanceThreshold * 0.01).toFixed(2)}}</span>
             </el-col>
+            <el-col :span="8"><span class="detail-label">余额警告值</span><span class="detail-value">{{(account.warningValue * 0.01).toFixed(2)}}</span>
+            </el-col>
           </el-row>
         </el-form>
         <div class="detail-title" style="margin-top: 22px;">
@@ -126,6 +128,11 @@
                     placeholder="选择账户到期时间"
                     :picker-options="pickerOptions0">
                   </el-date-picker>
+                </el-form-item>
+              </el-col>
+              <el-col :span="11">
+                <el-form-item label="余额警告值" prop="warningValue">
+                  <el-input v-model="accountForm.warningValue" placeholder="请输入余额警告值" maxlength="8"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -404,6 +411,18 @@
           }
         }
       }
+      const checkValue = (rule, value, callback) => {
+        var reg = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
+        if (!value) {
+          return callback(new Error('请输入余额警告值'))
+        } else {
+          if (!(reg.test(value))) {
+            callback(new Error('请输入有效金额'))
+          } else {
+            callback()
+          }
+        }
+      }
       return {
         consumeMoney:0,
         rechargeMoney:0,
@@ -448,13 +467,17 @@
           ],
           mobile: [
             {required: false, trigger: 'blur', validator: validateMobile}
+          ],
+          warningValue:[
+            {required: true, trigger: 'blur', validator: checkValue}
           ]
         },
         adminForm: {},
         accountForm:{
           accountName:'',
           balanceThreshold:'',
-          expireDate:''
+          expireDate:'',
+          warningValue:''
         },
         accountId: '',
         listLoading2: null,
@@ -608,6 +631,7 @@
         let account = JSON.parse(JSON.stringify(this.account))
         this.accountForm.accountName = account.accountName
         this.accountForm.balanceThreshold = (account.balanceThreshold*0.01).toFixed(2)
+        this.accountForm.warningValue = (account.warningValue*0.01).toFixed(2)
         if (account.expireDate){
           this.timeDefaultShow = new Date(account.expireDate)
         }
@@ -618,7 +642,6 @@
           this.account = res.data
           this.account.accountType = this.account.accountType === 'Charge' ? '付费使用' : '试用体验'
           this.account.accountStatus = this.account.accountStatus ? '生效' : '失效'
-          this.account.balanceThreshold = this.account.balanceThreshold
           if (this.account.expireDate) {
             let date = new Date(this.account.expireDate)
             let month = date.getMonth() + 1;

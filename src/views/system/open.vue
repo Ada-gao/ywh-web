@@ -86,6 +86,13 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <el-row :gutter="20">
+          <el-col :span="10">
+            <el-form-item label="余额警告值" prop="warningValue">
+              <el-input v-model="form.warningValue" placeholder="请输入余额警告值" maxlength="8"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-form>
       <el-col :span="20" slot="footer" class="dialog-footer" style="text-align: center">
         <el-button class="add_btn" @click="create('form')">提交</el-button>
@@ -145,6 +152,18 @@
           callback()
         }
       }
+      const checkValue = (rule, value, callback) => {
+        var reg = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
+        if (!value) {
+          return callback(new Error('请输入余额警告值'))
+        } else {
+          if (!(reg.test(value))) {
+            callback(new Error('请输入有效金额'))
+          } else {
+            callback()
+          }
+        }
+      }
       return {
         rules: {
           accountName: [
@@ -170,6 +189,9 @@
           ],
           companyId: [
             {required: true, trigger: 'blur', message: '请选择所属公司'}
+          ],
+          warningValue:[
+            {required: true, trigger: 'blur', validator: checkValue}
           ],
         },
         pickerOptions0: {

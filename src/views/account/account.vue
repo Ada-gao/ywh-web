@@ -52,6 +52,8 @@
         </el-col>
         <el-col :span="8">
           <span class="detail-label">key:</span><span class="detail-value">{{account.accountKey}}</span></el-col>
+        <el-col :span="8">
+          <span class="detail-label">余额警告值:</span><span class="detail-value">{{(account.warningValue * 0.01).toFixed(2)}}</span></el-col>
       </el-row>
     </el-form>
 
