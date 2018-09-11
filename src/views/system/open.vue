@@ -51,19 +51,19 @@
           </el-col>
           <el-col :span="10">
             <el-form-item label="职务">
-              <el-input v-model="form.level" placeholder="请输入职务" maxlength="20"></el-input>
+              <el-input v-model="form.level" placeholder="请输入职务" maxlength="10"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="10">
             <el-form-item label="登录账号" prop="userName">
-              <el-input v-model="form.userName" placeholder="请输入登录账号" maxlength="20"></el-input>
+              <el-input v-model="form.userName" placeholder="请输入登录账号" maxlength="50"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="10">
             <el-form-item label="登录密码" prop="passWord">
-              <el-input v-model="form.passWord" placeholder="请输入登录密码" maxlength="20"></el-input>
+              <el-input v-model="form.passWord" placeholder="请输入登录密码" maxlength="12"></el-input>
             </el-form-item>
           </el-col>
         </el-row>

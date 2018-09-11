@@ -46,7 +46,7 @@
           <span class="detail-label">Account ID:</span><span class="detail-value">{{account.accountId}}</span>
         </el-col>
         <el-col :span="8">
-          <span class="detail-label">账户到期时间:</span><span class="detail-value">{{account.expireDate}}</span></el-col>
+          <span class="detail-label">账户到期时间:</span><span class="detail-value">{{account.expireDate?account.expireDate:'长期有效'}}</span></el-col>
         <el-col :span="8">
           <span class="detail-label">账户状态:</span><span class="detail-value">{{account.accountStatus}}</span>
         </el-col>
@@ -253,12 +253,12 @@
         <el-row>
           <el-col :span="11">
             <el-form-item label="姓名" prop="name">
-              <el-input v-model="adminForm.name" placeholder="输入管理员姓名" maxlength="50"></el-input>
+              <el-input v-model="adminForm.name" placeholder="输入管理员姓名" maxlength="20"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="11">
             <el-form-item label="职务">
-              <el-input v-model="adminForm.level" placeholder="输入职务" maxlength="255"></el-input>
+              <el-input v-model="adminForm.level" placeholder="输入职务" maxlength="10"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -291,10 +291,10 @@
       <el-form :model="adminForm" :rules="adminRules" ref="updateForm" label-width="80px"
                style="margin-right: 20px;">
         <el-form-item label="姓名" prop="name" class="txt">
-          <el-input v-model="adminForm.name" placeholder="输入管理员姓名" maxlength="50"/>
+          <el-input v-model="adminForm.name" placeholder="输入管理员姓名" maxlength="20"/>
         </el-form-item>
         <el-form-item label="职务" class="txt">
-          <el-input v-model="adminForm.level" placeholder="输入职务" maxlength="255"/>
+          <el-input v-model="adminForm.level" placeholder="输入职务" maxlength="10"/>
         </el-form-item>
         <el-form-item label="联系手机" class="txt" prop="mobile">
           <el-input v-model="adminForm.mobile" placeholder="请输入联系电话" maxlength="11"/>
@@ -477,8 +477,10 @@
           this.account = response.data
           this.account.accountType = this.account.accountType === 'Charge' ? '付费使用' : '试用体验'
           this.account.accountStatus = this.account.accountStatus ? '生效' : '失效'
-          let date = new Date(this.account.expireDate)
-          this.account.expireDate = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
+          if (this.account.expireDate){
+            let date = new Date(this.account.expireDate)
+            this.account.expireDate = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
+          }
           this.company = this.account.company
           if (this.company.logo) {
             this.company.logo = process.env.BASE_API + '/file?fileUuid=' + this.company.logo

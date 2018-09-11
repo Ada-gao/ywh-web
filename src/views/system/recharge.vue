@@ -115,6 +115,10 @@
       }
     },
     created() {
+      if (this.$route.query.id) {
+        this.form.companyId = this.$route.query.id
+        this.banUpdate = true
+      }
       this.getQuery()
     },
     methods: {
@@ -122,8 +126,6 @@
         Api.getCompanies().then(res => {
           this.companies = res.data
           if (this.$route.query.id) {
-            this.form.companyId = this.$route.query.id
-            this.banUpdate = true
             this.changeCompany()
           }
         })

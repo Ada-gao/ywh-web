@@ -36,7 +36,7 @@
             <el-col :span="8"><span class="detail-label">Account ID:</span><span class="detail-value">{{account.accountId}}</span>
             </el-col>
             <el-col :span="8"><span class="detail-label">账户到期时间:</span><span
-              class="detail-value">{{account.expireDate}}</span></el-col>
+              class="detail-value">{{account.expireDate?account.expireDate:'长期有效'}}</span></el-col>
             <el-col :span="8"><span class="detail-label">账户状态:</span><span class="detail-value">{{accountStatus? '生效' : '失效'}}</span>
             </el-col>
             <el-col :span="8"><span class="detail-label">key:</span><span
@@ -131,7 +131,7 @@
             </el-row>
             <div style="text-align: right">
               <el-button class="search_btn" @click="updateAccountDialog = false">取 消</el-button>
-              <el-button class="add_btn" @click="updateAccount('accountForm')">确 定</el-button>
+              <el-button class="add_btn" @click="updateAccount">确 定</el-button>
             </div>
           </el-form>
         </el-dialog>
@@ -140,12 +140,12 @@
             <el-row>
               <el-col :span="11">
                 <el-form-item label="姓名" prop="name">
-                  <el-input v-model="adminForm.name" placeholder="输入管理员姓名" maxlength="50"></el-input>
+                  <el-input v-model="adminForm.name" placeholder="输入管理员姓名" maxlength="20"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="11">
                 <el-form-item label="职务">
-                  <el-input v-model="adminForm.level" placeholder="输入职务" maxlength="255"></el-input>
+                  <el-input v-model="adminForm.level" placeholder="输入职务" maxlength="10"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -178,10 +178,10 @@
           <el-form :model="adminForm" :rules="adminRules" ref="updateForm" label-width="80px"
                    style="margin-right: 20px;">
             <el-form-item label="姓名" prop="name" class="txt">
-              <el-input v-model="adminForm.name" placeholder="输入管理员姓名" maxlength="50"/>
+              <el-input v-model="adminForm.name" placeholder="输入管理员姓名" maxlength="20"/>
             </el-form-item>
             <el-form-item label="职务" class="txt">
-              <el-input v-model="adminForm.level" placeholder="输入职务" maxlength="255"/>
+              <el-input v-model="adminForm.level" placeholder="输入职务" maxlength="10"/>
             </el-form-item>
             <el-form-item label="联系手机" class="txt" prop="mobile">
               <el-input v-model="adminForm.mobile" placeholder="请输入联系电话" maxlength="11"/>
@@ -189,7 +189,7 @@
           </el-form>
           <div style="text-align: right">
             <el-button class="search_btn" @click="updateInfoDialog = false">取 消</el-button>
-            <el-button class="add_btn" @click="updateUsers('updateForm')">确 定</el-button>
+            <el-button class="add_btn" @click="updateUsers">确 定</el-button>
           </div>
         </el-dialog>
         <el-dialog title="修改密码" :visible.sync="updatePwdDialog" width="30%">
@@ -201,7 +201,7 @@
           </el-form>
           <div style="text-align: right">
             <el-button class="search_btn" @click="updatePwdDialog = false">取 消</el-button>
-            <el-button class="add_btn" @click="resetPassword('pwdForm')">确 定</el-button>
+            <el-button class="add_btn" @click="resetPassword">确 定</el-button>
           </div>
         </el-dialog>
       </div>
@@ -451,7 +451,11 @@
           ]
         },
         adminForm: {},
-        accountForm:{},
+        accountForm:{
+          accountName:'',
+          balanceThreshold:'',
+          expireDate:''
+        },
         accountId: '',
         listLoading2: null,
         list2: null,
@@ -598,10 +602,11 @@
         this.$router.push({name: 'recharge',query:this.form})
       },
       modifyStat(){
-        this.accountForm.accountName = this.account.accountName
-        this.accountForm.balanceThreshold = (this.account.balanceThreshold*0.01).toFixed(2)
-        if (this.account.expireDate){
-          this.timeDefaultShow = new Date(this.account.expireDate)
+        let account = JSON.parse(JSON.stringify(this.account))
+        this.accountForm.accountName = account.accountName
+        this.accountForm.balanceThreshold = (account.balanceThreshold*0.01).toFixed(2)
+        if (account.expireDate){
+          this.timeDefaultShow = new Date(account.expireDate)
         }
         this.updateAccountDialog = true
       },
@@ -670,8 +675,8 @@
           }
         })
       },
-      resetPassword(formName) {
-        this.$refs[formName].validate((valid) => {
+      resetPassword() {
+        this.$refs['pwdForm'].validate((valid) => {
           if (valid) {
             Api.resetPWD(this.adminForm.id, this.adminForm.password).then(res => {
               this.$message({
@@ -685,8 +690,8 @@
           }
         })
       },
-      updateUsers(formName) {
-        this.$refs[formName].validate((valid) => {
+      updateUsers() {
+        this.$refs['updateForm'].validate((valid) => {
           if (valid) {
             Api.updateUsers(this.adminForm.id, this.adminForm).then(res => {
               this.$message({
@@ -701,8 +706,8 @@
           }
         })
       },
-      updateAccount(formName) {
-        this.$refs[formName].validate((valid) => {
+      updateAccount() {
+        this.$refs['accountForm'].validate((valid) => {
           if (valid) {
             this.accountForm.expireDate = this.timeDefaultShow
             Api.updateAccount(this.accountId, this.accountForm).then(res => {
