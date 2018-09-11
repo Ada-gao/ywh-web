@@ -259,14 +259,36 @@
         this.getList()
       },
       handleExport(){
-        var wb = XLSX.utils.table_to_book(document.querySelector('#consumeTable'))
-        var wbout = XLSX.write(wb, {bookType: 'xlsx', bookSST: true, type: 'array'})
-        try {
-          FileSaver.saveAs(new Blob([wbout], {type: 'application/octet-stream'}), '历史通话记录列表.xlsx')
-        } catch (e) {
-          if (typeof console !== 'undefined') console.log(e, wbout)
-        }
-        return wbout
+        let query = JSON.parse(JSON.stringify(this.listQuery))
+        query.pageIndex = 0
+        query.pageSize = this.total
+        Api.getCallHistory(query).then(response => {
+          let data = response.data.content
+          let list = []
+          data.forEach((item,index) => {
+            let obj = new Object()
+            obj.销售名称 = item[0];
+            obj.所属公司 = item[1];
+            obj.所属账户 = item[2];
+            obj.所属团队 = item[3];
+            obj.拨打类型 = item[4];
+            obj.拨打号码 = item[5];
+            obj.客户名称 = item[6];
+            obj.外呼结果 = item[7]
+            obj.下一步行动计划 = item[8];
+            obj.有效通话时长 = item[9];
+            obj.拨打时间 = item[10]
+            list[index] = obj
+          })
+          const wb = { SheetNames: ['Sheet1'], Sheets: {}, Props: {} };
+          wb.Sheets['Sheet1'] = XLSX.utils.json_to_sheet(list);
+          var wbout = XLSX.write(wb, {bookType: 'xlsx', bookSST: true, type: 'array'})
+          try {
+            FileSaver.saveAs(new Blob([wbout], {type: 'application/octet-stream'}), '历史通话记录列表.xlsx')
+          } catch (e) {
+            if (typeof console !== 'undefined') console.log(e, wbout)
+          }
+        })
       },
     }
   }

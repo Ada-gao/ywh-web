@@ -157,14 +157,29 @@
         this.getList()
       },
       handleExport(){
-        var wb = XLSX.utils.table_to_book(document.querySelector('#consumeTable'))
-        var wbout = XLSX.write(wb, {bookType: 'xlsx', bookSST: true, type: 'array'})
-        try {
-          FileSaver.saveAs(new Blob([wbout], {type: 'application/octet-stream'}), '话务列表.xlsx')
-        } catch (e) {
-          if (typeof console !== 'undefined') console.log(e, wbout)
-        }
-        return wbout
+        let query = JSON.parse(JSON.stringify(this.listQuery))
+        query.pageIndex = 0
+        query.pageSize = this.total
+        Api.getCallStatis(query).then(response => {
+          let data = response.data.content
+          let list = []
+          data.forEach((item,index) => {
+            let obj = new Object()
+            obj.所属公司 = item[0];
+            obj.所属账户 = item[1];
+            obj.拨打类型 = item[2] === 'NATIVE' ?'原生拨打' :'第三方拨打';
+            obj.累计拨打时长 = item[3];
+            list[index] = obj
+          })
+          const wb = { SheetNames: ['Sheet1'], Sheets: {}, Props: {} };
+          wb.Sheets['Sheet1'] = XLSX.utils.json_to_sheet(list);
+          var wbout = XLSX.write(wb, {bookType: 'xlsx', bookSST: true, type: 'array'})
+          try {
+            FileSaver.saveAs(new Blob([wbout], {type: 'application/octet-stream'}), '话务列表.xlsx')
+          } catch (e) {
+            if (typeof console !== 'undefined') console.log(e, wbout)
+          }
+        })
       },
     }
   }
