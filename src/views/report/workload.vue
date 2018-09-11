@@ -9,6 +9,7 @@
                     placeholder="输入销售名称"
                     v-model="listQuery.saleName"/>
           <el-input @keyup.enter.native="handleFilter"
+                    v-if="sysUser === 'superadmin'"
                     style="width: 200px;"
                     class="filter-item"
                     placeholder="输入所属公司名称"
@@ -22,6 +23,7 @@
         <el-col :span="10" style="text-align: right;">
           <el-select v-model="listQuery.accountId"
                      placeholder="所属账户"
+                     :disabled="sysUser === 'superadmin'?false:true"
                      clearable
                      @change="handleFilter1">
             <el-option
@@ -127,7 +129,8 @@
   export default {
     computed : {
       ...mapGetters([
-        'getUserInfo'
+        'getUserInfo',
+        'sysUser'
       ])
     },
     data() {
@@ -147,6 +150,9 @@
     created() {
       this.getList()
       this.getQuery()
+      if (this.getUserInfo.accountId) {
+        this.listQuery.accountId = this.getUserInfo.accountId
+      }
     },
     methods: {
       getList() {
@@ -190,7 +196,9 @@
         this.getList()
       },
       handleFilter() {
-        delete this.listQuery.accountId
+        if (this.sysUser === 'superadmin'){
+          delete this.listQuery.accountId
+        }
         delete this.listQuery.team
         if (!this.listQuery.saleName) {
           delete this.listQuery.saleName

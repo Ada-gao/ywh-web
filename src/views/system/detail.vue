@@ -602,6 +602,9 @@
         this.$router.push({name: 'recharge',query:this.form})
       },
       modifyStat(){
+        if (this.$refs['accountForm']){
+          this.$refs['accountForm'].resetFields()
+        }
         let account = JSON.parse(JSON.stringify(this.account))
         this.accountForm.accountName = account.accountName
         this.accountForm.balanceThreshold = (account.balanceThreshold*0.01).toFixed(2)

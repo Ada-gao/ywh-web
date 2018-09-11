@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="filter-container">
+    <div class="filter-container" v-if="sysUser === 'superadmin'">
       <el-row>
         <el-col :span="14">
           <el-input @keyup.enter.native="handleFilter"
@@ -86,7 +86,8 @@
   export default {
     computed : {
       ...mapGetters([
-        'getUserInfo'
+        'getUserInfo',
+        'sysUser'
       ])
     },
     data() {
