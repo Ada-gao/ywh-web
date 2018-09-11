@@ -145,11 +145,10 @@
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="20">
+          <el-col :span="20" v-show="sysUser === 'superadmin'">
             <el-form-item label="公司资质" prop="companyQualification">
               <el-input v-model="form.companyQualification" v-show="false" disabled/>
               <el-upload
-                v-if="sysUser === 'superadmin'"
                 class="upload-demo"
                 :action="uploadUrl"
                 :headers="headers"
