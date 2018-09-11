@@ -293,7 +293,7 @@
           <template slot-scope="scope">{{scope.row.createTime}}</template>
         </el-table-column>
         <el-table-column align="center" label="消费状态">
-          <template slot-scope="scope">{{scope.row.status?'消费成功':'消费失败'}}</template>
+          <template slot-scope="scope">{{scope.row.status}}</template>
         </el-table-column>
         <el-table-column align="center" label="操作人">
           <template slot-scope="scope">{{scope.row.userName}}</template>
@@ -324,13 +324,13 @@
           <template slot-scope="scope">{{scope.row.rechargeCode}}</template>
         </el-table-column>
         <el-table-column align="center" label="充值金额">
-          <template slot-scope="scope">{{(scope.row.money * 0.01).toFixed(2)}}</template>
+          <template slot-scope="scope">{{scope.row.money}}</template>
         </el-table-column>
         <el-table-column align="center" label="充值时间" >
           <template slot-scope="scope">{{scope.row.createTime}}</template>
         </el-table-column>
         <el-table-column align="center" label="充值状态">
-          <template slot-scope="scope">{{scope.row.status?'充值成功':'充值失败'}}</template>
+          <template slot-scope="scope">{{scope.row.status}}</template>
         </el-table-column>
         <el-table-column align="center" label="操作人">
           <template slot-scope="scope">{{scope.row.userName}}</template>
@@ -575,6 +575,11 @@
           this.total2 = response.data.totalElements
           this.listLoading2 = false
           this.list2.forEach(item => {
+            if (item.status){
+                item.status = '消费成功'
+            } else{
+              item.status = '消费失败'
+            }
             if (item.consumptionProduct === 'OutboundNameFee'){
               item.consumptionProduct = '营销线索'
             }else if (item.consumptionProduct === 'CommunicationFee'){
@@ -593,30 +598,73 @@
           this.total3 = response.data.totalElements
           this.listLoading3 = false
           this.list3.forEach(item => {
+            item.money = (item.money * 0.01).toFixed(2)
+            if (item.status){
+              item.status = '充值成功'
+            } else{
+              item.status = '充值失败'
+            }
             let date = new Date(item.createTime)
             item.createTime = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() + ' ' +date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
           })
         })
       },
       handleExport(){
-        var wb = XLSX.utils.table_to_book(document.querySelector('#consumeTable'))
-        var wbout = XLSX.write(wb, {bookType: 'xlsx', bookSST: true, type: 'array'})
-        try {
-          FileSaver.saveAs(new Blob([wbout], {type: 'application/octet-stream'}), '消费记录列表.xlsx')
-        } catch (e) {
-          if (typeof console !== 'undefined') console.log(e, wbout)
-        }
-        return wbout
+        let query = JSON.parse(JSON.stringify(this.listQuery2))
+        query.pageIndex = 0
+        query.pageSize = this.total2
+        Api.getConsumptionPage(this.accountId,query).then(response => {
+          let list = response.data.content
+          list.forEach(item => {
+            if (item.status){
+              item.status = '消费成功'
+            } else{
+              item.status = '消费失败'
+            }
+            if (item.consumptionProduct === 'OutboundNameFee'){
+              item.consumptionProduct = '营销线索'
+            }else if (item.consumptionProduct === 'CommunicationFee'){
+              item.consumptionProduct = '通信费'
+            }
+            item.money = item.money*0.01.toFixed(2)
+            let date = new Date(item.createTime)
+            item.createTime = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() + ' ' +date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
+          })
+          const wb = { SheetNames: ['Sheet1'], Sheets: {}, Props: {} };
+          wb.Sheets['Sheet1'] = XLSX.utils.json_to_sheet(list);
+          var wbout = XLSX.write(wb, {bookType: 'xlsx', bookSST: true, type: 'array'})
+          try {
+            FileSaver.saveAs(new Blob([wbout], {type: 'application/octet-stream'}), '消费记录列表.xlsx')
+          } catch (e) {
+            if (typeof console !== 'undefined') console.log(e, wbout)
+          }
+        })
       },
       handleExportRecharge(){
-        var wb = XLSX.utils.table_to_book(document.querySelector('#rechargeTable'))
-        var wbout = XLSX.write(wb, {bookType: 'xlsx', bookSST: true, type: 'array'})
-        try {
-          FileSaver.saveAs(new Blob([wbout], {type: 'application/octet-stream'}), '充值记录列表.xlsx')
-        } catch (e) {
-          if (typeof console !== 'undefined') console.log(e, wbout)
-        }
-        return wbout
+        let query = JSON.parse(JSON.stringify(this.listQuery3))
+        query.pageIndex = 0
+        query.pageSize = this.total3
+        Api.getRechargePageById(this.accountId,query).then(response => {
+          let list = response.data.content
+          list.forEach(item => {
+            item.money = (item.money * 0.01).toFixed(2)
+            if (item.status){
+              item.status = '充值成功'
+            } else{
+              item.status = '充值失败'
+            }
+            let date = new Date(item.createTime)
+            item.createTime = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() + ' ' +date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
+          })
+          const wb = { SheetNames: ['Sheet1'], Sheets: {}, Props: {} };
+          wb.Sheets['Sheet1'] = XLSX.utils.json_to_sheet(list);
+          var wbout = XLSX.write(wb, {bookType: 'xlsx', bookSST: true, type: 'array'})
+          try {
+            FileSaver.saveAs(new Blob([wbout], {type: 'application/octet-stream'}), '充值记录列表.xlsx')
+          } catch (e) {
+            if (typeof console !== 'undefined') console.log(e, wbout)
+          }
+        })
       },
       handleUpdate(){
         this.$router.push({path: '/company/create', query: this.form})

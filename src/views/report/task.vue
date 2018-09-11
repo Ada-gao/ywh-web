@@ -120,6 +120,7 @@
   import FileSaver from 'file-saver'
   import XLSX from 'xlsx'
   import * as Api from "@/api/api"
+  import {replaceKey} from '@/common/js/util'
   export default {
     computed : {
       ...mapGetters([
@@ -213,14 +214,32 @@
         this.getList()
       },
       handleExport(){
-        var wb = XLSX.utils.table_to_book(document.querySelector('#consumeTable'))
-        var wbout = XLSX.write(wb, {bookType: 'xlsx', bookSST: true, type: 'array'})
-        try {
-          FileSaver.saveAs(new Blob([wbout], {type: 'application/octet-stream'}), '外呼任务列表.xlsx')
-        } catch (e) {
-          if (typeof console !== 'undefined') console.log(e, wbout)
-        }
-        return wbout
+        let query = JSON.parse(JSON.stringify(this.listQuery))
+        query.pageIndex = 0
+        query.pageSize = this.total
+        Api.getAdminTasks(query).then(response => {
+          let list = response.data.content
+          list.forEach(item => {
+            let date = new Date(item.taskEndDate)
+            let month = date.getMonth() + 1;
+            let day = date.getDate();
+            item.taskEndDate = date.getFullYear() + '-' + (month < 10 ? '0' : '') + month + '-' + (day < 10 ? '0' : '') + day
+
+
+            // item.任务名称 = item.taskName
+            // delete item.id
+            // delete item.taskName
+            alert(JSON.stringify(item))
+          })
+          const wb = { SheetNames: ['Sheet1'], Sheets: {}, Props: {} };
+          wb.Sheets['Sheet1'] = XLSX.utils.json_to_sheet(list);
+          var wbout = XLSX.write(wb, {bookType: 'xlsx', bookSST: true, type: 'array'})
+          try {
+            FileSaver.saveAs(new Blob([wbout], {type: 'application/octet-stream'}), '外呼任务列表.xlsx')
+          } catch (e) {
+            if (typeof console !== 'undefined') console.log(e, wbout)
+          }
+        })
       },
     }
   }
