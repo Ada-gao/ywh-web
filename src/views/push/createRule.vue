@@ -201,10 +201,10 @@
           '≥', '<'
         ],
         status: [
-          {
-            label: '未外呼',
-            value: 'NOT_CALL'
-          },
+          // {
+          //   label: '未外呼',
+          //   value: 'NOT_CALL'
+          // },
           {
             label: '空号',
             value: 'NOT_EXIST'

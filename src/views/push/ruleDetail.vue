@@ -47,7 +47,7 @@
         <el-row v-show="form.triggerScene === '外呼后'">
           <el-col :span="8">
             <el-form-item label="有效通话时长（秒）：">
-              <span>{{form.lessOrGreater + form.duration}}</span>
+              <span>{{form.duration ?form.lessOrGreater + form.duration:''}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
