@@ -277,6 +277,10 @@
         this.getList()
       },
       handleExport(){
+        if (this.total === 0){
+          this.$message.warning(`查询当前列表为空`);
+          return
+        }
         let query = JSON.parse(JSON.stringify(this.listQuery))
         query.pageIndex = 0
         query.pageSize = this.total

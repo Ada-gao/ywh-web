@@ -610,6 +610,10 @@
         })
       },
       handleExport(){
+        if (this.total2 === 0){
+          this.$message.warning(`查询当前列表为空`);
+          return
+        }
         let query = JSON.parse(JSON.stringify(this.listQuery2))
         query.pageIndex = 0
         query.pageSize = this.total2
@@ -650,6 +654,10 @@
         })
       },
       handleExportRecharge(){
+        if (this.total3 === 0){
+          this.$message.warning(`查询当前列表为空`);
+          return
+        }
         let query = JSON.parse(JSON.stringify(this.listQuery3))
         query.pageIndex = 0
         query.pageSize = this.total3
