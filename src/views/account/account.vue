@@ -99,7 +99,7 @@
 
     <div class="detail-title" style="margin-top: 22px;">
       <span class="list-tit">消费记录</span>
-      <el-button class="add_btn" @click="exportExcel('#consumeTable','消费记录列表.xlsx')">
+      <el-button class="add_btn" @click="handleExport">
         <i class="iconfont icon-piliangdaochu" style="color: #fff;margin-right: 10px"></i>批量导出
       </el-button>
     </div>
@@ -138,7 +138,7 @@
 
     <div class="detail-title" style="margin-top: 22px;">
       <span class="list-tit">充值记录</span>
-      <el-button class="add_btn" @click="exportExcel('#rechargeTable','充值记录列表.xlsx')">
+      <el-button class="add_btn" @click="handleExportRecharge">
         <i class="iconfont icon-piliangdaochu" style="color: #fff;margin-right: 10px"></i>批量导出
       </el-button>
     </div>
@@ -464,15 +464,89 @@
       this.getLoginInfo()
     },
     methods: {
-      exportExcel(id, name){
-        var wb = XLSX.utils.table_to_book(document.querySelector(id))
+      handleExport(){
+        let query = JSON.parse(JSON.stringify(this.listQuery2))
+        query.pageIndex = 0
+        query.pageSize = this.total2
+        Api.getConsumptionPage(this.accountId,query).then(response => {
+          let list = response.data.content
+          list.forEach(item => {
+            if (item.status){
+              item.status = '消费成功'
+            } else{
+              item.status = '消费失败'
+            }
+            if (item.consumptionProduct === 'OutboundNameFee'){
+              item.consumptionProduct = '营销线索'
+            }else if (item.consumptionProduct === 'CommunicationFee'){
+              item.consumptionProduct = '通信费'
+            }
+            item.money = item.money*0.01.toFixed(2)
+            let date = new Date(item.createTime)
+            item.createTime = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() + ' ' +date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
+            item.消费流水号 = item.consumptionCode
+            item.消费产品 = item.consumptionProduct
+            item.消费内容 = item.name
+            item.消费金额 = item.money
+            item.消费时间 = item.createTime
+            item.充值状态 = item.status
+            item.操作人 = item.userName
+            delete item.id
+            delete item.createTime
+            delete item.consumptionCode
+            delete item.consumptionProduct
+            delete item.name
+            delete item.money
+            delete item.status
+            delete item.userId
+            delete item.userName
+          })
+          this.exportExcel(list,'消费记录列表.xlsx')
+        })
+      },
+      handleExportRecharge(){
+        let query = JSON.parse(JSON.stringify(this.listQuery3))
+        query.pageIndex = 0
+        query.pageSize = this.total3
+        Api.getRechargePageById(this.accountId,query).then(response => {
+          let list = response.data.content
+          list.forEach(item => {
+            item.money = (item.money * 0.01).toFixed(2)
+            if (item.status){
+              item.status = '充值成功'
+            } else{
+              item.status = '充值失败'
+            }
+            let date = new Date(item.createTime)
+            item.createTime = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() + ' ' +date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
+            item.充值编号 = item.rechargeCode
+            item.充值金额 = item.money
+            item.充值时间 = item.createTime
+            item.充值状态 = item.status
+            item.操作人 = item.userName
+            delete item.rechargeCode
+            delete item.money
+            delete item.status
+            delete item.userId
+            delete item.userName
+            delete item.createTime
+            delete item.remark
+            delete item.accountName
+            delete item.companyName
+            delete item.accountType
+          })
+          this.exportExcel(list,'充值记录列表.xlsx')
+        })
+      },
+      exportExcel(list, name){
+        const wb = { SheetNames: ['Sheet1'], Sheets: {}, Props: {} };
+        wb.Sheets['Sheet1'] = XLSX.utils.json_to_sheet(list);
         var wbout = XLSX.write(wb, {bookType: 'xlsx', bookSST: true, type: 'array'})
         try {
           FileSaver.saveAs(new Blob([wbout], {type: 'application/octet-stream'}), name)
         } catch (e) {
           if (typeof console !== 'undefined') console.log(e, wbout)
         }
-        return wbout
       },
       getCompany() {
         Api.accountCompany(this.accountId).then(response => {

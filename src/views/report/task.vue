@@ -154,6 +154,7 @@
           this.total = response.data.totalElements
           this.listLoading = false
           this.list.forEach(item => {
+            item.taskCompleteRate = item.taskCompleteRate + '%'
             let date = new Date(item.taskEndDate)
             let month = date.getMonth() + 1;
             let day = date.getDate();
@@ -230,7 +231,7 @@
             item.所属团队 = item.team
             item.名单名称 = item.groupName
             item.完成数 = item.totalTaskCompleteCnt
-            item.完成率 = item.taskCompleteRate
+            item.完成率 = item.taskCompleteRate + '%'
             item.任务计划完成时间 = item.taskEndDate
             delete item.productName
             delete item.limitedTimes

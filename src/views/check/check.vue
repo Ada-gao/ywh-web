@@ -424,12 +424,12 @@
                   type: 'success'
                 })
                 this.getList()
+                this.updateStatusDialog = false
               })
           } else {
             return false
           }
         })
-        this.updateStatusDialog = false
       }
     }
   }

@@ -193,12 +193,30 @@
           this.listLoading = false
           this.list  = []
           data.forEach((item,index) => {
+            if(item[7] === 'NOT_CALL'){
+              item[7] = '未外呼'
+            }else if(item[7] === 'NOT_EXIST'){
+              item[7] = '空号'
+            }else if(item[7] === 'UNCONNECTED'){
+              item[7] = '未接通'
+            }else if(item[7] === 'CONNECTED'){
+              item[7] = '已接通'
+            }
+            if(item[8] === 'CALL_AGAIN'){
+              item[8] = '继续外呼'
+            }else if(item[8] === 'GIVE_UP'){
+              item[8] = '放弃外呼'
+            }else if(item[8] === 'FOLLOW'){
+              item[8] = '继续跟进'
+            }
+            let date = new Date(item[10])
+            item[10] = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() + ' ' +date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
             let obj = new Object()
             obj.name = item[0];
             obj.companyName = item[1];
             obj.accountName = item[2];
             obj.team = item[3];
-            obj.callType = item[4];
+            obj.callType = item[4] === 'NATIVE' ?'原生拨打' :'第三方拨打';
             obj.phoneNo = item[5];
             obj.contactName = item[6];
             obj.result = item[7]
@@ -266,12 +284,30 @@
           let data = response.data.content
           let list = []
           data.forEach((item,index) => {
+            if(item[7] === 'NOT_CALL'){
+              item[7] = '未外呼'
+            }else if(item[7] === 'NOT_EXIST'){
+              item[7] = '空号'
+            }else if(item[7] === 'UNCONNECTED'){
+              item[7] = '未接通'
+            }else if(item[7] === 'CONNECTED'){
+              item[7] = '已接通'
+            }
+            if(item[8] === 'CALL_AGAIN'){
+              item[8] = '继续外呼'
+            }else if(item[8] === 'GIVE_UP'){
+              item[8] = '放弃外呼'
+            }else if(item[8] === 'FOLLOW'){
+              item[8] = '继续跟进'
+            }
+            let date = new Date(item[10])
+            item[10] = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() + ' ' +date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
             let obj = new Object()
             obj.销售名称 = item[0];
             obj.所属公司 = item[1];
             obj.所属账户 = item[2];
             obj.所属团队 = item[3];
-            obj.拨打类型 = item[4];
+            obj.拨打类型 = item[4] === 'NATIVE' ?'原生拨打' :'第三方拨打';
             obj.拨打号码 = item[5];
             obj.客户名称 = item[6];
             obj.外呼结果 = item[7]
