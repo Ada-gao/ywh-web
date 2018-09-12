@@ -122,7 +122,7 @@
         <el-row :gutter="20">
           <el-col :span="10">
             <el-form-item label="企业微信" prop="wechatNo">
-              <el-input v-model="form.wechatNo" placeholder="请输入企业微信" maxlength="20"></el-input>
+              <el-input v-model="form.wechatNo" placeholder="请输入企业微信" maxlength="100"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -260,7 +260,7 @@
       }
       const validateWechatNo = (rule, value, callback) => {
         if (value) {
-          if (value.length < 6 || value.length > 20) {
+          if (value.length < 6 || value.length > 100) {
             callback(new Error('请输入正确的企业微信'))
           } else {
             callback()
