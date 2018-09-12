@@ -408,7 +408,9 @@
         this.resetForm()
       },
       resetForm(){
-        this.$refs['checkForm'].resetFields();
+        if (this.$refs['checkForm'] !== undefined) {
+          this.$refs['checkForm'].resetFields();
+        }
       },
       handlerCheck() {
         let status = '1'

@@ -131,11 +131,16 @@
           </el-radio>
         </el-form-item>
         <el-form-item prop="delayMinute">
-          <el-radio v-model="pushForm.sendOccasion" label="Stop">
+          <el-radio v-model="pushForm.sendOccasion" label="DelayMinute">
             通话结束后
             <el-input v-model="pushForm.delayMinute" style="width: 80px;margin-left: 10px;margin-right: 10px;"
                       maxlength="6"/>
             分后发送
+          </el-radio>
+        </el-form-item>
+        <el-form-item v-show="title === '编辑推送'">
+          <el-radio v-model="pushForm.sendOccasion" label="Stop"
+                    @change="$refs['pushForm'].validateField('delayMinute')">停止发送
           </el-radio>
         </el-form-item>
         <div style="text-align: right;margin-top: 30px;">
@@ -153,7 +158,7 @@
   export default {
     data() {
       const checkNumber = (rule, value, callback) => {
-        if (this.pushForm.sendOccasion === 'Stop') {
+        if (this.pushForm.sendOccasion === 'DelayMinute') {
           if (!value) {
             return callback(new Error('请输入时长'))
           } else {
@@ -289,7 +294,7 @@
           target: this.pushItem.target,
           ruleId: this.pushItem.ruleId,
           sendOccasion: this.pushItem.sendOccasion,
-          delayMinute: this.pushItem.sendOccasion==='Stop'?this.pushItem.delayMinute:'',
+          delayMinute: this.pushItem.sendOccasion==='DelayMinute'?this.pushItem.delayMinute:'',
         }
       },
       handleCreate() {
@@ -306,7 +311,7 @@
       createPush() {
         this.$refs['pushForm'].validate(valid => {
           if (valid) {
-            if (this.pushForm.sendOccasion != 'Stop') {
+            if (this.pushForm.sendOccasion != 'DelayMinute') {
               delete this.pushForm.delayMinute
             }
             if (this.title === '新建推送') {
