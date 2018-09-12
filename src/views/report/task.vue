@@ -224,12 +224,25 @@
             let month = date.getMonth() + 1;
             let day = date.getDate();
             item.taskEndDate = date.getFullYear() + '-' + (month < 10 ? '0' : '') + month + '-' + (day < 10 ? '0' : '') + day
-
-
-            // item.任务名称 = item.taskName
-            // delete item.id
-            // delete item.taskName
-            alert(JSON.stringify(item))
+            item.任务名称 = item.taskName
+            item.推广产品 = item.productName
+            item.所属公司 = item.companyName
+            item.所属团队 = item.team
+            item.名单名称 = item.groupName
+            item.完成数 = item.totalTaskCompleteCnt
+            item.完成率 = item.taskCompleteRate
+            item.任务计划完成时间 = item.taskEndDate
+            delete item.productName
+            delete item.limitedTimes
+            delete item.team
+            delete item.companyName
+            delete item.taskEndDate
+            delete item.totalTaskCompleteCnt
+            delete item.totalTaskCnt
+            delete item.taskCompleteRate
+            delete item.groupName
+            delete item.taskName
+            delete item.id
           })
           const wb = { SheetNames: ['Sheet1'], Sheets: {}, Props: {} };
           wb.Sheets['Sheet1'] = XLSX.utils.json_to_sheet(list);

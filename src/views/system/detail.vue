@@ -629,6 +629,22 @@
             item.money = item.money*0.01.toFixed(2)
             let date = new Date(item.createTime)
             item.createTime = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() + ' ' +date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
+            item.消费流水号 = item.consumptionCode
+            item.消费产品 = item.consumptionProduct
+            item.消费内容 = item.name
+            item.消费金额 = item.money
+            item.消费时间 = item.createTime
+            item.充值状态 = item.status
+            item.操作人 = item.userName
+            delete item.id
+            delete item.createTime
+            delete item.consumptionCode
+            delete item.consumptionProduct
+            delete item.name
+            delete item.money
+            delete item.status
+            delete item.userId
+            delete item.userName
           })
           const wb = { SheetNames: ['Sheet1'], Sheets: {}, Props: {} };
           wb.Sheets['Sheet1'] = XLSX.utils.json_to_sheet(list);
@@ -655,6 +671,21 @@
             }
             let date = new Date(item.createTime)
             item.createTime = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() + ' ' +date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
+            item.充值编号 = item.rechargeCode
+            item.充值金额 = item.money
+            item.充值时间 = item.createTime
+            item.充值状态 = item.status
+            item.操作人 = item.userName
+            delete item.rechargeCode
+            delete item.money
+            delete item.status
+            delete item.userId
+            delete item.userName
+            delete item.createTime
+            delete item.remark
+            delete item.accountName
+            delete item.companyName
+            delete item.accountType
           })
           const wb = { SheetNames: ['Sheet1'], Sheets: {}, Props: {} };
           wb.Sheets['Sheet1'] = XLSX.utils.json_to_sheet(list);

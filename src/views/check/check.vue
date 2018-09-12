@@ -230,7 +230,7 @@
             value: 'OutboundName'
           },
           {
-            label: '短信模板',
+            label: '推送规则',
             value: 'SmsTemplate'
           }
         ],
