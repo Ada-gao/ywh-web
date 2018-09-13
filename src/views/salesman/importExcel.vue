@@ -18,7 +18,8 @@
         <el-row :gutter="20">
           <el-col :span="11" :offset="6">
             <el-form-item label="所属公司" prop="companyId">
-              <el-select v-model="form.companyId" placeholder="请选择所属公司" style="width: 100%" :disabled="isSuperAdmin !== 'true'">
+              <el-select v-model="form.companyId" placeholder="请选择所属公司" style="width: 100%"
+                         :disabled="isSuperAdmin !== 'true'">
                 <el-option
                   v-for="item in companies"
                   :key="item.id"
@@ -76,6 +77,7 @@
   import UploadExcelComponent from '@/components/uploadExcel.vue'
   import * as Api from "@/api/api"
   import {replaceKey} from '@/common/js/util'
+
   export default {
     name: 'uploadExcel',
     components: {UploadExcelComponent},
@@ -101,7 +103,7 @@
             {required: true, message: '请选择上传文件', trigger: 'blur,change'}
           ]
         },
-        isSuperAdmin:'false',
+        isSuperAdmin: 'false',
       }
     },
     created() {
@@ -129,6 +131,7 @@
         if (this.tableHeader[0] === '销售姓名' && this.tableHeader[1] === '所属团队' && this.tableHeader[2] === '对应职级' && this.tableHeader[3] === '手机号' && this.tableHeader[4] === '用户名' && this.tableHeader[5] === '微信号' && this.tableHeader[6] === '密码') {
           this.errorData = []
           let index = 0
+          let mobileList = []
           for (let i = 0; i < this.tableData.length; i++) {
             if (!this.tableData[i].销售姓名) {
               this.errorData[index] = new Object()
@@ -173,6 +176,14 @@
               this.errorData[index].错误行 = i + 2
               this.errorData[index].错误项 = '手机号（不合法）'
               index++
+            } else {
+              let indexOf = mobileList.indexOf(this.tableData[i].手机号)
+              if (indexOf != -1) {
+                this.errorData[index] = new Object()
+                this.errorData[index].错误行 = i + 2
+                this.errorData[index].错误项 = '手机号（与第' + (indexOf + 2) + '行重复）'
+                index++
+              }
             }
             if (!this.tableData[i].用户名) {
               this.errorData[index] = new Object()
@@ -229,6 +240,7 @@
               this.errorData[index].错误项 = '密码（只能是数字和字母组合）'
               index++
             }
+            mobileList[i] = this.tableData[i].手机号
           }
           if (this.errorData.length > 0) {
             this.checkSuccess = false
