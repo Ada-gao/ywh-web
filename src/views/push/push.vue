@@ -109,6 +109,7 @@
         <el-form-item label="信息推送规则" prop="ruleId">
           <el-select v-model="pushForm.ruleId"
                      placeholder="请选择推送规则"
+                     :disabled="title==='编辑推送'?true:false"
                      clearable
                      style="width: 100%"
                      @change="handleFilter1">
