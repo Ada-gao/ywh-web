@@ -26,7 +26,7 @@
               <el-select v-model="form.companyId"
                          placeholder="请选择公司"
                          @change="changeCompany"
-                         :disabled="!isSuperAdmin"
+                         :disabled="isSuperAdmin !== true"
                          style="width: 100%">
                 <el-option
                   v-for="item in companies"

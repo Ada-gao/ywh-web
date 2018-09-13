@@ -19,7 +19,7 @@
         <el-row>
           <el-col :span="7">
             <el-form-item label="所属公司" prop="companyId">
-              <el-select v-model="form.companyId" placeholder="选择/输入所属公司" @change="changeCompany" filterable style="width: 100%" :disabled="!isSuperAdmin">
+              <el-select v-model="form.companyId" placeholder="选择/输入所属公司" @change="changeCompany" filterable style="width: 100%" :disabled="isSuperAdmin !== true">
                 <el-option
                   v-for="item in companies"
                   :key="item.id"

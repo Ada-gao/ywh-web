@@ -9,7 +9,7 @@
                     placeholder="输入任务名称"
                     v-model="listQuery.taskName"/>
           <el-input @keyup.enter.native="handleFilter"
-                    v-if="isSuperAdmin"
+                    v-if="isSuperAdmin === true"
                     style="width: 200px;"
                     class="filter-item"
                     placeholder="输入所属公司名称"

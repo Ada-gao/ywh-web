@@ -18,7 +18,7 @@
         <el-row :gutter="20">
           <el-col :span="11" :offset="6">
             <el-form-item label="所属公司" prop="companyId">
-              <el-select v-model="form.companyId" placeholder="请选择所属公司" style="width: 100%" :disabled="!isSuperAdmin">
+              <el-select v-model="form.companyId" placeholder="请选择所属公司" style="width: 100%" :disabled="isSuperAdmin !== true">
                 <el-option
                   v-for="item in companies"
                   :key="item.id"
@@ -37,7 +37,7 @@
         <el-row :gutter="20">
           <el-col :span="11" :offset="6">
             <el-form-item label="名单来源" prop="source">
-              <el-select v-model="form.source" placeholder="请选择名单来源" style="width: 100%" :disabled="!isSuperAdmin">
+              <el-select v-model="form.source" placeholder="请选择名单来源" style="width: 100%" :disabled="isSuperAdmin !== true">
                 <el-option
                            v-for="(item,index) in sources"
                            :key="index"

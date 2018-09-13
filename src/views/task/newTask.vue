@@ -13,7 +13,7 @@
               <el-select v-model="taskGroup.companyId"
                          placeholder="选择/输入所属公司"
                          @change="changeCompany"
-                         :disabled="!isSuperAdmin"
+                         :disabled="isSuperAdmin !== true"
                          filterable>
                 <el-option
                   v-for="item in companies"

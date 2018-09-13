@@ -74,7 +74,7 @@
           <el-select v-model="listQuery.companyId"
                      placeholder="公司筛选"
                      clearable
-                     :disabled="!isSuperAdmin"
+                     :disabled="isSuperAdmin !== true"
                      @change="handleCompany">
             <el-option
               v-for="item in companies"
@@ -99,10 +99,10 @@
     </div>
     <div class="detail-title">
       <span class="list-tit">销售列表</span>
-      <el-button v-if="isSuperAdmin" class="add_btn" @click="handleCreate('add')">
+      <el-button class="add_btn" @click="handleCreate('add')">
         <i class="fa fa-plus" style="color: #fff;margin-right: 10px"></i>新建销售
       </el-button>
-      <el-button v-if="isSuperAdmin" class="add_btn" @click="handleCreate('import')">
+      <el-button class="add_btn" @click="handleCreate('import')">
         <i class="fa fa-sign-out" style="color: #fff;margin-right: 10px"></i>批量导入
       </el-button>
     </div>
@@ -260,7 +260,7 @@
       },
       handleFilter() {
         delete this.listQuery.status
-        if (this.isSuperAdmin){
+        if (this.isSuperAdmin === true){
           delete this.listQuery.companyId
         }
         delete this.listQuery.team

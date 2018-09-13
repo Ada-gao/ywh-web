@@ -9,12 +9,11 @@ import 'element-ui/lib/theme-chalk/index.css'
 import VueRouter from 'vue-router'
 import store from './vuex/store'
 import Vuex from 'vuex'
-import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import routes from './routes'
 import 'font-awesome/css/font-awesome.min.css'
 import timestamp from './common/js/util'
-import { getToken } from '@/common/js/auth'
+// import { getToken } from '@/common/js/auth'
 
 Vue.filter('timestamp', timestamp.getLocalTime)
 
