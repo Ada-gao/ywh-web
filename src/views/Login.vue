@@ -4,12 +4,12 @@
     <div class="title"><span class="China-tit">用户登录</span></div>
     <div class="sepa"></div>
     <el-form-item prop="username">
-      <el-input name="username" :type="text" v-model="loginForm.username" autoComplete="on" placeholder="用户名或邮箱">
+      <el-input name="username" :type="text" v-model="loginForm.username" autoComplete="on" placeholder="用户名或邮箱" maxlength="50">
         <i slot="prefix" class="fa fa-user" style="padding-left: 5px;"/>
       </el-input>
     </el-form-item>
     <el-form-item prop="password">
-      <el-input name="password" :type="pwdType" v-model="loginForm.password" autoComplete="on" placeholder="密码">
+      <el-input name="password" :type="pwdType" v-model="loginForm.password" autoComplete="on" placeholder="密码" maxlength="12">
         <i slot="prefix" class="fa fa-unlock-alt" style="padding-left: 5px;"/>
         <i slot="suffix" @click="showPwd" v-if="pwdType === 'password'" class="fa fa-eye-slash" style="padding-right: 5px;"/>
         <i slot="suffix" @click="showPwd" v-if="pwdType != 'password'" class="fa fa-eye" style="padding-right: 5px;"/>
@@ -29,11 +29,26 @@ import NProgress from 'nprogress'
 
 export default {
   data () {
-    const validatePass = (rule, value, callback) => {
-      if (!value || value.length < 6) {
-        callback(new Error('密码不能小于6位'))
+    const validateUser = (rule, value, callback) => {
+      if (value) {
+        if (value.length < 4) {
+          callback(new Error('用户名不能小于4位'))
+        }else{
+          callback()
+        }
       } else {
-        callback()
+        callback('请输入用户名或手机号')
+      }
+    }
+    const validatePass = (rule, value, callback) => {
+      if (value) {
+        if (value.length < 6) {
+          callback(new Error('密码不能小于6位'))
+        }else{
+          callback()
+        }
+      } else {
+        callback('请输入密码')
       }
     }
     return {
@@ -46,7 +61,7 @@ export default {
       },
       text: 'text',
       loginRules: {
-        username: [{required: true, message: '请输入用户名或手机号', trigger: 'blur'}],
+        username: [{required: true, trigger: 'blur',validator: validateUser}],
         password: [{required: true, trigger: 'blur', validator: validatePass}]
       },
       loading: false,
