@@ -113,7 +113,7 @@
             let obj = new Object()
             obj.companyName = item[0];
             obj.accountName = item[1];
-            obj.callType = item[2] === 'NATIVE' ?'原生拨打' :'第三方拨打';
+            obj.callType = (item[2] === 0?'原生拨打' :'第三方拨打');
             obj.totalDuration = item[3];
             this.list[index] = obj
           })
@@ -166,7 +166,7 @@
             let obj = new Object()
             obj.所属公司 = item[0];
             obj.所属账户 = item[1];
-            obj.拨打类型 = item[2] === 'NATIVE' ?'原生拨打' :'第三方拨打';
+            obj.拨打类型 = item[2] === 0 ?'原生拨打' :'第三方拨打';
             obj.累计拨打时长 = item[3];
             list[index] = obj
           })

@@ -162,11 +162,11 @@
         types: [
           {
             label: '原生拨打',
-            value: 'NATIVE'
+            value: '0'
           },
           {
             label: '第三方拨打',
-            value: 'THIRD_PLATFORM'
+            value: '1'
           }
         ],
         isSuperAdmin:'false',
@@ -212,7 +212,7 @@
             obj.companyName = item[1];
             obj.accountName = item[2];
             obj.team = item[3];
-            obj.callType = item[4] === 'NATIVE' ?'原生拨打' :'第三方拨打';
+            obj.callType = item[4] === 0 ?'原生拨打' :'第三方拨打';
             obj.phoneNo = item[5];
             obj.contactName = item[6];
             obj.result = item[7]
@@ -307,7 +307,7 @@
             obj.所属公司 = item[1];
             obj.所属账户 = item[2];
             obj.所属团队 = item[3];
-            obj.拨打类型 = item[4] === 'NATIVE' ?'原生拨打' :'第三方拨打';
+            obj.拨打类型 = item[4] === 0 ?'原生拨打' :'第三方拨打';
             obj.拨打号码 = item[5];
             obj.客户名称 = item[6];
             obj.外呼结果 = item[7]
