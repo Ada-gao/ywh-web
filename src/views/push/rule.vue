@@ -143,7 +143,7 @@
       this.getQuery()
       let companyId = sessionStorage.getItem('companyId')
       if (companyId) {
-        this.listQuery.companyId = companyId
+        this.listQuery.companyId = parseInt(companyId)
         this.changeCompany()
       }
       this.isSuperAdmin = sessionStorage.getItem('isSuperAdmin')

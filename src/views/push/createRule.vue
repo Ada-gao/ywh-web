@@ -243,7 +243,7 @@
       this.getQuery()
       let companyId = sessionStorage.getItem('companyId')
       if (companyId) {
-        this.form.companyId = companyId
+        this.form.companyId = parseInt(companyId)
         this.getList()
       }
       this.isSuperAdmin = sessionStorage.getItem('isSuperAdmin')

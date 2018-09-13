@@ -166,7 +166,7 @@ export default {
     this.getQuery()
     let companyId = sessionStorage.getItem('companyId')
     if (companyId) {
-      this.listQuery.companyId = companyId
+      this.listQuery.companyId = parseInt(companyId)
     }
     this.isSuperAdmin = sessionStorage.getItem('isSuperAdmin')
   },

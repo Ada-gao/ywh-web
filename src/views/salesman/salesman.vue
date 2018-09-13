@@ -222,7 +222,7 @@
       this.getStatisSales()
       let companyId = sessionStorage.getItem('companyId')
       if (companyId) {
-        this.listQuery.companyId = companyId
+        this.listQuery.companyId = parseInt(companyId)
         this.handleCompany()
       }
       this.isSuperAdmin = sessionStorage.getItem('isSuperAdmin')

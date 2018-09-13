@@ -285,7 +285,7 @@ export default {
     this.getQuery()
     let companyId = sessionStorage.getItem('companyId')
     if (companyId) {
-      this.taskGroup.companyId = companyId
+      this.taskGroup.companyId = parseInt(companyId)
       this.changeCompany()
     }
     this.isSuperAdmin = sessionStorage.getItem('isSuperAdmin')

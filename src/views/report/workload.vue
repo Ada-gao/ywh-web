@@ -146,7 +146,7 @@
       this.getQuery()
       let accountId = sessionStorage.getItem('accountId')
       if (accountId) {
-        this.listQuery.accountId = accountId
+        this.listQuery.accountId = parseInt(accountId)
       }
       this.isSuperAdmin = sessionStorage.getItem('isSuperAdmin')
     },

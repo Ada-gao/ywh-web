@@ -143,7 +143,7 @@
       this.getQuery()
       let companyId = sessionStorage.getItem('companyId')
       if (companyId) {
-        this.form.companyId = companyId
+        this.form.companyId = parseInt(companyId)
         this.form.source = '自有'
       }
       this.isSuperAdmin = sessionStorage.getItem('isSuperAdmin')
