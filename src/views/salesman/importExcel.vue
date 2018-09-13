@@ -18,7 +18,7 @@
         <el-row :gutter="20">
           <el-col :span="11" :offset="6">
             <el-form-item label="所属公司" prop="companyId">
-              <el-select v-model="form.companyId" placeholder="请选择所属公司" style="width: 100%" :disabled="isSuperAdmin !== true">
+              <el-select v-model="form.companyId" placeholder="请选择所属公司" style="width: 100%" :disabled="isSuperAdmin !== 'true'">
                 <el-option
                   v-for="item in companies"
                   :key="item.id"
@@ -101,7 +101,7 @@
             {required: true, message: '请选择上传文件', trigger: 'blur,change'}
           ]
         },
-        isSuperAdmin:false,
+        isSuperAdmin:'false',
       }
     },
     created() {

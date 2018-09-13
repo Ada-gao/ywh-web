@@ -21,7 +21,7 @@
           <el-select v-model="listQuery.companyId"
                      placeholder="公司筛选"
                      clearable
-                     :disabled="isSuperAdmin !== true"
+                     :disabled="isSuperAdmin !== 'true'"
                      @change="handleFilter1">
             <el-option
               v-for="item in companies"
@@ -158,7 +158,7 @@ export default {
           value: '2'
         }
       ],
-      isSuperAdmin:false,
+      isSuperAdmin:'false',
     }
   },
   created () {
@@ -214,7 +214,7 @@ export default {
       this.$router.push({name: 'namelist', query: obj})
     },
     handleFilter () {
-      if (this.isSuperAdmin === true){
+      if (this.isSuperAdmin === 'true'){
         delete this.listQuery.companyId
       }
       delete this.listQuery.status

@@ -50,7 +50,7 @@
     </div>
     <div class="detail-title" style="margin-top: 40px">
       <span class="list-tit">公司列表</span>
-      <el-button class="add_btn" @click="handleCreate" v-if="isSuperAdmin === true">
+      <el-button class="add_btn" @click="handleCreate" v-if="isSuperAdmin === 'true'">
         <i class="fa fa-plus" style="color: #fff;margin-right: 10px"></i>新建公司
       </el-button>
     </div>
@@ -133,7 +133,7 @@ export default {
       industry: [],
       orgSize: [],
       currentPage: 1,
-      isSuperAdmin:false,
+      isSuperAdmin:'false',
     }
   },
   created () {

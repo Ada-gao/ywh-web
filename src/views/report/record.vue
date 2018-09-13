@@ -9,7 +9,7 @@
                     placeholder="输入销售名称"
                     v-model="listQuery.saleName"/>
           <el-input @keyup.enter.native="handleFilter"
-                    v-if="isSuperAdmin === true"
+                    v-if="isSuperAdmin === 'true'"
                     style="width: 200px;"
                     class="filter-item"
                     placeholder="输入所属公司名称"
@@ -22,7 +22,7 @@
         </el-col>
         <el-col :span="14" style="text-align: right;">
           <el-select v-model="listQuery.accountId"
-                     :disabled="isSuperAdmin !== true"
+                     :disabled="isSuperAdmin !== 'true'"
                      placeholder="所属账户"
                      clearable
                      @change="handleFilter1">
@@ -169,7 +169,7 @@
             value: 'THIRD_PLATFORM'
           }
         ],
-        isSuperAdmin:false,
+        isSuperAdmin:'false',
       }
     },
     created() {
@@ -243,7 +243,7 @@
         this.getList()
       },
       handleFilter() {
-        if (this.isSuperAdmin === true){
+        if (this.isSuperAdmin === 'true'){
           delete this.listQuery.accountId
         }
         delete this.listQuery.team

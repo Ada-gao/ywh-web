@@ -74,7 +74,7 @@
           <el-select v-model="listQuery.companyId"
                      placeholder="公司筛选"
                      clearable
-                     :disabled="isSuperAdmin !== true"
+                     :disabled="isSuperAdmin !== 'true'"
                      @change="handleCompany">
             <el-option
               v-for="item in companies"
@@ -186,7 +186,7 @@
   export default {
     data() {
       return {
-        isSuperAdmin:false,
+        isSuperAdmin:'false',
         updateStatusDialog: false,
         total: null,
         listLoading: true,
@@ -260,7 +260,7 @@
       },
       handleFilter() {
         delete this.listQuery.status
-        if (this.isSuperAdmin === true){
+        if (this.isSuperAdmin === 'true'){
           delete this.listQuery.companyId
         }
         delete this.listQuery.team

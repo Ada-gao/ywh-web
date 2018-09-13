@@ -93,7 +93,7 @@ export default {
                 alert('帐号信息不存在，请联系管理员')
               }else {
                 sessionStorage.setItem('username',user.username)
-                sessionStorage.setItem('isSuperAdmin',user.username === 'superadmin')
+                sessionStorage.setItem('isSuperAdmin',user.username === 'superadmin'?'true':'false')
                 if (user.accountId){
                   sessionStorage.setItem('accountId',user.accountId)
                 }

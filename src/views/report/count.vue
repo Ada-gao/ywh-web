@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="filter-container" v-if="isSuperAdmin === true">
+    <div class="filter-container" v-if="isSuperAdmin === 'true'">
       <el-row>
         <el-col :span="14">
           <el-input @keyup.enter.native="handleFilter"
@@ -94,7 +94,7 @@
         currentPage: 1,
         list: null,
         accounts: [],
-        isSuperAdmin:false,
+        isSuperAdmin:'false',
       }
     },
     created() {
