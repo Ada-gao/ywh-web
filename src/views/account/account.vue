@@ -325,7 +325,6 @@
 
 <script>
   import * as Api from "@/api/api"
-  import { mapGetters } from 'vuex'
   import FileSaver from 'file-saver'
   import XLSX from 'xlsx'
   export default {
@@ -450,13 +449,8 @@
         },
       }
     },
-    computed : {
-      ...mapGetters([
-        'getUserInfo'
-      ])
-    },
     created() {
-      this.accountId = this.getUserInfo.accountId;
+      this.accountId = sessionStorage.getItem('accountId')
       this.getCompany()
       this.getList()
       this.getConsumption()

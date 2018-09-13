@@ -9,7 +9,7 @@
                     placeholder="输入销售名称"
                     v-model="listQuery.saleName"/>
           <el-input @keyup.enter.native="handleFilter"
-                    v-if="sysUser === 'superadmin'"
+                    v-if="isSuperAdmin"
                     style="width: 200px;"
                     class="filter-item"
                     placeholder="输入所属公司名称"
@@ -23,7 +23,7 @@
         <el-col :span="10" style="text-align: right;">
           <el-select v-model="listQuery.accountId"
                      placeholder="所属账户"
-                     :disabled="sysUser === 'superadmin'?false:true"
+                     :disabled="!isSuperAdmin"
                      clearable
                      @change="handleFilter1">
             <el-option
@@ -122,17 +122,10 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
   import FileSaver from 'file-saver'
   import XLSX from 'xlsx'
   import * as Api from "@/api/api"
   export default {
-    computed : {
-      ...mapGetters([
-        'getUserInfo',
-        'sysUser'
-      ])
-    },
     data() {
       return {
         total: null,
@@ -145,14 +138,17 @@
         list: null,
         accounts: [],
         teams: [],
+        isSuperAdmin:false,
       }
     },
     created() {
       this.getList()
       this.getQuery()
-      if (this.getUserInfo.accountId) {
-        this.listQuery.accountId = this.getUserInfo.accountId
+      let accountId = sessionStorage.getItem('accountId')
+      if (accountId) {
+        this.listQuery.accountId = accountId
       }
+      this.isSuperAdmin = sessionStorage.getItem('isSuperAdmin')
     },
     methods: {
       getList() {
@@ -178,7 +174,7 @@
       },
       getQuery() {
         let params = {
-          companyId: this.getUserInfo.companyId
+          companyId: sessionStorage.getItem('companyId')
         }
         Api.getTeams(params).then(res => {
           this.teams = res.data
@@ -196,7 +192,7 @@
         this.getList()
       },
       handleFilter() {
-        if (this.sysUser === 'superadmin'){
+        if (this.isSuperAdmin){
           delete this.listQuery.accountId
         }
         delete this.listQuery.team

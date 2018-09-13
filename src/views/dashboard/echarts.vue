@@ -66,7 +66,6 @@
 </template>
 <script>
   import * as Api from "@/api/api"
-  import {mapGetters} from 'vuex'
   export default {
     data() {
       return {
@@ -79,11 +78,6 @@
         total_min: 0,
         total_sed: 0
       }
-    },
-    computed: {
-      ...mapGetters([
-        'sysUser'
-      ])
     },
     methods: {
       getCount() {

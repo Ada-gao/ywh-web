@@ -50,7 +50,7 @@
     </div>
     <div class="detail-title" style="margin-top: 40px">
       <span class="list-tit">公司列表</span>
-      <el-button class="add_btn" @click="handleCreate" v-if="sysUser === 'superadmin'">
+      <el-button class="add_btn" @click="handleCreate" v-if="isSuperAdmin">
         <i class="fa fa-plus" style="color: #fff;margin-right: 10px"></i>新建公司
       </el-button>
     </div>
@@ -115,10 +115,8 @@
 <script>
   import * as Api from "@/api/api"
 import { provinceAndCityData } from 'element-china-area-data' // 省市区数据
-import { mapGetters } from 'vuex'
 
 export default {
-  components: {},
   data () {
     return {
       tableKey: 0,
@@ -134,15 +132,12 @@ export default {
       provinceData: provinceAndCityData,
       industry: [],
       orgSize: [],
-      currentPage: 1
+      currentPage: 1,
+      isSuperAdmin:false,
     }
   },
-  computed: {
-    ...mapGetters([
-      'sysUser'
-    ])
-  },
   created () {
+    this.isSuperAdmin = sessionStorage.getItem('isSuperAdmin')
     this.getList()
   },
   methods: {

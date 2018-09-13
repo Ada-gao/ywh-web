@@ -13,7 +13,7 @@
               <el-select v-model="taskGroup.companyId"
                          placeholder="选择/输入所属公司"
                          @change="changeCompany"
-                         :disabled="sysUser === 'superadmin'?false:true"
+                         :disabled="!isSuperAdmin"
                          filterable>
                 <el-option
                   v-for="item in companies"
@@ -128,28 +128,12 @@
               <el-input placeholder="外呼次数限制" v-model="taskGroup.limitedTimes" maxlength="8"></el-input>
             </el-form-item>
           </el-col>
-         <!-- <el-col :span="8">
-            <el-form-item label="下一步行动规则" prop="nextActionRule">
-              <el-select v-model="taskGroup.nextActionRule" placeholder="下一步行动规则">
-                <el-option
-                  v-for="item in nextActionList"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>-->
           <el-col :span="8">
             <el-form-item label="外呼频率（间隔）天" prop="interv">
               <el-input placeholder="外呼频率间隔" v-model="taskGroup.interv" maxlength="8"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
-        <!--<el-form-item>-->
-          <!--<el-button class="search_btn" @click="cancel('taskGroup')">取消</el-button>-->
-          <!--<el-button class="add_btn" @click="create('taskGroup')">提交</el-button>-->
-        <!--</el-form-item>-->
       </el-form>
       <el-col :span="17" slot="footer" class="dialog-footer" style="text-align: center">
         <el-button class="add_btn" @click="create('taskGroup')">提 交</el-button>
@@ -160,23 +144,10 @@
 </template>
 
 <script>
-import 'quill/dist/quill.core.css'
-import 'quill/dist/quill.snow.css'
-// import {quillEditor} from 'vue-quill-editor'
 import { getToken } from '@/common/js/auth'
 import { nextActionList } from '@/common/js/util'
 import * as Api from "@/api/api"
-import { mapGetters } from 'vuex'
 export default {
-  // components: {
-  //   quillEditor
-  // },
-  computed : {
-    ...mapGetters([
-      'sysUser',
-      'getUserInfo'
-    ])
-  },
   data () {
     const checkNumber = (rule, value, callback) => {
       if (!value) {
@@ -239,7 +210,7 @@ export default {
       }
     }
     return {
-      editorOption: {},
+      isSuperAdmin:false,
       taskGroup: {
         taskDate: [],
         team: '',
@@ -312,11 +283,12 @@ export default {
     this.listLoading = false
     this.nextActionList = nextActionList()
     this.getQuery()
-    // alert(JSON.stringify(this.getUserInfo.companyId))
-    if (this.getUserInfo.companyId) {
-      this.taskGroup.companyId = this.getUserInfo.companyId
+    let companyId = sessionStorage.getItem('companyId')
+    if (companyId) {
+      this.taskGroup.companyId = companyId
       this.changeCompany()
     }
+    this.isSuperAdmin = sessionStorage.getItem('isSuperAdmin')
   },
   methods: {
     changeCompany () {

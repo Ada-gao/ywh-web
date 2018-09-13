@@ -74,7 +74,7 @@
           <el-select v-model="listQuery.companyId"
                      placeholder="公司筛选"
                      clearable
-                     :disabled="sysUser === 'superadmin'?false:true"
+                     :disabled="!isSuperAdmin"
                      @change="handleCompany">
             <el-option
               v-for="item in companies"
@@ -99,10 +99,10 @@
     </div>
     <div class="detail-title">
       <span class="list-tit">销售列表</span>
-      <el-button v-if="sysUser.username!=='sale'" class="add_btn" @click="handleCreate('add')">
+      <el-button v-if="isSuperAdmin" class="add_btn" @click="handleCreate('add')">
         <i class="fa fa-plus" style="color: #fff;margin-right: 10px"></i>新建销售
       </el-button>
-      <el-button v-if="sysUser.username!=='sale'" class="add_btn" @click="handleCreate('import')">
+      <el-button v-if="isSuperAdmin" class="add_btn" @click="handleCreate('import')">
         <i class="fa fa-sign-out" style="color: #fff;margin-right: 10px"></i>批量导入
       </el-button>
     </div>
@@ -182,12 +182,11 @@
 
 <script>
   import * as Api from "@/api/api"
-  import {mapGetters} from 'vuex'
 
   export default {
-    components: {},
     data() {
       return {
+        isSuperAdmin:false,
         updateStatusDialog: false,
         total: null,
         listLoading: true,
@@ -217,20 +216,16 @@
         disabledSalesCnt: 0
       }
     },
-    computed : {
-      ...mapGetters([
-        'sysUser',
-        'getUserInfo'
-      ])
-    },
     created() {
       this.getList()
       this.getQuery()
       this.getStatisSales()
-      if (this.getUserInfo.companyId) {
-        this.listQuery.companyId = this.getUserInfo.companyId
+      let companyId = sessionStorage.getItem('companyId')
+      if (companyId) {
+        this.listQuery.companyId = companyId
         this.handleCompany()
       }
+      this.isSuperAdmin = sessionStorage.getItem('isSuperAdmin')
     },
     methods: {
       getList() {
@@ -265,7 +260,7 @@
       },
       handleFilter() {
         delete this.listQuery.status
-        if (this.sysUser === 'superadmin'){
+        if (this.isSuperAdmin){
           delete this.listQuery.companyId
         }
         delete this.listQuery.team

@@ -144,10 +144,8 @@
 
 <script>
   import * as Api from "@/api/api"
-  import {mapGetters} from 'vuex'
 
   export default {
-    components: {},
     data() {
       return {
         tableKey: 0,
@@ -165,11 +163,6 @@
         teams: [],
         products: []
       }
-    },
-    computed: {
-      ...mapGetters([
-        'getUserInfo'
-      ])
     },
     created() {
       this.getList()
@@ -191,7 +184,7 @@
       },
       getQuery() {
         let params = {
-          companyId: this.getUserInfo.companyId
+          companyId: sessionStorage.getItem('companyId')
         }
         Api.getTeams(params).then(res => {
           this.teams = res.data

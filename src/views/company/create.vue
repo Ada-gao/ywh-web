@@ -145,7 +145,7 @@
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="20" v-show="sysUser === 'superadmin'">
+          <el-col :span="20" v-show="isSuperAdmin">
             <el-form-item label="公司资质" prop="companyQualification">
               <el-input v-model="form.companyQualification" v-show="false" disabled/>
               <el-upload
@@ -223,7 +223,6 @@
 </template>
 
 <script>
-  import {mapGetters} from 'vuex'
   import VueCropper from 'vue-cropper'
   import {getToken} from '@/common/js/auth'
   import * as Api from "@/api/api"
@@ -233,11 +232,6 @@
   export default {
     components: {
       VueCropper
-    },
-    computed: {
-      ...mapGetters([
-        'sysUser'
-      ])
     },
     data() {
       const validatePass1 = (rule, value, callback) => {
@@ -354,9 +348,11 @@
         },
         uploadUrl: process.env.BASE_API + '/file/uploadCompanyQualification',
         fileList: [],
+        isSuperAdmin:false,
       }
     },
     created() {
+      this.isSuperAdmin = sessionStorage.getItem('isSuperAdmin')
       let obj = this.$route.query
       if (obj && obj.id) {
         this.form = obj

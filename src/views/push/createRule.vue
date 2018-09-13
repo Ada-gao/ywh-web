@@ -19,7 +19,7 @@
         <el-row>
           <el-col :span="7">
             <el-form-item label="所属公司" prop="companyId">
-              <el-select v-model="form.companyId" placeholder="选择/输入所属公司" @change="changeCompany" filterable style="width: 100%" :disabled="sysUser === 'superadmin'?false:true">
+              <el-select v-model="form.companyId" placeholder="选择/输入所属公司" @change="changeCompany" filterable style="width: 100%" :disabled="!isSuperAdmin">
                 <el-option
                   v-for="item in companies"
                   :key="item.id"
@@ -135,14 +135,7 @@
 
 <script>
   import * as Api from "@/api/api"
-  import { mapGetters } from 'vuex'
   export default {
-    computed : {
-      ...mapGetters([
-        'sysUser',
-        'getUserInfo'
-      ])
-    },
     data() {
       const checkNumber = (rule, value, callback) => {
         if (!value) {
@@ -232,6 +225,7 @@
             value: 'FOLLOW'
           }
         ],
+        isSuperAdmin:false,
       }
     },
     created() {
@@ -247,10 +241,12 @@
         this.updateStatus = 'create'
       }
       this.getQuery()
-      if (this.getUserInfo.companyId) {
-        this.form.companyId = this.getUserInfo.companyId
+      let companyId = sessionStorage.getItem('companyId')
+      if (companyId) {
+        this.form.companyId = companyId
         this.getList()
       }
+      this.isSuperAdmin = sessionStorage.getItem('isSuperAdmin')
     },
     methods: {
       getQuery() {

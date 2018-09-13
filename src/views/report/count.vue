@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="filter-container" v-if="sysUser === 'superadmin'">
+    <div class="filter-container" v-if="isSuperAdmin">
       <el-row>
         <el-col :span="14">
           <el-input @keyup.enter.native="handleFilter"
@@ -79,17 +79,10 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
   import FileSaver from 'file-saver'
   import XLSX from 'xlsx'
   import * as Api from "@/api/api"
   export default {
-    computed : {
-      ...mapGetters([
-        'getUserInfo',
-        'sysUser'
-      ])
-    },
     data() {
       return {
         total: null,
@@ -101,9 +94,11 @@
         currentPage: 1,
         list: null,
         accounts: [],
+        isSuperAdmin:false,
       }
     },
     created() {
+      this.isSuperAdmin = sessionStorage.getItem('isSuperAdmin')
       this.getList()
       this.getQuery()
     },
@@ -126,7 +121,7 @@
       },
       getQuery() {
         let params = {
-          companyId: this.getUserInfo.companyId
+          companyId: sessionStorage.getItem('companyId')
         }
         Api.accounts(params).then(res => {
           this.accounts = res.data

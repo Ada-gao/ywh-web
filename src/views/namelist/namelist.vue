@@ -18,17 +18,6 @@
                      @click="handleFilter"><i class="fa fa-search"></i>查询</el-button>
         </el-col>
         <el-col :span="16" style="text-align: right;">
-          <!--<el-select v-model="listQuery.companyId"
-                     placeholder="公司筛选"
-                     clearable
-                     @change="handleFilter1">
-            <el-option
-              v-for="item in companies"
-              :key="item.id"
-              :label="item.companyName"
-              :value="item.id">
-            </el-option>
-          </el-select>-->
           <el-select v-model="listQuery.residence"
                      placeholder="所在地"
                      clearable
@@ -102,16 +91,6 @@
           <span>{{scope.row.source}}</span>
         </template>
       </el-table-column>
-
-      <!--<el-table-column align="center"-->
-      <!--label="操作"-->
-      <!--fixed="right"-->
-      <!--width="150">-->
-      <!--<template slot-scope="scope">-->
-      <!--<a size="small" class="common_btn">查看-->
-      <!--</a>-->
-      <!--</template>-->
-      <!--</el-table-column>-->
     </el-table>
 
     <div v-show="!listLoading" class="pagination-container">
@@ -132,7 +111,6 @@
 <script>
   import * as Api from "@/api/api"
 import { provinceAndCityData } from 'element-china-area-data' // 省市区数据
-import { mapGetters } from 'vuex'
 
 export default {
   components: {},
@@ -155,11 +133,6 @@ export default {
       currentPage: 1,
       id: 0
     }
-  },
-  computed: {
-    ...mapGetters([
-      'sysUser'
-    ])
   },
   created () {
     let obj = this.$route.query

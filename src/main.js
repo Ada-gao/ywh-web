@@ -27,32 +27,32 @@ const router = new VueRouter({
   routes
 })
 
-router.beforeEach((to, from, next) => {
-  NProgress.start()
-  if (getToken()) {
-    if (to.path === '/login') {
-      next({ path: '/' })
-      NProgress.done()
-    } else {
-      if (store.getters.sysUser === '') {
-        store.dispatch('GetUser', getToken()).then(res => {
-          // 每次请求的回调
-        })
-      }
-      next()
-    }
-  } else {
-    if (to.path === '/login') { // 去往登陆页
-      next()
-    } else {
-      next('/login')
-    }
-  }
-})
-
-router.afterEach(transition => {
-  NProgress.done()
-})
+// router.beforeEach((to, from, next) => {
+//   NProgress.start()
+//   if (getToken()) {
+//     if (to.path === '/login') {
+//       next({ path: '/' })
+//       NProgress.done()
+//     } else {
+//       if (store.getters.sysUser === '') {
+//         store.dispatch('GetUser', getToken()).then(res => {
+//           // 每次请求的回调
+//         })
+//       }
+//       next()
+//     }
+//   } else {
+//     if (to.path === '/login') { // 去往登陆页
+//       next()
+//     } else {
+//       next('/login')
+//     }
+//   }
+// })
+//
+// router.afterEach(transition => {
+//   NProgress.done()
+// })
 
 Vue.filter('moment', function (dataStr, pattern = 'YYYY-MM-DD HH:mm:ss') {
   return moment(dataStr).format(pattern)

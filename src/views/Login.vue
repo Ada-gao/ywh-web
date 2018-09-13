@@ -70,15 +70,36 @@ export default {
           Api.requestLogin(loginParams).then(res => {
             this.loading = false
             NProgress.done()
+            sessionStorage.clear()
             sessionStorage.setItem('token', res.data.token)
             Api.getUser().then(res => {
-              if (res.data.authorities[0].authority === 'ROLE_SALE') {
+              /*
+              {"username":"superadmin",
+              "name":"Superadmin",
+              "companyId":null,
+              "email":"superadmin@shun365.com",
+              "level":null,
+              "mobile":"15900916362",
+              "accountId":null,
+              "authorities":[{"authority":"ROLE_SUPERUSER"},{"authority":"ROLE_ADMIN"}],
+              "enabled":true}
+              */
+              let user = res.data
+              if (user.authorities[0].authority === 'ROLE_SALE') {
                 sessionStorage.removeItem('token')
                 alert('管理权限不足，请联系管理员')
-              } else if (res.data.authorities[0].authority === 'ROLE_ADMIN' && !res.data.accountId) {
+              } else if (user.authorities[0].authority === 'ROLE_ADMIN' && !user.accountId) {
                 sessionStorage.removeItem('token')
                 alert('帐号信息不存在，请联系管理员')
               }else {
+                sessionStorage.setItem('username',user.username)
+                sessionStorage.setItem('isSuperAdmin',user.username === 'superadmin')
+                if (user.accountId){
+                  sessionStorage.setItem('accountId',user.accountId)
+                }
+                if (user.companyId){
+                  sessionStorage.setItem('companyId',user.companyId)
+                }
                 this.$router.push({path: '/dashboard'})
               }
             })

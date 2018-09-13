@@ -21,7 +21,7 @@
           <el-select v-model="listQuery.companyId"
                      placeholder="公司筛选"
                      clearable
-                     :disabled="sysUser === 'superadmin'?false:true"
+                     :disabled="!isSuperAdmin"
                      @change="handleFilter1">
             <el-option
               v-for="item in companies"
@@ -127,10 +127,8 @@
 <script>
   import * as Api from "@/api/api"
 import { provinceAndCityData } from 'element-china-area-data' // 省市区数据
-import { mapGetters } from 'vuex'
 
 export default {
-  components: {},
   data () {
     return {
       tableKey: 0,
@@ -159,21 +157,18 @@ export default {
           label: '生效',
           value: '2'
         }
-      ]
+      ],
+      isSuperAdmin:false,
     }
-  },
-  computed : {
-    ...mapGetters([
-      'sysUser',
-      'getUserInfo'
-    ])
   },
   created () {
     this.getList()
     this.getQuery()
-    if (this.getUserInfo.companyId) {
-      this.listQuery.companyId = this.getUserInfo.companyId
+    let companyId = sessionStorage.getItem('companyId')
+    if (companyId) {
+      this.listQuery.companyId = companyId
     }
+    this.isSuperAdmin = sessionStorage.getItem('isSuperAdmin')
   },
   methods: {
     //获取批次
@@ -219,7 +214,7 @@ export default {
       this.$router.push({name: 'namelist', query: obj})
     },
     handleFilter () {
-      if (this.sysUser === 'superadmin'){
+      if (this.isSuperAdmin){
         delete this.listQuery.companyId
       }
       delete this.listQuery.status

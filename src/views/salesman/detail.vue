@@ -26,7 +26,7 @@
               <el-select v-model="form.companyId"
                          placeholder="请选择公司"
                          @change="changeCompany"
-                         :disabled="sysUser === 'superadmin'?false:true"
+                         :disabled="!isSuperAdmin"
                          style="width: 100%">
                 <el-option
                   v-for="item in companies"
@@ -217,14 +217,7 @@
   import {getToken} from '@/common/js/auth'
   import {transferCompById} from '@/common/js/util'
   import * as Api from "@/api/api"
-  import {mapGetters} from 'vuex'
   export default {
-    computed : {
-      ...mapGetters([
-        'sysUser',
-        'getUserInfo'
-      ])
-    },
     data() {
       const validateUser = (rule, value, callback) => {
         var reg = /^[0-9a-zA-Z]+$/
@@ -330,7 +323,8 @@
         updatePwdDialog: false,
         ruleForm: {
           password: null
-        }
+        },
+        isSuperAdmin:false,
       }
     },
     created() {
@@ -348,9 +342,11 @@
       }
       this.getQuery()
       this.listLoading = false
-      if (this.getUserInfo.companyId) {
-        this.form.companyId = this.getUserInfo.companyId
+      let companyId = sessionStorage.getItem('companyId')
+      if (companyId) {
+        this.form.companyId = companyId
       }
+      this.isSuperAdmin = sessionStorage.getItem('isSuperAdmin')
     },
     methods: {
       changeCompany(){

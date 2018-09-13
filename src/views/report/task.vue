@@ -9,7 +9,7 @@
                     placeholder="输入任务名称"
                     v-model="listQuery.taskName"/>
           <el-input @keyup.enter.native="handleFilter"
-                    v-if="sysUser === 'superadmin'"
+                    v-if="isSuperAdmin"
                     style="width: 200px;"
                     class="filter-item"
                     placeholder="输入所属公司名称"
@@ -116,18 +116,11 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
   import FileSaver from 'file-saver'
   import XLSX from 'xlsx'
   import * as Api from "@/api/api"
   import {replaceKey} from '@/common/js/util'
   export default {
-    computed : {
-      ...mapGetters([
-        'getUserInfo',
-        'sysUser'
-      ])
-    },
     data() {
       return {
         total: null,
@@ -140,10 +133,12 @@
         list: null,
         accounts: [],
         teams: [],
-        products: []
+        products: [],
+        isSuperAdmin:false,
       }
     },
     created() {
+      this.isSuperAdmin = sessionStorage.getItem('isSuperAdmin')
       this.getList()
       this.getQuery()
     },
@@ -164,7 +159,7 @@
       },
       getQuery() {
         let params = {
-          companyId: this.getUserInfo.companyId
+          companyId: sessionStorage.getItem('companyId')
         }
         Api.getTeams(params).then(res => {
           this.teams = res.data

@@ -24,7 +24,7 @@
           <el-select v-model="listQuery.companyId"
                      placeholder="公司筛选"
                      clearable
-                     :disabled="sysUser === 'superadmin'?false:true"
+                     :disabled="!isSuperAdmin"
                      @change="changeCompany">
             <el-option
               v-for="item in companies"
@@ -108,14 +108,7 @@
 
 <script>
   import * as Api from "@/api/api"
-  import { mapGetters } from 'vuex'
   export default {
-    computed : {
-      ...mapGetters([
-        'sysUser',
-        'getUserInfo'
-      ])
-    },
     data () {
       return {
         total: null,
@@ -142,15 +135,18 @@
         ],
         companies:{},
         teams:{},
+        isSuperAdmin:false,
       }
     },
     created () {
       this.getList()
       this.getQuery()
-      if (this.getUserInfo.companyId) {
-        this.listQuery.companyId = this.getUserInfo.companyId
+      let companyId = sessionStorage.getItem('companyId')
+      if (companyId) {
+        this.listQuery.companyId = companyId
         this.changeCompany()
       }
+      this.isSuperAdmin = sessionStorage.getItem('isSuperAdmin')
     },
     methods: {
       getList () {
@@ -186,7 +182,7 @@
       },
       handleFilter () {
         delete this.listQuery.status
-        if (this.sysUser === 'superadmin'){
+        if (this.isSuperAdmin){
           delete this.listQuery.companyId
         }
         delete this.listQuery.team

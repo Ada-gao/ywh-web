@@ -147,12 +147,9 @@
 </template>
 
 <script>
-  import * as Api from "@/api/api"
-import {mapGetters} from 'vuex'
-// import { transformText } from '@/common/js/util'
+import * as Api from "@/api/api"
 
 export default {
-  components: {},
   data () {
     return {
       radio: '',
@@ -167,9 +164,6 @@ export default {
       },
       currentPage: 1,
       list: null,
-      sys_user_add: true,
-      value: '',
-      adminStat: null,
       orgSize: [],
       statusList: [
         {
@@ -188,13 +182,7 @@ export default {
       products: []
     }
   },
-  computed: {
-    ...mapGetters([
-      'sysUser'
-    ])
-  },
   created () {
-    this.adminStat = this.$store.state.adminStat
     this.getList()
   },
   methods: {

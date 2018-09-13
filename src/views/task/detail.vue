@@ -7,11 +7,6 @@
     <div class="task-detail">
       <el-form :model="form" class="form-border" style="margin-bottom: 20px">
         <el-row :gutter="20">
-          <!--<el-col :span="8">-->
-          <!--<el-form-item label="所属公司：" prop="name">-->
-          <!--<span>{{form.id}}</span>-->
-          <!--</el-form-item>-->
-          <!--</el-col>-->
           <el-col :span="8">
             <el-form-item label="外呼名称：">
               <span>{{groupName}}</span>

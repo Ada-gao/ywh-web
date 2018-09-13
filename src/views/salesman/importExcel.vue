@@ -18,7 +18,7 @@
         <el-row :gutter="20">
           <el-col :span="11" :offset="6">
             <el-form-item label="所属公司" prop="companyId">
-              <el-select v-model="form.companyId" placeholder="请选择所属公司" style="width: 100%" :disabled="sysUser === 'superadmin'?false:true">
+              <el-select v-model="form.companyId" placeholder="请选择所属公司" style="width: 100%" :disabled="!isSuperAdmin">
                 <el-option
                   v-for="item in companies"
                   :key="item.id"
@@ -76,16 +76,9 @@
   import UploadExcelComponent from '@/components/uploadExcel.vue'
   import * as Api from "@/api/api"
   import {replaceKey} from '@/common/js/util'
-  import {mapGetters} from 'vuex'
   export default {
     name: 'uploadExcel',
     components: {UploadExcelComponent},
-    computed : {
-      ...mapGetters([
-        'sysUser',
-        'getUserInfo'
-      ])
-    },
     data() {
       return {
         dialogVisible: false,
@@ -108,13 +101,16 @@
             {required: true, message: '请选择上传文件', trigger: 'blur,change'}
           ]
         },
+        isSuperAdmin:false,
       }
     },
     created() {
       this.getQuery()
-      if (this.getUserInfo.companyId) {
-        this.form.companyId = this.getUserInfo.companyId
+      let companyId = sessionStorage.getItem('companyId')
+      if (companyId) {
+        this.form.companyId = companyId
       }
+      this.isSuperAdmin = sessionStorage.getItem('isSuperAdmin')
     },
     methods: {
       getQuery() {

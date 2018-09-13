@@ -18,7 +18,7 @@
         <el-row :gutter="20">
           <el-col :span="11" :offset="6">
             <el-form-item label="所属公司" prop="companyId">
-              <el-select v-model="form.companyId" placeholder="请选择所属公司" style="width: 100%" :disabled="sysUser === 'superadmin'?false:true">
+              <el-select v-model="form.companyId" placeholder="请选择所属公司" style="width: 100%" :disabled="!isSuperAdmin">
                 <el-option
                   v-for="item in companies"
                   :key="item.id"
@@ -37,7 +37,7 @@
         <el-row :gutter="20">
           <el-col :span="11" :offset="6">
             <el-form-item label="名单来源" prop="source">
-              <el-select v-model="form.source" placeholder="请选择名单来源" style="width: 100%" :disabled="sysUser === 'superadmin'?false:true">
+              <el-select v-model="form.source" placeholder="请选择名单来源" style="width: 100%" :disabled="!isSuperAdmin">
                 <el-option
                            v-for="(item,index) in sources"
                            :key="index"
@@ -97,7 +97,6 @@
   import UploadExcelComponent from '@/components/uploadExcel.vue'
   import * as Api from "@/api/api"
   import {replaceKey} from '@/common/js/util'
-  import {mapGetters} from 'vuex'
 
   export default {
     name: 'uploadExcel',
@@ -136,21 +135,18 @@
         sources: [
           '自有',
           '营销'
-        ]
+        ],
+        isSuperAdmin:false,
       }
-    },
-    computed : {
-      ...mapGetters([
-        'sysUser',
-        'getUserInfo'
-      ])
     },
     created() {
       this.getQuery()
-      if (this.getUserInfo.companyId) {
-        this.form.companyId = this.getUserInfo.companyId
+      let companyId = sessionStorage.getItem('companyId')
+      if (companyId) {
+        this.form.companyId = companyId
         this.form.source = '自有'
       }
+      this.isSuperAdmin = sessionStorage.getItem('isSuperAdmin')
     },
     methods: {
       getQuery() {
