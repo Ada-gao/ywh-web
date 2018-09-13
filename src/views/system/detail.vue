@@ -554,19 +554,19 @@
       },
       handleSizeChange2(val) {
         this.listQuery2.pageSize = val
-        this.getList()
+        this.getConsumption()
       },
       handleCurrentChange2(val) {
         this.listQuery2.pageIndex = val - 1
-        this.getList()
+        this.getConsumption()
       },
       handleSizeChange3(val) {
         this.listQuery3.pageSize = val
-        this.getList()
+        this.getRecharge()
       },
       handleCurrentChange3(val) {
         this.listQuery3.pageIndex = val - 1
-        this.getList()
+        this.getRecharge()
       },
       getConsumption(){
         Api.getConsumptionPage(this.accountId,this.listQuery2).then(response => {
@@ -584,6 +584,8 @@
               item.consumptionProduct = '营销线索'
             }else if (item.consumptionProduct === 'CommunicationFee'){
               item.consumptionProduct = '通信费'
+            }else if (item.consumptionProduct === 'MessageFee'){
+              item.consumptionProduct = '短信费'
             }
             item.money = item.money*0.01.toFixed(2)
             let date = new Date(item.createTime)
@@ -629,6 +631,8 @@
               item.consumptionProduct = '营销线索'
             }else if (item.consumptionProduct === 'CommunicationFee'){
               item.consumptionProduct = '通信费'
+            }else if (item.consumptionProduct === 'MessageFee'){
+              item.consumptionProduct = '短信费'
             }
             item.money = item.money*0.01.toFixed(2)
             let date = new Date(item.createTime)

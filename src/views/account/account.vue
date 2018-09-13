@@ -478,6 +478,8 @@
               item.consumptionProduct = '营销线索'
             }else if (item.consumptionProduct === 'CommunicationFee'){
               item.consumptionProduct = '通信费'
+            }else if (item.consumptionProduct === 'MessageFee'){
+              item.consumptionProduct = '短信费'
             }
             item.money = item.money*0.01.toFixed(2)
             let date = new Date(item.createTime)
@@ -711,6 +713,8 @@
               item.consumptionProduct = '营销线索'
             }else if (item.consumptionProduct === 'CommunicationFee'){
               item.consumptionProduct = '通信费'
+            }else if (item.consumptionProduct === 'MessageFee'){
+              item.consumptionProduct = '短信费'
             }
             let date = new Date(item.createTime)
             item.createTime = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() + ' ' +date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
