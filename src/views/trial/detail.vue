@@ -34,7 +34,7 @@
           </el-col>
           <el-col :span="11">
             <el-form-item label="所在地:">
-              <span>{{list.companyCity}}</span>
+              <span>{{list.companyProvince + '-' +list.companyCity}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="11">
