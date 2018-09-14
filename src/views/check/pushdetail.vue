@@ -69,7 +69,7 @@
       <el-form :model="checkForm" :rules="checkRules" ref="checkForm" label-width="100px">
         <el-form-item label="确定审核通过吗？请输入短信模版！" class="txt" label-width="260px"/>
         <el-form-item label="模版Code" prop="content" class="txt">
-          <el-input v-model="checkForm.content" placeholder="请输入模版Code" maxlength="12"></el-input>
+          <el-input v-model="checkForm.content" placeholder="请输入模版Code" maxlength="20"></el-input>
         </el-form-item>
       </el-form>
       <div style="text-align: right">

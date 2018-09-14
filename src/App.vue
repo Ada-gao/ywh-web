@@ -180,6 +180,7 @@ el-menu-item{
   color: #000000;
   float: left;
   width:60%;
+  word-break:break-all;
 }
 
 </style>

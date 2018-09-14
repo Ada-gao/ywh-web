@@ -91,7 +91,7 @@
         <el-form :model="checkForm" :rules="checkRules" ref="checkForm" label-width="100px" style="margin-top: 20px">
           <div v-if="checkRadio==='通过' && item && item.type != '外呼名单'">
             <el-form-item label="模版Code" prop="content" class="txt">
-              <el-input v-model="checkForm.content" placeholder="请输入模版Code" maxlength="12"></el-input>
+              <el-input v-model="checkForm.content" placeholder="请输入模版Code" maxlength="20"></el-input>
             </el-form-item>
           </div>
           <div v-else-if="checkRadio==='不通过'">
