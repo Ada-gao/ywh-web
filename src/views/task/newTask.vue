@@ -8,7 +8,7 @@
       <el-form :model="taskGroup" ref="taskGroup" label-width="100px" :rules="rules">
         <el-row :gutter="20">
           <el-col :span="17">
-            <el-form-item label="所属公司" prop="companyId" required>
+            <el-form-item label="所属公司" prop="companyId">
               <!--<el-input v-model="form.name" placeholder="选择/输入公司名称"></el-input>-->
               <el-select v-model="taskGroup.companyId"
                          placeholder="选择/输入所属公司"
@@ -27,9 +27,9 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="17">
-            <el-form-item label="关联名单" prop="outboundNameGroupId" required>
+            <el-form-item label="关联名单" prop="outboundNameGroupId">
               <!--<el-input v-model="form.empNo" placeholder="选择/输入关联名单"></el-input>-->
-              <el-select v-model="taskGroup.outboundNameGroupId" placeholder="选择/输入关联名单" filterable>
+              <el-select v-model="taskGroup.outboundNameGroupId" placeholder="选择/输入关联名单" @change="$refs['taskGroup'].validateField('outboundNameGroupId')" filterable>
                 <el-option
                   v-for="item in associateList"
                   :key="item.id"
@@ -56,9 +56,9 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="17">
-            <el-form-item label="关联团队" prop="team" required>
+            <el-form-item label="关联团队" prop="team">
               <!--<el-input v-model="form.associateteam" placeholder="选择/输入关联团队"></el-input>-->
-              <el-select v-model="taskGroup.team" placeholder="选择/输入关联团队" filterable>
+              <el-select v-model="taskGroup.team" placeholder="选择/输入关联团队" @change="$refs['taskGroup'].validateField('team')" filterable>
                 <el-option
                   v-for="item in teamList"
                   :key="item"
@@ -71,7 +71,7 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="17">
-            <el-form-item label="分配规则" prop="assignRule" required>
+            <el-form-item label="分配规则" prop="assignRule">
               <el-radio-group v-model="taskGroup.assignRule">
                 <el-radio label="随机平均分配"></el-radio>
                 <el-radio label="自定义分配" disabled></el-radio>
@@ -214,7 +214,7 @@ export default {
       taskGroup: {
         taskDate: [],
         team: '',
-        outboundNameGroupId: null,
+        outboundNameGroupId: '',
         assignRule: '随机平均分配'
       },
       rules: {
@@ -292,8 +292,13 @@ export default {
   },
   methods: {
     changeCompany () {
-      this.taskGroup.team = ''
-      this.taskGroup.outboundNameGroupId = null
+      this.$refs['taskGroup'].validateField('companyId')
+      if (this.taskGroup.team) {
+        this.taskGroup.team = ''
+      }
+      if (this.taskGroup.outboundNameGroupId){
+        this.taskGroup.outboundNameGroupId = ''
+      }
       Api.getTeams({companyId: this.taskGroup.companyId}).then(res => {
         this.teamList = res.data
       })
@@ -331,15 +336,6 @@ export default {
     cancel (formName) {
       this.$router.push({path: '/task'})
     },
-    handleChange (value) {
-    },
-    handleSuccess (fileList) {
-    },
-    handleSizeChange (z) {
-      this.listQuery.limit = z
-    },
-    handleCurrentChange () {
-    }
   }
 }
 </script>
