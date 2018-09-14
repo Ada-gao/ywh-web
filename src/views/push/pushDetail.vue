@@ -62,7 +62,7 @@
       </el-table-column>
       <el-table-column align="center" label="推送状态">
         <template slot-scope="scope">
-          <span :style="scope.row.status==='推送成功'?'color:#009801':'color:#D0021B'">{{scope.row.isComplete}}</span>
+          <span :style="scope.row.status==='推送成功'?'color:#009801':'color:#D0021B'">{{scope.row.status}}</span>
           <el-tooltip effect="dark" placement="bottom"  :content="scope.row.failReason" v-show="scope.row.status!=='推送成功'">
             <i class="iconfont icon-wenti" style="color:#D0021B"/>
           </el-tooltip>
@@ -172,15 +172,14 @@
           this.$message.warning(`查询当前列表为空`);
           return
         }
-        if (this.listQuery.date) {
-          this.listQuery.startDate = this.listQuery.date[0]
-          this.listQuery.endDate = this.listQuery.date[1]
-        } else {
-          delete this.listQuery.startDate;
-          delete this.listQuery.endDate;
-        }
         let query = JSON.parse(JSON.stringify(this.listQuery))
-        delete query.date
+        if (query.date) {
+          query.startDate = query.date[0]
+          query.endDate = query.date[1]
+          delete query.date
+        }
+        query.pageIndex = 0
+        query.pageSize = this.total
         Api.getMessageHistory(this.id,query).then(res => {
           this.list = res.data.content
           this.total = res.data.totalElements
