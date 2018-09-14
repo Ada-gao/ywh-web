@@ -146,10 +146,14 @@
       const validateMobile = (rule, value, callback) => {
         let reg = /^((1[3-8][0-9])+\d{8})$/
         let flag = reg.test(value)
-        if (value && !flag) {
-          callback(new Error('请输入正确的手机号'))
+        if (value) {
+          if (flag){
+            callback()
+          }else{
+            callback(new Error('请输入正确的手机号'))
+          }
         } else {
-          callback()
+          callback(new Error('请输入手机号'))
         }
       }
       const checkValue = (rule, value, callback) => {
@@ -185,7 +189,7 @@
             {required: true, trigger: 'blur', validator: validatePass}
           ],
           mobile: [
-            {required: false, trigger: 'blur', validator: validateMobile}
+            {required: true, trigger: 'blur', validator: validateMobile}
           ],
           companyId: [
             {required: true, trigger: 'blur', message: '请选择所属公司'}

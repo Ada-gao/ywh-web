@@ -56,7 +56,7 @@ export function replaceKey (target, change) {
  * @param arr
  */
 export function transferIndustry (id, arr) {
-  let idx = arr.findIndex((item, index) => {
+  let idx = arr.findIndex(item => {
     return item.id === id
   })
   return arr[idx].name
