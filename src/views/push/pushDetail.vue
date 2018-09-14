@@ -114,15 +114,12 @@
     },
     methods: {
       getList() {
-        if (this.listQuery.date) {
-          this.listQuery.startDate = this.listQuery.date[0]
-          this.listQuery.endDate = this.listQuery.date[1]
-        } else {
-          delete this.listQuery.startDate;
-          delete this.listQuery.endDate;
-        }
         let query = JSON.parse(JSON.stringify(this.listQuery))
-        delete query.date
+        if (query.date) {
+          query.startDate = query.date[0]
+          query.endDate = query.date[1]
+          delete query.date
+        }
         Api.getMessageHistory(this.id,query).then(res => {
           this.list = res.data.content
           this.total = res.data.totalElements
@@ -131,8 +128,7 @@
             item.money = (item.money*0.01).toFixed(2)
             if (item.status === 'false') {
               item.status = '推送失败'
-            }
-            if (item.status === 'true') {
+            }else if (item.status === 'true') {
               item.status = '推送成功'
             }
             let date = new Date(item.createTime)
@@ -172,14 +168,48 @@
         this.getList()
       },
       handleExport(){
-        var wb = XLSX.utils.table_to_book(document.querySelector('#consumeTable'))
+        if (this.total === 0){
+          this.$message.warning(`查询当前列表为空`);
+          return
+        }
+        if (this.listQuery.date) {
+          this.listQuery.startDate = this.listQuery.date[0]
+          this.listQuery.endDate = this.listQuery.date[1]
+        } else {
+          delete this.listQuery.startDate;
+          delete this.listQuery.endDate;
+        }
+        let query = JSON.parse(JSON.stringify(this.listQuery))
+        delete query.date
+        Api.getMessageHistory(this.id,query).then(res => {
+          this.list = res.data.content
+          this.total = res.data.totalElements
+          this.listLoading = false
+          this.list.forEach(item => {
+            item.money = (item.money*0.01).toFixed(2)
+            if (item.status === 'false') {
+              item.status = '推送失败'
+            }else if (item.status === 'true') {
+              item.status = '推送成功'
+            }
+            let date = new Date(item.createTime)
+            let month = date.getMonth() + 1;
+            let day = date.getDate();
+            let minutes = date.getMinutes();
+            item.createTime = date.getFullYear() + '-' + (month < 10 ? '0' : '') + month + '-' + (day < 10 ? '0' : '') + day + ' ' + date.getHours() + ':' + (minutes < 10 ? '0' : '') + minutes
+          })
+          this.exportExcel(list,'推送详情列表.xlsx')
+        })
+      },
+      exportExcel(list, name){
+        const wb = { SheetNames: ['Sheet1'], Sheets: {}, Props: {} };
+        wb.Sheets['Sheet1'] = XLSX.utils.json_to_sheet(list);
         var wbout = XLSX.write(wb, {bookType: 'xlsx', bookSST: true, type: 'array'})
         try {
-          FileSaver.saveAs(new Blob([wbout], {type: 'application/octet-stream'}), '推送详情列表.xlsx')
+          FileSaver.saveAs(new Blob([wbout], {type: 'application/octet-stream'}), name)
         } catch (e) {
           if (typeof console !== 'undefined') console.log(e, wbout)
         }
-        return wbout
       },
     }
   }
