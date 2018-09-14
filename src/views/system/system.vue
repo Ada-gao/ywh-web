@@ -164,7 +164,7 @@
     </div>
     <div class="detail-title">
       <span class="list-tit">充值列表</span>
-      <el-button class="add_btn" @click="exportExcel">
+      <el-button class="add_btn" @click="handlerExcel">
         <i class="iconfont icon-piliangdaochu" style="color: #fff;margin-right: 10px"></i>批量导出
       </el-button>
     </div>
@@ -182,16 +182,16 @@
         </template>
       </el-table-column>
       <el-table-column align="center" label="帐户类型">
-        <template slot-scope="scope"><span>{{scope.row.accountType === 'Charge' ? '付费使用': '试用体验'}}</span></template>
+        <template slot-scope="scope"><span>{{scope.row.accountType}}</span></template>
       </el-table-column>
       <el-table-column align="center" label="充值金额">
-        <template slot-scope="scope"><span>{{(scope.row.money * 0.01).toFixed(2)}}</span></template>
+        <template slot-scope="scope"><span>{{scope.row.money}}</span></template>
       </el-table-column>
       <el-table-column align="center" label="充值时间" >
         <template slot-scope="scope"><span>{{scope.row.createTime}}</span></template>
       </el-table-column>
       <el-table-column align="center" label="充值状态">
-        <template slot-scope="scope"><span>{{scope.row.status?'充值成功':'充值失败'}}</span></template>
+        <template slot-scope="scope"><span>{{scope.row.status}}</span></template>
       </el-table-column>
       <el-table-column align="center" label="操作人">
         <template slot-scope="scope"><span>{{scope.row.userName}}</span></template>
@@ -258,11 +258,11 @@
         ],
         recharges: [
           {
-            label: '成功',
+            label: '充值成功',
             value: 'true'
           },
           {
-            label: '失败',
+            label: '充值失败',
             value: 'false'
           }
         ]
@@ -305,16 +305,6 @@
         }
         this.updateStatusDialog = true
       },
-      exportExcel() {
-        var wb = XLSX.utils.table_to_book(document.querySelector('#rechargeTable'))
-        var wbout = XLSX.write(wb, {bookType: 'xlsx', bookSST: true, type: 'array'})
-        try {
-          FileSaver.saveAs(new Blob([wbout], {type: 'application/octet-stream'}), '充值列表.xlsx')
-        } catch (e) {
-          if (typeof console !== 'undefined') console.log(e, wbout)
-        }
-        return wbout
-      },
       getAccounts() {
         Api.getAccounts(this.listQuery).then(response => {
           this.list = response.data.content
@@ -330,9 +320,60 @@
           this.listLoading2 = false
           this.list2.forEach(item => {
             let date = new Date(item.createTime)
+            item.money = (item.money * 0.01).toFixed(2)
+            item.accountType = item.accountType === 'Charge' ? '付费使用': '试用体验'
+            item.status = item.status ? '充值成功': '充值失败'
             item.createTime = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
           })
         })
+      },
+      handlerExcel() {
+        if (this.total2 === 0){
+          this.$message.warning(`查询当前列表为空`);
+          return
+        }
+        let query = JSON.parse(JSON.stringify(this.listQuery2))
+        query.pageIndex = 0
+        query.pageSize = this.total2
+        Api.getRechargePage(query).then(response => {
+          let list = response.data.content
+          list.forEach(item => {
+            item.money = (item.money * 0.01).toFixed(2)
+            item.accountType = item.accountType === 'Charge' ? '付费使用': '试用体验'
+            item.status = item.status ? '充值成功': '充值失败'
+            let date = new Date(item.createTime)
+            item.createTime = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() + ' ' +date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
+            item.充值流水号 = item.rechargeCode
+            item.充值帐号 = item.accountName
+            item.所属公司 = item.companyName
+            item.账户类型 = item.accountType
+            item.充值金额 = item.money
+            item.充值时间 = item.createTime
+            item.充值状态 = item.status
+            item.操作人 = item.userName
+            delete item.rechargeCode
+            delete item.money
+            delete item.status
+            delete item.userId
+            delete item.userName
+            delete item.createTime
+            delete item.remark
+            delete item.accountName
+            delete item.companyName
+            delete item.accountType
+          })
+          this.exportExcel(list,'充值列表.xlsx')
+        })
+      },
+      exportExcel(list, name){
+        const wb = { SheetNames: ['Sheet1'], Sheets: {}, Props: {} };
+        wb.Sheets['Sheet1'] = XLSX.utils.json_to_sheet(list);
+        var wbout = XLSX.write(wb, {bookType: 'xlsx', bookSST: true, type: 'array'})
+        try {
+          FileSaver.saveAs(new Blob([wbout], {type: 'application/octet-stream'}), name)
+        } catch (e) {
+          if (typeof console !== 'undefined') console.log(e, wbout)
+        }
       },
       handleSizeChange(val) {
         this.listQuery.pageSize = val
