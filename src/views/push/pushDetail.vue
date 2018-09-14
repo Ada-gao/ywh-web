@@ -126,10 +126,10 @@
           this.listLoading = false
           this.list.forEach(item => {
             item.money = (item.money*0.01).toFixed(2)
-            if (item.status === 'false') {
-              item.status = '推送失败'
-            }else if (item.status === 'true') {
+            if (item.status) {
               item.status = '推送成功'
+            }else  {
+              item.status = '推送失败'
             }
             let date = new Date(item.createTime)
             let month = date.getMonth() + 1;
@@ -181,21 +181,32 @@
         query.pageIndex = 0
         query.pageSize = this.total
         Api.getMessageHistory(this.id,query).then(res => {
-          this.list = res.data.content
-          this.total = res.data.totalElements
-          this.listLoading = false
-          this.list.forEach(item => {
+          let list = res.data.content
+          list.forEach(item => {
             item.money = (item.money*0.01).toFixed(2)
-            if (item.status === 'false') {
-              item.status = '推送失败'
-            }else if (item.status === 'true') {
+            if (item.status) {
               item.status = '推送成功'
+            }else  {
+              item.status = '推送失败'
             }
             let date = new Date(item.createTime)
             let month = date.getMonth() + 1;
             let day = date.getDate();
             let minutes = date.getMinutes();
             item.createTime = date.getFullYear() + '-' + (month < 10 ? '0' : '') + month + '-' + (day < 10 ? '0' : '') + day + ' ' + date.getHours() + ':' + (minutes < 10 ? '0' : '') + minutes
+            item.联系人姓名 = item.clientName
+            item.联系人手机 = item.phoneNum
+            item.推送时间 = item.createTime
+            item.单价 = item.money
+            item.推送状态 = item.status
+            delete item.id
+            delete item.createTime
+            delete item.consumptionCode
+            delete item.clientName
+            delete item.phoneNum
+            delete item.money
+            delete item.status
+            delete item.failReason
           })
           this.exportExcel(list,'推送详情列表.xlsx')
         })

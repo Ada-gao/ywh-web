@@ -98,6 +98,10 @@
       }
     },
     created() {
+      let accountId = sessionStorage.getItem('accountId')
+      if (accountId) {
+        this.listQuery.accountId = parseInt(accountId)
+      }
       this.isSuperAdmin = sessionStorage.getItem('isSuperAdmin')
       this.getList()
       this.getQuery()
