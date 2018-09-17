@@ -112,7 +112,7 @@
         })
       }
     },
-    mounted: function () {
+    created () {
       this.getCount()
     }
   }
