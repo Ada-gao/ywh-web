@@ -103,7 +103,7 @@
       </el-table-column>
       <el-table-column align="center" label="完成率" width="80">
         <template slot-scope="scope">
-          <span>{{scope.row.taskCompleteRate}}</span>
+          <span>{{scope.row.taskCompleteRate+'%'}}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="外呼次数限制" width="120">

@@ -26,12 +26,12 @@
           <el-col :span="11"><span class="detail-label">企业微信:</span><span class="detail-value">{{form.wechatNo}}</span></el-col>
           <el-col :span="22">
             <span class="detail-label" alt="" style="line-height: 80px;">公司LOGO:</span>
-            <img :src="form.logo" v-if="form.logo" style="width: 120px; height: 80px;">
+            <img :src="form.logo" v-if="form.logo" style="width: 120px; height: 80px;"/>
           </el-col>
           <el-col :span="22" style="margin-top: 20px">
             <span class="detail-label" style="line-height: 80px;">公司资质:</span>
             <template v-for="item in companyQualifications">
-              <img :src="item" alt="" style="width: 120px; height: 80px;margin-right: 10px;">
+              <img :src="item" :alt="item" style="width: 120px; height: 80px;margin-right: 10px;"/>
             </template>
           </el-col>
           <el-col :span="22" style="margin-top: 20px"><span class="detail-label" style="line-height: normal">备注:</span><div class="detail-value" style="max-width:600px;line-height:normal;word-wrap:break-word; word-break:normal;">{{form.remark}}</div></el-col>

@@ -137,11 +137,10 @@
         </el-table-column>
         <el-table-column align="center" label="外呼结果">
           <template slot-scope="scope">
-            <span v-if="scope.row.lastCallResult === 'FOLLOW'">进一步跟进</span>
-            <span v-if="scope.row.lastCallResult === 'REFUSE'">无意向拒绝</span>
-            <span v-if="scope.row.lastCallResult === 'NO_ANSWER'">无人接听</span>
             <span v-if="scope.row.lastCallResult === 'NOT_CALL'">未外呼</span>
-            <span v-if="scope.row.lastCallResult === 'BUSYING'">占线</span>
+            <span v-if="scope.row.lastCallResult === 'NOT_EXIST'">空号</span>
+            <span v-if="scope.row.lastCallResult === 'UNCONNECTED'">未接通</span>
+            <span v-if="scope.row.lastCallResult === 'CONNECTED'">已接通</span>
           </template>
         </el-table-column>
         <el-table-column align="center" label="有效通话时长">
@@ -315,7 +314,11 @@
           this.form.taskEndDate = new Date(this.form.taskEndDate).toLocaleDateString()
           this.list = res.data.nameList.content
           this.list.forEach((ele, index) => {
-            ele.gender = ele.gender === 'GENTLEMAN' ? '男' : '女'
+            if (ele.gender) {
+              ele.gender = ele.gender === 'GENTLEMAN' ? '男' : '女'
+            }else{
+              ele.gender = ''
+            }
             if (ele.duration === null) {
               ele.duration = 0
             } else {
