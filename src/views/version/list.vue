@@ -14,32 +14,32 @@
               style="width: 100%">
       <el-table-column align="center" label="目标版本号">
         <template slot-scope="scope">
-          <span>{{scope.row.id}}</span>
+          <span>{{scope.row.versionName}}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="策略名称">
         <template slot-scope="scope">
-          <span>{{scope.row.taskName}}</span>
+          <span>{{scope.row.name}}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="创建时间">
         <template slot-scope="scope">
-          <span>{{scope.row.productName}}</span>
+          <span>{{scope.row.createTime}}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="VersionCode">
         <template slot-scope="scope">
-          <span>{{scope.row.groupName}}</span>
+          <span>{{scope.row.versionCode}}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="版本状态">
         <template slot-scope="scope">
-          <span>{{scope.row.totalTaskCnt}}</span>
+          <span :style="scope.row.status?'color:#009801':'color:#D0021B'">{{scope.row.status?'启用':'停用'}}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="操作">
         <template slot-scope="scope">
-          <span>{{scope.row.totalTaskCnt}}</span>
+          <a size="small" class="common_btn" @click="handleUpdate(scope.row)">编辑</a>
         </template>
       </el-table-column>
     </el-table>
@@ -78,15 +78,15 @@
     },
     methods: {
       getList() {
-        Api.getAdminTasks(this.listQuery).then(response => {
+        Api.getVersionPage(this.listQuery).then(response => {
           this.list = response.data.content
           this.total = response.data.totalElements
           this.listLoading = false
           this.list.forEach(item => {
-            let date = new Date(item.taskEndDate)
+            let date = new Date(item.createTime)
             let month = date.getMonth() + 1;
             let day = date.getDate();
-            item.taskEndDate = date.getFullYear() + '-' + (month < 10 ? '0' : '') + month + '-' + (day < 10 ? '0' : '') + day
+            item.createTime = date.getFullYear() + '-' + (month < 10 ? '0' : '') + month + '-' + (day < 10 ? '0' : '') + day
           })
         })
       },
@@ -100,6 +100,9 @@
       },
       handleCreate() {
         this.$router.push({name: 'publishVersion'})
+      },
+      handleUpdate (obj) {
+        this.$router.push({name: 'publishVersion', query: obj})
       },
     }
   }

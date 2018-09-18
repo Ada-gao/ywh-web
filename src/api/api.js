@@ -119,3 +119,11 @@ export const getOrgSize = () => axios.get('/dict/TypeorgSize')
 // industry
 export const getAuthDustries = () => axios.get('/industry/auth/getAllTypes')
 export const getAuthDustryByType = typeId => axios.get('/industry/auth/getIndustrysByTypeId/' + typeId)
+// version
+export const getVersionPage = params => axios.get('/version', {params: params})
+export const createVersion = params => axios.post('/version', params)
+export const updateVersion = (id, params) => axios.put('/version/'+ id, params)
+
+
+
+
