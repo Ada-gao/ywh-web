@@ -132,6 +132,7 @@
           this.errorData = []
           let index = 0
           let mobileList = []
+          let nameList = []
           for (let i = 0; i < this.tableData.length; i++) {
             if (!this.tableData[i].销售姓名) {
               this.errorData[index] = new Object()
@@ -205,6 +206,14 @@
               this.errorData[index].错误行 = i + 2
               this.errorData[index].错误项 = '用户名（只能是数字和字母组合）'
               index++
+            }else {
+              let indexOf = nameList.indexOf(this.tableData[i].用户名)
+              if (indexOf != -1) {
+                this.errorData[index] = new Object()
+                this.errorData[index].错误行 = i + 2
+                this.errorData[index].错误项 = '用户名（与第' + (indexOf + 2) + '行重复）'
+                index++
+              }
             }
             if (this.tableData[i].微信号) {
               if (this.tableData[i].微信号.length < 6) {
@@ -241,6 +250,7 @@
               index++
             }
             mobileList[i] = this.tableData[i].手机号
+            nameList[i] = this.tableData[i].用户名
           }
           if (this.errorData.length > 0) {
             this.checkSuccess = false
