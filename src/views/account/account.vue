@@ -1,9 +1,9 @@
 <template>
   <div>
     <el-card :body-style="{ padding: '0px' }" style="height: 140px;">
-      <el-row :gutter="2" style="background: #e3e3e3;margin-top: 35px;margin-bottom: 35px;">
-        <el-col :span="12" style="background: #FFFFFF;">
-         <div style="background: #FFFFFF;">
+      <el-row :gutter="2" style="background: #FFFFFF;margin-top: 35px;margin-bottom: 35px;">
+        <el-col :span="12">
+         <div>
             <span
               style="width:70px;height:70px;background: #4AD2DB;line-height: 70px;text-align: center;float: left;border-radius: 4px;margin-right: 20px;margin-left: 100px;">
               <i class="iconfont icon-yue-copy" style="color: #FFFFFF;font-size: 50px;"></i>
@@ -18,7 +18,7 @@
            </div>
          </div>
         </el-col>
-        <el-col :span="12" style="background: #FFFFFF;">
+        <el-col :span="12">
           <span
             style="width:70px;height:70px;background: #FDCE82;line-height: 70px;text-align: center;float: left;border-radius: 4px;margin-right: 20px;margin-left: 100px">
               <i class="iconfont icon-yue-copy" style="color: #FFFFFF;font-size: 50px;"></i>

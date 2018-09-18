@@ -2,7 +2,6 @@ import Vue from 'vue'
 import 'babel-polyfill'
 import 'es6-promise-polyfill'
 import 'es6-promise'
-import App from './App'
 import moment from 'moment'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
@@ -14,6 +13,7 @@ import routes from './routes'
 import 'font-awesome/css/font-awesome.min.css'
 import timestamp from './common/js/util'
 // import { getToken } from '@/common/js/auth'
+import App from './App'
 
 Vue.filter('timestamp', timestamp.getLocalTime)
 
