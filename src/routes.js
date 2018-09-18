@@ -47,6 +47,9 @@ import systemDetail from './views/system/detail'
 // 12、问题反馈
 import feedback from './views/feedback'
 import fddetail from './views/feedback/detail'
+// 13、版本管理
+import listVersion from './views/version/list'
+import publishVersion from './views/version/publish'
 
 let routes = [
   {
@@ -189,6 +192,16 @@ let routes = [
     children: [
       {menuId: 141, path: '/feedback', component: feedback, name: '问题反馈'},
       {menuId: 142, path: '/feedback/detail', component: fddetail, name: 'fDetail'}
+    ]
+  },
+  {
+    menuId: 15,
+    path: '/',
+    component: Home,
+    leaf: true,
+    children: [
+      {menuId: 151, path: '/version/list', component: listVersion, name: 'listVersion'},
+      {menuId: 152, path: '/version/publish', component: publishVersion, name: 'publishVersion'}
     ]
   },
   {

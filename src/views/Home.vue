@@ -25,6 +25,7 @@
         </el-submenu>
         <el-menu-item index="11" v-if="isSuperAdmin === 'true'" route="/system"><i class="iconfont icon-quanxian"/><span slot="title">系统管理</span></el-menu-item>
         <el-menu-item index="12" v-if="isSuperAdmin === 'true'" route="/feedback"><i class="fa fa-question-circle"/><span slot="title">问题反馈</span></el-menu-item>
+        <el-menu-item index="13" v-if="isSuperAdmin === 'true'" route="/version/list"><i class="iconfont icon-banben"/><span slot="title">版本管理</span></el-menu-item>
       </el-menu>
     <el-container>
       <el-header>
