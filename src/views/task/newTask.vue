@@ -292,7 +292,7 @@ export default {
   },
   methods: {
     changeCompany () {
-      if (this.$refs['taskGroup'] && this.$refs['taskGroup'].hasAttribute('companyId')){
+      if (this.$refs['taskGroup']){
         this.$refs['taskGroup'].validateField('companyId')
       }
       if (this.taskGroup.team) {

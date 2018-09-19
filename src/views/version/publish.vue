@@ -36,7 +36,7 @@
           </el-col>
         </el-row>
         <el-row :gutter="20" v-if="updateStatus==='update'?false:true">
-          <el-col :span="16">
+          <el-col :span="8">
             <el-form-item label="升级文件" v-model="form.packageUrl" prop="packageUrl">
               <el-upload
                 class="upload-demo"
@@ -44,17 +44,18 @@
                 :action="uploadUrl"
                 :headers="headers"
                 :limit="1"
+                :before-upload="updateCheck"
                 :on-error="updateError"
                 :on-success="updateApk"
-                :show-file-list="false"
+                :show-file-list="true"
                 :auto-upload="true"
                 accept=".apk">
-                <div style="float: left;margin-right: 10px;">
+                <div style="float: left;margin-right: 10px;height: 60px;">
                     <el-button size="small" class="add_btn">上传升级文件（apk）</el-button>
                     <div style="font-size: 10px;color: #A1A1A1;margin-top: -10px">只能上传 apk格式文件</div>
                 </div>
                 <div style="float: left;">
-                  {{form.packageUrl}}
+                  {{filename}}
                 </div>
               </el-upload>
             </el-form-item>
@@ -93,6 +94,7 @@
               <el-date-picker
                 v-model="form.updateDeadline"
                 type="date"
+                default-time="23:59:59"
                 placeholder="选择最后升级时间"
                 :picker-options="pickerOptions0">
               </el-date-picker>
@@ -203,6 +205,7 @@
           ],
         },
         uploadUrl: process.env.BASE_API + '/version/upload',
+        filename:''
       }
     },
     created() {
@@ -215,10 +218,19 @@
       }
     },
     methods: {
+      updateCheck(file){
+        if (file.size / 1024 / 1024 > 50){
+          this.$message.error('文件大小不能超过50M');
+          return false
+        }else{
+          return true
+        }
+      },
       updateError() {
-        this.$message.warning('文件上传失败');
+        this.$message.error('文件上传失败');
       },
       updateApk(response, file, fileList) {
+        this.filename = file.name
         this.form.packageUrl = response
         this.$refs['form'].validateField('packageUrl')
         this.$refs.upload.clearFiles();

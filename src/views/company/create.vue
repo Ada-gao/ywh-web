@@ -150,12 +150,14 @@
               <el-input v-model="form.companyQualification" v-show="false" disabled/>
               <el-upload
                 class="upload-demo"
+                ref="upload"
                 :action="uploadUrl"
                 :headers="headers"
                 multiple
                 :on-remove="handleRemove"
                 :on-exceed="handleExceed"
                 :limit="5"
+                :before-upload="updateCheck"
                 :on-success="uploadCompanyQualification"
                 :auto-upload="true"
                 list-type="picture-card"
@@ -373,8 +375,15 @@
       this.getOrgSize()
     },
     methods: {
+      updateCheck(file){
+        if (file.size / 1024 / 1024 > 2){
+          this.$message.error('文件大小已超过2M');
+          return false
+        }
+        return true
+      },
       handleExceed(files, fileList) {
-        this.$message.warning(`当前限制选择 5 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+        this.$message.error(`当前限制选择 5 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
       },
       handleRemove(files, fileList) {
         console.log(fileList)
@@ -416,9 +425,14 @@
         this.previews = data
       },
       beforeAvatarUpload(file) {
-        this.option.img = window.URL.createObjectURL(file)
-        this.dialogVisible = true
-        return false
+        if (file.size / 1024/1024  > 2){
+          this.$message.error('公司LOGO不能超过2M');
+          return false
+        } else{
+          this.option.img = window.URL.createObjectURL(file)
+          this.dialogVisible = true
+          return true
+        }
       },
       uploadLogo() {
         this.$refs.cropper.getCropBlob((data) => {
