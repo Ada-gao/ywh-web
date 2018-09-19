@@ -65,8 +65,8 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="外呼次数限制：">
-              <span>{{form.limitedTimes}}</span>
-              <i class="fa fa-pencil-square-o" v-show="sysUser === 'superadmin'" @click="updateDialog = true"
+              <span>{{form.limitedTimes?form.limitedTimes:'无'}}</span>
+              <i class="fa fa-pencil-square-o" v-show="isSuperAdmin === 'true'" @click="updateDialog = true"
                  style="margin-left: 10px"></i>
             </el-form-item>
           </el-col>
@@ -182,7 +182,6 @@
 </template>
 
 <script>
-  import {mapGetters} from 'vuex'
   import {getToken} from '@/common/js/auth'
   import * as Api from "@/api/api"
 
@@ -231,19 +230,16 @@
         updateDialog: false,
         ruleForm: {
           times: null
-        }
+        },
+        isSuperAdmin:'false',
       }
     },
     created() {
+      this.isSuperAdmin  = sessionStorage.getItem('isSuperAdmin')
       this.listQuery.taskGroupId = this.$route.query.id
       this.groupName = this.$route.query.name
       this.getList()
       this.listLoading = false
-    },
-    computed: {
-      ...mapGetters([
-        'sysUser'
-      ])
     },
     methods: {
       updateLimitedTimes(formName) {

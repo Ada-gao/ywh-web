@@ -86,14 +86,14 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="名单状态">
+<!--      <el-table-column align="center" label="名单状态">
         <template slot-scope="scope">
           <span :style="scope.row.status==='生效'?'color:#17C263': scope.row.status==='待审核'?'color:#F7BA2A':'color:#D0021B'">{{scope.row.status}}</span>
           <el-tooltip effect="dark" placement="bottom"  :content="scope.row.rejectReason" v-show="scope.row.status==='审核失败'">
             <i class="iconfont icon-wenti" style="color:#D0021B"/>
           </el-tooltip>
         </template>
-      </el-table-column>
+      </el-table-column>-->
       <el-table-column align="center" label="名单导入时间">
         <template slot-scope="scope">
           <span>{{scope.row.createTime}}</span>
