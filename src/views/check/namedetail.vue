@@ -82,9 +82,6 @@
     <el-dialog title="审核通过" :visible.sync="agreeDialog" width="30%">
       <el-form :model="checkForm" :rules="checkRules" ref="checkForm" label-width="100px">
         <el-form-item label="确定审核通过吗？" class="txt" label-width="160px"/>
-       <!-- <el-form-item label="模版Code" prop="content" class="txt">
-          <el-input v-model="checkForm.content" placeholder="请输入模版Code" maxlength="12"></el-input>
-        </el-form-item>-->
       </el-form>
       <div style="text-align: right">
         <el-button class="search_btn" @click="agreeDialog = false">取 消</el-button>
@@ -164,7 +161,9 @@
         this.getList()
       },
       handleCheck (obj) {
-        delete this.checkForm.content
+        if (this.$refs['checkForm'] !== undefined) {
+          this.$refs['checkForm'].resetFields()
+        }
         if (obj){
           this.agreeDialog = true
         } else{

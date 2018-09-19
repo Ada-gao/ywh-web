@@ -2,6 +2,12 @@
   <div class="app-container">
     <div class="detail-title">
       <span class="list-tit">任务描述</span>
+      <el-button class="add_btn" @click="handleCheck(false)">
+        <i class="iconfont icon-jujue" style="color: #fff;margin-right: 10px"></i>不通过
+      </el-button>
+      <el-button class="add_btn" @click="handleCheck(true)">
+        <i class="iconfont icon-tongguo" style="color: #fff;margin-right: 10px"></i>通过
+      </el-button>
     </div>
     <div class="margin-line"></div>
     <div class="task-detail">
@@ -177,6 +183,29 @@
           <el-button class="add_btn" @click="updateLimitedTimes('ruleForm')">确 定</el-button>
         </div>
       </el-dialog>
+
+      <el-dialog title="审核通过" :visible.sync="agreeDialog" width="30%">
+        <el-form :model="checkForm" :rules="checkRules" ref="checkForm" label-width="100px">
+          <el-form-item label="确定审核通过吗？" class="txt" label-width="160px"/>
+        </el-form>
+        <div style="text-align: right">
+          <el-button class="search_btn" @click="agreeDialog = false">取 消</el-button>
+          <el-button class="add_btn" @click="commit('2')">确 定</el-button>
+        </div>
+      </el-dialog>
+      <el-dialog title="审核不通过" :visible.sync="refuseDialog" width="30%">
+        <el-form :model="checkForm" :rules="checkRules" ref="checkForm" label-width="80px">
+          <el-form-item label="确定审核不通过吗？请输入驳回原因！" class="txt" label-width="260px"/>
+          <el-form-item label="驳回原因" prop="content" class="txt">
+            <el-input  type="textarea" v-model="checkForm.content" :rows="3"  placeholder="请输入驳回原因" maxlength="50"></el-input>
+          </el-form-item>
+        </el-form>
+        <div style="text-align: right">
+          <el-button class="search_btn" @click="refuseDialog = false">取 消</el-button>
+          <el-button class="add_btn" @click="commit('1')">确 定</el-button>
+        </div>
+      </el-dialog>
+
     </div>
   </div>
 </template>
@@ -232,12 +261,22 @@
           times: null
         },
         isSuperAdmin:'false',
+        agreeDialog:false,
+        refuseDialog:false,
+        checkForm:{},
+        checkRules: {
+          content: [
+            {required: true, trigger: 'blur', message: '请输入内容'}
+          ],
+        },
+        obj:{}
       }
     },
     created() {
+      this.obj = this.$route.query
       this.isSuperAdmin  = sessionStorage.getItem('isSuperAdmin')
-      this.listQuery.taskGroupId = this.$route.query.id
-      this.groupName = this.$route.query.name
+      this.listQuery.taskGroupId = this.$route.query.productId
+      // this.groupName = this.$route.query.name
       this.getList()
       this.listLoading = false
     },
@@ -305,6 +344,7 @@
       getList() {
         Api.getTaskDetail(this.listQuery.taskGroupId, this.listQuery).then(res => {
           this.form = res.data.taskGroup
+          this.groupName = res.data.groupName
           this.form.nextAction = this.changeActionText(this.form.nextActionRule)
           this.form.taskStartDate = new Date(this.form.taskStartDate).toLocaleDateString()
           this.form.taskEndDate = new Date(this.form.taskEndDate).toLocaleDateString()
@@ -337,7 +377,34 @@
       handleCurrentChange(val) {
         this.listQuery.pageIndex = val - 1
         this.getList()
-      }
+      },
+      handleCheck (obj) {
+        this.checkForm = {}
+        if (this.$refs['checkForm'] !== undefined) {
+          this.$refs['checkForm'].resetFields()
+        }
+        if (obj){
+          this.agreeDialog = true
+        } else{
+          this.refuseDialog = true
+        }
+      },
+      commit (status) {
+        this.$refs['checkForm'].validate(valid => {
+          if (valid) {
+            Api.putReview(this.obj.id,status,this.checkForm.content)
+              .then((res) => {
+                this.$message({
+                  message: '操作成功',
+                  type: 'success'
+                })
+                this.$router.push({path: '/check'})
+              })
+          } else {
+            return false
+          }
+        })
+      },
     }
   }
 </script>

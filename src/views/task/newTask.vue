@@ -29,7 +29,7 @@
           <el-col :span="17">
             <el-form-item label="关联名单" prop="outboundNameGroupId">
               <!--<el-input v-model="form.empNo" placeholder="选择/输入关联名单"></el-input>-->
-              <el-select v-model="taskGroup.outboundNameGroupId" placeholder="选择/输入关联名单" @change="$refs['taskGroup'].validateField('outboundNameGroupId')" filterable>
+              <el-select v-model="taskGroup.outboundNameGroupId" placeholder="选择/输入关联名单" @change="$refs['taskGroup'].validateField('outboundNameGroupId')" >
                 <el-option
                   v-for="item in associateList"
                   :key="item.id"
@@ -58,7 +58,7 @@
           <el-col :span="17">
             <el-form-item label="关联团队" prop="team">
               <!--<el-input v-model="form.associateteam" placeholder="选择/输入关联团队"></el-input>-->
-              <el-select v-model="taskGroup.team" placeholder="选择/输入关联团队" @change="$refs['taskGroup'].validateField('team')" filterable>
+              <el-select v-model="taskGroup.team" placeholder="选择/输入关联团队" @change="$refs['taskGroup'].validateField('team')" >
                 <el-option
                   v-for="item in teamList"
                   :key="item"
@@ -324,6 +324,9 @@ export default {
           this.taskGroup.minimumDuration -= 0
           Api.createTask(this.taskGroup)
             .then((res) => {
+              if (res.data) {
+                alert(res.data)
+              }
               this.$message({
                 message: '创建成功',
                 type: 'success'

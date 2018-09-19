@@ -140,7 +140,9 @@
         })
       },
       handleCheck (obj) {
-        delete this.checkForm.content
+        if (this.$refs['checkForm'] !== undefined) {
+          this.$refs['checkForm'].resetFields()
+        }
         if (obj){
           this.agreeDialog = true
         } else{

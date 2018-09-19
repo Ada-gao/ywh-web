@@ -89,16 +89,18 @@
           <el-radio label="不通过" style="margin-left: 120px"></el-radio>
         </el-radio-group>
         <el-form :model="checkForm" :rules="checkRules" ref="checkForm" label-width="100px" style="margin-top: 20px">
-          <div v-if="checkRadio==='通过' && item && item.type != '外呼名单'">
-            <el-form-item label="模版Code" prop="content" class="txt">
-              <el-input v-model="checkForm.content" placeholder="请输入模版Code" maxlength="20"></el-input>
-            </el-form-item>
-          </div>
-          <div v-else-if="checkRadio==='不通过'">
+          <template v-if="checkRadio==='通过'">
+            <template v-if="item.type === '推送规则'">
+              <el-form-item label="模版Code" prop="content" class="txt">
+                <el-input v-model="checkForm.content" placeholder="请输入模版Code" maxlength="20"></el-input>
+              </el-form-item>
+            </template>
+          </template>
+          <template v-if="checkRadio==='不通过'">
             <el-form-item label="驳回原因" prop="content" class="txt">
               <el-input  type="textarea" v-model="checkForm.content" :rows="3"  placeholder="请输入驳回原因" maxlength="50"></el-input>
             </el-form-item>
-          </div>
+          </template>
         </el-form>
         <div style="text-align: right;margin-top: 30px">
           <el-button class="search_btn" @click="updateStatusDialog = false">取 消</el-button>
@@ -206,7 +208,9 @@
   export default {
     data() {
       return {
-        checkForm:{},
+        checkForm:{
+          content:''
+        },
         checkRules: {
           content: [
             {required: true, trigger: 'blur', message: '请输入内容'}
@@ -226,8 +230,8 @@
         currentPage: 1,
         types: [
           {
-            label: '外呼名单',
-            value: 'OutboundName'
+            label: '任务审核',
+            value: 'OutboundTask'
           },
           {
             label: '推送规则',
@@ -280,8 +284,8 @@
           this.total = res.data.totalElements
           this.listLoading = false
           this.list.forEach(item => {
-            if (item.type === 'OutboundName') {
-              item.type = '外呼名单'
+            if (item.type === 'OutboundTask') {
+              item.type = '任务审核'
             } else if (item.type === 'SmsTemplate') {
               item.type = '推送规则'
             }
@@ -312,8 +316,8 @@
           this.total2 = res.data.totalElements
           this.listLoading2 = false
           this.list2.forEach(item => {
-            if (item.type === 'OutboundName') {
-              item.type = '外呼名单'
+            if (item.type === 'OutboundTask') {
+              item.type = '任务审核'
             } else if (item.type === 'SmsTemplate') {
               item.type = '推送规则'
             }
@@ -335,8 +339,8 @@
         } else{
           obj.check = false
         }
-        if (obj.type === '外呼名单') {
-          this.$router.push({name: 'namedetail', query: obj})
+        if (obj.type === '任务审核') {
+          this.$router.push({name: 'taskdetail', query: obj})
         }else{
           this.$router.push({name: 'pushdetail', query: obj})
         }

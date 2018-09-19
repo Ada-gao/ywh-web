@@ -9,7 +9,7 @@
         <el-row :gutter="20">
           <el-col :span="10">
             <el-form-item label="公司名称" prop="companyName">
-              <el-input v-model="form.companyName" placeholder="请输入公司名称" maxlength="50"></el-input>
+              <el-input v-model="form.companyName" placeholder="请输入公司名称" :disabled="isSuperAdmin === 'true'?false:true" maxlength="50"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="10">

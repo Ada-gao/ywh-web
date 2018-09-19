@@ -34,6 +34,7 @@ import trialdetail from './views/trial/detail'
 import check from './views/check/check'
 import namedetail from './views/check/namedetail'
 import pushdetail from './views/check/pushdetail'
+import taskdetail from './views/check/taskdetail'
 // 10、报表统计
 import workload from './views/report/workload'
 import reportTask from './views/report/task'
@@ -157,7 +158,8 @@ let routes = [
     children: [
       {menuId: 111, path: '/check', component: check, name: '审核管理'},
       {menuId: 112, path: '/check/namedetail', component: namedetail, name: 'namedetail'},
-      {menuId: 112, path: '/check/pushdetail', component: pushdetail, name: 'pushdetail'}
+      {menuId: 113, path: '/check/pushdetail', component: pushdetail, name: 'pushdetail'},
+      {menuId: 114, path: '/check/taskdetail', component: taskdetail, name: 'taskdetail'}
     ]
   },
   {
@@ -166,10 +168,10 @@ let routes = [
     component: Home,
     leaf: false,
     children: [
-      {menuId: 121, path: '/report/workload', component: workload, name: '工作量统计', iconCls: 'fa fa-wpforms'},
-      {menuId: 122, path: '/report/task', component: reportTask, name: '外呼任务统计', iconCls: 'fa fa-wpforms'},
-      {menuId: 123, path: '/report/record', component: record, name: '历史通话记录', iconCls: 'fa fa-wpforms'},
-      {menuId: 124, path: '/report/count', component: count, name: '话务统计', iconCls: 'fa fa-wpforms'}
+      {menuId: 121, path: '/report/workload', component: workload, name: '工作量统计'},
+      {menuId: 122, path: '/report/task', component: reportTask, name: '外呼任务统计'},
+      {menuId: 123, path: '/report/record', component: record, name: '历史通话记录'},
+      {menuId: 124, path: '/report/count', component: count, name: '话务统计'}
     ]
   },
   {
