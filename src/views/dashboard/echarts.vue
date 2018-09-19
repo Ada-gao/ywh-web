@@ -23,9 +23,9 @@
               <i class="iconfont icon-xiaoshoushu"/>
             </div>
             <div class="info">
-              <div class="title">销售人数</div>
+              <div class="title">活跃销售人数</div>
               <div class="count" style="color: #FDCE82">
-                {{total.totalSalesCnt}}<span style="font-size: 14px">个</span>
+                {{total.enabledSalesCnt}}<span style="font-size: 14px">个</span>
               </div>
             </div>
           </div>
@@ -70,7 +70,7 @@
     data() {
       return {
         total: {
-          totalSalesCnt: 0,
+          enabledSalesCnt: 0,
           totalTaskCnt: 0,
           totalEffectiveDuration: 0,
           totalTaskCompleteCnt: 0
@@ -107,7 +107,7 @@
             this.total.totalEffectiveDuration = result
           }
           this.total.totalTaskCompleteCnt = res.data.totalTaskCompleteCnt || 0
-          this.total.totalSalesCnt = res.data.totalSalesCnt || 0
+          this.total.enabledSalesCnt = res.data.enabledSalesCnt || 0
           this.total.totalTaskCnt = res.data.totalTaskCnt || 0
         })
       }

@@ -325,13 +325,23 @@ export default {
           Api.createTask(this.taskGroup)
             .then((res) => {
               if (res.data) {
-                alert(res.data)
+                this.$alert(res.data, '提示', {
+                  confirmButtonText: '确定',
+                  callback: action => {
+                    this.$message({
+                      message: '创建成功',
+                      type: 'success'
+                    })
+                    this.$router.push({path: '/task'})
+                  }
+                });
+              }else{
+                this.$message({
+                  message: '创建成功',
+                  type: 'success'
+                })
+                this.$router.push({path: '/task'})
               }
-              this.$message({
-                message: '创建成功',
-                type: 'success'
-              })
-              this.$router.push({path: '/task'})
             })
         } else {
           return false

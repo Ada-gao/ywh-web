@@ -101,11 +101,19 @@ export default {
               */
               let user = res.data
               if (user.authorities[0].authority === 'ROLE_SALE') {
-                sessionStorage.removeItem('token')
-                alert('管理权限不足，请联系管理员')
+                this.$alert('管理权限不足，请联系管理员', '提示', {
+                  confirmButtonText: '确定',
+                  callback: action => {
+                    sessionStorage.removeItem('token')
+                  }
+                });
               } else if (user.authorities[0].authority === 'ROLE_ADMIN' && !user.accountId) {
-                sessionStorage.removeItem('token')
-                alert('帐号信息不存在，请联系管理员')
+                this.$alert('帐号信息不存在，请联系管理员', '提示', {
+                  confirmButtonText: '确定',
+                  callback: action => {
+                    sessionStorage.removeItem('token')
+                  }
+                });
               }else {
                 sessionStorage.setItem('username',user.username)
                 sessionStorage.setItem('isSuperAdmin',user.username === 'superadmin'?'true':'false')
