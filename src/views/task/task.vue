@@ -41,6 +41,17 @@
               :value="item">
             </el-option>
           </el-select>
+          <el-select v-model="listQuery.status"
+                     placeholder="任务状态"
+                     clearable
+                     @change="handleFilter2">
+            <el-option
+              v-for="item in states"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
         </el-col>
       </el-row>
     </div>
@@ -169,7 +180,21 @@
         value: '',
         orgSize: [],
         teams: [],
-        products: []
+        products: [],
+        states:[
+          {
+            label: '待审核',
+            value:  '0'
+          },
+          {
+            label: '审核失败',
+            value:  '1'
+          },
+          {
+            label: '生效',
+            value: '2'
+          }
+        ],
       }
     },
     created() {
@@ -219,6 +244,7 @@
       handleFilter() {
         delete this.listQuery.productName
         delete this.listQuery.team
+        delete this.listQuery.status
         if (!this.listQuery.taskName) {
           delete this.listQuery.taskName
         }
@@ -230,6 +256,9 @@
         delete this.listQuery.productName
         if (!this.listQuery.team) {
           delete this.listQuery.team
+        }
+        if (!this.listQuery.status) {
+          delete this.listQuery.status
         }
         this.listQuery.pageIndex = 0
         this.getList()
@@ -244,6 +273,9 @@
         }
         if (!this.listQuery.productName) {
           delete this.listQuery.productName
+        }
+        if (!this.listQuery.status) {
+          delete this.listQuery.status
         }
         this.listQuery.pageIndex = 0
         this.getList()

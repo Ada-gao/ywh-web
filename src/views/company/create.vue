@@ -132,9 +132,12 @@
               <img :src.sync="form.logo" alt="" v-if="form.logo" style="width: 120px; height: 80px;float: left;">
               <el-upload
                 class="upload-demo"
-                action=""
+                ref="uploadLogo"
                 :limit="1"
-                :before-upload="beforeAvatarUpload"
+                action=""
+                :on-change="beforeAvatarUpload"
+                :auto-upload="false"
+                :show-file-list="false"
                 accept=".png, .jpg">
                 <div style="text-align: left;margin-left: 10px;padding-top: 10px;height: 80px">
                   <el-button size="small" class="add_btn" style="margin-top: 0px">选择图片</el-button>
@@ -386,7 +389,6 @@
         this.$message.error(`当前限制选择 5 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
       },
       handleRemove(files, fileList) {
-        console.log(fileList)
         this.fileList = fileList
         this.form.companyQualification = ''
         this.fileList.forEach(item => {
@@ -404,7 +406,6 @@
         this.$refs['form'].validateField('companyQualification')
       },
       uploadCompanyQualification(response, file, fileList) {
-        console.log(fileList)
         this.fileList = fileList
         this.form.companyQualification = ''
         this.fileList.forEach(item => {
@@ -424,12 +425,13 @@
       realTime(data) {
         this.previews = data
       },
-      beforeAvatarUpload(file) {
+      beforeAvatarUpload(file, fileList) {
+        this.$refs.uploadLogo.clearFiles();
         if (file.size / 1024/1024  > 2){
           this.$message.error('公司LOGO不能超过2M');
           return false
         } else{
-          this.option.img = window.URL.createObjectURL(file)
+          this.option.img = file.url
           this.dialogVisible = true
           return true
         }

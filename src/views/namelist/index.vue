@@ -30,17 +30,6 @@
               :value="item.id">
             </el-option>
           </el-select>
-          <el-select v-model="listQuery.status"
-                     placeholder="名单状态"
-                     clearable
-                     @change="handleFilter1">
-            <el-option
-              v-for="item in states"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
         </el-col>
       </el-row>
     </div>
@@ -144,20 +133,6 @@ export default {
       value: '',
       companies: [],
       currentPage: 1,
-      states:[
-        {
-          label: '待审核',
-          value:  '0'
-        },
-        {
-          label: '审核失败',
-          value:  '1'
-        },
-        {
-          label: '生效',
-          value: '2'
-        }
-      ],
       isSuperAdmin:'false',
     }
   },
@@ -217,7 +192,6 @@ export default {
       if (this.isSuperAdmin === 'true'){
         delete this.listQuery.companyId
       }
-      delete this.listQuery.status
       if (!this.listQuery.groupName) {
         delete this.listQuery.groupName
       }
@@ -228,9 +202,6 @@ export default {
       delete this.listQuery.groupName
       if (!this.listQuery.companyId) {
         delete this.listQuery.companyId
-      }
-      if (!this.listQuery.status) {
-        delete this.listQuery.status
       }
       this.listQuery.pageIndex = 0
       this.getList()
