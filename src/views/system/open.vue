@@ -153,7 +153,8 @@
             callback(new Error('请输入正确的手机号'))
           }
         } else {
-          callback(new Error('请输入手机号'))
+          //callback(new Error('请输入手机号'))
+          callback()
         }
       }
       const checkValue = (rule, value, callback) => {
@@ -189,7 +190,7 @@
             {required: true, trigger: 'blur', validator: validatePass}
           ],
           mobile: [
-            {required: true, trigger: 'blur', validator: validateMobile}
+            {required: false, trigger: 'blur', validator: validateMobile}
           ],
           companyId: [
             {required: true, trigger: 'blur', message: '请选择所属公司'}
