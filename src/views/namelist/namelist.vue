@@ -2,7 +2,7 @@
   <section>
     <div class="filter-container">
       <div class="detail-title">
-        <span class="list-tit">名单查询</span>
+        <span class="list-tit">名单明细查询</span>
       </div>
       <el-row style="margin-top: 10px">
         <el-col :span="8">
@@ -33,7 +33,7 @@
       </el-row>
     </div>
     <div class="detail-title">
-      <span class="list-tit">名单列表</span>
+      <span class="list-tit">名单明细列表</span>
     </div>
     <el-table :key='tableKey'
               :data="list"

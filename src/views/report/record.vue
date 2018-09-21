@@ -23,7 +23,7 @@
         <el-col :span="14" style="text-align: right;">
           <el-select v-model="listQuery.accountId"
                      :disabled="isSuperAdmin !== 'true'"
-                     placeholder="所属账户"
+                     placeholder="账户筛选"
                      clearable
                      @change="handleFilter1">
             <el-option
@@ -34,7 +34,7 @@
             </el-option>
           </el-select>
           <el-select v-model="listQuery.team"
-                     placeholder="所属团队"
+                     placeholder="团队筛选"
                      clearable
                      @change="handleFilter1">
             <el-option
@@ -45,7 +45,7 @@
             </el-option>
           </el-select>
           <el-select v-model="listQuery.callType"
-                     placeholder="拨打类型"
+                     placeholder="拨打类型筛选"
                      clearable
                      @change="handleFilter1">
             <el-option

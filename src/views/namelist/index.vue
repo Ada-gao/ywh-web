@@ -2,7 +2,7 @@
   <section>
     <div class="filter-container">
       <div class="detail-title">
-        <span class="list-tit">批次查询</span>
+        <span class="list-tit">名单查询</span>
       </div>
       <el-row style="margin-top: 10px">
         <el-col :span="8">

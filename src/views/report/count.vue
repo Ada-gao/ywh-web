@@ -16,7 +16,7 @@
         </el-col>
         <el-col :span="10" style="text-align: right;">
           <el-select v-model="listQuery.accountId"
-                     placeholder="所属账户"
+                     placeholder="账户筛选"
                      clearable
                      @change="handleFilter1">
             <el-option

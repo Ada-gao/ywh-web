@@ -12,7 +12,7 @@
               border fit
               highlight-current-row
               style="width: 100%">
-      <el-table-column align="center" label="目标版本号">
+      <el-table-column align="center" label="版本名称">
         <template slot-scope="scope">
           <span>{{scope.row.versionName}}</span>
         </template>
@@ -27,7 +27,7 @@
           <span>{{scope.row.createTime}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="VersionCode">
+      <el-table-column align="center" label="版本号">
         <template slot-scope="scope">
           <span>{{scope.row.versionCode}}</span>
         </template>

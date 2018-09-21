@@ -13,7 +13,7 @@
         </div>
         <el-row>
           <el-col :span="14">
-            <el-input @keyup.enter.native="handleFilter" style="width: 190px;" class="filter-item" placeholder="输入公司名称"
+            <el-input @keyup.enter.native="handleFilter" style="width: 190px;" class="filter-item" placeholder="输入所属公司名称"
                       v-model="listQuery.companyName"/>
             <el-date-picker v-model="listQuery.date"
                             type="daterange"
@@ -25,7 +25,7 @@
             </el-button>
           </el-col>
           <el-col :span="10" style="text-align: right;">
-            <el-select v-model="listQuery.type" placeholder="审核类型" clearable @change="handleFilter1">
+            <el-select v-model="listQuery.type" placeholder="审核类型筛选" clearable @change="handleFilter1">
               <el-option
                 v-for="item in types"
                 :key="item.value"
@@ -115,7 +115,7 @@
         </div>
         <el-row>
           <el-col :span="14">
-            <el-input @keyup.enter.native="handleFilter2" style="width: 190px;" class="filter-item" placeholder="输入公司名称"
+            <el-input @keyup.enter.native="handleFilter2" style="width: 190px;" class="filter-item" placeholder="输入所属公司名称"
                       v-model="listQuery2.companyName"/>
             <el-date-picker v-model="listQuery2.date"
                             type="daterange"
@@ -128,7 +128,7 @@
           </el-col>
           <el-col :span="10" style="text-align: right;">
             <el-select v-model="listQuery2.status"
-                       placeholder="审核状态"
+                       placeholder="审核状态筛选"
                        clearable
                        @change="handleFilter3">
               <el-option
@@ -138,7 +138,7 @@
                 :value="item.value">
               </el-option>
             </el-select>
-            <el-select v-model="listQuery2.type" placeholder="审核类型" clearable @change="handleFilter3">
+            <el-select v-model="listQuery2.type" placeholder="审核类型筛选" clearable @change="handleFilter3">
               <el-option
                 v-for="item in types"
                 :key="item.value"

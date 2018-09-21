@@ -15,13 +15,13 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item label="目标版本号" prop="versionName">
+            <el-form-item label="版本名称" prop="versionName">
               <el-input v-model="form.versionName" placeholder="请输入目标版本号" :disabled="updateStatus==='update'?true:false" maxlength="10"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="VersionCode" prop="versionCode">
-              <el-input v-model="form.versionCode" placeholder="请输入VersionCode" :disabled="updateStatus==='update'?true:false" maxlength="10"></el-input>
+            <el-form-item label="版本号" prop="versionCode">
+              <el-input v-model="form.versionCode" placeholder="请输入版本号" :disabled="updateStatus==='update'?true:false" maxlength="10"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -138,7 +138,7 @@
             }
           }
         }else{
-          callback(new Error('请输入VersionCode'))
+          callback(new Error('请输入版本号'))
         }
       }
       const validatePromptDate = (rule, value, callback) => {

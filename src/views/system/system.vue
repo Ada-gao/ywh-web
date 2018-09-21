@@ -33,7 +33,7 @@
         </el-col>
         <el-col :span="10" style="text-align: right;">
           <el-select v-model="listQuery.type"
-                     placeholder="账户类型"
+                     placeholder="账户类型筛选"
                      clearable
                      @change="handleFilter1">
             <el-option
@@ -44,7 +44,7 @@
             </el-option>
           </el-select>
           <el-select v-model="listQuery.status"
-                     placeholder="账户状态"
+                     placeholder="账户状态筛选"
                      clearable
                      @change="handleFilter1">
             <el-option
@@ -138,7 +138,7 @@
         </el-col>
         <el-col :span="10" style="text-align: right;">
           <el-select v-model="listQuery2.accountType"
-                     placeholder="账户类型"
+                     placeholder="账户类型筛选"
                      clearable
                      @change="handleFilter4">
             <el-option
@@ -149,7 +149,7 @@
             </el-option>
           </el-select>
           <el-select v-model="listQuery2.status"
-                     placeholder="充值状态"
+                     placeholder="充值状态筛选"
                      clearable
                      @change="handleFilter4">
             <el-option

@@ -61,7 +61,7 @@
         </el-col>
         <el-col :span="16" style="text-align: right;">
           <el-select v-model="listQuery.status"
-                     placeholder="状态"
+                     placeholder="状态筛选"
                      clearable
                      @change="handleFilter1">
             <el-option

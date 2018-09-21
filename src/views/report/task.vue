@@ -22,7 +22,7 @@
         </el-col>
         <el-col :span="10" style="text-align: right;">
           <el-select v-model="listQuery.team"
-                     placeholder="所属团队"
+                     placeholder="团队筛选"
                      clearable
                      @change="handleFilter1">
             <el-option
@@ -33,7 +33,7 @@
             </el-option>
           </el-select>
           <el-select v-model="listQuery.productName"
-                     placeholder="产品名称"
+                     placeholder="产品筛选"
                      clearable
                      @change="handleFilter2">
             <el-option
