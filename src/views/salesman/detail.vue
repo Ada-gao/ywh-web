@@ -82,14 +82,12 @@
           </el-col>
         </el-row>
       </el-form>
-      <el-row>
         <el-col :span="20" slot="footer" class="dialog-footer" style="text-align: center">
           <el-button v-show="updateStatus==='create' || updateStatus==='update'" class="add_btn" @click="create('form')">提
             交
           </el-button>
           <el-button class="search_btn" @click="cancel('form')">取 消</el-button>
         </el-col>
-      </el-row>
     </div>
     <div class="read-detail" v-if="updateStatus==='view'">
       <el-form :model="form" class="form-border" style="margin-bottom: 20px">
