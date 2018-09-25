@@ -233,7 +233,7 @@
         params.companyId = this.form.companyId
         params.groupName = encodeURI(this.form.groupName)
         params.maskPhoneNo = this.form.maskPhoneNo
-        params.source = this.form.source
+        params.source = encodeURI(this.form.source)
         Api.addNameExcel(params, table).then(res => {
           this.$message({
             message: '导入成功',
