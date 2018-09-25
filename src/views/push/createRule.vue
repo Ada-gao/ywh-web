@@ -19,7 +19,8 @@
         <el-row>
           <el-col :span="7">
             <el-form-item label="所属公司" prop="companyId">
-              <el-select v-model="form.companyId" placeholder="选择/输入所属公司" @change="changeCompany" filterable style="width: 100%" :disabled="isSuperAdmin !== 'true'">
+              <el-select v-model="form.companyId" placeholder="选择/输入所属公司" @change="changeCompany" filterable
+                         style="width: 100%" :disabled="isSuperAdmin !== 'true'">
                 <el-option
                   v-for="item in companies"
                   :key="item.id"
@@ -43,7 +44,8 @@
           </el-col>
           <el-col :span="7">
             <el-form-item label="关联名单">
-              <el-select v-model="form.outboundNameGroupId" placeholder="选择/输入关联名单" filterable clearable style="width: 100%">
+              <el-select v-model="form.outboundNameGroupId" placeholder="选择/输入关联名单" filterable clearable
+                         style="width: 100%">
                 <el-option
                   v-for="item in associateList"
                   :key="item.id"
@@ -71,7 +73,7 @@
                   :value="item">
                 </el-option>
               </el-select>
-              <el-input v-model="form.duration" placeholder="请输入时长" style="width: 72%;"  maxlength="8"/>
+              <el-input v-model="form.duration" placeholder="请输入时长" style="width: 72%;" maxlength="8"/>
             </el-form-item>
           </el-col>
           <el-col :span="7">
@@ -88,7 +90,8 @@
           </el-col>
           <el-col :span="7">
             <el-form-item label="外呼状态" prop="lastCallResult">
-              <el-select v-model="form.lastCallResult" placeholder="请选择外呼状态" clearable style="width: 100%" @change="changeStatus">
+              <el-select v-model="form.lastCallResult" placeholder="请选择外呼状态" clearable style="width: 100%"
+                         @change="changeStatus">
                 <el-option
                   v-for="item in status"
                   :key="item.value"
@@ -135,6 +138,7 @@
 
 <script>
   import * as Api from "@/api/api"
+
   export default {
     data() {
       const checkNumber = (rule, value, callback) => {
@@ -225,7 +229,7 @@
             value: 'FOLLOW'
           }
         ],
-        isSuperAdmin:'false',
+        isSuperAdmin: 'false',
       }
     },
     created() {
@@ -233,7 +237,7 @@
       if (obj && obj.id) {
         this.form = obj
         this.updateStatus = 'update'
-        if (this.form.triggerScene === '外呼前'){
+        if (this.form.triggerScene === '外呼前') {
           delete this.form.lastCallResult
         }
         this.getList(obj.companyId)
@@ -254,8 +258,8 @@
           this.companies = res.data
         })
       },
-      changeMode(){
-        if (this.form.triggerScene != '外呼后'){
+      changeMode() {
+        if (this.form.triggerScene != '外呼后') {
           delete this.form.duration
           delete this.form.nextAction
           delete this.form.lastCallResult
@@ -267,10 +271,10 @@
         delete this.form.outboundNameGroupId
         this.getList()
       },
-      changeStatus(){
+      changeStatus() {
         this.$refs['form'].validateField('lastCallResult')
       },
-      getList(){
+      getList() {
         Api.getTeams({companyId: this.form.companyId}).then(res => {
           this.teamList = res.data
         })
@@ -279,10 +283,14 @@
         })
       },
       commit() {
+
         this.$refs['form'].validate(valid => {
           if (valid) {
-            if (this.updateStatus === 'update'){
-              Api.putMessage(this.form.id,this.form)
+            if (!this.form.nextAction) {
+              delete this.form.nextAction
+            }
+            if (this.updateStatus === 'update') {
+              Api.putMessage(this.form.id, this.form)
                 .then((res) => {
                   this.$message({
                     message: '修改成功',
@@ -290,7 +298,7 @@
                   })
                   this.$router.push({path: '/push/rule'})
                 })
-            } else{
+            } else {
               Api.message(this.form)
                 .then((res) => {
                   this.$message({

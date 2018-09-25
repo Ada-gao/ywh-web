@@ -7,74 +7,82 @@
     <div class="task-detail">
       <el-form :model="form" class="form-border" style="margin-bottom: 20px">
         <el-row :gutter="20">
-          <el-col :span="8">
-            <el-form-item label="关联名单：">
-              <span>{{groupName}}</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="任务名称：">
-              <span>{{form.taskName}}</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="推广产品：">
-              <span>{{form.productName}}</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="销售数：">
-              <span>{{salesCnt}}</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="分配规则：">
-              <span>{{form.assignRule}}</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="任务目标：">
-              <span>{{form.taskTarget}}</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="外呼话术：">
-              <el-popover
-                placement="right"
-                width="200"
-                :content="form.salesTalk"
-                trigger="click">
-                <span  slot="reference" class="blue-color">点击查看</span>
-              </el-popover>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="任务时间：">
-              <span>{{form.taskStartDate}} - {{form.taskEndDate}}</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="有效通话时长（秒)：">
-              <span>{{form.minimumDuration}}</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="有效任务数（通）：通/人/天：">
-              <span>{{form.effectiveTasks}}</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="外呼次数限制：">
-              <span>{{form.limitedTimes?form.limitedTimes:'无'}}</span>
-              <i class="fa fa-pencil-square-o" v-show="isSuperAdmin === 'true'" @click="updateDialog = true"
-                 style="margin-left: 10px"></i>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="外呼频率（间隔）天：">
-              <span>{{form.interv}}</span>
-            </el-form-item>
-          </el-col>
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="关联名单：">
+                <span>{{groupName}}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="任务名称：">
+                <span>{{form.taskName}}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="推广产品：">
+                <span>{{form.productName}}</span>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="销售数：">
+                <span>{{salesCnt}}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="分配规则：">
+                <span>{{form.assignRule}}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="任务目标：">
+                <span>{{form.taskTarget}}</span>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="外呼话术：">
+                <el-popover
+                  placement="right"
+                  width="200"
+                  :content="form.salesTalk"
+                  trigger="click">
+                  <span  slot="reference" class="blue-color">点击查看</span>
+                </el-popover>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="任务时间：">
+                <span>{{form.taskStartDate}} - {{form.taskEndDate}}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="有效通话时长（秒)：">
+                <span>{{form.minimumDuration}}</span>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="有效任务数（通）：通/人/天：">
+                <span>{{form.effectiveTasks}}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="外呼次数限制：">
+                <span>{{form.limitedTimes?form.limitedTimes:'无'}}</span>
+                <i class="fa fa-pencil-square-o" v-show="isSuperAdmin === 'true'" @click="updateDialog = true"
+                   style="margin-left: 10px"></i>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="外呼频率（间隔）天：">
+                <span>{{form.interv}}</span>
+              </el-form-item>
+            </el-col>
+          </el-row>
         </el-row>
       </el-form>
       <div class="detail-title">

@@ -27,7 +27,7 @@
         <el-menu-item index="12" v-if="isSuperAdmin === 'true'" route="/feedback"><i class="fa fa-question-circle"/><span slot="title">问题反馈</span></el-menu-item>
         <el-menu-item index="13" v-if="isSuperAdmin === 'true'" route="/version/list"><i class="iconfont icon-banben"/><span slot="title">版本管理</span></el-menu-item>
       </el-menu>
-    <el-container>
+    <el-container style="width: 90%">
       <el-header>
         <div class="hello" @click="collapse" style="cursor:pointer">
           <i :class="isCollapse ? 'iconfont icon-zhankaicaidan' : 'iconfont icon-shouqicaidan'"/>{{now}}好，{{username}}！

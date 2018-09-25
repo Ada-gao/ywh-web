@@ -82,12 +82,14 @@
           </el-col>
         </el-row>
       </el-form>
-      <el-col :span="20" slot="footer" class="dialog-footer" style="text-align: center">
-        <el-button v-show="updateStatus==='create' || updateStatus==='update'" class="add_btn" @click="create('form')">提
-          交
-        </el-button>
-        <el-button class="search_btn" @click="cancel('form')">取 消</el-button>
-      </el-col>
+      <el-row>
+        <el-col :span="20" slot="footer" class="dialog-footer" style="text-align: center">
+          <el-button v-show="updateStatus==='create' || updateStatus==='update'" class="add_btn" @click="create('form')">提
+            交
+          </el-button>
+          <el-button class="search_btn" @click="cancel('form')">取 消</el-button>
+        </el-col>
+      </el-row>
     </div>
     <div class="read-detail" v-if="updateStatus==='view'">
       <el-form :model="form" class="form-border" style="margin-bottom: 20px">
@@ -107,6 +109,8 @@
               <span>{{form.team}}</span>
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row>
           <el-col :span="8">
             <el-form-item label="销售名称:" label-width="80px">
               <span>{{form.name}}</span>
@@ -122,6 +126,8 @@
               <span>{{form.mobile}}</span>
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row>
           <el-col :span="8">
             <el-form-item label="创建时间:" label-width="80px">
               <span>{{form.createdDate}}</span>

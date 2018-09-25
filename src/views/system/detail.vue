@@ -33,12 +33,16 @@
               class="detail-value">{{account.accountName}}</span></el-col>
             <el-col :span="8"><span class="detail-label">账户类型:</span><span
               class="detail-value">{{account.accountType}}</span></el-col>
-            <el-col :span="8"><span class="detail-label">Account ID:</span><span class="detail-value">{{account.accountId}}</span>
-            </el-col>
-            <el-col :span="8"><span class="detail-label">账户到期时间:</span><span
-              class="detail-value">{{account.expireDate?account.expireDate:'长期有效'}}</span></el-col>
-            <el-col :span="8"><span class="detail-label">账户状态:</span><span class="detail-value">{{accountStatus? '生效' : '失效'}}</span>
-            </el-col>
+          </el-row>
+            <el-row>
+              <el-col :span="8"><span class="detail-label">Account ID:</span><span class="detail-value">{{account.accountId}}</span>
+              </el-col>
+              <el-col :span="8"><span class="detail-label">账户到期时间:</span><span
+                class="detail-value">{{account.expireDate?account.expireDate:'长期有效'}}</span></el-col>
+              <el-col :span="8"><span class="detail-label">账户状态:</span><span class="detail-value">{{accountStatus? '生效' : '失效'}}</span>
+              </el-col>
+            </el-row>
+            <el-row>
             <el-col :span="8"><span class="detail-label">key:</span><span
               class="detail-value">{{account.accountKey}}</span></el-col>
             <el-col :span="8"><span class="detail-label">余额提醒:</span><span class="detail-value">{{(account.balanceThreshold * 0.01).toFixed(2)}}</span>
@@ -229,36 +233,52 @@
               class="detail-value">{{form.companyCode}}</span></el-col>
             <el-col :span="11"><span class="detail-label">公司名称:</span><span
               class="detail-value">{{form.companyName}}</span></el-col>
-            <el-col :span="11"><span class="detail-label">公司简称:</span><span
-              class="detail-value">{{form.shortName}}</span></el-col>
-            <el-col :span="11"><span class="detail-label">所在地:</span><span class="detail-value">{{form.companyProvince}}-{{form.companyCity}}</span>
-            </el-col>
-            <el-col :span="11"><span class="detail-label">公司地址:</span><span
-              class="detail-value">{{form.companyAddress}}</span></el-col>
-            <el-col :span="11"><span class="detail-label">所属行业:</span><span
-              class="detail-value">{{form.industryType}}</span></el-col>
-            <el-col :span="11"><span class="detail-label">公司规模:</span><span class="detail-value">{{form.orgSize}}</span>
-            </el-col>
-            <el-col :span="11"><span class="detail-label">联系人:</span><span class="detail-value">{{form.contact}}</span>
-            </el-col>
+          </el-row>
+            <el-row>
+              <el-col :span="11"><span class="detail-label">公司简称:</span><span
+                class="detail-value">{{form.shortName}}</span></el-col>
+              <el-col :span="11"><span class="detail-label">所在地:</span><span class="detail-value">{{form.companyProvince}}-{{form.companyCity}}</span>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="11"><span class="detail-label">公司地址:</span><span
+                class="detail-value">{{form.companyAddress}}</span></el-col>
+              <el-col :span="11"><span class="detail-label">所属行业:</span><span
+                class="detail-value">{{form.industryType}}</span></el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="11"><span class="detail-label">公司规模:</span><span class="detail-value">{{form.orgSize}}</span>
+              </el-col>
+              <el-col :span="11"><span class="detail-label">联系人:</span><span class="detail-value">{{form.contact}}</span>
+              </el-col>
+            </el-row>
+          <el-row>
             <el-col :span="11"><span class="detail-label">职务:</span><span
               class="detail-value">{{form.occupation}}</span></el-col>
             <el-col :span="11"><span class="detail-label">联系手机:</span><span
               class="detail-value">{{form.contactMobile}}</span></el-col>
+          </el-row>
+          <el-row>
             <el-col :span="11"><span class="detail-label">企业邮箱:</span><span class="detail-value">{{form.email}}</span>
             </el-col>
             <el-col :span="11"><span class="detail-label">企业微信:</span><span
               class="detail-value">{{form.wechatNo}}</span></el-col>
-            <el-col :span="22">
-              <span class="detail-label" alt="" style="line-height: 80px;">公司LOGO:</span>
-              <img :src="form.logo" v-if="form.logo" style="width: 120px; height: 80px;">
-            </el-col>
-            <el-col :span="22" style="margin-top: 20px">
-              <span class="detail-label" style="line-height: 80px;">公司资质:</span>
-              <template v-for="item in companyQualifications">
-                <img :src="item" alt="" style="width: 120px; height: 80px;margin-right: 10px;">
-              </template>
-            </el-col>
+          </el-row>
+           <el-row>
+             <el-col :span="22">
+               <span class="detail-label" alt="" style="line-height: 80px;">公司LOGO:</span>
+               <img :src="form.logo" v-if="form.logo" style="width: 120px; height: 80px;">
+             </el-col>
+           </el-row>
+            <el-row>
+              <el-col :span="22" style="margin-top: 20px">
+                <span class="detail-label" style="line-height: 80px;">公司资质:</span>
+                <template v-for="item in companyQualifications">
+                  <img :src="item" alt="" style="width: 120px; height: 80px;margin-right: 10px;">
+                </template>
+              </el-col>
+            </el-row>
+          <el-row>
             <el-col :span="22" style="margin-top: 20px"><span class="detail-label"
                                                               style="line-height: normal">备注:</span>
               <div class="detail-value"
