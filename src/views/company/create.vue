@@ -125,6 +125,11 @@
               <el-input v-model="form.wechatNo" placeholder="请输入企业微信" maxlength="100"></el-input>
             </el-form-item>
           </el-col>
+          <el-col :span="10">
+            <el-form-item label="对外号码" prop="ecpId">
+              <el-input v-model="form.ecpId" placeholder="请输入对外号码" maxlength="15"></el-input>
+            </el-form-item>
+          </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="20">
@@ -268,6 +273,21 @@
           callback()
         }
       }
+      const checkNumber = (rule, value, callback) => {
+        if (!value) {
+          return callback(new Error('请输入对外号码'))
+        } else {
+          if (value.length < 4){
+            callback(new Error('对外号码不能小于4位数'))
+          }else{
+            if (!/^[0-9]+$/.test(value)) {
+              callback(new Error('对外号码只能是数字组合'))
+            } else {
+              callback()
+            }
+          }
+        }
+      }
       return {
         previews: {},
         option: {
@@ -346,6 +366,9 @@
           ],
           wechatNo: [
             {required: false, trigger: 'blur', validator: validateWechatNo}
+          ],
+          ecpId: [
+            {required: true, trigger: 'blur', validator: checkNumber}
           ],
           companyQualification: [
             {required: true, trigger: 'blur', message: '请上传公司资质'}
