@@ -193,7 +193,7 @@
         }
         this.listQuery.pageIndex = 0
         this.getList()
-        Api.getProductByTeam(this.listQuery.team).then((res) => {
+        Api.getProductByTeam(encodeURI(this.listQuery.team)).then((res) => {
           this.products = res.data
         })
       },
