@@ -203,7 +203,11 @@
     },
     methods: {
       getList() {
-        Api.getAdminTasks(this.listQuery).then(response => {
+        let query = JSON.parse(JSON.stringify(this.listQuery))
+        if (query.team){
+          query.team = encodeURI(query.team)
+        }
+        Api.getAdminTasks(query).then(response => {
           this.list = response.data.content
           this.total = response.data.totalElements
           this.listLoading = false
