@@ -8,56 +8,65 @@
       <el-form :model="form" :rules="rules" ref="form" label-width="120px">
         <el-row :gutter="20">
           <el-col :span="16">
-            <el-form-item label="策略名称" prop="name">
-              <el-input v-model="form.name" placeholder="请输入策略名称" maxlength="20"></el-input>
+            <el-form-item label="识别号" prop="appPackage">
+              <el-input v-model="form.appPackage" placeholder="请输入识别号" maxlength="50"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item label="版本名称" prop="versionName">
-              <el-input v-model="form.versionName" placeholder="请输入目标版本号" :disabled="updateStatus==='update'?true:false" maxlength="10"></el-input>
+              <el-input v-model="form.versionName" placeholder="请输入版本名称" maxlength="10"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="版本号" prop="versionCode">
-              <el-input v-model="form.versionCode" placeholder="请输入版本号" :disabled="updateStatus==='update'?true:false" maxlength="10"></el-input>
+              <el-input v-model="form.versionCode" placeholder="请输入版本号" maxlength="10"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="16">
-            <el-form-item label="升级方式" prop="promptType">
-              <el-radio-group v-model="form.promptType">
-                <el-radio label="Force">强制升级</el-radio>
-                <el-radio label="Recommend">推荐升级</el-radio>
+            <el-form-item label="升级平台" prop="platform">
+              <el-radio-group v-model="form.platform" :disabled="updateStatus==='update'?true:false">
+                <el-radio label="Android"/>
+                <el-radio label="IOS"/>
               </el-radio-group>
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row :gutter="20" v-if="updateStatus==='update'?false:true">
-          <el-col :span="8">
-            <el-form-item label="升级文件" v-model="form.packageUrl" prop="packageUrl">
-              <el-upload
-                class="upload-demo"
-                ref="upload"
-                :action="uploadUrl"
-                :headers="headers"
-                :limit="1"
-                :before-upload="updateCheck"
-                :on-error="updateError"
-                :on-success="updateApk"
-                :show-file-list="true"
-                :auto-upload="true"
-                accept=".apk">
-                <div style="float: left;margin-right: 10px;height: 60px;">
-                    <el-button size="small" class="add_btn">上传升级文件（apk）</el-button>
-                    <div style="font-size: 10px;color: #A1A1A1;margin-top: -10px">只能上传 apk格式文件</div>
-                </div>
-                <div style="float: left;">
-                  {{filename}}
-                </div>
-              </el-upload>
+        <el-row :gutter="20">
+          <el-col :span="16">
+            <el-form-item label="升级方式" prop="promptType" style="float: left">
+              <el-radio-group v-model="form.promptType" @change="changeType">
+                <el-radio label="Silence">静默</el-radio>
+                <el-radio label="Force">强制</el-radio>
+                <el-radio label="Recommend">推荐</el-radio>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item prop="updateDeadline" style="float: left;margin-left: -110px">
+              <el-date-picker
+                v-model="form.updateDeadline"
+                type="date"
+                placeholder="选择最后升级日期"
+                :picker-options="pickerOptions0"/>
+            </el-form-item>
+            <el-form-item prop="updateDeadlineTime" style="float: left;margin-left: -110px">
+              <el-time-select
+                v-model="form.updateDeadlineTime"
+                :picker-options="{
+                  start: '00:00',
+                  step: '00:10',
+                  end: '23:50'
+                }"
+                placeholder="选择时间"/>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="16">
+            <el-form-item label="升级地址" prop="packageUrl">
+              <el-input v-model="form.packageUrl" placeholder="请输入升级地址" maxlength="255"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -66,48 +75,6 @@
             <el-form-item label="升级说明" prop="promptText">
               <el-input type="textarea" v-model="form.promptText" :rows="5" placeholder="请输入升级说明"
                         maxlength="200"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="20">
-          <el-col :span="16">
-            <el-form-item label="升级时间" prop="type" style="float: left"
-                          @change="$refs['form'].validateField('promptDate')">
-              <el-radio-group v-model="form.type">
-                <el-radio label="Immediately">立即升级</el-radio>
-                <el-radio label="Timing">定时升级</el-radio>
-              </el-radio-group>
-            </el-form-item>
-            <el-form-item prop="promptDate" style="float: left;margin-left: -100px">
-              <el-date-picker
-                v-model="form.promptDate"
-                type="date"
-                placeholder="选择升级时间"
-                :picker-options="pickerOptions0">
-              </el-date-picker>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="20">
-          <el-col :span="16">
-            <el-form-item label="最后升级时间" prop="updateDeadline">
-              <el-date-picker
-                v-model="form.updateDeadline"
-                type="date"
-                default-time="23:59:59"
-                placeholder="选择最后升级时间"
-                :picker-options="pickerOptions0">
-              </el-date-picker>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="20">
-          <el-col :span="16">
-            <el-form-item label="版本状态" prop="status">
-              <el-radio-group v-model="form.status">
-                <el-radio :label="true">启用</el-radio>
-                <el-radio :label="false" style="margin-left: 60px">停用</el-radio>
-              </el-radio-group>
             </el-form-item>
           </el-col>
         </el-row>
@@ -122,14 +89,13 @@
 
 <script>
   import * as Api from "@/api/api"
-  import {getToken} from '@/common/js/auth'
 
   export default {
     data() {
       const checkNumber = (rule, value, callback) => {
         if (value) {
           if (value == 0){
-            callback(new Error('输入数字的不能为0'))
+            callback(new Error('输入数字必须大于0'))
           } else {
             if (!/^[0-9]+$/.test(value)) {
               callback(new Error('请输入数字'))
@@ -141,31 +107,39 @@
           callback(new Error('请输入版本号'))
         }
       }
-      const validatePromptDate = (rule, value, callback) => {
-        if (this.form.type === 'Timing') {
+      const validateDate = (rule, value, callback) => {
+        if (this.form.promptType === 'Recommend') {
           if (value) {
             callback()
           } else {
-            callback(new Error('请输入选择升级时间'))
+            callback(new Error('请选择最后升级日期'))
+          }
+        } else {
+          callback()
+        }
+      }
+      const validateTime = (rule, value, callback) => {
+        if (this.form.promptType === 'Recommend') {
+          if (value) {
+            callback()
+          } else {
+            callback(new Error('请选择时间'))
           }
         } else {
           callback()
         }
       }
       return {
-        headers: {
-          Authorization: getToken()
-        },
         pickerOptions0: {
           disabledDate(time) {
             return time.getTime() < Date.now() - 8.64e7;
           }
         },
         form: {
-          promptType: 'Force',
-          type: 'Immediately',
-          status: true,
-          packageUrl:''
+          promptType: 'Silence',
+          platform: 'Android',
+          updateDeadline: '',
+          updateDeadlineTime: ''
         },
         updateStatus: '',
         textMap: {
@@ -173,39 +147,34 @@
           update: '编辑新版本',
         },
         rules: {
-          name: [
-            {required: true, trigger: 'blur', message: '请输入策略名称'}
+          appPackage: [
+            {required: true, trigger: 'blur', message: '请输入识别号'}
           ],
           versionName: [
-            {required: true, trigger: 'blur', message: '请输入目标版本号'}
+            {required: true, trigger: 'blur', message: '请输入版本名称'}
           ],
           versionCode: [
             {required: true, trigger: 'blur', validator: checkNumber}
           ],
+          platform: [
+            {required: true, trigger: 'blur', message: '请选择升级平台'}
+          ],
           promptType: [
             {required: true, trigger: 'blur', message: '请选择升级方式'}
           ],
+          updateDeadline: [
+            {required: false, trigger: 'blur', validator: validateDate}
+          ],
+          updateDeadlineTime: [
+            {required: false, trigger: 'blur', validator: validateTime}
+          ],
           packageUrl: [
-            {required: true, trigger: 'blur', message: '请选择升级文件'}
+            {required: true, trigger: 'blur', message: '请输入升级地址'}
           ],
           promptText: [
             {required: true, trigger: 'blur', message: '请输入升级说明'}
           ],
-          type: [
-            {required: true, trigger: 'blur', message: '请选择升级时间'}
-          ],
-          promptDate: [
-            {required: false, trigger: 'blur', validator: validatePromptDate}
-          ],
-          updateDeadline: [
-            {required: true, trigger: 'blur', message: '请选择最后升级时间'}
-          ],
-          status: [
-            {required: true, trigger: 'blur', message: '请选择版本状态'}
-          ],
         },
-        uploadUrl: process.env.BASE_API + '/version/upload',
-        filename:''
       }
     },
     created() {
@@ -218,27 +187,15 @@
       }
     },
     methods: {
-      updateCheck(file){
-        if (file.size / 1024 / 1024 > 50){
-          this.$message.error('文件大小不能超过50M');
-          return false
-        }else{
-          return true
+      changeType(){
+        if (this.form.promptType !== 'Recommend') {
+         this.form.updateDeadline = ''
+         this.form.updateDeadlineTime = ''
+          this.$refs['form'].validateField('updateDeadline')
+          this.$refs['form'].validateField('updateDeadlineTime')
         }
-      },
-      updateError() {
-        this.$message.error('文件上传失败');
-      },
-      updateApk(response, file, fileList) {
-        this.filename = file.name
-        this.form.packageUrl = response
-        this.$refs['form'].validateField('packageUrl')
-        this.$refs.upload.clearFiles();
       },
       create() {
-        if (this.form.type !== 'Timing') {
-          delete this.form.promptDate
-        }
         this.$refs['form'].validate(valid => {
           if (valid) {
             if (this.updateStatus === 'update'){

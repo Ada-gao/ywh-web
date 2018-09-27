@@ -127,7 +127,7 @@
           </el-col>
           <el-col :span="10">
             <el-form-item label="对外号码" prop="ecpId">
-              <el-input v-model="form.ecpId" placeholder="请输入对外号码" maxlength="15"></el-input>
+              <el-input v-model="form.ecpId" placeholder="请输入对外号码" maxlength="15" :disabled="isSuperAdmin === 'true'?false:true"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -275,16 +275,12 @@
       }
       const checkNumber = (rule, value, callback) => {
         if (!value) {
-          return callback(new Error('请输入对外号码'))
+          callback(new Error('请输入对外号码'))
         } else {
-          if (value.length < 4){
-            callback(new Error('对外号码不能小于4位数'))
-          }else{
-            if (!/^[0-9]+$/.test(value)) {
-              callback(new Error('对外号码只能是数字组合'))
-            } else {
-              callback()
-            }
+          if (/^((1[3-8][0-9])+\d{8})$/.test(value) || /^(0[0-9]{2,3}-)([2-9][0-9]{6,7})+$/.test(value)) {
+            callback()
+          } else {
+            callback(new Error('请输入一个有效的对外号码'))
           }
         }
       }

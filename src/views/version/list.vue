@@ -12,19 +12,19 @@
               border fit
               highlight-current-row
               style="width: 100%">
+      <el-table-column align="center" label="平台">
+        <template slot-scope="scope">
+          <span>{{scope.row.platform}}</span>
+        </template>platform
+      </el-table-column>
+      <el-table-column align="center" label="标识号">
+        <template slot-scope="scope">
+          <span>{{scope.row.appPackage}}</span>
+        </template>platform
+      </el-table-column>
       <el-table-column align="center" label="版本名称">
         <template slot-scope="scope">
           <span>{{scope.row.versionName}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" label="策略名称">
-        <template slot-scope="scope">
-          <span>{{scope.row.name}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" label="创建时间">
-        <template slot-scope="scope">
-          <span>{{scope.row.createTime}}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="版本号">
@@ -32,9 +32,14 @@
           <span>{{scope.row.versionCode}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="版本状态">
+      <el-table-column align="center" label="创建时间">
         <template slot-scope="scope">
-          <span :style="scope.row.status?'color:#009801':'color:#D0021B'">{{scope.row.status?'启用':'停用'}}</span>
+          <span>{{scope.row.createTime}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="升级方式">
+        <template slot-scope="scope">
+          <span>{{scope.row.promptType === 'Silence'?'静默':scope.row.promptType === 'Force'?'强制':'推荐'}}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="操作">
@@ -86,7 +91,7 @@
             let date = new Date(item.createTime)
             let month = date.getMonth() + 1;
             let day = date.getDate();
-            item.createTime = date.getFullYear() + '-' + (month < 10 ? '0' : '') + month + '-' + (day < 10 ? '0' : '') + day
+            item.createTime = date.getFullYear() + '-' + (month < 10 ? '0' : '') + month + '-' + (day < 10 ? '0' : '') + day + ' ' +date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
           })
         })
       },
