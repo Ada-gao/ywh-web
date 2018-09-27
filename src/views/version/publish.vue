@@ -44,14 +44,14 @@
                 <el-radio label="Recommend">推荐</el-radio>
               </el-radio-group>
             </el-form-item>
-            <el-form-item prop="updateDeadline" style="float: left;margin-left: -110px">
+            <el-form-item prop="updateDeadline" style="float: left;margin-left: -110px" v-if="form.promptType === 'Recommend'">
               <el-date-picker
                 v-model="form.updateDeadline"
                 type="date"
                 placeholder="选择最后升级日期"
                 :picker-options="pickerOptions0"/>
             </el-form-item>
-            <el-form-item prop="updateDeadlineTime" style="float: left;margin-left: -110px">
+            <el-form-item prop="updateDeadlineTime" style="float: left;margin-left: -110px" v-if="form.promptType === 'Recommend'">
               <el-time-select
                 v-model="form.updateDeadlineTime"
                 :picker-options="{
