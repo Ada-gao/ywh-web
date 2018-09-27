@@ -21,7 +21,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="版本号" prop="versionCode">
-              <el-input v-model="form.versionCode" placeholder="请输入版本号" maxlength="10"></el-input>
+              <el-input v-model="form.versionCode" placeholder="请输入版本号" maxlength="10" :disabled="updateStatus==='update'?true:false"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -199,6 +199,7 @@
         this.$refs['form'].validate(valid => {
           if (valid) {
             if (this.updateStatus === 'update'){
+              delete this.form.createTime
               Api.updateVersion(this.form.id,this.form)
                 .then(res => {
                   this.$message({
