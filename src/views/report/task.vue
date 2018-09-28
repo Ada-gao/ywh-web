@@ -243,6 +243,8 @@
             delete item.groupName
             delete item.taskName
             delete item.id
+            delete item.rejectReason
+            delete item.status
           })
           const wb = { SheetNames: ['Sheet1'], Sheets: {}, Props: {} };
           wb.Sheets['Sheet1'] = XLSX.utils.json_to_sheet(list);
