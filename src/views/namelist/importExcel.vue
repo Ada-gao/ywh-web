@@ -206,7 +206,7 @@
       },
       checkMobile(value) {
         if (value) {
-          return /^((1[3-8][0-9])+\d{8})$/.test(value)
+          return /^((1[3-9][0-9])+\d{8})$/.test(value)
         }
         return false
       },

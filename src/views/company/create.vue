@@ -245,7 +245,7 @@
     },
     data() {
       const validatePass1 = (rule, value, callback) => {
-        let reg = /^((1[3-8][0-9])+\d{8})$/
+        let reg = /^((1[3-9][0-9])+\d{8})$/
         let flag = reg.test(value)
         if (!value || !flag) {
           callback(new Error('请输入正确的手机号'))
@@ -278,7 +278,7 @@
           callback(new Error('请输入对外号码'))
         } else {
           callback()
-          // if (/^((1[3-8][0-9])+\d{8})$/.test(value) || /^(0[0-9]{2,3}-)([2-9][0-9]{6,7})+$/.test(value)) {
+          // if (/^((1[3-9][0-9])+\d{8})$/.test(value) || /^(0[0-9]{2,3}-)([2-9][0-9]{6,7})+$/.test(value)) {
           //   callback()
           // } else {
           //   callback(new Error('请输入一个有效的对外号码'))

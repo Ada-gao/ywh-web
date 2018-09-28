@@ -248,7 +248,7 @@
         }
       }
       const validateMobile = (rule, value, callback) => {
-        let reg = /^((1[3-8][0-9])+\d{8})$/
+        let reg = /^((1[3-9][0-9])+\d{8})$/
         let flag = reg.test(value)
         if (!value || !flag) {
           callback(new Error('请输入正确的手机号'))
