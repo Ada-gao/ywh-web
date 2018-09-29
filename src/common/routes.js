@@ -53,155 +53,55 @@ import publishVersion from '../views/version/publish'
 
 let routes = [
   {
-    menuId: 1,
     path: '/login',
     component: Login,
     hidden: true
   },
   {
-    menuId: 2,
     path: '/404',
     component: NotFound,
     hidden: true
   },
   {
-    menuId: 3,
     path: '/',
     component: Home,
-    leaf: true, // 只有一个节点
     children: [
-      {menuId: 31, path: '/dashboard', component: dashboard, name: '首页-工作台'}
-    ]
-  },
-  {
-    menuId: 4,
-    path: '/',
-    component: Home,
-    leaf: true,
-    children: [
-      {menuId: 41, path: '/account', component: account, name: '账户管理'}
-    ]
-  },
-  {
-    menuId: 5,
-    path: '/',
-    component: Home,
-    leaf: true,
-    children: [
-      {menuId: 51, path: '/company', component: company, name: '公司管理'},
-      {menuId: 52, path: '/company/create', name: 'create', component: companyCreate},
-      {menuId: 53, path: '/company/detail', name: 'detail', component: companyDetail}
-    ]
-  },
-  {
-    menuId: 6,
-    path: '/',
-    component: Home,
-    leaf: true,
-    children: [
-      {menuId: 61, path: '/salesman', component: salesman, name: '销售管理'},
-      {menuId: 62, path: '/salesman/detail', component: salesmanDetail, name: 'salesmanDetail'},
-      {menuId: 63, path: '/salesman/excel', component: excel, name: '销售批量导入'}
-    ]
-  },
-  {
-    menuId: 7,
-    path: '/',
-    component: Home,
-    leaf: true,
-    children: [
-      {menuId: 71, path: '/list', component: list, name: '名单管理'},
-      {menuId: 72, path: '/list/excel', component: nameexcel, name: 'nameexcel'},
-      {menuId: 73, path: '/list/namelist', component: namelist, name: 'namelist'}
-    ]
-  },
-  {
-    menuId: 8,
-    path: '/',
-    component: Home,
-    leaf: true,
-    children: [
-      {menuId: 81, path: '/task', component: task, name: '任务管理'},
-      {menuId: 82, path: '/task/newTask', component: newTask, name: 'newTask'},
-      {menuId: 83, path: '/task/detail', component: tasklist, name: 'taskDetail'}
-    ]
-  },
-  {
-    menuId: 9,
-    path: '/',
-    component: Home,
-    leaf: true,
-    children: [
-      {menuId: 91, path: '/push/push', component: push, name: 'push'},
-      {menuId: 92, path: '/push/rule', component: rule, name: 'rule'},
-      {menuId: 93, path: '/push/ruleDetail', component: ruleDetail, name: 'ruleDetail'},
-      {menuId: 94, path: '/push/createRule', component: createRule, name: 'createRule'},
-      {menuId: 95, path: '/push/pushDetail', component: pushDetail, name: 'pushDetail'},
-    ]
-  },
-  {
-    menuId: 10,
-    path: '/',
-    component: Home,
-    leaf: true,
-    children: [
-      {menuId: 101, path: '/trial', component: trial, name: '试用管理'},
-      {menuId: 102, path: '/trial/detail', component: trialdetail, name: 'trialDetail'}
-    ]
-  },
-  {
-    menuId: 11,
-    path: '/',
-    component: Home,
-    leaf: true,
-    children: [
-      {menuId: 111, path: '/check', component: check, name: '审核管理'},
-      {menuId: 113, path: '/check/pushdetail', component: pushdetail, name: 'pushdetail'},
-      {menuId: 114, path: '/check/taskdetail', component: taskdetail, name: 'taskdetail'}
-    ]
-  },
-  {
-    menuId: 12,
-    path: '/',
-    component: Home,
-    leaf: false,
-    children: [
-      {menuId: 121, path: '/report/workload', component: workload, name: '工作量统计'},
-      {menuId: 122, path: '/report/task', component: reportTask, name: '外呼任务统计'},
-      {menuId: 123, path: '/report/record', component: record, name: '历史通话记录'},
-      {menuId: 124, path: '/report/count', component: count, name: '话务统计'}
-    ]
-  },
-  {
-    menuId: 13,
-    path: '/',
-    component: Home,
-    leaf: true,
-    children: [
-      {menuId: 131, path: '/system', component: system, name: '系统管理'},
-      {menuId: 132, path: '/system/open', component: open, name: 'open'},
-      {menuId: 133, path: '/system/recharge', component: recharge, name: 'recharge'},
-      {menuId: 133, path: '/system/detail', component: systemDetail, name: 'systemDetail'}
-    ]
-  },
-  {
-    menuId: 14,
-    path: '/',
-    component: Home,
-    leaf: true,
-    children: [
-      {menuId: 141, path: '/feedback', component: feedback, name: '问题反馈'},
-      {menuId: 142, path: '/feedback/detail', component: fddetail, name: 'fDetail'}
-    ]
-  },
-  {
-    menuId: 15,
-    path: '/',
-    component: Home,
-    leaf: true,
-    children: [
-      {menuId: 151, path: '/version/list', component: listVersion, name: 'listVersion'},
-      {menuId: 152, path: '/version/publish', component: publishVersion, name: 'publishVersion'}
+      {path: '/dashboard', component: dashboard, name: '首页-工作台'},
+      {path: '/account', component: account, name: '账户管理'},
+      {path: '/company', component: company, name: '公司管理'},
+      {path: '/company/create', name: 'create', component: companyCreate},
+      {path: '/company/detail', name: 'detail', component: companyDetail},
+      {path: '/salesman', component: salesman, name: '销售管理'},
+      {path: '/salesman/detail', component: salesmanDetail, name: 'salesmanDetail'},
+      {path: '/salesman/excel', component: excel, name: '销售批量导入'},
+      {path: '/list', component: list, name: '名单管理'},
+      {path: '/list/excel', component: nameexcel, name: 'nameexcel'},
+      {path: '/list/namelist', component: namelist, name: 'namelist'},
+      {path: '/task', component: task, name: '任务管理'},
+      {path: '/task/newTask', component: newTask, name: 'newTask'},
+      {path: '/task/detail', component: tasklist, name: 'taskDetail'},
+      {path: '/push/push', component: push, name: 'push'},
+      {path: '/push/rule', component: rule, name: 'rule'},
+      {path: '/push/ruleDetail', component: ruleDetail, name: 'ruleDetail'},
+      {path: '/push/createRule', component: createRule, name: 'createRule'},
+      {path: '/push/pushDetail', component: pushDetail, name: 'pushDetail'},
+      {path: '/trial', component: trial, name: '试用管理'},
+      {path: '/trial/detail', component: trialdetail, name: 'trialDetail'},
+      {path: '/check', component: check, name: '审核管理'},
+      {path: '/check/pushdetail', component: pushdetail, name: 'pushdetail'},
+      {path: '/check/taskdetail', component: taskdetail, name: 'taskdetail'},
+      {path: '/report/workload', component: workload, name: '工作量统计'},
+      {path: '/report/task', component: reportTask, name: '外呼任务统计'},
+      {path: '/report/record', component: record, name: '历史通话记录'},
+      {path: '/report/count', component: count, name: '话务统计'},
+      {path: '/system', component: system, name: '系统管理'},
+      {path: '/system/open', component: open, name: 'open'},
+      {path: '/system/recharge', component: recharge, name: 'recharge'},
+      {path: '/system/detail', component: systemDetail, name: 'systemDetail'},
+      {path: '/feedback', component: feedback, name: '问题反馈'},
+      {path: '/feedback/detail', component: fddetail, name: 'fDetail'},
+      {path: '/version/list', component: listVersion, name: 'listVersion'},
+      {path: '/version/publish', component: publishVersion, name: 'publishVersion'}
     ]
   },
   {
