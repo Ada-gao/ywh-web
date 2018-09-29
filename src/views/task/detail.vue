@@ -104,7 +104,7 @@
 
         <el-table-column align="center" label="联系人姓名">
           <template slot-scope="scope">
-            <span>{{scope.row.contactName?scope.row.contactName:'-'}}</span>
+            <span class="max-line2">{{scope.row.contactName?scope.row.contactName:'-'}}</span>
           </template>
         </el-table-column>
 

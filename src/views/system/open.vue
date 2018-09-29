@@ -165,7 +165,11 @@
           if (!(reg.test(value))) {
             callback(new Error('请输入有效金额'))
           } else {
-            callback()
+            if (value > this.form.balanceThreshold){
+              callback(new Error('余额警告值不能大于余额提醒值'))
+            } else{
+              callback()
+            }
           }
         }
       }
