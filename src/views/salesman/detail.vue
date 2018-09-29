@@ -116,7 +116,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="对应职级:" label-width="80px">
-              <span>{{form.level}}</span>
+              <span>{{form.level?form.level:'-'}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
