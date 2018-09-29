@@ -119,7 +119,7 @@
   import FileSaver from 'file-saver'
   import XLSX from 'xlsx'
   import * as Api from "@/api/api"
-  import {replaceKey} from '@/common/js/util'
+  import * as Utils  from '@/common/js/util'
   export default {
     data() {
       return {
@@ -150,10 +150,7 @@
           this.listLoading = false
           this.list.forEach(item => {
             item.taskCompleteRate = item.taskCompleteRate + '%'
-            let date = new Date(item.taskEndDate)
-            let month = date.getMonth() + 1;
-            let day = date.getDate();
-            item.taskEndDate = date.getFullYear() + '-' + (month < 10 ? '0' : '') + month + '-' + (day < 10 ? '0' : '') + day
+            item.taskEndDate = Utils.formatDate(item.taskEndDate)
           })
         })
       },
@@ -220,10 +217,7 @@
         Api.getAdminTasks(query).then(response => {
           let list = response.data.content
           list.forEach(item => {
-            let date = new Date(item.taskEndDate)
-            let month = date.getMonth() + 1;
-            let day = date.getDate();
-            item.taskEndDate = date.getFullYear() + '-' + (month < 10 ? '0' : '') + month + '-' + (day < 10 ? '0' : '') + day
+            item.taskEndDate = Utils.formatDate(item.taskEndDate)
             item.任务名称 = item.taskName
             item.推广产品 = item.productName
             item.所属公司 = item.companyName

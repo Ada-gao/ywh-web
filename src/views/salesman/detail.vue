@@ -221,6 +221,7 @@
   import {getToken} from '@/common/js/auth'
   import {transferCompById} from '@/common/js/util'
   import * as Api from "@/api/api"
+  import * as Utils  from '@/common/js/util'
   export default {
     data() {
       const validateUser = (rule, value, callback) => {
@@ -389,28 +390,7 @@
       getList() {
         Api.getUserById(this.id).then(res => {
           this.form = res.data
-          let date = new Date(this.form.createdDate)
-          let month = date.getMonth() + 1;
-          if (month < 10){
-            month = '0' + month
-          }
-          let day = date.getDate();
-          if (day < 10){
-            day = '0' + day
-          }
-          let hours = date.getHours()
-          if (hours < 10){
-            hours = '0' + hours
-          }
-          let minutes = date.getMinutes()
-          if (minutes < 10){
-            minutes = '0' + minutes
-          }
-          let seconds = date.getSeconds()
-          if (seconds < 10){
-            seconds = '0' + seconds
-          }
-          this.form.createdDate = date.getFullYear() + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds
+          this.form.createdDate = Utils.formatDateTime(this.form.createdDate)
         })
         Api.taskDoneRate(this.id).then(res => {
           this.list.push(res.data)

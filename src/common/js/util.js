@@ -67,29 +67,41 @@ export function retransfer (name, arr) {
   })
   return arr[idx].id
 }
-/**
- * 将时间戳转为年月日时分秒
- * @param inputTime
- * @returns {string}
- */
-export function formatDateTime (inputTime) {
-  let date = new Date(inputTime)
-  let y = date.getFullYear()
-  let m = date.getMonth() + 1
-  m = m < 10 ? ('0' + m) : m
-  let d = date.getDate()
-  d = d < 10 ? ('0' + d) : d
-  let h = date.getHours()
-  h = h < 10 ? ('0' + h) : h
-  let minute = date.getMinutes()
-  let second = date.getSeconds()
-  minute = minute < 10 ? ('0' + minute) : minute
-  second = second < 10 ? ('0' + second) : second
-  return y + '-' + m + '-' + d + ' ' + h + ':' + minute + ':' + second
-}
+
+
 export function transferCompById (id, arr) {
   let idx = arr.findIndex((item, index) => {
     return item.id === id
   })
   return arr[idx].companyName
+}
+
+export function formatDateTime (inputTime) {
+  let date = new Date(inputTime)
+  let hours = date.getHours()
+  if (hours < 10){
+    hours = '0' + hours
+  }
+  let minutes = date.getMinutes()
+  if (minutes < 10){
+    minutes = '0' + minutes
+  }
+  let seconds = date.getSeconds()
+  if (seconds < 10){
+    seconds = '0' + seconds
+  }
+  return formatDate (inputTime) + ' ' + hours + ':' + minutes + ':' + seconds
+}
+
+export function formatDate (inputTime) {
+  let date = new Date(inputTime)
+  let month = date.getMonth() + 1;
+  if (month < 10){
+    month = '0' + month
+  }
+  let day = date.getDate();
+  if (day < 10){
+    day = '0' + day
+  }
+  return date.getFullYear() + '-' + month + '-' + day
 }

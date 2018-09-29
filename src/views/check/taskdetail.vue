@@ -213,7 +213,7 @@
 <script>
   import {getToken} from '@/common/js/auth'
   import * as Api from "@/api/api"
-
+  import * as Utils  from '@/common/js/util'
   export default {
     data() {
       const checkNumber = (rule, value, callback) => {
@@ -332,15 +332,6 @@
         }
         return result
       },
-      timestampToTime(timestamp) {
-        let date = new Date(timestamp)
-        let M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '月'
-        let D = date.getDate() + '日'
-        let h = date.getHours() + ':'
-        let m = date.getMinutes()
-        let time = M + D + h + m
-        return time
-      },
       getList() {
         Api.getTaskDetail(this.listQuery.taskGroupId, this.listQuery).then(res => {
           this.form = res.data.taskGroup
@@ -349,7 +340,7 @@
           this.form.taskStartDate = new Date(this.form.taskStartDate).toLocaleDateString()
           this.form.taskEndDate = new Date(this.form.taskEndDate).toLocaleDateString()
           this.list = res.data.nameList.content
-          this.list.forEach((ele, index) => {
+          this.list.forEach(ele => {
             if (ele.gender) {
               ele.gender = ele.gender === 'GENTLEMAN' ? '男' : '女'
             }else{
@@ -363,28 +354,7 @@
             if (ele.lastCallDate === null) {
               ele.lastCallDate = '-'
             } else {
-              let date = new Date(ele.lastCallDate)
-              let month = date.getMonth() + 1;
-              if (month < 10){
-                month = '0' + month
-              }
-              let day = date.getDate();
-              if (day < 10){
-                day = '0' + day
-              }
-              let hours = date.getHours()
-              if (hours < 10){
-                hours = '0' + hours
-              }
-              let minutes = date.getMinutes()
-              if (minutes < 10){
-                minutes = '0' + minutes
-              }
-              let seconds = date.getSeconds()
-              if (seconds < 10){
-                seconds = '0' + seconds
-              }
-              ele.lastCallDate = date.getFullYear() + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds
+              ele.lastCallDate = Utils.formatDateTime(item.lastCallDate)
             }
           })
           this.salesCnt = res.data.salesCnt

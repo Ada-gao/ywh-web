@@ -116,7 +116,7 @@
 <script>
   import * as Api from "@/api/api"
 import { provinceAndCityData } from 'element-china-area-data' // 省市区数据
-
+  import * as Utils  from '@/common/js/util'
 export default {
   data () {
     return {
@@ -165,28 +165,7 @@ export default {
           } else if (item.status === '2') {
             item.status = '生效'
           }
-          let date = new Date(item.createTime)
-          let month = date.getMonth() + 1;
-          if (month < 10){
-            month = '0' + month
-          }
-          let day = date.getDate();
-          if (day < 10){
-            day = '0' + day
-          }
-          let hours = date.getHours()
-          if (hours < 10){
-            hours = '0' + hours
-          }
-          let minutes = date.getMinutes()
-          if (minutes < 10){
-            minutes = '0' + minutes
-          }
-          let seconds = date.getSeconds()
-          if (seconds < 10){
-            seconds = '0' + seconds
-          }
-          item.createTime = date.getFullYear() + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds
+          item.createTime = Utils.formatDateTime(item.createTime)
         })
       })
     },

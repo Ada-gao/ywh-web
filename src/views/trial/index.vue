@@ -148,7 +148,7 @@
 
 <script>
 import * as Api from "@/api/api"
-
+import * as Utils  from '@/common/js/util'
 export default {
   data () {
     return {
@@ -195,8 +195,7 @@ export default {
         Api.getOrgSize().then(res => {
           this.orgSize = res.data
           this.list.forEach(item => {
-            let date = new Date(item.createTime)
-            item.createTime = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
+            item.createTime = Utils.formatDate(item.createTime)
           })
         })
       })

@@ -163,7 +163,7 @@
 
 <script>
   import * as Api from "@/api/api"
-
+  import * as Utils  from '@/common/js/util'
   export default {
     data() {
       return {
@@ -219,10 +219,7 @@
             }else if(item.status === '2'){
               item.status = '生效'
             }
-            let date = new Date(item.taskEndDate)
-            let month = date.getMonth() + 1;
-            let day = date.getDate();
-            item.taskEndDate = date.getFullYear() + '-' + (month < 10 ? '0' : '') + month + '-' + (day < 10 ? '0' : '') + day
+            item.taskEndDate = Utils.formatDate(item.taskEndDate)
           })
         })
       },

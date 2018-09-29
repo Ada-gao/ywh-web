@@ -212,7 +212,7 @@
   import * as Api from "@/api/api"
   import FileSaver from 'file-saver'
   import XLSX from 'xlsx'
-
+  import * as Utils  from '@/common/js/util'
   export default {
     data() {
       return {
@@ -322,28 +322,7 @@
             item.money = (item.money * 0.01).toFixed(2)
             item.accountType = item.accountType === 'Charge' ? '付费使用': '试用体验'
             item.status = item.status ? '充值成功': '充值失败'
-            let date = new Date(item.createTime)
-            let month = date.getMonth() + 1;
-            if (month < 10){
-              month = '0' + month
-            }
-            let day = date.getDate();
-            if (day < 10){
-              day = '0' + day
-            }
-            let hours = date.getHours()
-            if (hours < 10){
-              hours = '0' + hours
-            }
-            let minutes = date.getMinutes()
-            if (minutes < 10){
-              minutes = '0' + minutes
-            }
-            let seconds = date.getSeconds()
-            if (seconds < 10){
-              seconds = '0' + seconds
-            }
-            item.createTime = date.getFullYear() + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds
+            item.createTime = Utils.formatDateTime(item.createTime)
           })
         })
       },
@@ -361,28 +340,7 @@
             item.money = (item.money * 0.01).toFixed(2)
             item.accountType = item.accountType === 'Charge' ? '付费使用': '试用体验'
             item.status = item.status ? '充值成功': '充值失败'
-            let date = new Date(item.createTime)
-            let month = date.getMonth() + 1;
-            if (month < 10){
-              month = '0' + month
-            }
-            let day = date.getDate();
-            if (day < 10){
-              day = '0' + day
-            }
-            let hours = date.getHours()
-            if (hours < 10){
-              hours = '0' + hours
-            }
-            let minutes = date.getMinutes()
-            if (minutes < 10){
-              minutes = '0' + minutes
-            }
-            let seconds = date.getSeconds()
-            if (seconds < 10){
-              seconds = '0' + seconds
-            }
-            item.createTime = date.getFullYear() + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds
+            item.createTime = Utils.formatDateTime(item.createTime)
             item.充值流水号 = item.rechargeCode
             item.充值帐号 = item.accountName
             item.所属公司 = item.companyName

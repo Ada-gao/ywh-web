@@ -373,6 +373,7 @@
   import * as Api from "@/api/api"
   import FileSaver from 'file-saver'
   import XLSX from 'xlsx'
+  import * as Utils  from '@/common/js/util'
   export default {
     data() {
       const validateName = (rule, value, callback) => {
@@ -608,28 +609,7 @@
               item.consumptionProduct = '短信费'
             }
             item.money = (item.money*0.01).toFixed(2)
-            let date = new Date(item.createTime)
-            let month = date.getMonth() + 1;
-            if (month < 10){
-              month = '0' + month
-            }
-            let day = date.getDate();
-            if (day < 10){
-              day = '0' + day
-            }
-            let hours = date.getHours()
-            if (hours < 10){
-              hours = '0' + hours
-            }
-            let minutes = date.getMinutes()
-            if (minutes < 10){
-              minutes = '0' + minutes
-            }
-            let seconds = date.getSeconds()
-            if (seconds < 10){
-              seconds = '0' + seconds
-            }
-            item.createTime = date.getFullYear() + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds
+            item.createTime = Utils.formatDateTime(item.createTime)
           })
         })
       },
@@ -646,28 +626,7 @@
             } else{
               item.status = '充值失败'
             }
-            let date = new Date(item.createTime)
-            let month = date.getMonth() + 1;
-            if (month < 10){
-              month = '0' + month
-            }
-            let day = date.getDate();
-            if (day < 10){
-              day = '0' + day
-            }
-            let hours = date.getHours()
-            if (hours < 10){
-              hours = '0' + hours
-            }
-            let minutes = date.getMinutes()
-            if (minutes < 10){
-              minutes = '0' + minutes
-            }
-            let seconds = date.getSeconds()
-            if (seconds < 10){
-              seconds = '0' + seconds
-            }
-            item.createTime = date.getFullYear() + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds
+            item.createTime = Utils.formatDateTime(item.createTime)
           })
         })
       },
@@ -695,8 +654,7 @@
               item.consumptionProduct = '短信费'
             }
             item.money = item.money*0.01.toFixed(2)
-            let date = new Date(item.createTime)
-            item.createTime = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() + ' ' +date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
+            item.createTime = Utils.formatDateTime(item.createTime)
             item.消费流水号 = item.consumptionCode
             item.消费产品 = item.consumptionProduct
             item.消费内容 = item.name
@@ -734,8 +692,7 @@
             } else{
               item.status = '充值失败'
             }
-            let date = new Date(item.createTime)
-            item.createTime = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() + ' ' +date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
+            item.createTime = Utils.formatDateTime(item.createTime)
             item.充值编号 = item.rechargeCode
             item.充值金额 = item.money
             item.充值时间 = item.createTime
@@ -790,16 +747,7 @@
           this.account.accountType = this.account.accountType === 'Charge' ? '付费使用' : '试用体验'
           this.account.accountStatus = this.account.accountStatus ? '生效' : '失效'
           if (this.account.expireDate) {
-            let date = new Date(this.account.expireDate)
-            let month = date.getMonth() + 1;
-            if (month < 10){
-              month = '0' + month
-            }
-            let day = date.getDate();
-            if (day < 10){
-              day = '0' + day
-            }
-            this.account.expireDate = date.getFullYear() + '-' + month + '-' + day
+            this.account.expireDate = Utils.formatDate(this.account.expireDate)
           }
           this.form = this.account.company
           if (this.form.logo) {

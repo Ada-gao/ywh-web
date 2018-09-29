@@ -28,6 +28,8 @@
               </el-select>
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row :gutter="20">
           <el-col :span="11" :offset="6">
             <el-form-item label="名单名称" prop="groupName">
               <el-input v-model="form.groupName" placeholder="请输入名单名称" required maxlength="50"></el-input>
@@ -37,7 +39,7 @@
         <el-row :gutter="20">
           <el-col :span="11" :offset="6">
             <el-form-item label="名单来源" prop="source">
-              <el-select v-model="form.source" placeholder="请选择名单来源" style="width: 100%" :disabled="isSuperAdmin !== 'true'">
+              <el-select v-model="form.source" placeholder="请选择名单来源" style="width: 100%" :disabled="isSuperAdmin !== 'true'" @change="changeType">
                 <el-option
                            v-for="(item,index) in sources"
                            :key="index"
@@ -47,6 +49,9 @@
               </el-select>
             </el-form-item>
           </el-col>
+          <el-col :span="3" style="margin-top: 10px">
+            <el-checkbox v-model="form.maskPhoneNo" :disabled="form.source !== '自有'">隐藏主号</el-checkbox>
+          </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="11" :offset="6">
@@ -55,7 +60,6 @@
               <upload-excel-component @on-selected-file='selected'></upload-excel-component>
             </el-form-item>
           </el-col>
-          <el-checkbox style="margin-top: 5px" v-model="form.maskPhoneNo">隐藏主号</el-checkbox>
         </el-row>
         <el-row>
           <el-col style="text-align: center">
@@ -113,7 +117,7 @@
         checkSuccess: true,
         formData: null,
         form: {
-          maskPhoneNo: true
+          maskPhoneNo: false
         },
         companies: [],
         downloadUrl: '/static/excel/外呼名单导入模版.xlsx',
@@ -159,6 +163,13 @@
         this.tableData = data.results
         this.form.filename = data.filename
         this.checkExcel()
+      },
+      changeType(){
+        if (this.form.source === '营销'){
+          this.form.maskPhoneNo = true
+        }else{
+          this.form.maskPhoneNo = false
+        }
       },
       checkExcel() {
         if (this.tableHeader[0] === '联系人姓名' && this.tableHeader[1] === '手机号' && this.tableHeader[2] === '年龄' && this.tableHeader[3] === '性别' && this.tableHeader[4] === '所在地') {
