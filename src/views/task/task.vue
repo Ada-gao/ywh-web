@@ -122,7 +122,7 @@
           <span>{{scope.row.limitedTimes?scope.row.limitedTimes:'无'}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="任务计划完成时间">
+      <el-table-column align="center" label="任务计划完成时间" width="140">
         <template slot-scope="scope">
           <span>{{scope.row.taskEndDate}}</span>
         </template>

@@ -86,7 +86,7 @@
       <el-table-column align="center" label="联系人">
         <template slot-scope="scope"><span>{{scope.row.contact}}</span></template>
       </el-table-column>
-      <el-table-column align="center" label="联系手机">
+      <el-table-column align="center" label="联系手机" width="120">
         <template slot-scope="scope"><span>{{scope.row.contactMobile}}</span></template>
       </el-table-column>
       <el-table-column align="center" label="账户类型">
@@ -319,11 +319,31 @@
           this.total2 = response.data.totalElements
           this.listLoading2 = false
           this.list2.forEach(item => {
-            let date = new Date(item.createTime)
             item.money = (item.money * 0.01).toFixed(2)
             item.accountType = item.accountType === 'Charge' ? '付费使用': '试用体验'
             item.status = item.status ? '充值成功': '充值失败'
-            item.createTime = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
+            let date = new Date(item.createTime)
+            let month = date.getMonth() + 1;
+            if (month < 10){
+              month = '0' + month
+            }
+            let day = date.getDate();
+            if (day < 10){
+              day = '0' + day
+            }
+            let hours = date.getHours()
+            if (hours < 10){
+              hours = '0' + hours
+            }
+            let minutes = date.getMinutes()
+            if (minutes < 10){
+              minutes = '0' + minutes
+            }
+            let seconds = date.getSeconds()
+            if (seconds < 10){
+              seconds = '0' + seconds
+            }
+            item.createTime = date.getFullYear() + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds
           })
         })
       },
@@ -342,7 +362,27 @@
             item.accountType = item.accountType === 'Charge' ? '付费使用': '试用体验'
             item.status = item.status ? '充值成功': '充值失败'
             let date = new Date(item.createTime)
-            item.createTime = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() + ' ' +date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
+            let month = date.getMonth() + 1;
+            if (month < 10){
+              month = '0' + month
+            }
+            let day = date.getDate();
+            if (day < 10){
+              day = '0' + day
+            }
+            let hours = date.getHours()
+            if (hours < 10){
+              hours = '0' + hours
+            }
+            let minutes = date.getMinutes()
+            if (minutes < 10){
+              minutes = '0' + minutes
+            }
+            let seconds = date.getSeconds()
+            if (seconds < 10){
+              seconds = '0' + seconds
+            }
+            item.createTime = date.getFullYear() + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds
             item.充值流水号 = item.rechargeCode
             item.充值帐号 = item.accountName
             item.所属公司 = item.companyName

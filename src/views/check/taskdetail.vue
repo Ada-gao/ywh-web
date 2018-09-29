@@ -102,7 +102,7 @@
 
         <el-table-column align="center" label="联系人姓名">
           <template slot-scope="scope">
-            <span>{{scope.row.contactName}}</span>
+            <span>{{scope.row.contactName?scope.row.contactName:'-'}}</span>
           </template>
         </el-table-column>
 
@@ -114,19 +114,19 @@
 
         <el-table-column align="center" label="年龄" width="100">
           <template slot-scope="scope">
-            <span>{{scope.row.age}}</span>
+            <span>{{scope.row.age?scope.row.age:'-'}}</span>
           </template>
         </el-table-column>
 
         <el-table-column align="center" label="性别" width="80">
           <template slot-scope="scope">
-            <span>{{scope.row.gender}}</span>
+            <span>{{scope.row.gender?scope.row.gender:'-'}}</span>
           </template>
         </el-table-column>
 
         <el-table-column align="center" label="所在地" width="80">
           <template slot-scope="scope">
-            <span>{{scope.row.residence}}</span>
+            <span>{{scope.row.residence?scope.row.residence:'-'}}</span>
           </template>
         </el-table-column>
 
@@ -136,9 +136,9 @@
           </template>
         </el-table-column>
 
-        <el-table-column align="center" label="最近通话时间">
+        <el-table-column align="center" label="最近通话时间" width="160">
           <template slot-scope="scope">
-            <span>{{scope.row.lastCallDate || 0}}</span>
+            <span>{{scope.row.lastCallDate}}</span>
           </template>
         </el-table-column>
         <el-table-column align="center" label="外呼结果">
@@ -356,14 +356,35 @@
               ele.gender = ''
             }
             if (ele.duration === null) {
-              ele.duration = 0
+              ele.duration = '-'
             } else {
               ele.duration = this.Datetime(ele.duration)
             }
             if (ele.lastCallDate === null) {
-              ele.lastCallDate = 0
+              ele.lastCallDate = '-'
             } else {
-              ele.lastCallDate = this.timestampToTime(ele.lastCallDate)
+              let date = new Date(ele.lastCallDate)
+              let month = date.getMonth() + 1;
+              if (month < 10){
+                month = '0' + month
+              }
+              let day = date.getDate();
+              if (day < 10){
+                day = '0' + day
+              }
+              let hours = date.getHours()
+              if (hours < 10){
+                hours = '0' + hours
+              }
+              let minutes = date.getMinutes()
+              if (minutes < 10){
+                minutes = '0' + minutes
+              }
+              let seconds = date.getSeconds()
+              if (seconds < 10){
+                seconds = '0' + seconds
+              }
+              ele.lastCallDate = date.getFullYear() + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds
             }
           })
           this.salesCnt = res.data.salesCnt

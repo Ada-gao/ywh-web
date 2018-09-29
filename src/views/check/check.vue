@@ -297,7 +297,27 @@
               item.status = '生效'
             }
             let date = new Date(item.createTime)
-            item.createTime = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
+            let month = date.getMonth() + 1;
+            if (month < 10){
+              month = '0' + month
+            }
+            let day = date.getDate();
+            if (day < 10){
+              day = '0' + day
+            }
+            let hours = date.getHours()
+            if (hours < 10){
+              hours = '0' + hours
+            }
+            let minutes = date.getMinutes()
+            if (minutes < 10){
+              minutes = '0' + minutes
+            }
+            let seconds = date.getSeconds()
+            if (seconds < 10){
+              seconds = '0' + seconds
+            }
+            item.createTime = date.getFullYear() + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds
           })
         })
       },
@@ -327,9 +347,49 @@
               item.status = '已通过'
             }
             let date = new Date(item.createTime)
-            item.createTime = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
-            let date2 = new Date(item.updateTime)
-            item.updateTime = date2.getFullYear() + '-' + (date2.getMonth() + 1) + '-' + date2.getDate()
+            let month = date.getMonth() + 1;
+            if (month < 10){
+              month = '0' + month
+            }
+            let day = date.getDate();
+            if (day < 10){
+              day = '0' + day
+            }
+            let hours = date.getHours()
+            if (hours < 10){
+              hours = '0' + hours
+            }
+            let minutes = date.getMinutes()
+            if (minutes < 10){
+              minutes = '0' + minutes
+            }
+            let seconds = date.getSeconds()
+            if (seconds < 10){
+              seconds = '0' + seconds
+            }
+            item.createTime = date.getFullYear() + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds
+            date = new Date(item.updateTime)
+            month = date.getMonth() + 1;
+            if (month < 10){
+              month = '0' + month
+            }
+            day = date.getDate();
+            if (day < 10){
+              day = '0' + day
+            }
+            hours = date.getHours()
+            if (hours < 10){
+              hours = '0' + hours
+            }
+            minutes = date.getMinutes()
+            if (minutes < 10){
+              minutes = '0' + minutes
+            }
+            seconds = date.getSeconds()
+            if (seconds < 10){
+              seconds = '0' + seconds
+            }
+            item.updateTime = date.getFullYear() + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds
           })
         })
       },

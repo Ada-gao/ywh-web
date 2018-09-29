@@ -35,7 +35,7 @@
               class="detail-value">{{account.accountType}}</span></el-col>
           </el-row>
             <el-row>
-              <el-col :span="8"><span class="detail-label">Account ID:</span><span class="detail-value">{{account.accountId}}</span>
+              <el-col :span="8"><span class="detail-label">Account ID:</span><span class="detail-value" style="width: 70%">{{account.accountId}}</span>
               </el-col>
               <el-col :span="8"><span class="detail-label">账户到期时间:</span><span
                 class="detail-value">{{account.expireDate?account.expireDate:'长期有效'}}</span></el-col>
@@ -66,10 +66,10 @@
             <template slot-scope="scope">{{scope.row.name}}</template>
           </el-table-column>
           <el-table-column align="center" label="职务">
-            <template slot-scope="scope">{{scope.row.level}}</template>
+            <template slot-scope="scope">{{scope.row.level?scope.row.level:'-'}}</template>
           </el-table-column>
           <el-table-column align="center" label="联系手机">
-            <template slot-scope="scope">{{scope.row.mobile}}</template>
+            <template slot-scope="scope">{{scope.row.mobile?scope.row.mobile:'-'}}</template>
           </el-table-column>
           <el-table-column align="center" label="登录账号">
             <template slot-scope="scope">{{scope.row.username}}</template>
@@ -236,7 +236,7 @@
           </el-row>
             <el-row>
               <el-col :span="11"><span class="detail-label">公司简称:</span><span
-                class="detail-value">{{form.shortName}}</span></el-col>
+                class="detail-value">{{form.shortName?form.shortName:'-'}}</span></el-col>
               <el-col :span="11"><span class="detail-label">所在地:</span><span class="detail-value">{{form.companyProvince}}-{{form.companyCity}}</span>
               </el-col>
             </el-row>
@@ -262,12 +262,12 @@
             <el-col :span="11"><span class="detail-label">企业邮箱:</span><span class="detail-value">{{form.email}}</span>
             </el-col>
             <el-col :span="11"><span class="detail-label">企业微信:</span><span
-              class="detail-value">{{form.wechatNo}}</span></el-col>
+              class="detail-value">{{form.wechatNo?form.wechatNo:'-'}}</span></el-col>
           </el-row>
            <el-row>
              <el-col :span="22">
-               <span class="detail-label" alt="" style="line-height: 80px;">公司LOGO:</span>
-               <img :src="form.logo" v-if="form.logo" style="width: 120px; height: 80px;">
+               <span class="detail-label" style="line-height: 80px;">公司LOGO:</span>
+               <img :src="form.logo" alt="" style="width: 120px; height: 80px;">
              </el-col>
            </el-row>
             <el-row>
@@ -282,7 +282,7 @@
             <el-col :span="22" style="margin-top: 20px"><span class="detail-label"
                                                               style="line-height: normal">备注:</span>
               <div class="detail-value"
-                   style="max-width:600px;line-height:normal;word-wrap:break-word; word-break:normal;">{{form.remark}}
+                   style="max-width:600px;line-height:normal;word-wrap:break-word; word-break:normal;">{{form.remark?form.remark:'-'}}
               </div>
             </el-col>
           </el-row>
@@ -607,9 +607,29 @@
             }else if (item.consumptionProduct === 'MessageFee'){
               item.consumptionProduct = '短信费'
             }
-            item.money = item.money*0.01.toFixed(2)
+            item.money = (item.money*0.01).toFixed(2)
             let date = new Date(item.createTime)
-            item.createTime = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() + ' ' +date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
+            let month = date.getMonth() + 1;
+            if (month < 10){
+              month = '0' + month
+            }
+            let day = date.getDate();
+            if (day < 10){
+              day = '0' + day
+            }
+            let hours = date.getHours()
+            if (hours < 10){
+              hours = '0' + hours
+            }
+            let minutes = date.getMinutes()
+            if (minutes < 10){
+              minutes = '0' + minutes
+            }
+            let seconds = date.getSeconds()
+            if (seconds < 10){
+              seconds = '0' + seconds
+            }
+            item.createTime = date.getFullYear() + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds
           })
         })
       },
@@ -627,7 +647,27 @@
               item.status = '充值失败'
             }
             let date = new Date(item.createTime)
-            item.createTime = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() + ' ' +date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
+            let month = date.getMonth() + 1;
+            if (month < 10){
+              month = '0' + month
+            }
+            let day = date.getDate();
+            if (day < 10){
+              day = '0' + day
+            }
+            let hours = date.getHours()
+            if (hours < 10){
+              hours = '0' + hours
+            }
+            let minutes = date.getMinutes()
+            if (minutes < 10){
+              minutes = '0' + minutes
+            }
+            let seconds = date.getSeconds()
+            if (seconds < 10){
+              seconds = '0' + seconds
+            }
+            item.createTime = date.getFullYear() + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds
           })
         })
       },
@@ -752,8 +792,14 @@
           if (this.account.expireDate) {
             let date = new Date(this.account.expireDate)
             let month = date.getMonth() + 1;
+            if (month < 10){
+              month = '0' + month
+            }
             let day = date.getDate();
-            this.account.expireDate = date.getFullYear() + '-' + (month < 10 ? '0' : '') + month + '-' + (day < 10 ? '0' : '') + day
+            if (day < 10){
+              day = '0' + day
+            }
+            this.account.expireDate = date.getFullYear() + '-' + month + '-' + day
           }
           this.form = this.account.company
           if (this.form.logo) {

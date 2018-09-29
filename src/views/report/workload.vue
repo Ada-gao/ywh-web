@@ -83,7 +83,7 @@
       </el-table-column>
       <el-table-column align="center" label="有效通话时长">
         <template slot-scope="scope">
-          <span>{{scope.row.totalEffectiveDuration}}</span>
+          <span>{{scope.row.totalEffectiveDuration}}秒</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="目标任务数">
@@ -234,7 +234,7 @@
             obj.所属公司 = item[1];
             obj.所属账户 = item[2];
             obj.所属团队 = item[3];
-            obj.有效通话时长 = item[4];
+            obj.有效通话时长 = item[4] + '秒';
             obj.目标任务数 = item[5];
             obj.目标通话客户数 = item[6];
             obj.实际任务数 = item[7];

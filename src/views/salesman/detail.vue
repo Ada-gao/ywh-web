@@ -142,7 +142,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="微信号:" label-width="80px">
-              <span>{{form.wechatNo}}</span>
+              <span>{{form.wechatNo?form.wechatNo:'-'}}</span>
             </el-form-item>
           </el-col>
         </el-row>
@@ -161,13 +161,13 @@
 
         <el-table-column align="center" label="总有效通话时长">
           <template slot-scope="scope">
-            <span>{{scope.row.totalEffectiveDuration || 0}}</span>
+            <span>{{scope.row.totalEffectiveDuration || 0}}秒</span>
           </template>
         </el-table-column>
 
         <el-table-column align="center" label="平均通话时长">
           <template slot-scope="scope">
-            <span>{{scope.row.avgDuration || 0}}</span>
+            <span>{{scope.row.avgDuration || 0}}秒</span>
           </template>
         </el-table-column>
 
@@ -191,7 +191,7 @@
 
         <el-table-column align="center" label="今日有效通话时长">
           <template slot-scope="scope">
-            <span>{{scope.row.dailyEffectiveDuration || 0}}</span>
+            <span>{{scope.row.dailyEffectiveDuration || 0}}秒</span>
           </template>
         </el-table-column>
 
@@ -313,7 +313,7 @@
           update: '修改销售详情',
           view: '销售详情页'
         },
-        list: [],
+        list: null,
         listLoading: true,
         tableKey: 0,
         total: null,
@@ -389,7 +389,28 @@
       getList() {
         Api.getUserById(this.id).then(res => {
           this.form = res.data
-          this.form.createdDate = new Date(this.form.createdDate).toLocaleDateString()
+          let date = new Date(this.form.createdDate)
+          let month = date.getMonth() + 1;
+          if (month < 10){
+            month = '0' + month
+          }
+          let day = date.getDate();
+          if (day < 10){
+            day = '0' + day
+          }
+          let hours = date.getHours()
+          if (hours < 10){
+            hours = '0' + hours
+          }
+          let minutes = date.getMinutes()
+          if (minutes < 10){
+            minutes = '0' + minutes
+          }
+          let seconds = date.getSeconds()
+          if (seconds < 10){
+            seconds = '0' + seconds
+          }
+          this.form.createdDate = date.getFullYear() + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds
         })
         Api.taskDoneRate(this.id).then(res => {
           this.list.push(res.data)

@@ -43,7 +43,7 @@
         <el-col :span="8">
           <span class="detail-label">账户类型:</span><span class="detail-value">{{account.accountType}}</span></el-col>
         <el-col :span="8">
-          <span class="detail-label">Account ID:</span><span class="detail-value">{{account.accountId}}</span>
+          <span class="detail-label">Account ID:</span><span class="detail-value" style="width: 70%">{{account.accountId}}</span>
         </el-col>
         <el-col :span="8">
           <span class="detail-label">账户到期时间:</span><span class="detail-value">{{account.expireDate?account.expireDate:'长期有效'}}</span></el-col>
@@ -67,7 +67,7 @@
         <el-col :span="8">
           <span class="detail-label">公司名称:</span><span class="detail-value">{{company.companyName}}</span></el-col>
         <el-col :span="8">
-          <span class="detail-label">公司简称:</span><span class="detail-value">{{company.shortName}}</span></el-col>
+          <span class="detail-label">公司简称:</span><span class="detail-value">{{company.shortName?company.shortName:'-'}}</span></el-col>
         <el-col :span="8">
           <span class="detail-label">所属行业:</span><span class="detail-value">{{company.industryType}}</span>
         </el-col>
@@ -89,10 +89,10 @@
           <span class="detail-label">职务:</span><span class="detail-value">{{company.occupation}}</span>
         </el-col>
         <el-col :span="8">
-          <span class="detail-label">企业微信:</span><span class="detail-value">{{company.wechatNo}}</span>
+          <span class="detail-label">企业微信:</span><span class="detail-value">{{company.wechatNo?company.wechatNo:'-'}}</span>
         </el-col>
         <el-col :span="8">
-          <span class="detail-label">公司logo:</span><span class="detail-value"><img :src.sync="company.logo" alt="" v-if="company.logo" style="width: 120px; height: 80px;"></span>
+          <span class="detail-label">公司logo:</span><span class="detail-value"><img :src.sync="company.logo" alt="" style="width: 120px; height: 80px;"></span>
         </el-col>
       </el-row>
     </el-form>
@@ -183,10 +183,10 @@
         <template slot-scope="scope">{{scope.row.name}}</template>
       </el-table-column>
       <el-table-column align="center" label="职务">
-        <template slot-scope="scope">{{scope.row.level}}</template>
+        <template slot-scope="scope">{{scope.row.level?scope.row.level:'-'}}</template>
       </el-table-column>
       <el-table-column align="center" label="联系手机">
-        <template slot-scope="scope">{{scope.row.mobile}}</template>
+        <template slot-scope="scope">{{scope.row.mobile?scope.row.mobile:'-'}}</template>
       </el-table-column>
       <el-table-column align="center" label="登录账号">
         <template slot-scope="scope">{{scope.row.username}}</template>
@@ -481,9 +481,29 @@
             }else if (item.consumptionProduct === 'MessageFee'){
               item.consumptionProduct = '短信费'
             }
-            item.money = item.money*0.01.toFixed(2)
+            item.money = (item.money*0.01).toFixed(2)
             let date = new Date(item.createTime)
-            item.createTime = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() + ' ' +date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
+            let month = date.getMonth() + 1;
+            if (month < 10){
+              month = '0' + month
+            }
+            let day = date.getDate();
+            if (day < 10){
+              day = '0' + day
+            }
+            let hours = date.getHours()
+            if (hours < 10){
+              hours = '0' + hours
+            }
+            let minutes = date.getMinutes()
+            if (minutes < 10){
+              minutes = '0' + minutes
+            }
+            let seconds = date.getSeconds()
+            if (seconds < 10){
+              seconds = '0' + seconds
+            }
+            item.createTime = date.getFullYear() + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds
             item.消费流水号 = item.consumptionCode
             item.消费产品 = item.consumptionProduct
             item.消费内容 = item.name
@@ -522,7 +542,27 @@
               item.status = '充值失败'
             }
             let date = new Date(item.createTime)
-            item.createTime = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() + ' ' +date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
+            let month = date.getMonth() + 1;
+            if (month < 10){
+              month = '0' + month
+            }
+            let day = date.getDate();
+            if (day < 10){
+              day = '0' + day
+            }
+            let hours = date.getHours()
+            if (hours < 10){
+              hours = '0' + hours
+            }
+            let minutes = date.getMinutes()
+            if (minutes < 10){
+              minutes = '0' + minutes
+            }
+            let seconds = date.getSeconds()
+            if (seconds < 10){
+              seconds = '0' + seconds
+            }
+            item.createTime = date.getFullYear() + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds
             item.充值编号 = item.rechargeCode
             item.充值金额 = item.money
             item.充值时间 = item.createTime
@@ -559,7 +599,15 @@
           this.account.accountStatus = this.account.accountStatus ? '生效' : '失效'
           if (this.account.expireDate){
             let date = new Date(this.account.expireDate)
-            this.account.expireDate = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
+            let month = date.getMonth() + 1;
+            if (month < 10){
+              month = '0' + month
+            }
+            let day = date.getDate();
+            if (day < 10){
+              day = '0' + day
+            }
+            this.account.expireDate = date.getFullYear() + '-' + month + '-' + day
           }
           this.company = this.account.company
           if (this.company.logo) {
@@ -698,7 +746,27 @@
           this.listLoading4 = false
           this.list4.forEach(item => {
             let date = new Date(item.loginTime)
-            item.loginTime = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() + ' ' +date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
+            let month = date.getMonth() + 1;
+            if (month < 10){
+              month = '0' + month
+            }
+            let day = date.getDate();
+            if (day < 10){
+              day = '0' + day
+            }
+            let hours = date.getHours()
+            if (hours < 10){
+              hours = '0' + hours
+            }
+            let minutes = date.getMinutes()
+            if (minutes < 10){
+              minutes = '0' + minutes
+            }
+            let seconds = date.getSeconds()
+            if (seconds < 10){
+              seconds = '0' + seconds
+            }
+            item.loginTime = date.getFullYear() + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds
           })
         })
       },
@@ -717,7 +785,27 @@
               item.consumptionProduct = '短信费'
             }
             let date = new Date(item.createTime)
-            item.createTime = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() + ' ' +date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
+            let month = date.getMonth() + 1;
+            if (month < 10){
+              month = '0' + month
+            }
+            let day = date.getDate();
+            if (day < 10){
+              day = '0' + day
+            }
+            let hours = date.getHours()
+            if (hours < 10){
+              hours = '0' + hours
+            }
+            let minutes = date.getMinutes()
+            if (minutes < 10){
+              minutes = '0' + minutes
+            }
+            let seconds = date.getSeconds()
+            if (seconds < 10){
+              seconds = '0' + seconds
+            }
+            item.createTime = date.getFullYear() + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds
           })
         })
       },
@@ -729,7 +817,27 @@
           this.listLoading3 = false
           this.list3.forEach(item => {
             let date = new Date(item.createTime)
-            item.createTime = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() + ' ' +date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
+            let month = date.getMonth() + 1;
+            if (month < 10){
+              month = '0' + month
+            }
+            let day = date.getDate();
+            if (day < 10){
+              day = '0' + day
+            }
+            let hours = date.getHours()
+            if (hours < 10){
+              hours = '0' + hours
+            }
+            let minutes = date.getMinutes()
+            if (minutes < 10){
+              minutes = '0' + minutes
+            }
+            let seconds = date.getSeconds()
+            if (seconds < 10){
+              seconds = '0' + seconds
+            }
+            item.createTime = date.getFullYear() + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds
           })
         })
       },

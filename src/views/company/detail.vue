@@ -16,7 +16,7 @@
           <el-col :span="11"><span class="detail-label">公司名称:</span><span class="detail-value">{{form.companyName}}</span></el-col>
         </el-row>
         <el-row>
-          <el-col :span="11"><span class="detail-label">公司简称:</span><span class="detail-value">{{form.shortName}}</span></el-col>
+          <el-col :span="11"><span class="detail-label">公司简称:</span><span class="detail-value">{{form.shortName?form.shortName:'-'}}</span></el-col>
           <el-col :span="11"><span class="detail-label">所在地:</span><span class="detail-value">{{form.companyProvince}}-{{form.companyCity}}</span></el-col>
         </el-row>
         <el-row>
@@ -33,15 +33,15 @@
         </el-row>
         <el-row>
           <el-col :span="11"><span class="detail-label">企业邮箱:</span><span class="detail-value">{{form.email}}</span></el-col>
-          <el-col :span="11"><span class="detail-label">企业微信:</span><span class="detail-value">{{form.wechatNo}}</span></el-col>
+          <el-col :span="11"><span class="detail-label">企业微信:</span><span class="detail-value">{{form.wechatNo?form.wechatNo:'-'}}</span></el-col>
         </el-row>
         <el-row>
           <el-col :span="11"><span class="detail-label">对外号码:</span><span class="detail-value">{{form.ecpId}}</span></el-col>
         </el-row>
         <el-row>
           <el-col :span="22">
-            <span class="detail-label" alt="" style="line-height: 80px;">公司LOGO:</span>
-            <img :src="form.logo" v-if="form.logo" style="width: 120px; height: 80px;"/>
+            <span class="detail-label" style="line-height: 80px;">公司LOGO:</span>
+            <img :src="form.logo" alt=""  style="width: 120px; height: 80px;"/>
           </el-col>
         </el-row>
         <el-row>
@@ -53,7 +53,7 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="22" style="margin-top: 20px"><span class="detail-label" style="line-height: normal">备注:</span><div class="detail-value" style="max-width:600px;line-height:normal;word-wrap:break-word; word-break:normal;">{{form.remark}}</div></el-col>
+          <el-col :span="22" style="margin-top: 20px"><span class="detail-label" style="line-height: normal">备注:</span><div class="detail-value" style="max-width:600px;line-height:normal;word-wrap:break-word; word-break:normal;">{{form.remark?form.remark:'-'}}</div></el-col>
         </el-row>
       </el-form>
     </div>

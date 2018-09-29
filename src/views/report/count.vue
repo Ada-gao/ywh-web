@@ -60,7 +60,7 @@
       </el-table-column>
       <el-table-column align="center" label="累计通话时长">
         <template slot-scope="scope">
-          <span>{{scope.row.totalDuration}}</span>
+          <span>{{scope.row.totalDuration}}秒</span>
         </template>
       </el-table-column>
     </el-table>
@@ -171,7 +171,7 @@
             obj.所属公司 = item[0];
             obj.所属账户 = item[1];
             obj.拨打类型 = item[2] === 0 ?'原生拨打' :'第三方拨打';
-            obj.累计拨打时长 = item[3];
+            obj.累计拨打时长 = item[3] + '秒';
             list[index] = obj
           })
           const wb = { SheetNames: ['Sheet1'], Sheets: {}, Props: {} };

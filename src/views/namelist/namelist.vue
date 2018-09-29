@@ -57,7 +57,7 @@
 
       <el-table-column align="center" label="联系人姓名">
         <template slot-scope="scope">
-          <span>{{scope.row.contactName}}</span>
+          <span>{{scope.row.contactName?scope.row.contactName:'-'}}</span>
         </template>
       </el-table-column>
 
@@ -69,7 +69,7 @@
 
       <el-table-column align="center" label="年龄">
         <template slot-scope="scope">
-          <span>{{scope.row.age}}</span>
+          <span>{{scope.row.age?scope.row.age:'-'}}</span>
         </template>
       </el-table-column>
 
@@ -77,13 +77,13 @@
                        label="性别"
                        show-overflow-tooltip>
         <template slot-scope="scope">
-          <span>{{scope.row.gender}}</span>
+          <span>{{scope.row.gender?scope.row.gender:'-'}}</span>
         </template>
       </el-table-column>
 
       <el-table-column align="center" label="联系人所在地">
         <template slot-scope="scope">
-          <span>{{scope.row.residence}}</span>
+          <span>{{scope.row.residence?scope.row.residence:'-'}}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="名单来源">

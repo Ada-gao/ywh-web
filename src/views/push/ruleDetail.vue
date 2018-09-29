@@ -35,12 +35,12 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="所属团队:">
-              <span>{{form.team}}</span>
+              <span>{{form.team?form.team:'-'}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="关联名单:">
-              <span>{{form.outboundNameGroupName}}</span>
+              <span>{{form.outboundNameGroupName?form.outboundNameGroupName:'-'}}</span>
             </el-form-item>
           </el-col>
         </el-row>
@@ -52,7 +52,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="下一步行动计划:">
-              <span>{{nextAction}}</span>
+              <span>{{nextAction?nextAction:'-'}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">

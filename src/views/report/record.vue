@@ -104,7 +104,7 @@
       </el-table-column>
       <el-table-column align="center" label="客户名称">
         <template slot-scope="scope">
-          <span>{{scope.row.contactName}}</span>
+          <span>{{scope.row.contactName?scope.row.contactName:'-'}}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="外呼结果">
@@ -112,17 +112,17 @@
           <span>{{scope.row.result}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="下一步行动计划">
+      <el-table-column align="center" label="下一步行动计划" width="140">
         <template slot-scope="scope">
           <span>{{scope.row.status}}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="有效通话时长">
         <template slot-scope="scope">
-          <span>{{scope.row.duration}}</span>
+          <span>{{scope.row.duration}}秒</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="拨打时间">
+      <el-table-column align="center" label="拨打时间" width="160">
         <template slot-scope="scope">
           <span>{{scope.row.actualCallStartDate}}</span>
         </template>
@@ -206,7 +206,27 @@
               item[8] = '继续跟进'
             }
             let date = new Date(item[10])
-            item[10] = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() + ' ' +date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
+            let month = date.getMonth() + 1;
+            if (month < 10){
+              month = '0' + month
+            }
+            let day = date.getDate();
+            if (day < 10){
+              day = '0' + day
+            }
+            let hours = date.getHours()
+            if (hours < 10){
+              hours = '0' + hours
+            }
+            let minutes = date.getMinutes()
+            if (minutes < 10){
+              minutes = '0' + minutes
+            }
+            let seconds = date.getSeconds()
+            if (seconds < 10){
+              seconds = '0' + seconds
+            }
+            item[10] = date.getFullYear() + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds
             let obj = new Object()
             obj.name = item[0];
             obj.companyName = item[1];
@@ -301,7 +321,27 @@
               item[8] = '继续跟进'
             }
             let date = new Date(item[10])
-            item[10] = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() + ' ' +date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
+            let month = date.getMonth() + 1;
+            if (month < 10){
+              month = '0' + month
+            }
+            let day = date.getDate();
+            if (day < 10){
+              day = '0' + day
+            }
+            let hours = date.getHours()
+            if (hours < 10){
+              hours = '0' + hours
+            }
+            let minutes = date.getMinutes()
+            if (minutes < 10){
+              minutes = '0' + minutes
+            }
+            let seconds = date.getSeconds()
+            if (seconds < 10){
+              seconds = '0' + seconds
+            }
+            item[10] = date.getFullYear() + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds
             let obj = new Object()
             obj.销售名称 = item[0];
             obj.所属公司 = item[1];
@@ -312,7 +352,7 @@
             obj.客户名称 = item[6];
             obj.外呼结果 = item[7]
             obj.下一步行动计划 = item[8];
-            obj.有效通话时长 = item[9];
+            obj.有效通话时长 = item[9] + '秒';
             obj.拨打时间 = item[10]
             list[index] = obj
           })
