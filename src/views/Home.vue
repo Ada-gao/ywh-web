@@ -34,7 +34,7 @@
         </div>
         <div class="head">
           <el-dropdown>
-            <img src="../assets/user.png" width="40px" height="40px" style="border-radius: 40px"/>
+            <img src="/static/img/user.png" width="40px" height="40px" style="border-radius: 40px;margin-top: 10px"/>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item @click.native="logout">退出登录</el-dropdown-item>
             </el-dropdown-menu>

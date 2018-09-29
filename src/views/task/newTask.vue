@@ -144,8 +144,7 @@
 </template>
 
 <script>
-import { getToken } from '@/common/js/auth'
-import { nextActionList } from '@/common/js/util'
+import * as Utils from '@/common/js/util'
 import * as Api from "@/api/api"
 export default {
   data () {
@@ -261,12 +260,6 @@ export default {
           {required: false, trigger: 'blur', validator: checkNumber4}
         ]
       },
-      headers: {
-        Authorization: 'Bearer ' + getToken()
-      },
-      selectedOptions: [],
-      fileList: [],
-      value: '',
       updateStatus: '',
       teamList: [],
       associateList: [],
@@ -281,7 +274,7 @@ export default {
   },
   created () {
     this.listLoading = false
-    this.nextActionList = nextActionList()
+    this.nextActionList = Utils.nextActionList()
     this.getQuery()
     let companyId = sessionStorage.getItem('companyId')
     if (companyId) {

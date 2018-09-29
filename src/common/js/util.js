@@ -1,7 +1,7 @@
 import FileSaver from 'file-saver'
 import XLSX from 'xlsx'
 
-export default {
+/*export default {
   getLocalTime: function (nS) {
     return new Date(parseInt(nS)).toLocaleString().replace(/:\d{1,2}$/, ' ')
   }
@@ -22,7 +22,7 @@ export function transformText (source, k) {
   })
   k = obj[k]
   return k
-}
+}*/
 /**
  * 获取新建任务时的下一步行动规则列表
  */

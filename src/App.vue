@@ -16,7 +16,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import './styles/index.scss';
+@import './styles/index';
 @import "./styles/iconfont.css";
 body {
   margin: 0px;

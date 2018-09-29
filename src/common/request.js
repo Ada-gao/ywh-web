@@ -1,7 +1,6 @@
 import axios from 'axios'
 import { router } from '../main'
 import { Message } from 'element-ui'
-import { getToken, removeToken } from './js/auth'
 
 const service = axios.create({
   baseURL: process.env.BASE_API, // api的base_url
@@ -9,7 +8,7 @@ const service = axios.create({
 })
 
 service.interceptors.request.use(config => {
-  config.headers['Authorization'] = getToken()
+  config.headers['Authorization'] = sessionStorage.getItem('token')
   return config
 }, error => {
   console.log("request error"+error)

@@ -218,8 +218,6 @@
 </template>
 
 <script>
-  import {getToken} from '@/common/js/auth'
-  import {transferCompById} from '@/common/js/util'
   import * as Api from "@/api/api"
   import * as Utils  from '@/common/js/util'
   export default {
@@ -302,11 +300,6 @@
             }
           ]
         },
-        headers: {
-          Authorization: getToken()
-        },
-        selectedOptions: [],
-        fileList: [],
         value: '',
         updateStatus: '',
         textMap: {
@@ -393,16 +386,18 @@
           this.form.createdDate = Utils.formatDateTime(this.form.createdDate)
         })
         Api.taskDoneRate(this.id).then(res => {
-          this.list.push(res.data)
-          if (this.list.length > 0) {
-            if (this.list[0].totalTaskCompleteCnt &&
-              this.list[0].totalTaskCompleteCnt > 0 &&
-              this.list[0].totalTaskCnt &&
-              this.list[0].totalTaskCnt > 0) {
-              this.list[0].completeRate = parseInt(this.list[0].totalTaskCompleteCnt / this.list[0].totalTaskCnt * 100) + '%'
-            } else {
-              this.list[0].completeRate = 0
+          if (res.data){
+            this.list = []
+            this.list.push(res.data)
+            if (this.list.length > 0) {
+              if (this.list[0].totalTaskCompleteCnt && this.list[0].totalTaskCompleteCnt > 0 && this.list[0].totalTaskCnt && this.list[0].totalTaskCnt > 0) {
+                this.list[0].completeRate = parseInt(this.list[0].totalTaskCompleteCnt / this.list[0].totalTaskCnt * 100) + '%'
+              } else {
+                this.list[0].completeRate = 0
+              }
             }
+          }else{
+            this.list = null
           }
         })
       },
@@ -440,7 +435,7 @@
                   type: 'success'
                 })
                 this.updateStatus = 'view'
-                this.companyName = transferCompById(this.form.companyId, this.companies)
+                this.companyName = Utils.transferCompById(this.form.companyId, this.companies)
               })
             }
           } else {

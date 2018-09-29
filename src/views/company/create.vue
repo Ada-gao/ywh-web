@@ -234,7 +234,6 @@
 
 <script>
   import VueCropper from 'vue-cropper'
-  import {getToken} from '@/common/js/auth'
   import * as Api from "@/api/api"
   import {retransfer, transferIndustry} from '@/common/js/util'
   import {provinceAndCityData} from 'element-china-area-data' // 省市区数据
@@ -308,7 +307,7 @@
         companyCode: '',
         companyId: null,
         headers: {
-          Authorization: getToken()
+          Authorization: sessionStorage.getItem('token')
         },
 
         updateStatus: '',
