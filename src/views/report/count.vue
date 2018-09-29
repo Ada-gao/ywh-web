@@ -79,8 +79,7 @@
 </template>
 
 <script>
-  import FileSaver from 'file-saver'
-  import XLSX from 'xlsx'
+  import * as Utils  from '@/common/js/util'
   import * as Api from "@/api/api"
   export default {
     data() {
@@ -174,14 +173,7 @@
             obj.累计拨打时长 = item[3] + '秒';
             list[index] = obj
           })
-          const wb = { SheetNames: ['Sheet1'], Sheets: {}, Props: {} };
-          wb.Sheets['Sheet1'] = XLSX.utils.json_to_sheet(list);
-          var wbout = XLSX.write(wb, {bookType: 'xlsx', bookSST: true, type: 'array'})
-          try {
-            FileSaver.saveAs(new Blob([wbout], {type: 'application/octet-stream'}), '话务列表.xlsx')
-          } catch (e) {
-            if (typeof console !== 'undefined') console.log(e, wbout)
-          }
+          Utils.exportExcel(list,'话务列表.xlsx')
         })
       },
     }

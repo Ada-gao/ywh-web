@@ -211,7 +211,6 @@
 </template>
 
 <script>
-  import {getToken} from '@/common/js/auth'
   import * as Api from "@/api/api"
   import * as Utils  from '@/common/js/util'
   export default {
@@ -238,9 +237,6 @@
           ],
         },
         form: {},
-        headers: {
-          Authorization: getToken()
-        },
         selectedOptions: [],
         fileList: [],
         value: '',

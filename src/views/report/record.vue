@@ -143,8 +143,6 @@
 </template>
 
 <script>
-  import FileSaver from 'file-saver'
-  import XLSX from 'xlsx'
   import * as Api from "@/api/api"
   import * as Utils  from '@/common/js/util'
   export default {
@@ -315,14 +313,7 @@
             obj.拨打时间 = item[10]
             list[index] = obj
           })
-          const wb = { SheetNames: ['Sheet1'], Sheets: {}, Props: {} };
-          wb.Sheets['Sheet1'] = XLSX.utils.json_to_sheet(list);
-          var wbout = XLSX.write(wb, {bookType: 'xlsx', bookSST: true, type: 'array'})
-          try {
-            FileSaver.saveAs(new Blob([wbout], {type: 'application/octet-stream'}), '历史通话记录列表.xlsx')
-          } catch (e) {
-            if (typeof console !== 'undefined') console.log(e, wbout)
-          }
+          Utils.exportExcel(list,'历史通话记录列表.xlsx')
         })
       },
     }

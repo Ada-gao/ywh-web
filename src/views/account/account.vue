@@ -325,8 +325,6 @@
 
 <script>
   import * as Api from "@/api/api"
-  import FileSaver from 'file-saver'
-  import XLSX from 'xlsx'
   import * as Utils  from '@/common/js/util'
   export default {
     data() {
@@ -501,7 +499,7 @@
             delete item.userId
             delete item.userName
           })
-          this.exportExcel(list,'消费记录列表.xlsx')
+          Utils.exportExcel(list,'消费记录列表.xlsx')
         })
       },
       handleExportRecharge(){
@@ -538,18 +536,8 @@
             delete item.companyName
             delete item.accountType
           })
-          this.exportExcel(list,'充值记录列表.xlsx')
+          Utils.exportExcel(list,'充值记录列表.xlsx')
         })
-      },
-      exportExcel(list, name){
-        const wb = { SheetNames: ['Sheet1'], Sheets: {}, Props: {} };
-        wb.Sheets['Sheet1'] = XLSX.utils.json_to_sheet(list);
-        var wbout = XLSX.write(wb, {bookType: 'xlsx', bookSST: true, type: 'array'})
-        try {
-          FileSaver.saveAs(new Blob([wbout], {type: 'application/octet-stream'}), name)
-        } catch (e) {
-          if (typeof console !== 'undefined') console.log(e, wbout)
-        }
       },
       getCompany() {
         Api.accountCompany(this.accountId).then(response => {
