@@ -254,7 +254,3 @@
     }
   }
 </script>
-
-<style>
-
-</style>

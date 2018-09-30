@@ -1,5 +1,7 @@
 @import 'vars';
 @import 'elementUI';
+@import "iconfont";
+@import "app";
 
 a,
 a:hover {
@@ -177,3 +179,6 @@ textarea::-webkit-input-placeholder {
 .el-form-item.is-success .el-textarea__inner:focus {
   border-color: $color-primary;
 }
+
+
+

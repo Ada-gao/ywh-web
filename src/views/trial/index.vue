@@ -67,7 +67,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="联系人姓名">
+      <el-table-column align="center" label="联系人姓名" width="100">
         <template slot-scope="scope">
           <span>{{scope.row.contact}}</span>
         </template>

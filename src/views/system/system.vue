@@ -80,7 +80,7 @@
       <el-table-column align="center" label="账户余额">
         <template slot-scope="scope"><span>{{(scope.row.balance * 0.01).toFixed(2)}}</span></template>
       </el-table-column>
-      <el-table-column align="center" label="累计消费金额">
+      <el-table-column align="center" label="累计消费金额" width="130">
         <template slot-scope="scope"><span>{{(scope.row.totalConsumption * 0.01).toFixed(2)}}</span></template>
       </el-table-column>
       <el-table-column align="center" label="联系人">

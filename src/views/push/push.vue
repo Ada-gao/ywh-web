@@ -50,7 +50,7 @@
           <span class="max-line2">{{scope.row.companyName}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="关联信息推送规则">
+      <el-table-column align="center" label="关联推送规则">
         <template slot-scope="scope">
           <span>{{scope.row.messageRuleName}}</span>
         </template>

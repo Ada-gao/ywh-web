@@ -160,7 +160,3 @@
     }
   }
 </script>
-
-<style>
-
-</style>

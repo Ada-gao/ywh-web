@@ -44,7 +44,7 @@
 
       <el-table-column align="center" label="反馈问题">
         <template slot-scope="scope">
-          <span>{{scope.row.feedbackContent}}</span>
+          <span class="max-line2">{{scope.row.feedbackContent}}</span>
         </template>
       </el-table-column>
 

@@ -341,7 +341,7 @@ export default {
         }
       })
     },
-    cancel (formName) {
+    cancel () {
       this.$router.push({path: '/task'})
     },
   }

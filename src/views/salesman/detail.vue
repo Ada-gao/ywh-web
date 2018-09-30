@@ -134,7 +134,7 @@
           <el-col :span="8">
             <el-form-item label="登录账号:" label-width="80px">
               <span>{{form.username}}</span>
-              <a @click="updatePwdDialog = true" style="margin-left: 20px">
+              <a @click="updatePwdDialog = true" style="margin-left: 20px;cursor:pointer">
                 <i class="fa fa-unlock-alt" style="font-size: 14px;margin-right: 5px;vertical-align: middle;"></i>
                 <span style="font-size: 14px;color: #0299CC;">修改密码</span>
               </a>
@@ -459,7 +459,7 @@
           }
         })
       },
-      cancel(formName) {
+      cancel() {
         this.$router.push({path: '/salesman'})
       },
       handleChange(value) {

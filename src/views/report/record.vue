@@ -2,7 +2,7 @@
   <div>
     <div class="filter-container">
       <el-row>
-        <el-col :span="10">
+        <el-col :span="11">
           <el-input @keyup.enter.native="handleFilter"
                     style="width: 200px;"
                     class="filter-item"
@@ -20,7 +20,7 @@
                      @click="handleFilter"><i class="fa fa-search"></i>查询
           </el-button>
         </el-col>
-        <el-col :span="14" style="text-align: right;">
+        <el-col :span="13" style="text-align: right;">
           <el-select v-model="listQuery.accountId"
                      :disabled="isSuperAdmin !== 'true'"
                      placeholder="账户筛选"
@@ -97,7 +97,7 @@
           <span>{{scope.row.callType }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="拨打号码">
+      <el-table-column align="center" label="拨打号码" width="120">
         <template slot-scope="scope">
           <span>{{scope.row.phoneNo}}</span>
         </template>
@@ -117,7 +117,7 @@
           <span>{{scope.row.status}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="有效通话时长">
+      <el-table-column align="center" label="有效通话时长" width="120">
         <template slot-scope="scope">
           <span>{{scope.row.duration}}秒</span>
         </template>
@@ -319,6 +319,3 @@
     }
   }
 </script>
-<style scoped lang="scss">
-
-</style>

@@ -2,23 +2,17 @@ import Vue from 'vue'
 import 'babel-polyfill'
 import 'es6-promise-polyfill'
 import 'es6-promise'
-// import moment from 'moment'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import VueRouter from 'vue-router'
-// import store from './vuex/store'
-// import Vuex from 'vuex'
-import 'nprogress/nprogress.css'
-import routes from './common/routes'
 import 'font-awesome/css/font-awesome.min.css'
-// import timestamp from './common/js/util'
+import 'nprogress/nprogress.css'
+import VueRouter from 'vue-router'
+import routes from './common/routes'
 import App from './App'
-
-// Vue.filter('timestamp', timestamp.getLocalTime)
+import './styles/index.scss';
 
 Vue.use(ElementUI)
 Vue.use(VueRouter)
-// Vue.use(Vuex)
 
 const router = new VueRouter({
   mode: 'history',
@@ -40,10 +34,6 @@ router.beforeEach((to, from, next) => {
     }
   }
 })
-
-// Vue.filter('moment', function (dataStr, pattern = 'YYYY-MM-DD HH:mm:ss') {
-//   return moment(dataStr).format(pattern)
-// })
 
 new Vue({
   router,

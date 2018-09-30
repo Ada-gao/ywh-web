@@ -12,7 +12,7 @@
           <span class="list-tit">{{radio}}</span>
         </div>
         <el-row>
-          <el-col :span="14">
+          <el-col :span="18">
             <el-input @keyup.enter.native="handleFilter" style="width: 190px;" class="filter-item" placeholder="输入所属公司名称"
                       v-model="listQuery.companyName"/>
             <el-date-picker v-model="listQuery.date"
@@ -24,7 +24,7 @@
             <el-button class="filter-item" type="primary" icon="search" @click="handleFilter"><i class="fa fa-search"/>查询
             </el-button>
           </el-col>
-          <el-col :span="10" style="text-align: right;">
+          <el-col :span="6" style="text-align: right;">
             <el-select v-model="listQuery.type" placeholder="审核类型筛选" clearable @change="handleFilter1">
               <el-option
                 v-for="item in types"
@@ -437,7 +437,3 @@
     }
   }
 </script>
-
-<style scoped>
-
-</style>
