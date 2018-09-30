@@ -290,6 +290,9 @@
               delete this.form.nextAction
             }
             if (this.updateStatus === 'update') {
+              if (this.form.createTime) {
+                delete this.form.createTime
+              }
               Api.putMessage(this.form.id, this.form)
                 .then((res) => {
                   this.$message({
