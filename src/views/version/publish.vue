@@ -191,8 +191,6 @@
         if (this.form.promptType !== 'Recommend') {
          this.form.updateDeadline = ''
          this.form.updateDeadlineTime = ''
-          this.$refs['form'].validateField('updateDeadline')
-          this.$refs['form'].validateField('updateDeadlineTime')
         }
       },
       create() {
