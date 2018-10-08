@@ -93,7 +93,7 @@
         Api.getMessage(this.form.id).then(res => {
           this.form = res.data
           if(this.form.nextAction === 'CALL_AGAIN'){
-            this.nextAction = '继续外呼'
+            this.nextAction = '再次外呼'
           }else if(this.form.nextAction === 'GIVE_UP'){
             this.nextAction = '放弃外呼'
           }else if(this.form.nextAction === 'FOLLOW'){

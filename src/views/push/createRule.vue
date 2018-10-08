@@ -217,7 +217,7 @@
         ],
         actions: [
           {
-            label: '继续外呼',
+            label: '再次外呼',
             value: 'CALL_AGAIN'
           },
           {
