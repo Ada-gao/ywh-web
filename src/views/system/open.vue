@@ -159,18 +159,22 @@
       }
       const checkValue = (rule, value, callback) => {
         var reg = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
-        if (!value) {
-          return callback(new Error('请输入余额警告值'))
-        } else {
-          if (!(reg.test(value))) {
-            callback(new Error('请输入有效金额'))
-          } else {
-            if (value > this.form.balanceThreshold){
-              callback(new Error('余额警告值不能大于余额提醒值'))
-            } else{
+        if (value) {
+          if (reg.test(value)) {
+            if (this.form.balanceThreshold) {
+              if (parseInt(value) > this.form.balanceThreshold){
+                callback(new Error('余额警告值不能大于余额提醒值'))
+              } else{
+                callback()
+              }
+            }else{
               callback()
             }
+          } else {
+            callback(new Error('请输入有效金额'))
           }
+        } else {
+          return callback(new Error('请输入余额警告值'))
         }
       }
       return {
