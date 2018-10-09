@@ -211,7 +211,6 @@
 </template>
 
 <script>
-  import * as Api from "@/api/api"
   import * as Utils  from '@/common/js/util'
   export default {
     data() {
@@ -280,7 +279,7 @@
       updateLimitedTimes(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            Api.updateTimes(this.listQuery.taskGroupId, this.ruleForm.times).then(res => {
+            this.$Api.updateTimes(this.listQuery.taskGroupId, this.ruleForm.times).then(res => {
               this.$message({
                 message: '操作成功',
                 type: 'success'
@@ -329,7 +328,7 @@
         return result
       },
       getList() {
-        Api.getTaskDetail(this.listQuery.taskGroupId, this.listQuery).then(res => {
+        this.$Api.getTaskDetail(this.listQuery.taskGroupId, this.listQuery).then(res => {
           this.form = res.data.taskGroup
           this.groupName = res.data.groupName
           this.form.nextAction = this.changeActionText(this.form.nextActionRule)
@@ -379,7 +378,7 @@
       commit (status) {
         this.$refs['checkForm'].validate(valid => {
           if (valid) {
-            Api.putReview(this.obj.id,status,this.checkForm.content)
+            this.$Api.putReview(this.obj.id,status,this.checkForm.content)
               .then((res) => {
                 this.$message({
                   message: '操作成功',

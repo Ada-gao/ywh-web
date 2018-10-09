@@ -203,7 +203,6 @@
 </template>
 
 <script>
-  import * as Api from "@/api/api";
   import * as Utils  from '@/common/js/util'
   export default {
     data() {
@@ -279,7 +278,7 @@
         }
         let query = JSON.parse(JSON.stringify(this.listQuery))
         delete query.date
-        Api.review('PENDING', query).then(res => {
+        this.$Api.review('PENDING', query).then(res => {
           this.list = res.data.content
           this.total = res.data.totalElements
           this.listLoading = false
@@ -310,7 +309,7 @@
         }
         let query = JSON.parse(JSON.stringify(this.listQuery2))
         delete query.date
-        Api.review('HISTORY', query).then(res => {
+        this.$Api.review('HISTORY', query).then(res => {
           this.list2 = res.data.content
           this.total2 = res.data.totalElements
           this.listLoading2 = false
@@ -420,7 +419,7 @@
         }
         this.$refs['checkForm'].validate(valid => {
           if (valid) {
-            Api.putReview(this.item.id,status,this.checkForm.content)
+            this.$Api.putReview(this.item.id,status,this.checkForm.content)
               .then((res) => {
                 this.$message({
                   message: '操作成功',

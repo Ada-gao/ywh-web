@@ -107,7 +107,6 @@
 </template>
 
 <script>
-  import * as Api from "@/api/api"
   import * as Utils  from '@/common/js/util'
   export default {
     data () {
@@ -151,7 +150,7 @@
     },
     methods: {
       getList () {
-        Api.messageRulePage(this.listQuery).then(res => {
+        this.$Api.messageRulePage(this.listQuery).then(res => {
           this.list = res.data.content
           this.total = res.data.totalElements
           this.listLoading = false
@@ -168,7 +167,7 @@
         })
       },
       getQuery() {
-        Api.getCompanies().then(res => {
+        this.$Api.getCompanies().then(res => {
           this.companies = res.data
         })
       },
@@ -194,7 +193,7 @@
       },
       changeCompany() {
         delete this.listQuery.team
-        Api.getTeams({companyId: this.listQuery.companyId}).then(res => {
+        this.$Api.getTeams({companyId: this.listQuery.companyId}).then(res => {
           this.teams = res.data
         })
         this.handleFilter1()

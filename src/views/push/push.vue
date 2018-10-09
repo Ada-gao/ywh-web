@@ -154,7 +154,6 @@
 </template>
 
 <script>
-  import * as Api from "@/api/api"
   import * as Utils  from '@/common/js/util'
   export default {
     data() {
@@ -230,7 +229,7 @@
         }
         let query = JSON.parse(JSON.stringify(this.listQuery))
         delete query.date
-        Api.getMessageHistoryGroupPage(query).then(res => {
+        this.$Api.getMessageHistoryGroupPage(query).then(res => {
           this.list = res.data.content
           this.total = res.data.totalElements
           this.listLoading = false
@@ -246,7 +245,7 @@
         })
       },
       getRule() {
-        Api.getEnabledRule().then(res => {
+        this.$Api.getEnabledRule().then(res => {
           this.ruleList = res.data
         })
       },
@@ -312,7 +311,7 @@
               delete this.pushForm.delayMinute
             }
             if (this.title === '新建推送') {
-              Api.addMessageGroup(this.pushForm)
+              this.$Api.addMessageGroup(this.pushForm)
                 .then((res) => {
                   this.$message({
                     message: '创建成功',
@@ -322,7 +321,7 @@
                   this.getList()
                 })
             } else {
-              Api.updateMessageGroup(this.pushItem.id, this.pushForm)
+              this.$Api.updateMessageGroup(this.pushItem.id, this.pushForm)
                 .then((res) => {
                   this.$message({
                     message: '修改成功',

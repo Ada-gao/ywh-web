@@ -81,7 +81,6 @@
 </template>
 
 <script>
-  import * as Api from "@/api/api"
   import * as Utils  from '@/common/js/util'
 export default {
   components: {},
@@ -102,7 +101,7 @@ export default {
   },
   methods: {
     getList () {
-      Api.getFeedback(this.listQuery).then(response => {
+      this.$Api.getFeedback(this.listQuery).then(response => {
         this.list = response.data.content
         this.total = response.data.totalElements
         this.listLoading = false

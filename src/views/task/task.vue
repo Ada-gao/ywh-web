@@ -162,7 +162,6 @@
 </template>
 
 <script>
-  import * as Api from "@/api/api"
   import * as Utils  from '@/common/js/util'
   export default {
     data() {
@@ -207,7 +206,7 @@
         if (query.team){
           query.team = encodeURI(query.team)
         }
-        Api.getAdminTasks(query).then(response => {
+        this.$Api.getAdminTasks(query).then(response => {
           this.list = response.data.content
           this.total = response.data.totalElements
           this.listLoading = false
@@ -227,7 +226,7 @@
         let params = {
           companyId: sessionStorage.getItem('companyId')
         }
-        Api.getTeams(params).then(res => {
+        this.$Api.getTeams(params).then(res => {
           this.teams = res.data
         })
         // getProductList().then(res => {
@@ -263,7 +262,7 @@
         }
         this.listQuery.pageIndex = 0
         this.getList()
-        Api.getProductByTeam(encodeURI(this.listQuery.team)).then((res) => {
+        this.$Api.getProductByTeam(encodeURI(this.listQuery.team)).then((res) => {
           this.products = res.data
         })
       },

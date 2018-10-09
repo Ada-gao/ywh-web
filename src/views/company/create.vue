@@ -234,7 +234,6 @@
 
 <script>
   import VueCropper from 'vue-cropper'
-  import * as Api from "@/api/api"
   import {retransfer, transferIndustry} from '@/common/js/util'
   import {provinceAndCityData} from 'element-china-area-data' // 省市区数据
 
@@ -459,7 +458,7 @@
         this.$refs.cropper.getCropBlob((data) => {
           let formData = new FormData()
           formData.append('file', data)
-          Api.uploadLogo(formData).then(res => {
+          this.$Api.uploadLogo(formData).then(res => {
             this.form.logo = process.env.BASE_API + '/file?fileUuid=' + res.data
             this.dialogVisible = false
           })
@@ -470,14 +469,14 @@
         this.getOrgSize()
       },
       getOrgSize() {
-        Api.getOrgSize().then(res => {
+        this.$Api.getOrgSize().then(res => {
           this.coInfo.orgSize = res.data
         })
-        Api.getAuthDustries().then(res => {
+        this.$Api.getAuthDustries().then(res => {
           this.coInfo.industryType = res.data
           if (this.updateStatus === 'update') {
             let transferId = retransfer(this.form.industryType, this.coInfo.industryType)
-            Api.getAuthDustryByType(transferId).then(res => {
+            this.$Api.getAuthDustryByType(transferId).then(res => {
               this.coInfo.industry = res.data
             })
             let idx = this.provinceData.findIndex((item, index) => {
@@ -510,7 +509,7 @@
       changeIndustryType(val) {
         this.$refs['form'].validateField('industryType')
         this.form.industry = ''
-        Api.getAuthDustryByType(val).then(res => {
+        this.$Api.getAuthDustryByType(val).then(res => {
           this.coInfo.industry = res.data
         })
       },
@@ -531,7 +530,7 @@
               let index = logo.lastIndexOf('=')
               this.form.logo = logo.substring(index + 1, logo.length)
             }
-            Api.addCompanies(this.form)
+            this.$Api.addCompanies(this.form)
               .then(res => {
                 this.$message({
                   message: '新建成功',
@@ -560,7 +559,7 @@
               let index = logo.lastIndexOf('=')
               this.form.logo = logo.substring(index + 1, logo.length)
             }
-            Api.putCompanies(id, this.form)
+            this.$Api.putCompanies(id, this.form)
               .then(() => {
                 this.$message({
                   message: '修改成功',

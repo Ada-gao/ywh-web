@@ -74,8 +74,6 @@
 </template>
 
 <script>
-  import * as Api from "../../api/api"
-
   export default {
     data () {
       return {
@@ -90,7 +88,7 @@
     },
     methods: {
       getQuery () {
-        Api.getMessage(this.form.id).then(res => {
+        this.$Api.getMessage(this.form.id).then(res => {
           this.form = res.data
           if(this.form.nextAction === 'CALL_AGAIN'){
             this.nextAction = '再次外呼'
@@ -114,7 +112,7 @@
         this.$router.push({name: 'createRule', query: this.form})
       },
       changeMode (val) {
-        Api.enabeldRule(this.form.id, val).then(res => {
+        this.$Api.enabeldRule(this.form.id, val).then(res => {
           this.form.enabled = val
           if (val) {
             this.$message({

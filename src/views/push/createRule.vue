@@ -137,8 +137,6 @@
 </template>
 
 <script>
-  import * as Api from "@/api/api"
-
   export default {
     data() {
       const checkNumber = (rule, value, callback) => {
@@ -254,7 +252,7 @@
     },
     methods: {
       getQuery() {
-        Api.getCompanies().then(res => {
+        this.$Api.getCompanies().then(res => {
           this.companies = res.data
         })
       },
@@ -275,10 +273,10 @@
         this.$refs['form'].validateField('lastCallResult')
       },
       getList() {
-        Api.getTeams({companyId: this.form.companyId}).then(res => {
+        this.$Api.getTeams({companyId: this.form.companyId}).then(res => {
           this.teamList = res.data
         })
-        Api.getNames(this.form.companyId).then(res => {
+        this.$Api.getNames(this.form.companyId).then(res => {
           this.associateList = res.data
         })
       },
@@ -293,7 +291,7 @@
               if (this.form.createTime) {
                 delete this.form.createTime
               }
-              Api.putMessage(this.form.id, this.form)
+              this.$Api.putMessage(this.form.id, this.form)
                 .then((res) => {
                   this.$message({
                     message: '修改成功',
@@ -302,7 +300,7 @@
                   this.$router.push({path: '/push/rule'})
                 })
             } else {
-              Api.message(this.form)
+              this.$Api.message(this.form)
                 .then((res) => {
                   this.$message({
                     message: '创建成功',

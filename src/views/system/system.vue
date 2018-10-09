@@ -209,7 +209,6 @@
 </template>
 
 <script>
-  import * as Api from "@/api/api"
   import * as Utils  from '@/common/js/util'
   export default {
     data() {
@@ -277,7 +276,7 @@
           enabled = true
         }
         if (enabled != this.item.accountStatus) {
-          Api.enabledAccount(this.item.id, enabled).then(res => {
+          this.$Api.enabledAccount(this.item.id, enabled).then(res => {
             this.item.accountStatus = enabled
             if (enabled) {
               this.$message({
@@ -304,14 +303,14 @@
         this.updateStatusDialog = true
       },
       getAccounts() {
-        Api.getAccounts(this.listQuery).then(response => {
+        this.$Api.getAccounts(this.listQuery).then(response => {
           this.list = response.data.content
           this.total = response.data.totalElements
           this.listLoading = false
         })
       },
       getRechargePage() {
-        Api.getRechargePage(this.listQuery2).then(response => {
+        this.$Api.getRechargePage(this.listQuery2).then(response => {
           this.money = response.data.statisResult;
           this.list2 = response.data.content
           this.total2 = response.data.totalElements
@@ -332,7 +331,7 @@
         let query = JSON.parse(JSON.stringify(this.listQuery2))
         query.pageIndex = 0
         query.pageSize = this.total2
-        Api.getRechargePage(query).then(response => {
+        this.$Api.getRechargePage(query).then(response => {
           let list = response.data.content
           list.forEach(item => {
             item.money = (item.money * 0.01).toFixed(2)

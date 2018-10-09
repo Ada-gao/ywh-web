@@ -10,6 +10,8 @@ import VueRouter from 'vue-router'
 import routes from './common/routes'
 import App from './App'
 import './styles/index.scss';
+import * as Api from "@/api/api"
+Vue.prototype.$Api = Api
 
 Vue.use(ElementUI)
 Vue.use(VueRouter)

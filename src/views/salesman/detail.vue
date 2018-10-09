@@ -218,7 +218,6 @@
 </template>
 
 <script>
-  import * as Api from "@/api/api"
   import * as Utils  from '@/common/js/util'
   export default {
     data() {
@@ -363,7 +362,7 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.ruleForm.password = this.trim(this.ruleForm.password, 'g')
-            Api.resetPWD(this.id, this.ruleForm.password).then(res => {
+            this.$Api.resetPWD(this.id, this.ruleForm.password).then(res => {
               this.$message({
                 message: '操作成功',
                 type: 'success'
@@ -381,11 +380,11 @@
         this.$refs[formName].resetFields()
       },
       getList() {
-        Api.getUserById(this.id).then(res => {
+        this.$Api.getUserById(this.id).then(res => {
           this.form = res.data
           this.form.createdDate = Utils.formatDateTime(this.form.createdDate)
         })
-        Api.taskDoneRate(this.id).then(res => {
+        this.$Api.taskDoneRate(this.id).then(res => {
           if (res.data){
             this.list = []
             this.list.push(res.data)
@@ -403,7 +402,7 @@
       },
       getQuery() {
         if (this.updateStatus !== 'view') {
-          Api.getCompanies().then(res => {
+          this.$Api.getCompanies().then(res => {
             this.companies = res.data
           })
         }
@@ -420,7 +419,7 @@
             this.form.password = this.trim(this.form.password, 'g')
             this.form.username = this.trim(this.form.username, 'g')
             if (this.updateStatus === 'create') {
-              Api.addUser(this.form)
+              this.$Api.addUser(this.form)
                 .then((res) => {
                   this.$message({
                     message: '创建成功',
@@ -429,7 +428,7 @@
                   this.$router.push({path: '/salesman'})
                 })
             } else {
-              Api.updSale(this.form.id, this.form).then(res => {
+              this.$Api.updSale(this.form.id, this.form).then(res => {
                 this.$message({
                   message: '修改成功',
                   type: 'success'
@@ -444,7 +443,7 @@
         })
       },
       changeMode(val) {
-        Api.userEnabled(this.form.id, val).then(res => {
+        this.$Api.userEnabled(this.form.id, val).then(res => {
           this.value3 = val
           if (val) {
             this.$message({

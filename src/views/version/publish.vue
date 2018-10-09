@@ -88,8 +88,6 @@
 </template>
 
 <script>
-  import * as Api from "@/api/api"
-
   export default {
     data() {
       const checkNumber = (rule, value, callback) => {
@@ -198,7 +196,7 @@
           if (valid) {
             if (this.updateStatus === 'update'){
               delete this.form.createTime
-              Api.updateVersion(this.form.id,this.form)
+              this.$Api.updateVersion(this.form.id,this.form)
                 .then(res => {
                   this.$message({
                     message: '修改成功',
@@ -207,7 +205,7 @@
                   this.$router.push({path: '/version/list'})
                 })
             } else{
-              Api.createVersion(this.form)
+              this.$Api.createVersion(this.form)
                 .then(res => {
                   this.$message({
                     message: '新建成功',

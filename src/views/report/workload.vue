@@ -122,7 +122,6 @@
 </template>
 
 <script>
-  import * as Api from "@/api/api"
   import * as Utils  from '@/common/js/util'
   export default {
     data() {
@@ -151,7 +150,7 @@
     },
     methods: {
       getList() {
-        Api.workload(this.listQuery).then(response => {
+        this.$Api.workload(this.listQuery).then(response => {
           let data = response.data.content
           this.total = response.data.totalElements
           this.listLoading = false
@@ -175,10 +174,10 @@
         let params = {
           companyId: sessionStorage.getItem('companyId')
         }
-        Api.getTeams(params).then(res => {
+        this.$Api.getTeams(params).then(res => {
           this.teams = res.data
         })
-        Api.accounts(params).then(res => {
+        this.$Api.accounts(params).then(res => {
           this.accounts = res.data
         })
       },
@@ -224,7 +223,7 @@
         let query = JSON.parse(JSON.stringify(this.listQuery))
         query.pageIndex = 0
         query.pageSize = this.total
-        Api.workload(query).then(response => {
+        this.$Api.workload(query).then(response => {
           let data = response.data.content
           let list = []
           data.forEach((item,index) => {

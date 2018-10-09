@@ -61,8 +61,6 @@
 </template>
 
 <script>
-  import * as Api from "@/api/api"
-
   export default {
     data() {
       const checkNumber = (rule, value, callback) => {
@@ -123,7 +121,7 @@
     },
     methods: {
       getQuery() {
-        Api.getCompanies().then(res => {
+        this.$Api.getCompanies().then(res => {
           this.companies = res.data
           if (this.$route.query.id) {
             this.changeCompany()
@@ -134,7 +132,7 @@
         const set = this.$refs
         set[formName].validate(valid => {
           if (valid) {
-            Api.recharge(this.form)
+            this.$Api.recharge(this.form)
               .then((res) => {
                 this.$message({
                   message: '充值成功',
@@ -153,7 +151,7 @@
       changeCompany () {
         this.$refs['form'].validateField('companyId')
         delete this.form.accountId
-        Api.getAccountByCompanyId(this.form.companyId).then(res => {
+        this.$Api.getAccountByCompanyId(this.form.companyId).then(res => {
           this.accounts = res.data
         })
       },

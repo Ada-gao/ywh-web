@@ -81,7 +81,6 @@
 </template>
 
 <script>
-  import * as Api from "@/api/api"
   import FileSaver from 'file-saver'
   import XLSX from 'xlsx'
   import * as Utils  from '@/common/js/util'
@@ -121,7 +120,7 @@
           query.endDate = query.date[1]
           delete query.date
         }
-        Api.getMessageHistory(this.id,query).then(res => {
+        this.$Api.getMessageHistory(this.id,query).then(res => {
           this.list = res.data.content
           this.total = res.data.totalElements
           this.listLoading = false
@@ -177,7 +176,7 @@
         }
         query.pageIndex = 0
         query.pageSize = this.total
-        Api.getMessageHistory(this.id,query).then(res => {
+        this.$Api.getMessageHistory(this.id,query).then(res => {
           let list = res.data.content
           list.forEach(item => {
             item.money = (item.money*0.01).toFixed(2)

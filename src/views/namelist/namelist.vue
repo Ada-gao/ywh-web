@@ -109,7 +109,6 @@
 </template>
 
 <script>
-  import * as Api from "@/api/api"
 import { provinceAndCityData } from 'element-china-area-data' // 省市区数据
 
 export default {
@@ -142,7 +141,7 @@ export default {
   },
   methods: {
     getList () {
-      Api.getLists(this.listQuery).then(response => {
+      this.$Api.getLists(this.listQuery).then(response => {
         this.list = response.data.content
         this.list.forEach((ele, index) => {
           if (ele.gender === 'GENTLEMAN') {
@@ -157,7 +156,7 @@ export default {
       })
     },
     getQuery () {
-      Api.getCompanies().then(res => {
+      this.$Api.getCompanies().then(res => {
         this.companies = res.data
       })
     },

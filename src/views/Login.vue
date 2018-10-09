@@ -24,7 +24,7 @@
 
 <script>
 
-  import * as Api from "@/api/api"
+
 import NProgress from 'nprogress'
 
 export default {
@@ -82,12 +82,12 @@ export default {
           this.loading = true
           NProgress.start()
           let loginParams = {username: this.loginForm.username, password: this.loginForm.password}
-          Api.requestLogin(loginParams).then(res => {
+          this.$Api.requestLogin(loginParams).then(res => {
             this.loading = false
             NProgress.done()
             sessionStorage.clear()
             sessionStorage.setItem('token', res.data.token)
-            Api.getUser().then(res => {
+            this.$Api.getUser().then(res => {
               /*
               {"username":"superadmin",
               "name":"Superadmin",

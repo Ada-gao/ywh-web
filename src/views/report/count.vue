@@ -80,7 +80,6 @@
 
 <script>
   import * as Utils  from '@/common/js/util'
-  import * as Api from "@/api/api"
   export default {
     data() {
       return {
@@ -107,7 +106,7 @@
     },
     methods: {
       getList() {
-        Api.getCallStatis(this.listQuery).then(response => {
+        this.$Api.getCallStatis(this.listQuery).then(response => {
           let data = response.data.content
           this.total = response.data.totalElements
           this.listLoading = false
@@ -126,7 +125,7 @@
         let params = {
           companyId: sessionStorage.getItem('companyId')
         }
-        Api.accounts(params).then(res => {
+        this.$Api.accounts(params).then(res => {
           this.accounts = res.data
         })
       },
@@ -162,7 +161,7 @@
         let query = JSON.parse(JSON.stringify(this.listQuery))
         query.pageIndex = 0
         query.pageSize = this.total
-        Api.getCallStatis(query).then(response => {
+        this.$Api.getCallStatis(query).then(response => {
           let data = response.data.content
           let list = []
           data.forEach((item,index) => {

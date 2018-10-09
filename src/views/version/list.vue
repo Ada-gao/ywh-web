@@ -63,7 +63,6 @@
 </template>
 
 <script>
-  import * as Api from "@/api/api"
   import * as Utils  from '@/common/js/util'
   export default {
     data() {
@@ -83,7 +82,7 @@
     },
     methods: {
       getList() {
-        Api.getVersionPage(this.listQuery).then(response => {
+        this.$Api.getVersionPage(this.listQuery).then(response => {
           this.list = response.data.content
           this.total = response.data.totalElements
           this.listLoading = false

@@ -181,8 +181,6 @@
 </template>
 
 <script>
-  import * as Api from "@/api/api"
-
   export default {
     data() {
       return {
@@ -229,19 +227,19 @@
     },
     methods: {
       getList() {
-        Api.getUsers(this.listQuery).then(response => {
+        this.$Api.getUsers(this.listQuery).then(response => {
           this.list = response.data.content
           this.total = response.data.totalElements
           this.listLoading = false
         })
       },
       getQuery() {
-        Api.getCompanies().then(res => {
+        this.$Api.getCompanies().then(res => {
           this.companies = res.data
         })
       },
       getStatisSales() {
-        Api.statisSales('').then(res => {
+        this.$Api.statisSales('').then(res => {
           this.totalSalesCnt = res.data.totalSalesCnt
           this.enabledSalesCnt = res.data.enabledSalesCnt
           this.disabledSalesCnt = res.data.disabledSalesCnt
@@ -293,7 +291,7 @@
       },
       handleCompany() {
         if (this.listQuery.companyId) {
-          Api.getTeams({companyId: this.listQuery.companyId, status: this.listQuery.status}).then(res => {
+          this.$Api.getTeams({companyId: this.listQuery.companyId, status: this.listQuery.status}).then(res => {
             this.teams = res.data
             this.listQuery.team = null
           })
@@ -325,7 +323,7 @@
           enabled = true
         }
         if (enabled != this.item.enabled) {
-          Api.userEnabled(this.item.id, enabled).then(res => {
+          this.$Api.userEnabled(this.item.id, enabled).then(res => {
             this.getList()
             this.getStatisSales()
             if (enabled) {

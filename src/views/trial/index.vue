@@ -147,7 +147,6 @@
 </template>
 
 <script>
-import * as Api from "@/api/api"
 import * as Utils  from '@/common/js/util'
 export default {
   data () {
@@ -187,12 +186,12 @@ export default {
   },
   methods: {
     getList () {
-      Api.getTrial(this.listQuery).then((response) => {
+      this.$Api.getTrial(this.listQuery).then((response) => {
         this.list = response.data.content
         this.converStatus(this.list)
         this.total = response.data.totalElements
         this.listLoading = false
-        Api.getOrgSize().then(res => {
+        this.$Api.getOrgSize().then(res => {
           this.orgSize = res.data
           this.list.forEach(item => {
             item.createTime = Utils.formatDate(item.createTime)
@@ -250,7 +249,7 @@ export default {
       let data = {
         status: this.converStatus1(this.radio)
       }
-      Api.getTrailDet(this.id, data).then(res => {
+      this.$Api.getTrailDet(this.id, data).then(res => {
         this.updateTrialText(this.id, this.radio)
         this.$message({
           message: '修改成功',

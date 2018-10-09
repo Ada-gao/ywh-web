@@ -145,7 +145,6 @@
 
 <script>
 import * as Utils from '@/common/js/util'
-import * as Api from "@/api/api"
 export default {
   data () {
     const checkNumber = (rule, value, callback) => {
@@ -294,15 +293,15 @@ export default {
       if (this.taskGroup.outboundNameGroupId){
         this.taskGroup.outboundNameGroupId = ''
       }
-      Api.getTeams({companyId: this.taskGroup.companyId}).then(res => {
+      this.$Api.getTeams({companyId: this.taskGroup.companyId}).then(res => {
         this.teamList = res.data
       })
-      Api.getNames(this.taskGroup.companyId).then(res => {
+      this.$Api.getNames(this.taskGroup.companyId).then(res => {
         this.associateList = res.data
       })
     },
     getQuery () {
-      Api.getCompanies().then(res => {
+      this.$Api.getCompanies().then(res => {
         this.companies = res.data
       })
     },
@@ -315,7 +314,7 @@ export default {
           this.taskGroup.interv -= 0
           this.taskGroup.effectiveTasks -= 0
           this.taskGroup.minimumDuration -= 0
-          Api.createTask(this.taskGroup)
+          this.$Api.createTask(this.taskGroup)
             .then((res) => {
               if (res.data) {
                 this.$alert(res.data, '提示', {
