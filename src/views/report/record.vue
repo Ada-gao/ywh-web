@@ -290,7 +290,7 @@
               item[7] = '已接通'
             }
             if(item[8] === 'CALL_AGAIN'){
-              item[8] = '继续外呼'
+              item[8] = '再次外呼'
             }else if(item[8] === 'GIVE_UP'){
               item[8] = '放弃外呼'
             }else if(item[8] === 'FOLLOW'){
