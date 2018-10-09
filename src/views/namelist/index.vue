@@ -115,7 +115,6 @@
 
 <script>
 import { provinceAndCityData } from 'element-china-area-data' // 省市区数据
-  import * as Utils  from '@/common/js/util'
 export default {
   data () {
     return {
@@ -164,7 +163,7 @@ export default {
           } else if (item.status === '2') {
             item.status = '生效'
           }
-          item.createTime = Utils.formatDateTime(item.createTime)
+          item.createTime = this.Utils.formatDateTime(item.createTime)
         })
       })
     },

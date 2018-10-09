@@ -190,7 +190,6 @@
 </template>
 
 <script>
-  import * as Utils  from '@/common/js/util'
   export default {
     data() {
       const checkNumber = (rule, value, callback) => {
@@ -314,7 +313,7 @@
             if (ele.lastCallDate === null) {
               ele.lastCallDate = '-'
             } else {
-              ele.lastCallDate = Utils.formatDateTime(ele.lastCallDate)
+              ele.lastCallDate = this.Utils.formatDateTime(ele.lastCallDate)
             }
           })
           this.salesCnt = res.data.salesCnt

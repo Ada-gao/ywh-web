@@ -81,7 +81,6 @@
 </template>
 
 <script>
-  import * as Utils  from '@/common/js/util'
 export default {
   components: {},
   data () {
@@ -106,7 +105,7 @@ export default {
         this.total = response.data.totalElements
         this.listLoading = false
         this.list.forEach(item => {
-          item.createTime = Utils.formatDateTime(item.createTime)
+          item.createTime = this.Utils.formatDateTime(item.createTime)
         })
       })
     },

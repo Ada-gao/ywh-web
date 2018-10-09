@@ -144,7 +144,6 @@
 </template>
 
 <script>
-import * as Utils from '@/common/js/util'
 export default {
   data () {
     const checkNumber = (rule, value, callback) => {
@@ -273,7 +272,7 @@ export default {
   },
   created () {
     this.listLoading = false
-    this.nextActionList = Utils.nextActionList()
+    this.nextActionList = this.Utils.nextActionList()
     this.getQuery()
     let companyId = sessionStorage.getItem('companyId')
     if (companyId) {

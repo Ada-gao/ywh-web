@@ -107,7 +107,6 @@
 </template>
 
 <script>
-  import * as Utils  from '@/common/js/util'
   export default {
     data () {
       return {
@@ -162,7 +161,7 @@
             } else if (item.status === '2') {
               item.status = '生效'
             }
-            item.createTime = Utils.formatDateTime(item.createTime)
+            item.createTime = this.Utils.formatDateTime(item.createTime)
           })
         })
       },

@@ -116,7 +116,6 @@
 </template>
 
 <script>
-  import * as Utils  from '@/common/js/util'
   export default {
     data() {
       return {
@@ -147,7 +146,7 @@
           this.listLoading = false
           this.list.forEach(item => {
             item.taskCompleteRate = item.taskCompleteRate + '%'
-            item.taskEndDate = Utils.formatDate(item.taskEndDate)
+            item.taskEndDate = this.Utils.formatDate(item.taskEndDate)
           })
         })
       },
@@ -214,7 +213,7 @@
         this.$Api.getAdminTasks(query).then(response => {
           let list = response.data.content
           list.forEach(item => {
-            item.taskEndDate = Utils.formatDate(item.taskEndDate)
+            item.taskEndDate = this.Utils.formatDate(item.taskEndDate)
             item.任务名称 = item.taskName
             item.推广产品 = item.productName
             item.所属公司 = item.companyName
@@ -237,7 +236,7 @@
             delete item.rejectReason
             delete item.status
           })
-          Utils.exportExcel(list,'外呼任务列表.xlsx')
+          this.Utils.exportExcel(list,'外呼任务列表.xlsx')
         })
       },
     }

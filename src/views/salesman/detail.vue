@@ -218,7 +218,6 @@
 </template>
 
 <script>
-  import * as Utils  from '@/common/js/util'
   export default {
     data() {
       const validateUser = (rule, value, callback) => {
@@ -382,7 +381,7 @@
       getList() {
         this.$Api.getUserById(this.id).then(res => {
           this.form = res.data
-          this.form.createdDate = Utils.formatDateTime(this.form.createdDate)
+          this.form.createdDate = this.Utils.formatDateTime(this.form.createdDate)
         })
         this.$Api.taskDoneRate(this.id).then(res => {
           if (res.data){
@@ -434,7 +433,7 @@
                   type: 'success'
                 })
                 this.updateStatus = 'view'
-                this.companyName = Utils.transferCompById(this.form.companyId, this.companies)
+                this.companyName = this.Utils.transferCompById(this.form.companyId, this.companies)
               })
             }
           } else {

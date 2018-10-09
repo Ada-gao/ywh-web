@@ -75,7 +75,6 @@
 
 <script>
   import UploadExcelComponent from '@/components/uploadExcel.vue'
-  import {replaceKey} from '@/common/js/util'
 
   export default {
     name: 'uploadExcel',
@@ -285,7 +284,7 @@
         }
         let table = JSON.parse(JSON.stringify(this.tableData))
         table.forEach(item => {
-          replaceKey(item, keyMap)
+          this.Utils.replaceKey(item, keyMap)
         })
         this.$Api.addBatch(this.form.companyId, table).then(res => {
           this.$message({

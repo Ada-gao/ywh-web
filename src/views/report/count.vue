@@ -79,7 +79,6 @@
 </template>
 
 <script>
-  import * as Utils  from '@/common/js/util'
   export default {
     data() {
       return {
@@ -172,7 +171,7 @@
             obj.累计拨打时长 = item[3] + '秒';
             list[index] = obj
           })
-          Utils.exportExcel(list,'话务列表.xlsx')
+          this.Utils.exportExcel(list,'话务列表.xlsx')
         })
       },
     }

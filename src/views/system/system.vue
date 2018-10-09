@@ -209,7 +209,6 @@
 </template>
 
 <script>
-  import * as Utils  from '@/common/js/util'
   export default {
     data() {
       return {
@@ -319,7 +318,7 @@
             item.money = (item.money * 0.01).toFixed(2)
             item.accountType = item.accountType === 'Charge' ? '付费使用': '试用体验'
             item.status = item.status ? '充值成功': '充值失败'
-            item.createTime = Utils.formatDateTime(item.createTime)
+            item.createTime = this.Utils.formatDateTime(item.createTime)
           })
         })
       },
@@ -337,7 +336,7 @@
             item.money = (item.money * 0.01).toFixed(2)
             item.accountType = item.accountType === 'Charge' ? '付费使用': '试用体验'
             item.status = item.status ? '充值成功': '充值失败'
-            item.createTime = Utils.formatDateTime(item.createTime)
+            item.createTime = this.Utils.formatDateTime(item.createTime)
             item.充值流水号 = item.rechargeCode
             item.充值帐号 = item.accountName
             item.所属公司 = item.companyName
@@ -357,7 +356,7 @@
             delete item.companyName
             delete item.accountType
           })
-          Utils.exportExcel(list,'充值列表.xlsx')
+          this.Utils.exportExcel(list,'充值列表.xlsx')
         })
       },
       handleSizeChange(val) {

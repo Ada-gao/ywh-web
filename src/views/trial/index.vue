@@ -147,7 +147,6 @@
 </template>
 
 <script>
-import * as Utils  from '@/common/js/util'
 export default {
   data () {
     return {
@@ -194,7 +193,7 @@ export default {
         this.$Api.getOrgSize().then(res => {
           this.orgSize = res.data
           this.list.forEach(item => {
-            item.createTime = Utils.formatDate(item.createTime)
+            item.createTime = this.Utils.formatDate(item.createTime)
           })
         })
       })

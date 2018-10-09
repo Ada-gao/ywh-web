@@ -372,7 +372,6 @@
 <script>
   import FileSaver from 'file-saver'
   import XLSX from 'xlsx'
-  import * as Utils  from '@/common/js/util'
   export default {
     data() {
       const validateName = (rule, value, callback) => {
@@ -616,7 +615,7 @@
               item.consumptionProduct = '短信费'
             }
             item.money = (item.money*0.01).toFixed(2)
-            item.createTime = Utils.formatDateTime(item.createTime)
+            item.createTime = this.Utils.formatDateTime(item.createTime)
           })
         })
       },
@@ -633,7 +632,7 @@
             } else{
               item.status = '充值失败'
             }
-            item.createTime = Utils.formatDateTime(item.createTime)
+            item.createTime = this.Utils.formatDateTime(item.createTime)
           })
         })
       },
@@ -661,7 +660,7 @@
               item.consumptionProduct = '短信费'
             }
             item.money = item.money*0.01.toFixed(2)
-            item.createTime = Utils.formatDateTime(item.createTime)
+            item.createTime = this.Utils.formatDateTime(item.createTime)
             item.消费流水号 = item.consumptionCode
             item.消费产品 = item.consumptionProduct
             item.消费内容 = item.name
@@ -699,7 +698,7 @@
             } else{
               item.status = '充值失败'
             }
-            item.createTime = Utils.formatDateTime(item.createTime)
+            item.createTime = this.Utils.formatDateTime(item.createTime)
             item.充值编号 = item.rechargeCode
             item.充值金额 = item.money
             item.充值时间 = item.createTime
@@ -721,7 +720,7 @@
       },
       exportExcel(list, name){
         const wb = { SheetNames: ['Sheet1'], Sheets: {}, Props: {} };
-        wb.Sheets['Sheet1'] = XLSX.utils.json_to_sheet(list);
+        wb.Sheets['Sheet1'] = XLSX.this.Utils.json_to_sheet(list);
         var wbout = XLSX.write(wb, {bookType: 'xlsx', bookSST: true, type: 'array'})
         try {
           FileSaver.saveAs(new Blob([wbout], {type: 'application/octet-stream'}), name)
@@ -754,7 +753,7 @@
           this.account.accountType = this.account.accountType === 'Charge' ? '付费使用' : '试用体验'
           this.account.accountStatus = this.account.accountStatus ? '生效' : '失效'
           if (this.account.expireDate) {
-            this.account.expireDate = Utils.formatDate(this.account.expireDate)
+            this.account.expireDate = this.Utils.formatDate(this.account.expireDate)
           }
           this.form = this.account.company
           if (this.form.logo) {

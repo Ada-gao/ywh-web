@@ -154,7 +154,6 @@
 </template>
 
 <script>
-  import * as Utils  from '@/common/js/util'
   export default {
     data() {
       const checkNumber = (rule, value, callback) => {
@@ -240,7 +239,7 @@
             if (item.isComplete === '1') {
               item.isComplete = '推送中'
             }
-            item.createTime = Utils.formatDateTime(item.createTime)
+            item.createTime = this.Utils.formatDateTime(item.createTime)
           })
         })
       },

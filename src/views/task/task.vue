@@ -162,7 +162,6 @@
 </template>
 
 <script>
-  import * as Utils  from '@/common/js/util'
   export default {
     data() {
       return {
@@ -218,7 +217,7 @@
             }else if(item.status === '2'){
               item.status = '生效'
             }
-            item.taskEndDate = Utils.formatDate(item.taskEndDate)
+            item.taskEndDate = this.Utils.formatDate(item.taskEndDate)
           })
         })
       },

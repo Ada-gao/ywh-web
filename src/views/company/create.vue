@@ -234,7 +234,6 @@
 
 <script>
   import VueCropper from 'vue-cropper'
-  import {retransfer, transferIndustry} from '@/common/js/util'
   import {provinceAndCityData} from 'element-china-area-data' // 省市区数据
 
   export default {
@@ -475,7 +474,7 @@
         this.$Api.getAuthDustries().then(res => {
           this.coInfo.industryType = res.data
           if (this.updateStatus === 'update') {
-            let transferId = retransfer(this.form.industryType, this.coInfo.industryType)
+            let transferId = this.Utils.retransfer(this.form.industryType, this.coInfo.industryType)
             this.$Api.getAuthDustryByType(transferId).then(res => {
               this.coInfo.industry = res.data
             })
@@ -516,13 +515,13 @@
       changeIndustry(val) {
         this.$refs['form'].validateField('industry')
         this.coInfo.industry = this.coInfo.industry.slice(0)
-        this.form.industry = transferIndustry(val, this.coInfo.industry)
+        this.form.industry = this.Utils.transferIndustry(val, this.coInfo.industry)
       },
       create() {
         // alert(JSON.stringify(this.form))
         let logo = this.form.logo
         if (typeof this.form.industryType === 'number') {
-          this.form.industryType = transferIndustry(this.form.industryType, this.coInfo.industryType)
+          this.form.industryType = this.Utils.transferIndustry(this.form.industryType, this.coInfo.industryType)
         }
         this.$refs['form'].validate(valid => {
           if (valid) {
@@ -551,7 +550,7 @@
         let logo = this.form.logo
         this.form.companyCode = this.form.companyCode || this.companyCode
         if (window.Boolean(this.form.industryType - 0)) {
-          this.form.industryType = transferIndustry(this.form.industryType, this.coInfo.industryType)
+          this.form.industryType = this.Utils.transferIndustry(this.form.industryType, this.coInfo.industryType)
         }
         set['form'].validate(valid => {
           if (valid) {

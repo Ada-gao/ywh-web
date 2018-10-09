@@ -143,7 +143,6 @@
 </template>
 
 <script>
-  import * as Utils  from '@/common/js/util'
   export default {
     data() {
       return {
@@ -203,7 +202,7 @@
             }else if(item[8] === 'FOLLOW'){
               item[8] = '继续跟进'
             }
-            item[10] = Utils.formatDateTime(item[10])
+            item[10] = this.Utils.formatDateTime(item[10])
             let obj = new Object()
             obj.name = item[0];
             obj.companyName = item[1];
@@ -297,7 +296,7 @@
             }else if(item[8] === 'FOLLOW'){
               item[8] = '继续跟进'
             }
-            item[10] = Utils.formatDateTime(item[10])
+            item[10] = this.Utils.formatDateTime(item[10])
             let obj = new Object()
             obj.销售名称 = item[0];
             obj.所属公司 = item[1];
@@ -312,7 +311,7 @@
             obj.拨打时间 = item[10]
             list[index] = obj
           })
-          Utils.exportExcel(list,'历史通话记录列表.xlsx')
+          this.Utils.exportExcel(list,'历史通话记录列表.xlsx')
         })
       },
     }

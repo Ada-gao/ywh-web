@@ -83,7 +83,6 @@
 <script>
   import FileSaver from 'file-saver'
   import XLSX from 'xlsx'
-  import * as Utils  from '@/common/js/util'
   export default {
     data() {
       return {
@@ -131,7 +130,7 @@
             }else  {
               item.status = '推送失败'
             }
-            item.createTime = Utils.formatDateTime(item.createTime)
+            item.createTime = this.Utils.formatDateTime(item.createTime)
           })
         })
       },
@@ -185,7 +184,7 @@
             }else  {
               item.status = '推送失败'
             }
-            item.createTime = Utils.formatDateTime(item.createTime)
+            item.createTime = this.Utils.formatDateTime(item.createTime)
             item.联系人姓名 = item.clientName
             item.联系人手机 = item.phoneNum
             item.推送时间 = item.createTime
@@ -205,7 +204,7 @@
       },
       exportExcel(list, name){
         const wb = { SheetNames: ['Sheet1'], Sheets: {}, Props: {} };
-        wb.Sheets['Sheet1'] = XLSX.utils.json_to_sheet(list);
+        wb.Sheets['Sheet1'] = XLSX.this.Utils.json_to_sheet(list);
         var wbout = XLSX.write(wb, {bookType: 'xlsx', bookSST: true, type: 'array'})
         try {
           FileSaver.saveAs(new Blob([wbout], {type: 'application/octet-stream'}), name)

@@ -12,6 +12,8 @@ import App from './App'
 import './styles/index.scss';
 import * as Api from "@/api/api"
 Vue.prototype.$Api = Api
+import * as Utils  from '@/common/js/util'
+Vue.prototype.Utils = Utils
 
 Vue.use(ElementUI)
 Vue.use(VueRouter)

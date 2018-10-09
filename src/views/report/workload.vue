@@ -122,7 +122,6 @@
 </template>
 
 <script>
-  import * as Utils  from '@/common/js/util'
   export default {
     data() {
       return {
@@ -239,7 +238,7 @@
             obj.实际通话客户数 = item[8]
             list[index] = obj
           })
-          Utils.exportExcel(list,'工作量列表.xlsx')
+          this.Utils.exportExcel(list,'工作量列表.xlsx')
         })
       },
     }

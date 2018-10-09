@@ -324,7 +324,6 @@
 </template>
 
 <script>
-  import * as Utils  from '@/common/js/util'
   export default {
     data() {
       const validateName = (rule, value, callback) => {
@@ -480,7 +479,7 @@
               item.consumptionProduct = '短信费'
             }
             item.money = (item.money*0.01).toFixed(2)
-            item.createTime = Utils.formatDateTime(item.createTime)
+            item.createTime = this.Utils.formatDateTime(item.createTime)
             item.消费流水号 = item.consumptionCode
             item.消费产品 = item.consumptionProduct
             item.消费内容 = item.name
@@ -498,7 +497,7 @@
             delete item.userId
             delete item.userName
           })
-          Utils.exportExcel(list,'消费记录列表.xlsx')
+          this.Utils.exportExcel(list,'消费记录列表.xlsx')
         })
       },
       handleExportRecharge(){
@@ -518,7 +517,7 @@
             } else{
               item.status = '充值失败'
             }
-            item.createTime = Utils.formatDateTime(item.createTime)
+            item.createTime = this.Utils.formatDateTime(item.createTime)
             item.充值编号 = item.rechargeCode
             item.充值金额 = item.money
             item.充值时间 = item.createTime
@@ -535,7 +534,7 @@
             delete item.companyName
             delete item.accountType
           })
-          Utils.exportExcel(list,'充值记录列表.xlsx')
+          this.Utils.exportExcel(list,'充值记录列表.xlsx')
         })
       },
       getCompany() {
@@ -691,7 +690,7 @@
           this.total4 = response.data.totalElements
           this.listLoading4 = false
           this.list4.forEach(item => {
-            item.loginTime = Utils.formatDateTime(item.loginTime)
+            item.loginTime = this.Utils.formatDateTime(item.loginTime)
           })
         })
       },
@@ -709,7 +708,7 @@
             }else if (item.consumptionProduct === 'MessageFee'){
               item.consumptionProduct = '短信费'
             }
-            item.createTime = Utils.formatDateTime(item.createTime)
+            item.createTime = this.Utils.formatDateTime(item.createTime)
           })
         })
       },
@@ -720,7 +719,7 @@
           this.total3 = response.data.totalElements
           this.listLoading3 = false
           this.list3.forEach(item => {
-            item.createTime = Utils.formatDateTime(item.createTime)
+            item.createTime = this.Utils.formatDateTime(item.createTime)
           })
         })
       },
