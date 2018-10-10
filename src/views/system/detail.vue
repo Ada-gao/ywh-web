@@ -370,8 +370,6 @@
 </template>
 
 <script>
-  import FileSaver from 'file-saver'
-  import XLSX from 'xlsx'
   export default {
     data() {
       const validateName = (rule, value, callback) => {
@@ -678,7 +676,7 @@
             delete item.userId
             delete item.userName
           })
-          this.exportExcel(list,'消费记录列表.xlsx')
+          this.Utils.exportExcel(list,'消费记录列表.xlsx')
         })
       },
       handleExportRecharge(){
@@ -715,18 +713,8 @@
             delete item.companyName
             delete item.accountType
           })
-          this.exportExcel(list,'充值记录列表.xlsx')
+          this.Utils.exportExcel(list,'充值记录列表.xlsx')
         })
-      },
-      exportExcel(list, name){
-        const wb = { SheetNames: ['Sheet1'], Sheets: {}, Props: {} };
-        wb.Sheets['Sheet1'] = XLSX.this.Utils.json_to_sheet(list);
-        var wbout = XLSX.write(wb, {bookType: 'xlsx', bookSST: true, type: 'array'})
-        try {
-          FileSaver.saveAs(new Blob([wbout], {type: 'application/octet-stream'}), name)
-        } catch (e) {
-          if (typeof console !== 'undefined') console.log(e, wbout)
-        }
       },
       handleUpdate(){
         this.$router.push({path: '/company/create', query: this.form})

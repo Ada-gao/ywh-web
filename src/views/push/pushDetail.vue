@@ -81,8 +81,6 @@
 </template>
 
 <script>
-  import FileSaver from 'file-saver'
-  import XLSX from 'xlsx'
   export default {
     data() {
       return {
@@ -199,18 +197,8 @@
             delete item.status
             delete item.failReason
           })
-          this.exportExcel(list,'推送详情列表.xlsx')
+          this.Utils.exportExcel(list,'推送详情列表.xlsx')
         })
-      },
-      exportExcel(list, name){
-        const wb = { SheetNames: ['Sheet1'], Sheets: {}, Props: {} };
-        wb.Sheets['Sheet1'] = XLSX.this.Utils.json_to_sheet(list);
-        var wbout = XLSX.write(wb, {bookType: 'xlsx', bookSST: true, type: 'array'})
-        try {
-          FileSaver.saveAs(new Blob([wbout], {type: 'application/octet-stream'}), name)
-        } catch (e) {
-          if (typeof console !== 'undefined') console.log(e, wbout)
-        }
       },
     }
   }
