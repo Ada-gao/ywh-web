@@ -100,7 +100,7 @@ export default {
       let data = {
         status: this.converStatus(this.list.status)
       }
-      this.$Api.getTrailDet(this.list.id, data).then(res => {
+      this.Api.getTrailDet(this.list.id, data).then(res => {
         this.$message({
           message: '修改成功',
           type: 'success'

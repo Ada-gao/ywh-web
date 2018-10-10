@@ -114,7 +114,7 @@
     },
     methods: {
       getQuery() {
-        this.$Api.getCompanies().then(res => {
+        this.Api.getCompanies().then(res => {
           this.companies = res.data
         })
       },
@@ -286,7 +286,7 @@
         table.forEach(item => {
           this.Utils.replaceKey(item, keyMap)
         })
-        this.$Api.addBatch(this.form.companyId, table).then(res => {
+        this.Api.addBatch(this.form.companyId, table).then(res => {
           this.$message({
             message: '导入成功',
             type: 'success'

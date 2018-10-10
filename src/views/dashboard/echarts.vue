@@ -80,7 +80,7 @@
     },
     methods: {
       getCount() {
-        this.$Api.getStatistic().then(res => {
+        this.Api.getStatistic().then(res => {
           if (res.data.totalEffectiveDuration === null) {
             this.total.totalEffectiveDuration = '0'
             this.total_min = 0

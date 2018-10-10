@@ -149,7 +149,7 @@
     },
     methods: {
       getList () {
-        this.$Api.messageRulePage(this.listQuery).then(res => {
+        this.Api.messageRulePage(this.listQuery).then(res => {
           this.list = res.data.content
           this.total = res.data.totalElements
           this.listLoading = false
@@ -166,7 +166,7 @@
         })
       },
       getQuery() {
-        this.$Api.getCompanies().then(res => {
+        this.Api.getCompanies().then(res => {
           this.companies = res.data
         })
       },
@@ -192,7 +192,7 @@
       },
       changeCompany() {
         delete this.listQuery.team
-        this.$Api.getTeams({companyId: this.listQuery.companyId}).then(res => {
+        this.Api.getTeams({companyId: this.listQuery.companyId}).then(res => {
           this.teams = res.data
         })
         this.handleFilter1()

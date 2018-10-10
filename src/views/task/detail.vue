@@ -244,7 +244,7 @@
       updateLimitedTimes(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            this.$Api.updateTimes(this.listQuery.taskGroupId, this.ruleForm.times).then(res => {
+            this.Api.updateTimes(this.listQuery.taskGroupId, this.ruleForm.times).then(res => {
               this.$message({
                 message: '操作成功',
                 type: 'success'
@@ -293,7 +293,7 @@
         return result
       },
       getList() {
-        this.$Api.getTaskDetail(this.listQuery.taskGroupId, this.listQuery).then(res => {
+        this.Api.getTaskDetail(this.listQuery.taskGroupId, this.listQuery).then(res => {
           this.form = res.data.taskGroup
           this.form.nextAction = this.changeActionText(this.form.nextActionRule)
           this.form.taskStartDate = new Date(this.form.taskStartDate).toLocaleDateString()

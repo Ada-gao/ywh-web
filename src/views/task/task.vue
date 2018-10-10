@@ -205,7 +205,7 @@
         if (query.team){
           query.team = encodeURI(query.team)
         }
-        this.$Api.getAdminTasks(query).then(response => {
+        this.Api.getAdminTasks(query).then(response => {
           this.list = response.data.content
           this.total = response.data.totalElements
           this.listLoading = false
@@ -225,7 +225,7 @@
         let params = {
           companyId: sessionStorage.getItem('companyId')
         }
-        this.$Api.getTeams(params).then(res => {
+        this.Api.getTeams(params).then(res => {
           this.teams = res.data
         })
         // getProductList().then(res => {
@@ -261,7 +261,7 @@
         }
         this.listQuery.pageIndex = 0
         this.getList()
-        this.$Api.getProductByTeam(encodeURI(this.listQuery.team)).then((res) => {
+        this.Api.getProductByTeam(encodeURI(this.listQuery.team)).then((res) => {
           this.products = res.data
         })
       },

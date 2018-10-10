@@ -229,7 +229,7 @@
     },
     methods: {
       getQuery() {
-        this.$Api.getCompanies().then(res => {
+        this.Api.getCompanies().then(res => {
           this.companies = res.data
         })
       },
@@ -237,7 +237,7 @@
         const set = this.$refs
         set[formName].validate(valid => {
           if (valid) {
-            this.$Api.account(this.form)
+            this.Api.account(this.form)
               .then((res) => {
                 this.$message({
                   message: '创建成功',

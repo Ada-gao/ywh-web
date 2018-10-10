@@ -140,7 +140,7 @@
     },
     methods: {
       getList() {
-        this.$Api.getAdminTasks(this.listQuery).then(response => {
+        this.Api.getAdminTasks(this.listQuery).then(response => {
           this.list = response.data.content
           this.total = response.data.totalElements
           this.listLoading = false
@@ -154,7 +154,7 @@
         let params = {
           companyId: sessionStorage.getItem('companyId')
         }
-        this.$Api.getTeams(params).then(res => {
+        this.Api.getTeams(params).then(res => {
           this.teams = res.data
         })
       },
@@ -186,7 +186,7 @@
         }
         this.listQuery.pageIndex = 0
         this.getList()
-        this.$Api.getProductByTeam(encodeURI(this.listQuery.team)).then((res) => {
+        this.Api.getProductByTeam(encodeURI(this.listQuery.team)).then((res) => {
           this.products = res.data
         })
       },
@@ -210,7 +210,7 @@
         let query = JSON.parse(JSON.stringify(this.listQuery))
         query.pageIndex = 0
         query.pageSize = this.total
-        this.$Api.getAdminTasks(query).then(response => {
+        this.Api.getAdminTasks(query).then(response => {
           let list = response.data.content
           list.forEach(item => {
             item.taskEndDate = this.Utils.formatDate(item.taskEndDate)

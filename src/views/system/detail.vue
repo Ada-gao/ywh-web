@@ -538,7 +538,7 @@
     },
     methods: {
       changeMode (val){
-        this.$Api.enabledAccount(this.accountId, val).then(res => {
+        this.Api.enabledAccount(this.accountId, val).then(res => {
           this.accountStatus = val
           if (val) {
             this.$message({
@@ -555,7 +555,7 @@
         })
       },
       switchMode (id, enabled) {
-        this.$Api.userEnabled(id, enabled).then(res => {
+        this.Api.userEnabled(id, enabled).then(res => {
           this.$message({
             message: '操作成功',
             type: 'success'
@@ -565,7 +565,7 @@
       getList() {
         this.listLoading = true
         this.listQuery.accountId = this.accountId;
-        this.$Api.getAdmin(this.listQuery).then(response => {
+        this.Api.getAdmin(this.listQuery).then(response => {
           this.list = response.data.content
           this.total = response.data.totalElements
           this.listLoading = false
@@ -596,7 +596,7 @@
         this.getRecharge()
       },
       getConsumption(){
-        this.$Api.getConsumptionPage(this.accountId,this.listQuery2).then(response => {
+        this.Api.getConsumptionPage(this.accountId,this.listQuery2).then(response => {
           this.consumeMoney = response.data.statisResult;
           this.list2 = response.data.content
           this.total2 = response.data.totalElements
@@ -620,7 +620,7 @@
         })
       },
       getRecharge(){
-        this.$Api.getRechargePageById(this.accountId,this.listQuery3).then(response => {
+        this.Api.getRechargePageById(this.accountId,this.listQuery3).then(response => {
           this.rechargeMoney = response.data.statisResult;
           this.list3 = response.data.content
           this.total3 = response.data.totalElements
@@ -644,7 +644,7 @@
         let query = JSON.parse(JSON.stringify(this.listQuery2))
         query.pageIndex = 0
         query.pageSize = this.total2
-        this.$Api.getConsumptionPage(this.accountId,query).then(response => {
+        this.Api.getConsumptionPage(this.accountId,query).then(response => {
           let list = response.data.content
           list.forEach(item => {
             if (item.status){
@@ -689,7 +689,7 @@
         let query = JSON.parse(JSON.stringify(this.listQuery3))
         query.pageIndex = 0
         query.pageSize = this.total3
-        this.$Api.getRechargePageById(this.accountId,query).then(response => {
+        this.Api.getRechargePageById(this.accountId,query).then(response => {
           let list = response.data.content
           list.forEach(item => {
             item.money = (item.money * 0.01).toFixed(2)
@@ -748,7 +748,7 @@
         this.updateAccountDialog = true
       },
       getCompany() {
-        this.$Api.accountCompany(this.accountId).then(res => {
+        this.Api.accountCompany(this.accountId).then(res => {
           this.account = res.data
           this.account.accountType = this.account.accountType === 'Charge' ? '付费使用' : '试用体验'
           this.account.accountStatus = this.account.accountStatus ? '生效' : '失效'
@@ -794,7 +794,7 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.adminForm.companyId = this.form.id
-            this.$Api.addAdmin(this.accountId, this.adminForm)
+            this.Api.addAdmin(this.accountId, this.adminForm)
               .then((res) => {
                 this.$message({
                   message: '创建成功',
@@ -811,7 +811,7 @@
       resetPassword() {
         this.$refs['pwdForm'].validate((valid) => {
           if (valid) {
-            this.$Api.resetPWD(this.adminForm.id, this.adminForm.password).then(res => {
+            this.Api.resetPWD(this.adminForm.id, this.adminForm.password).then(res => {
               this.$message({
                 message: '操作成功',
                 type: 'success'
@@ -826,7 +826,7 @@
       updateUsers() {
         this.$refs['updateForm'].validate((valid) => {
           if (valid) {
-            this.$Api.updateUsers(this.adminForm.id, this.adminForm).then(res => {
+            this.Api.updateUsers(this.adminForm.id, this.adminForm).then(res => {
               this.$message({
                 message: '操作成功',
                 type: 'success'
@@ -843,7 +843,7 @@
         this.$refs['accountForm'].validate((valid) => {
           if (valid) {
             this.accountForm.expireDate = this.timeDefaultShow
-            this.$Api.updateAccount(this.accountId, this.accountForm).then(res => {
+            this.Api.updateAccount(this.accountId, this.accountForm).then(res => {
               this.$message({
                 message: '操作成功',
                 type: 'success'

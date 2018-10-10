@@ -463,7 +463,7 @@
         let query = JSON.parse(JSON.stringify(this.listQuery2))
         query.pageIndex = 0
         query.pageSize = this.total2
-        this.$Api.getConsumptionPage(this.accountId,query).then(response => {
+        this.Api.getConsumptionPage(this.accountId,query).then(response => {
           let list = response.data.content
           list.forEach(item => {
             if (item.status){
@@ -508,7 +508,7 @@
         let query = JSON.parse(JSON.stringify(this.listQuery3))
         query.pageIndex = 0
         query.pageSize = this.total3
-        this.$Api.getRechargePageById(this.accountId,query).then(response => {
+        this.Api.getRechargePageById(this.accountId,query).then(response => {
           let list = response.data.content
           list.forEach(item => {
             item.money = (item.money * 0.01).toFixed(2)
@@ -538,7 +538,7 @@
         })
       },
       getCompany() {
-        this.$Api.accountCompany(this.accountId).then(response => {
+        this.Api.accountCompany(this.accountId).then(response => {
           this.account = response.data
           this.account.accountType = this.account.accountType === 'Charge' ? '付费使用' : '试用体验'
           this.account.accountStatus = this.account.accountStatus ? '生效' : '失效'
@@ -566,7 +566,7 @@
       getList() {
         this.listLoading = true
         this.listQuery.accountId = this.accountId;
-        this.$Api.getAdmin(this.listQuery).then(response => {
+        this.Api.getAdmin(this.listQuery).then(response => {
           this.list = response.data.content
           this.total = response.data.totalElements
           this.listLoading = false
@@ -607,7 +607,7 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.adminForm.companyId = this.company.id
-            this.$Api.addAdmin(this.accountId, this.adminForm)
+            this.Api.addAdmin(this.accountId, this.adminForm)
               .then((res) => {
                 this.$message({
                   message: '创建成功',
@@ -624,7 +624,7 @@
       resetPassword(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            this.$Api.resetPWD(this.adminForm.id, this.adminForm.password).then(res => {
+            this.Api.resetPWD(this.adminForm.id, this.adminForm.password).then(res => {
               this.$message({
                 message: '操作成功',
                 type: 'success'
@@ -639,7 +639,7 @@
       updateUsers(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            this.$Api.updateUsers(this.adminForm.id, this.adminForm).then(res => {
+            this.Api.updateUsers(this.adminForm.id, this.adminForm).then(res => {
               this.$message({
                 message: '操作成功',
                 type: 'success'
@@ -653,7 +653,7 @@
         })
       },
       switchMode (id, enabled) {
-        this.$Api.userEnabled(id, enabled).then(res => {
+        this.Api.userEnabled(id, enabled).then(res => {
           this.$message({
             message: '操作成功',
             type: 'success'
@@ -685,7 +685,7 @@
         this.getLoginInfo()
       },
       getLoginInfo(){
-        this.$Api.getLoginLogPage(this.listQuery4).then(response => {
+        this.Api.getLoginLogPage(this.listQuery4).then(response => {
           this.list4 = response.data.content
           this.total4 = response.data.totalElements
           this.listLoading4 = false
@@ -695,7 +695,7 @@
         })
       },
       getConsumption(){
-        this.$Api.getConsumptionPage(this.accountId,this.listQuery2).then(response => {
+        this.Api.getConsumptionPage(this.accountId,this.listQuery2).then(response => {
           this.consumeMoney = response.data.statisResult;
           this.list2 = response.data.content
           this.total2 = response.data.totalElements
@@ -713,7 +713,7 @@
         })
       },
       getRecharge(){
-        this.$Api.getRechargePageById(this.accountId,this.listQuery3).then(response => {
+        this.Api.getRechargePageById(this.accountId,this.listQuery3).then(response => {
           this.rechargeMoney = response.data.statisResult;
           this.list3 = response.data.content
           this.total3 = response.data.totalElements

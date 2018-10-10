@@ -100,7 +100,7 @@ export default {
   },
   methods: {
     getList () {
-      this.$Api.getFeedback(this.listQuery).then(response => {
+      this.Api.getFeedback(this.listQuery).then(response => {
         this.list = response.data.content
         this.total = response.data.totalElements
         this.listLoading = false

@@ -119,7 +119,7 @@
           query.endDate = query.date[1]
           delete query.date
         }
-        this.$Api.getMessageHistory(this.id,query).then(res => {
+        this.Api.getMessageHistory(this.id,query).then(res => {
           this.list = res.data.content
           this.total = res.data.totalElements
           this.listLoading = false
@@ -175,7 +175,7 @@
         }
         query.pageIndex = 0
         query.pageSize = this.total
-        this.$Api.getMessageHistory(this.id,query).then(res => {
+        this.Api.getMessageHistory(this.id,query).then(res => {
           let list = res.data.content
           list.forEach(item => {
             item.money = (item.money*0.01).toFixed(2)

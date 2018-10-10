@@ -252,7 +252,7 @@
     },
     methods: {
       getQuery() {
-        this.$Api.getCompanies().then(res => {
+        this.Api.getCompanies().then(res => {
           this.companies = res.data
         })
       },
@@ -273,15 +273,14 @@
         this.$refs['form'].validateField('lastCallResult')
       },
       getList() {
-        this.$Api.getTeams({companyId: this.form.companyId}).then(res => {
+        this.Api.getTeams({companyId: this.form.companyId}).then(res => {
           this.teamList = res.data
         })
-        this.$Api.getNames(this.form.companyId).then(res => {
+        this.Api.getNames(this.form.companyId).then(res => {
           this.associateList = res.data
         })
       },
       commit() {
-
         this.$refs['form'].validate(valid => {
           if (valid) {
             if (!this.form.nextAction) {
@@ -291,7 +290,14 @@
               if (this.form.createTime) {
                 delete this.form.createTime
               }
-              this.$Api.putMessage(this.form.id, this.form)
+              if (this.form.status === '待审核'){
+                this.form.status = '0'
+              }else if (this.form.status === '审核失败'){
+                this.form.status = '1'
+              }else if (this.form.status === '生效'){
+                this.form.status = '2'
+              }
+              this.Api.putMessage(this.form.id, this.form)
                 .then((res) => {
                   this.$message({
                     message: '修改成功',
@@ -300,7 +306,7 @@
                   this.$router.push({path: '/push/rule'})
                 })
             } else {
-              this.$Api.message(this.form)
+              this.Api.message(this.form)
                 .then((res) => {
                   this.$message({
                     message: '创建成功',

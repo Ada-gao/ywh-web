@@ -141,17 +141,17 @@ export default {
   },
   methods: {
     getList () {
-      this.$Api.getCompanyPage(this.listQuery).then(res => {
+      this.Api.getCompanyPage(this.listQuery).then(res => {
         this.list = res.data.content
         this.total = res.data.totalElements
         this.listLoading = false
-        this.$Api.getOrgSize().then(res => {
+        this.Api.getOrgSize().then(res => {
           this.orgSize = res.data
           this.list.forEach(item => {
           })
         })
       })
-      this.$Api.getAuthDustries().then(res => {
+      this.Api.getAuthDustries().then(res => {
         this.industry = res.data
       })
     },

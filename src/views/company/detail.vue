@@ -75,7 +75,7 @@
     },
     methods: {
       getCompaniesInfo(){
-        this.$Api.getCompanyById(this.companyId).then(res => {
+        this.Api.getCompanyById(this.companyId).then(res => {
           this.form = res.data
           if (this.form.logo) {
             this.form.logo = process.env.BASE_API + '/file?fileUuid=' + this.form.logo

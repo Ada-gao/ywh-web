@@ -81,7 +81,7 @@
     },
     methods: {
       getList() {
-        this.$Api.getVersionPage(this.listQuery).then(response => {
+        this.Api.getVersionPage(this.listQuery).then(response => {
           this.list = response.data.content
           this.total = response.data.totalElements
           this.listLoading = false

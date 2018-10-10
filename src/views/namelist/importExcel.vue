@@ -152,7 +152,7 @@
     },
     methods: {
       getQuery() {
-        this.$Api.getCompanies().then(res => {
+        this.Api.getCompanies().then(res => {
           this.companies = res.data
         })
       },
@@ -243,7 +243,7 @@
         params.groupName = encodeURI(this.form.groupName)
         params.maskPhoneNo = this.form.maskPhoneNo
         params.source = encodeURI(this.form.source)
-        this.$Api.addNameExcel(params, table).then(res => {
+        this.Api.addNameExcel(params, table).then(res => {
           this.$message({
             message: '导入成功',
             type: 'success'

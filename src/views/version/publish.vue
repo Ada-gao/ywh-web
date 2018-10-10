@@ -196,7 +196,7 @@
           if (valid) {
             if (this.updateStatus === 'update'){
               delete this.form.createTime
-              this.$Api.updateVersion(this.form.id,this.form)
+              this.Api.updateVersion(this.form.id,this.form)
                 .then(res => {
                   this.$message({
                     message: '修改成功',
@@ -205,7 +205,7 @@
                   this.$router.push({path: '/version/list'})
                 })
             } else{
-              this.$Api.createVersion(this.form)
+              this.Api.createVersion(this.form)
                 .then(res => {
                   this.$message({
                     message: '新建成功',

@@ -146,7 +146,7 @@ export default {
   methods: {
     //获取批次
     getList(){
-      this.$Api.getBatch(this.listQuery).then(response => {
+      this.Api.getBatch(this.listQuery).then(response => {
         this.list = response.data.content
         this.total = response.data.totalElements
         this.listLoading = false
@@ -168,7 +168,7 @@ export default {
       })
     },
     getQuery () {
-      this.$Api.getCompanies().then(res => {
+      this.Api.getCompanies().then(res => {
         this.companies = res.data
       })
     },
