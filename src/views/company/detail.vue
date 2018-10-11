@@ -36,7 +36,7 @@
           <el-col :span="11"><span class="detail-label">企业微信:</span><span class="detail-value">{{form.wechatNo?form.wechatNo:'-'}}</span></el-col>
         </el-row>
         <el-row>
-          <el-col :span="11"><span class="detail-label">对外号码:</span><span class="detail-value">{{form.ecpId}}</span></el-col>
+          <el-col :span="11"><span class="detail-label">协同通讯号:</span><span class="detail-value">{{form.ecpId}}</span></el-col>
         </el-row>
         <el-row>
           <el-col :span="22">
