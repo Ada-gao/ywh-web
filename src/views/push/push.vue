@@ -313,8 +313,8 @@
               this.Api.addMessageGroup(this.pushForm)
                 .then((res) => {
                   this.$message({
-                    message: '创建成功',
-                    type: 'success'
+                    message: res.data?res.data:'创建成功',
+                    type: res.data?'error':'success'
                   })
                   this.createDialog = false
                   this.getList()
@@ -323,8 +323,8 @@
               this.Api.updateMessageGroup(this.pushItem.id, this.pushForm)
                 .then((res) => {
                   this.$message({
-                    message: '修改成功',
-                    type: 'success'
+                    message: res.data?res.data:'修改成功',
+                    type: res.data?'error':'success'
                   })
                   this.createDialog = false
                   this.getList()
