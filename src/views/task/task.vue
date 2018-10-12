@@ -205,6 +205,7 @@
         if (query.team){
           query.team = encodeURI(query.team)
         }
+        query.isReport = false
         this.Api.getAdminTasks(query).then(response => {
           this.list = response.data.content
           this.total = response.data.totalElements
