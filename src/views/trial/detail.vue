@@ -48,6 +48,11 @@
             </el-form-item>
           </el-col>
           <el-col :span="11">
+            <el-form-item label="申请来源:">
+              <span>{{list.source}}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="11">
             <el-form-item label="使用状态:">
               <span>{{list.status}}</span>
               <el-button class="upd_btn"
