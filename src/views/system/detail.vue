@@ -273,9 +273,7 @@
             <el-row>
               <el-col :span="22" style="margin-top: 20px">
                 <span class="detail-label" style="line-height: 80px;">公司资质:</span>
-                <template v-for="item in companyQualifications">
-                  <img :src="item" alt="" style="width: 120px; height: 80px;margin-right: 10px;">
-                </template>
+                  <img v-for="item in companyQualifications" :src="item" alt="" v-preview="item" style="width: 120px; height: 80px;margin-right: 10px;cursor: pointer">
               </el-col>
             </el-row>
           <el-row>

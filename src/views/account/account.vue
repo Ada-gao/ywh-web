@@ -285,7 +285,7 @@
         </el-row>
         <div style="text-align: right">
           <el-button class="search_btn" @click="createAdminDialog = false">取 消</el-button>
-          <el-button class="add_btn" @click="createAdminFrom('adminForm')">确 定</el-button>
+          <el-button class="add_btn" @click="createAdminFrom('adminForm')" :disabled="isCommit">确 定</el-button>
         </div>
       </el-form>
     </el-dialog>
@@ -383,6 +383,7 @@
         }
       }
       return {
+        isCommit:false,
         accountId:null,
         account: {},
         company: {},
@@ -606,6 +607,7 @@
       createAdminFrom(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
+            this.isCommit = true
             this.adminForm.companyId = this.company.id
             this.Api.addAdmin(this.accountId, this.adminForm)
               .then((res) => {
@@ -615,6 +617,8 @@
                 })
                 this.getList()
                 this.createAdminDialog = false
+              }).catch(() => {
+                this.isCommit = false
               })
           } else {
             return false
