@@ -98,6 +98,18 @@
           <span>{{scope.row.orgSize}}</span>
         </template>
       </el-table-column>
+
+      <el-table-column align="center" label="来源">
+        <template slot-scope="scope">
+          <span>{{scope.row.source}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="产品类别">
+        <template slot-scope="scope">
+          <span>{{scope.row.productType}}</span>
+        </template>
+      </el-table-column>
+
       <el-table-column align="center" label="试用状态" >
         <template slot-scope="scope">
           <div style="cursor:pointer;" @click="showDialog(scope.row.id, scope.row.status)">
@@ -121,7 +133,6 @@
 
       <el-table-column align="center"
                        label="操作"
-                       fixed="right"
                        width="150">
         <template slot-scope="scope">
           <a size="small"

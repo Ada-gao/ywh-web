@@ -95,6 +95,18 @@
           <span>{{scope.row.taskCompleteRate}}</span>
         </template>
       </el-table-column>
+
+      <el-table-column align="center" label="外呼总数">
+        <template slot-scope="scope">
+          <span>{{scope.row.totalTaskCnt}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="平均通话时长">
+        <template slot-scope="scope">
+          <span>{{scope.row.duration}}秒</span>
+        </template>
+      </el-table-column>
+
       <el-table-column align="center" label="任务计划完成时间">
         <template slot-scope="scope">
           <span>{{scope.row.taskEndDate}}</span>
@@ -221,7 +233,22 @@
             item.名单名称 = item.groupName
             item.完成数 = item.totalTaskCompleteCnt
             item.完成率 = item.taskCompleteRate + '%'
+            item.外呼总数 = item.totalTaskCnt
+            item.平均通话时长 = item.duration + '秒'
             item.任务计划完成时间 = item.taskEndDate
+            delete item.createTime
+            delete item.reason
+            delete item.companyId
+            delete item.interv
+            delete item.minimumDuration
+            delete item.duration
+            delete item.assignRule
+            delete item.taskStartDate
+            delete item.tarGet
+            delete item.talk
+            delete item.cnt
+            delete item.effectiveTasks
+            delete item.userCount
             delete item.productName
             delete item.limitedTimes
             delete item.team

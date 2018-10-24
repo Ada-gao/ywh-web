@@ -53,7 +53,7 @@
       </div>
       <el-row style="margin-top: 10px">
         <el-col :span="8">
-          <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="输入销售姓名"
+          <el-input @keyup.enter.native="handleFilter" style="width: 250px;" class="filter-item" placeholder="输入销售信息（姓名/帐号/电话）"
                     v-model="listQuery.name">
           </el-input>
           <el-button class="filter-item" type="primary" icon="search" @click="handleFilter"><i class="fa fa-search"></i>查询

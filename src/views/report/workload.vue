@@ -106,6 +106,18 @@
           <span>{{scope.row.totalTaskCompleteCnt}}</span>
         </template>
       </el-table-column>
+
+      <el-table-column align="center" label="外呼总数">
+        <template slot-scope="scope">
+          <span>{{scope.row.totalTaskCnt}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="平均通话时长">
+        <template slot-scope="scope">
+          <span>{{scope.row.duration}}秒</span>
+        </template>
+      </el-table-column>
+
     </el-table>
     <div v-show="!listLoading">
       <el-pagination @size-change="handleSizeChange"
@@ -165,6 +177,8 @@
             obj.totalTaskCnt = item[6];
             obj.completeGroupCnt = item[7];
             obj.totalTaskCompleteCnt = item[8]
+            obj.totalTaskCnt = item[9]
+            obj.duration = item[10]
             this.list[index] = obj
           })
         })
@@ -236,6 +250,8 @@
             obj.目标通话客户数 = item[6];
             obj.实际任务数 = item[7];
             obj.实际通话客户数 = item[8]
+            obj.外呼总数 = item[9]
+            obj.平均通话时长 = item[10] + '秒'
             list[index] = obj
           })
           this.Utils.exportExcel(list,'工作量列表.xlsx')

@@ -48,8 +48,23 @@
             </el-form-item>
           </el-col>
           <el-col :span="11">
-            <el-form-item label="申请来源:">
+            <el-form-item label="来源:">
               <span>{{list.source}}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="11">
+            <el-form-item label="产品类别：">
+              <span>{{list.productType}}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="11">
+            <el-form-item label="浏览器:">
+              <span>{{list.browser}}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="11">
+            <el-form-item label="登录地:">
+              <span>{{list.loginLocation}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="11">
@@ -61,6 +76,11 @@
                    style="font-size: 22px;margin-left: 5px;vertical-align: middle;"></i>
                 <i style="font-style: normal;">修改</i>
               </el-button>
+            </el-form-item>
+          </el-col>
+          <el-col :span="11">
+            <el-form-item label="IP地址:">
+              <span>{{list.ipaddr}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="11">
