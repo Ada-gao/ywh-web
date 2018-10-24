@@ -28,6 +28,7 @@
     "nprogress": "^0.2.0",
     "sass-loader": "^7.0.3",
     "vue": "^2.5.16",
+    "vue-picture-preview": "^1.2.0",
     "vue-router": "^3.0.1",
     "xlsx": "^0.13.1"
   },

@@ -11,13 +11,13 @@ import routes from './common/routes'
 import App from './App'
 import './styles/index.scss';
 import * as Api from "@/api/api"
-Vue.prototype.Api = Api
 import * as Utils  from '@/common/js/util'
+import vuePicturePreview from 'vue-picture-preview'
+Vue.prototype.Api = Api
 Vue.prototype.Utils = Utils
-
 Vue.use(ElementUI)
 Vue.use(VueRouter)
-
+Vue.use(vuePicturePreview)
 const router = new VueRouter({
   mode: 'history',
   routes

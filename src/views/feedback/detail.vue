@@ -13,27 +13,11 @@
       <div class="fd-item">
         <span class="width-limit">截图：</span>
         <ul class="img-ul">
-          <li v-for="(item, index) in imgList"
-              :key="index"
-          >
-            <img :src="item"
-                 alt="">
-            <div class="mask"
-                 @click="showBig(index)">
-              <i class="fa fa-search-plus"></i>
-              <span>查看图片</span>
-            </div>
+          <li v-for="item in imgList">
+            <img :src="item" alt="" v-preview="item" style="cursor: pointer">
           </li>
         </ul>
       </div>
-      <el-dialog
-        class="fd-dialog"
-        :visible.sync="isDialogShow"
-        width="30%">
-        <span slot="footer" class="dialog-footer">
-        <img :src="bigsrc" alt="" class="big-img">
-      </span>
-      </el-dialog>
     </div>
   </section>
 </template>
@@ -43,10 +27,8 @@ export default {
   name: 'feedbackDetail',
   data () {
     return {
-      isDialogShow: false,
       data: null,
       imgList: [],
-      bigsrc: ''
     }
   },
   created () {
@@ -54,10 +36,6 @@ export default {
     this.getImgList(this.data.feedbackImgPath)
   },
   methods: {
-    showBig (index) {
-      this.isDialogShow = true
-      this.bigsrc = this.imgList[index]
-    },
     getImgList (uId) {
       if (uId) {
         let uIdArr = uId.split(',')
