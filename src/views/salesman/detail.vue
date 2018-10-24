@@ -83,7 +83,7 @@
         </el-row>
       </el-form>
         <el-col :span="20" slot="footer" class="dialog-footer" style="text-align: center">
-          <el-button v-show="updateStatus==='create' || updateStatus==='update'" class="add_btn" @click="create('form')">提
+          <el-button v-show="updateStatus==='create' || updateStatus==='update'" class="add_btn" :disabled="isCommit" @click="create('form')">提
             交
           </el-button>
           <el-button class="search_btn" @click="cancel('form')">取 消</el-button>
@@ -265,6 +265,7 @@
         }
       }
       return {
+        isCommit:false,
         rules: {
           companyId: [
             {required: true, trigger: 'blur', message: '请选择公司'}
@@ -418,6 +419,7 @@
             this.form.password = this.trim(this.form.password, 'g')
             this.form.username = this.trim(this.form.username, 'g')
             if (this.updateStatus === 'create') {
+              this.isCommit = true
               this.Api.addUser(this.form)
                 .then((res) => {
                   this.$message({
@@ -425,6 +427,8 @@
                     type: 'success'
                   })
                   this.$router.push({path: '/salesman'})
+                }).catch(() => {
+                  this.isCommit = false
                 })
             } else {
               this.Api.updSale(this.form.id, this.form).then(res => {

@@ -95,7 +95,7 @@
         </el-row>
       </el-form>
       <el-col :span="20" slot="footer" class="dialog-footer" style="text-align: center">
-        <el-button class="add_btn" @click="create('form')">提交</el-button>
+        <el-button class="add_btn" @click="create('form')" :disabled="isCommit">提交</el-button>
         <el-button class="search_btn" @click="cancel('form')">取 消</el-button>
       </el-col>
     </div>
@@ -176,6 +176,7 @@
         }
       }
       return {
+        isCommit:false,
         rules: {
           accountName: [
             {required: true, trigger: 'blur', message: '请输入账户名称'}
@@ -237,6 +238,7 @@
         const set = this.$refs
         set[formName].validate(valid => {
           if (valid) {
+            this.isCommit = true
             this.Api.account(this.form)
               .then((res) => {
                 this.$message({
@@ -244,6 +246,8 @@
                   type: 'success'
                 })
                 this.$router.push({path: '/system'})
+              }).catch(() => {
+                this.isCommit = false
               })
           } else {
             return false

@@ -53,7 +53,7 @@
     </div>
     <div class="detail-title" style="margin-top:30px">
       <span class="list-tit">销售列表</span>
-      <el-button :class="tableData.length > 0 && form.companyId && checkSuccess ? 'add_btn' : 'insert_btn'"
+      <el-button :class="tableData.length > 0 && form.companyId && checkSuccess && !isCommit ? 'add_btn' : 'insert_btn'"
                  @click="showDialog">
         <i class="fa fa-sign-out" style="margin-right: 10px"></i>确认导入
       </el-button>
@@ -81,6 +81,7 @@
     components: {UploadExcelComponent},
     data() {
       return {
+        isCommit:false,
         dialogVisible: false,
         tableData: [],
         tableHeader: [],
@@ -261,7 +262,7 @@
         }
       },
       showDialog() {
-        if (this.form.companyId && this.tableData.length > 0 && this.checkSuccess) {
+        if (this.form.companyId && this.tableData.length > 0 && this.checkSuccess && !this.isCommit) {
           this.dialogVisible = true
         }
       },
@@ -272,6 +273,7 @@
         return false
       },
       submit() {
+        this.isCommit = true
         this.dialogVisible = false
         let keyMap = {
           销售姓名: 'name',
@@ -292,6 +294,8 @@
             type: 'success'
           })
           this.$router.push({path: '/salesman'})
+        }).catch(() => {
+          this.isCommit = false
         })
       }
     }

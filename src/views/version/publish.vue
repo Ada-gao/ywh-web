@@ -80,7 +80,7 @@
         </el-row>
       </el-form>
       <el-col :span="16" slot="footer" class="dialog-footer" style="text-align: center">
-        <el-button class="add_btn" @click="create">提 交</el-button>
+        <el-button class="add_btn" @click="create" :disabled="isCommit">提 交</el-button>
         <el-button class="search_btn" @click="cancel">取 消</el-button>
       </el-col>
     </div>
@@ -128,6 +128,7 @@
         }
       }
       return {
+        isCommit:false,
         pickerOptions0: {
           disabledDate(time) {
             return time.getTime() < Date.now() - 8.64e7;
@@ -194,6 +195,7 @@
       create() {
         this.$refs['form'].validate(valid => {
           if (valid) {
+            this.isCommit = true
             if (this.updateStatus === 'update'){
               delete this.form.createTime
               this.Api.updateVersion(this.form.id,this.form)
@@ -203,6 +205,8 @@
                     type: 'success'
                   })
                   this.$router.push({path: '/version/list'})
+                }).catch(() => {
+                  this.isCommit = false
                 })
             } else{
               this.Api.createVersion(this.form)
@@ -212,6 +216,8 @@
                     type: 'success'
                   })
                   this.$router.push({path: '/version/list'})
+                }).catch(() => {
+                  this.isCommit = false
                 })
             }
           } else {

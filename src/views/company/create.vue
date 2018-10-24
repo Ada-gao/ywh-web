@@ -190,7 +190,7 @@
       </el-form>
       <el-col :span="20" slot="footer" class="dialog-footer" style="text-align: center">
         <el-button class="add_btn" v-show="updateStatus==='update'" @click="update('form')">提 交</el-button>
-        <el-button class="add_btn" v-show="updateStatus==='create'" @click="create('form')">提 交</el-button>
+        <el-button class="add_btn" v-show="updateStatus==='create'" @click="create('form')" :disabled="isCommit">提 交</el-button>
         <el-button class="search_btn" @click="cancel('form')">取 消</el-button>
       </el-col>
     </div>
@@ -283,6 +283,7 @@
         }
       }
       return {
+        isCommit:false,
         previews: {},
         option: {
           img: '',
@@ -525,6 +526,7 @@
         }
         this.$refs['form'].validate(valid => {
           if (valid) {
+            this.isCommit = true
             if (logo) {
               let index = logo.lastIndexOf('=')
               this.form.logo = logo.substring(index + 1, logo.length)
@@ -538,6 +540,8 @@
                 this.companyCode = res.data.companyCode
                 this.companyId = res.data.id
                 this.$router.push({path: '/company'})
+              }).catch(() => {
+                this.isCommit = false
               })
           } else {
             return false

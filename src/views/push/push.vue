@@ -146,7 +146,7 @@
         </el-form-item>
         <div style="text-align: right;margin-top: 30px;">
           <el-button class="search_btn" @click="createDialog = false">取 消</el-button>
-          <el-button class="add_btn" @click="createPush">确 定</el-button>
+          <el-button class="add_btn" @click="createPush" :disabled="isCommit">确 定</el-button>
         </div>
       </el-form>
     </el-dialog>
@@ -176,6 +176,7 @@
         }
       }
       return {
+        isCommit:false,
         total: null,
         listLoading: true,
         listQuery: {
@@ -310,6 +311,7 @@
               delete this.pushForm.delayMinute
             }
             if (this.title === '新建推送') {
+              this.isCommit = true
               this.Api.addMessageGroup(this.pushForm)
                 .then((res) => {
                   this.$message({
@@ -318,6 +320,8 @@
                   })
                   this.createDialog = false
                   this.getList()
+                }).catch(() => {
+                  this.isCommit = false
                 })
             } else {
               this.Api.updateMessageGroup(this.pushItem.id, this.pushForm)

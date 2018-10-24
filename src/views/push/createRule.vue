@@ -129,7 +129,7 @@
         </el-row>
       </el-form>
       <el-col :span="21" slot="footer" class="dialog-footer" style="text-align: center">
-        <el-button class="add_btn" @click="commit">提 交</el-button>
+        <el-button class="add_btn" @click="commit" :disabled="isCommit">提 交</el-button>
         <el-button class="search_btn" @click="cancel">取 消</el-button>
       </el-col>
     </div>
@@ -162,6 +162,7 @@
         }
       }
       return {
+        isCommit:false,
         form: {
           lessOrGreater: '≥',
           triggerScene: '外呼后',
@@ -306,6 +307,7 @@
                   this.$router.push({path: '/push/rule'})
                 })
             } else {
+              this.isCommit = true
               this.Api.message(this.form)
                 .then((res) => {
                   this.$message({
@@ -313,6 +315,8 @@
                     type: 'success'
                   })
                   this.$router.push({path: '/push/rule'})
+                }).catch(() => {
+                  this.isCommit = false
                 })
             }
           } else {

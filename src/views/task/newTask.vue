@@ -136,7 +136,7 @@
         </el-row>
       </el-form>
       <el-col :span="17" slot="footer" class="dialog-footer" style="text-align: center">
-        <el-button class="add_btn" @click="create('taskGroup')">提 交</el-button>
+        <el-button class="add_btn" @click="create('taskGroup')" :disabled="isCommit">提 交</el-button>
         <el-button class="search_btn" @click="cancel('taskGroup')">取 消</el-button>
       </el-col>
     </div>
@@ -207,6 +207,7 @@ export default {
       }
     }
     return {
+      isCommit:false,
       isSuperAdmin:'false',
       taskGroup: {
         taskDate: [],
@@ -308,6 +309,7 @@ export default {
       const set = this.$refs
       set[formName].validate(valid => {
         if (valid) {
+          this.isCommit = true
           this.taskGroup.taskStartDate = this.taskGroup.taskDate[0]
           this.taskGroup.taskEndDate = this.taskGroup.taskDate[1]
           this.taskGroup.interv -= 0
@@ -333,6 +335,8 @@ export default {
                 })
                 this.$router.push({path: '/task'})
               }
+            }).catch(() => {
+              this.isCommit = false
             })
         } else {
           return false
