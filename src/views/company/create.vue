@@ -274,12 +274,11 @@
         if (!value) {
           callback(new Error('请输入协同通讯号'))
         } else {
-          callback()
-          // if (/^((1[3-9][0-9])+\d{8})$/.test(value) || /^(0[0-9]{2,3}-)([2-9][0-9]{6,7})+$/.test(value)) {
-          //   callback()
-          // } else {
-          //   callback(new Error('请输入一个有效的对外号码'))
-          // }
+          if (/^((1[3-9][0-9])+\d{8})$/.test(value) || /^(0[0-9]{2,3}-)([2-9][0-9]{6,7})+$/.test(value)) {
+            callback()
+          } else {
+            callback(new Error('请输入一个有效的对外号码'))
+          }
         }
       }
       return {
