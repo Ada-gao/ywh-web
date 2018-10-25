@@ -98,7 +98,7 @@
 
       <el-table-column align="center" label="外呼总数">
         <template slot-scope="scope">
-          <span>{{scope.row.totalTaskCnt}}</span>
+          <span>{{scope.row.cnt}}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="平均通话时长">
@@ -233,7 +233,7 @@
             item.名单名称 = item.groupName
             item.完成数 = item.totalTaskCompleteCnt
             item.完成率 = item.taskCompleteRate + '%'
-            item.外呼总数 = item.totalTaskCnt
+            item.外呼总数 = item.cnt
             item.平均通话时长 = item.duration + '秒'
             item.任务计划完成时间 = item.taskEndDate
             delete item.createTime

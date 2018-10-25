@@ -109,7 +109,7 @@
 
       <el-table-column align="center" label="外呼总数">
         <template slot-scope="scope">
-          <span>{{scope.row.totalTaskCnt2}}</span>
+          <span>{{scope.row.cnt}}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="平均通话时长">
@@ -177,7 +177,7 @@
             obj.totalTaskCnt = item[6];
             obj.completeGroupCnt = item[7];
             obj.totalTaskCompleteCnt = item[8]
-            obj.totalTaskCnt2 = item[9]
+            obj.cnt = item[9]
             obj.duration = item[10]
             this.list[index] = obj
           })
