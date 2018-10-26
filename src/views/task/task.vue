@@ -140,7 +140,7 @@
                        width="130px">
         <template slot-scope="scope">
           <a size="small"
-             @click="handleUpdate(scope.row.id, scope.row.groupName)"
+             @click="handleUpdate(scope.row)"
              class="common_btn">查看详情</a>
         </template>
       </el-table-column>
@@ -283,8 +283,8 @@
       handleCreate() {
         this.$router.push({name: 'newTask'})
       },
-      handleUpdate(id, name) {
-        this.$router.push({name: 'taskDetail', query: {id: id, name: name}})
+      handleUpdate(obj) {
+        this.$router.push({name: 'taskDetail', query: {item:JSON.stringify(obj)}})
       }
     }
   }

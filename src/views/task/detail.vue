@@ -10,34 +10,34 @@
           <el-row>
             <el-col :span="8">
               <el-form-item label="关联名单：">
-                <span>{{groupName}}</span>
+                <span>{{detail.groupName}}</span>
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="任务名称：">
-                <span>{{form.taskName}}</span>
+                <span>{{detail.taskName}}</span>
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="推广产品：">
-                <span>{{form.productName}}</span>
+                <span>{{detail.productName}}</span>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="8">
               <el-form-item label="销售数：">
-                <span>{{salesCnt}}</span>
+                <span>{{detail.userCount}}</span>
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="分配规则：">
-                <span>{{form.assignRule}}</span>
+                <span>{{detail.assignRule}}</span>
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="任务目标：">
-                <span>{{form.taskTarget}}</span>
+                <span>{{detail.targets}}</span>
               </el-form-item>
             </el-col>
           </el-row>
@@ -47,7 +47,7 @@
                 <el-popover
                   placement="right"
                   width="200"
-                  :content="form.salesTalk"
+                  :content="detail.talk"
                   trigger="click">
                   <span  slot="reference" class="blue-color">点击查看</span>
                 </el-popover>
@@ -55,31 +55,31 @@
             </el-col>
             <el-col :span="8">
               <el-form-item label="任务时间：">
-                <span>{{form.taskStartDate}} - {{form.taskEndDate}}</span>
+                <span>{{detail.taskStartDate}} - {{detail.taskEndDate}}</span>
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="有效通话时长（秒)：">
-                <span>{{form.minimumDuration}}</span>
+                <span>{{detail.minimumDuration}}</span>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="8">
               <el-form-item label="有效任务数（通）：通/人/天：">
-                <span>{{form.effectiveTasks}}</span>
+                <span>{{detail.effectiveTasks}}</span>
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="外呼次数限制：">
-                <span>{{form.limitedTimes?form.limitedTimes:'无'}}</span>
+                <span>{{detail.limitedTimes?detail.limitedTimes:'无'}}</span>
                 <i class="fa fa-pencil-square-o" v-show="isSuperAdmin === 'true'" @click="updateDialog = true"
                    style="margin-left: 10px"></i>
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="外呼频率（间隔）天：">
-                <span>{{form.interv}}</span>
+                <span>{{detail.interv}}</span>
               </el-form-item>
             </el-col>
           </el-row>
@@ -145,7 +145,7 @@
         </el-table-column>
         <el-table-column align="center" label="外呼结果">
           <template slot-scope="scope">
-            <span v-if="scope.row.lastCallResult === 'NOT_CALL'">未外呼</span>
+            <span v-if="scope.row.lastCallResult === 'NOT_CALL'||  scope.row.lastCallResult === null">未外呼</span>
             <span v-if="scope.row.lastCallResult === 'NOT_EXIST'">空号</span>
             <span v-if="scope.row.lastCallResult === 'UNCONNECTED'">未接通</span>
             <span v-if="scope.row.lastCallResult === 'CONNECTED'">已接通</span>
@@ -158,6 +158,7 @@
         </el-table-column>
         <el-table-column align="center" label="下一步行动计划">
           <template slot-scope="scope">
+            <span v-if="scope.row.status === null">无</span>
             <span v-if="scope.row.status === 'CALL_AGAIN'">再次外呼</span>
             <span v-if="scope.row.status === 'GIVE_UP'">放弃外呼</span>
             <span v-if="scope.row.status === 'FOLLOW'">继续跟进</span>
@@ -234,6 +235,7 @@
       }
     },
     created() {
+      this.detail=JSON.parse(this.$route.query.item)
       this.isSuperAdmin  = sessionStorage.getItem('isSuperAdmin')
       this.listQuery.taskGroupId = this.$route.query.id
       this.groupName = this.$route.query.name
@@ -262,23 +264,23 @@
         this.updateDialog = false
         this.$refs[formName].resetFields()
       },
-      changeActionText(status) {
-        switch (status) {
-          case 'FOLLOW':
-            status = '继续跟进'
-            break
-          case 'CUSTOMER_TRANSFORM':
-            status = '客户转到其他部门'
-            break
-          case 'INFO_ERROR':
-            status = '信息有误'
-            break
-          case 'GIVE_UP':
-            status = '放弃跟进'
-            break
-        }
-        return status
-      },
+      // changeActionText(status) {
+      //   switch (status) {
+      //     case 'FOLLOW':
+      //       status = '继续跟进'
+      //       break
+      //     case 'CUSTOMER_TRANSFORM':
+      //       status = '客户转到其他部门'
+      //       break
+      //     case 'INFO_ERROR':
+      //       status = '信息有误'
+      //       break
+      //     case 'GIVE_UP':
+      //       status = '放弃跟进'
+      //       break
+      //   }
+      //   return status
+      // },
       Datetime(date) {
         let theTime = parseInt(date)
         let theTime1 = 0
@@ -293,12 +295,12 @@
         return result
       },
       getList() {
-        this.Api.getTaskDetail(this.listQuery.taskGroupId, this.listQuery).then(res => {
+        this.Api.getTaskDetail(this.detail.id, this.listQuery).then(res => {
           this.form = res.data.taskGroup
-          this.form.nextAction = this.changeActionText(this.form.nextActionRule)
-          this.form.taskStartDate = new Date(this.form.taskStartDate).toLocaleDateString()
-          this.form.taskEndDate = new Date(this.form.taskEndDate).toLocaleDateString()
-          this.list = res.data.nameList.content
+          //this.form.nextAction = this.changeActionText(this.form.nextActionRule)
+          // this.form.taskStartDate = new Date(this.form.taskStartDate).toLocaleDateString()
+          // this.form.taskEndDate = new Date(this.form.taskEndDate).toLocaleDateString()
+          this.list = res.data.content
           this.list.forEach((ele, index) => {
             if (ele.gender) {
               ele.gender = ele.gender === 'GENTLEMAN' ? '男' : '女'
@@ -316,8 +318,8 @@
               ele.lastCallDate = this.Utils.formatDateTime(ele.lastCallDate)
             }
           })
-          this.salesCnt = res.data.salesCnt
-          this.total = res.data.nameList.totalElements || 0
+          //this.salesCnt = res.data.salesCnt
+          this.total = res.data.totalElements || 0
         })
       },
       handleSizeChange(val) {
