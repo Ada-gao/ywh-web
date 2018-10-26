@@ -121,20 +121,29 @@
     height: 60px;
     line-height: 60px;
   }
+  .el-submenu .el-menu-item{
+    background: #343744;
+    padding-right: 0px;
+  }
   .el-menu-item.is-active{
     background: #00C1DF;
   }
   .el-menu-item,.el-submenu{
     background: #42485B;
   }
-  .el-menu-item:focus,.el-menu-item:hover,.el-submenu__title:focus,.el-submenu__title:hover{
+  .el-menu-item:focus,.el-menu-item:hover{
     background: #00C1DF ;
+  }
+  .el-submenu__title:focus,.el-submenu__title:hover{
+    background: #42485B ;
   }
   .el-menu-item i,.el-submenu i{
     margin-right: 10px;
-  }
-  .el-menu-item i,.el-menu-item span,.el-submenu i,.el-submenu span{
     color: #fff;
-    font-size: 16px;
+    font-size: 18px;
+  }
+  .el-menu-item span,.el-submenu span{
+    color: #fff;
+    font-size: 14px;
   }
 </style>
