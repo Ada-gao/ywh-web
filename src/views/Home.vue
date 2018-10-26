@@ -1,6 +1,6 @@
 <template>
   <el-container style="height: 100%;">
-    <el-menu class="el-menu-nav"text-color="#fff" active-text-color="#fff" index="0" :collapse="isCollapse":unique-opened="true" :router="true" default-active="1" @open="handleChange" @close="handleChange">
+    <el-menu class="el-menu-nav"text-color="#fff" :collapse-transition="false" active-text-color="#fff" index="0" :collapse="isCollapse":unique-opened="true" :router="true" default-active="1" @open="handleChange" @close="handleChange">
       <el-menu-item index="0" disabled style="cursor:default"><i class="fa fa-flash"/><span slot="title">雷鸣外呼管理平台</span></el-menu-item>
       <el-menu-item index="1" route="/dashboard"><i class="fa fa-home"/><span slot="title">首页-工作台</span></el-menu-item>
       <el-menu-item index="2" v-if="isSuperAdmin === 'false'" route="/account"><i class="iconfont icon-zhanghu"/><span slot="title">账户管理</span></el-menu-item>
