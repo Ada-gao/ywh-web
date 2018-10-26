@@ -125,6 +125,9 @@
     background: #343744;
     padding-right: 0px;
   }
+  .el-submenu .el-menu-item:not(.el-menu--collapse){
+    min-width: 0px;
+  }
   .el-menu-item.is-active{
     background: #00C1DF;
   }

@@ -289,32 +289,3 @@
     }
   }
 </script>
-
-<style scoped lang="scss">
-  .table-add-box {
-    position: relative;
-    line-height: 48px;
-    div {
-      display: inline-block;
-    }
-    .list-table-tit {
-      margin-bottom: 0;
-    }
-    .add-box {
-      cursor: pointer;
-      position: absolute;
-      right: 0;
-      width: 102px;
-      height: 36px;
-      /*background: #0299CC;*/
-      background: #18c79c;
-      line-height: 36px;
-      font-family: PingFangSC-Medium;
-      font-size: 14px;
-      color: #FFFFFF;
-      letter-spacing: 0;
-      text-align: center;
-      top: 6px;
-    }
-  }
-</style>

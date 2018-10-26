@@ -1,8 +1,6 @@
 @import 'vars';
 
-.menu-expanded>.el-menu {
-  width: 180px!important;
-}
+
 .el-pagination__editor.el-input .el-input__inner {
   height: 20px;
   border: none;
@@ -71,69 +69,14 @@
   margin-bottom: 5px;
   margin-top: 10px;
 }
-// homepage aside
-.main {
-  .el-submenu__title {
-    color: #fff;
-    background: #42485B;
-  }
-  .el-submenu .el-menu-item:hover,
-  .el-submenu__title:hover {
-    background: $sidebar-active-bg;
-  }
-  .el-submenu .el-menu-item {
-    background: $sidebar-bg;
-  }
-  .el-submenu__title i {
-    color: #fff;
-  }
-}
-.el-dropdown-menu__item:not(.is-disabled):hover {
-  background-color: $sidebar-active-bg;
-  color: #fff;
-}
+
 .fa-search {
   margin-right: 6px;
 }
 .fa-sign-out {
   transform: rotate(270deg);
 }
-// echartpage
-.statistic {
-  .fa {
-    font-size: 50px;
-    color: #fff;
-  }
-  .row {
-    margin: 0;
-  }
-  .panel-heading {
-    padding: 35px 0 35px 20px;
-  }
-  .col-xs-3,
-  .col-xs-9 {
-    padding: 0;
-    vertical-align: middle;
-  }
-  .col-xs-3 {
-    padding: 15px 10px;
-    -webkit-box-sizing: content-box;
-    -moz-box-sizing: content-box;
-    box-sizing: content-box;
-  }
-  .col-xs-8 {
-    padding-left: 12px;
-    position: relative;
-    height: 80px;
-  }
-  .stat-tit {
-    font-family: PingFangSC-Medium;
-    font-size: 14px;
-    color: #475669;
-    letter-spacing: 0;
-    line-height: 20px;
-  }
-}
+
 // login
 .login-box {
   input:-webkit-autofill,
@@ -144,53 +87,6 @@
   .el-col-10 {
     height: 48px;
     line-height: 48px;
-  }
-}
-// logout popup
-.el-message-box {
-  .el-button {
-    display: inline-block;
-    width: 64px;
-    height: 36px;
-    line-height: 36px;
-    border-radius: 2px;
-    padding: 0;
-    &:hover {
-      background: $hover-color;
-      color: #fff;
-      border-color: $hover-color;
-    }
-  }
-  .el-button--small {
-    border: 1px solid $color-primary;
-    color: $color-primary;
-    background: #fff
-  }
-  .el-button--primary {
-    color: #fff;
-    background: $color-primary;
-  }
-}
-.el-message-box__headerbtn .el-message-box__close {
-  position: static;
-}
-// 反馈页面大图预览
-.fd-dialog {
-  .el-dialog__headerbtn {
-    top: 0;
-    background: rgba(0,0,0,0.40);
-  }
-  .el-dialog__close {
-    font-size: 36px;
-    color: #fff;
-  }
-  .el-dialog {
-    border-radius: 0;
-    box-shadow: none;
-    background: rgba(0, 0, 0, 0);
-  }
-  .el-dialog__body {
-    display: none;
   }
 }
 
