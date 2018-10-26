@@ -246,12 +246,14 @@
       updateLimitedTimes(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            this.Api.updateTimes(this.listQuery.taskGroupId, this.ruleForm.times).then(res => {
+            this.Api.updateTimes(this.detail.id, this.ruleForm.times).then(res => {
               this.$message({
                 message: '操作成功',
                 type: 'success'
               })
-              this.form.limitedTimes = this.ruleForm.times
+              this.detail.limitedTimes=this.ruleForm.times;
+              //this.form.limitedTimes = this.ruleForm.times
+              this.$router.replace({name: 'taskDetail', query: {item:JSON.stringify(this.detail)}})
               this.updateDialog = false
               this.$refs[formName].resetFields()
             })
