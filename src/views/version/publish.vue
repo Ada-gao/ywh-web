@@ -28,10 +28,10 @@
         <el-row :gutter="20">
           <el-col :span="16">
             <el-form-item label="升级平台" prop="platform">
-              <el-radio-group v-model="form.platform" :disabled="updateStatus==='update'?true:false">
-                <el-radio label="Android"/>
-                <el-radio label="IOS"/>
-              </el-radio-group>
+              <el-checkbox-group v-model="form.platform" :disabled="updateStatus==='update'?true:false">
+                <el-checkbox label="Android"/>
+                <el-checkbox label="IOS"/>
+              </el-checkbox-group>
             </el-form-item>
           </el-col>
         </el-row>
@@ -136,7 +136,7 @@
         },
         form: {
           promptType: 'Silence',
-          platform: 'Android',
+          platform: [],
           updateDeadline: '',
           updateDeadlineTime: ''
         },
@@ -180,6 +180,7 @@
       let obj = this.$route.query
       if (obj && obj.id) {
         this.form = obj
+        this.form.platform = obj.platform.split(',')
         this.updateStatus = 'update'
       } else {
         this.updateStatus = 'create'
@@ -196,6 +197,7 @@
         this.$refs['form'].validate(valid => {
           if (valid) {
             this.isCommit = true
+            this.form.platform = this.form.platform.join(',')
             if (this.updateStatus === 'update'){
               delete this.form.createTime
               this.Api.updateVersion(this.form.id,this.form)
