@@ -1,6 +1,8 @@
 <template>
-  <section>
-    <div class="list-tit">问题反馈列表</div>
+  <div class="com_page">
+    <div class="com_head">
+      <span class="com_title">问题反馈列表</span>
+    </div>
     <div class="fd-container">
       <div class="fd-item">
         <span class="width-limit">反馈人：</span>
@@ -19,7 +21,7 @@
         </ul>
       </div>
     </div>
-  </section>
+  </div>
 </template>
 <script>
 

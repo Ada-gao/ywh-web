@@ -1,11 +1,9 @@
 <template>
-  <section>
-    <div class="filter-container">
-      <div class="detail-title">
-        <span class="list-tit">名单明细查询</span>
+  <div class="com_page">
+      <div class="com_head">
+        <span class="com_title">名单明细查询</span>
       </div>
-      <el-row style="margin-top: 10px">
-        <el-col :span="8">
+    <div class="com_filter">
           <el-input @keyup.enter.native="handleFilter"
                     style="width: 200px;"
                     class="filter-item"
@@ -16,8 +14,6 @@
                      type="primary"
                      icon="search"
                      @click="handleFilter"><i class="fa fa-search"></i>查询</el-button>
-        </el-col>
-        <el-col :span="16" style="text-align: right;">
           <el-select v-model="listQuery.residence"
                      placeholder="所在地"
                      clearable
@@ -29,70 +25,52 @@
               :value="item">
             </el-option>
           </el-select>
-        </el-col>
-      </el-row>
     </div>
-    <div class="detail-title">
-      <span class="list-tit">名单明细列表</span>
+    <div class="com_head">
+      <span class="com_title">名单明细列表</span>
     </div>
-    <el-table :key='tableKey'
-              :data="list"
-              v-loading="listLoading"
-              element-loading-text="给我一点时间"
-              border fit
-              highlight-current-row
-              style="width: 100%">
-
-      <el-table-column align="center" label="名单ID">
+    <el-table :key='tableKey' :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit highlight-current-row>
+      <el-table-column label="名单ID">
         <template slot-scope="scope">
           <span>{{scope.row.boundCode}}</span>
         </template>
       </el-table-column>
-
-      <el-table-column align="center" label="所属公司">
+      <el-table-column label="所属公司">
         <template slot-scope="scope">
-          <span class="max-line2">{{scope.row.companyName}}</span>
+          <span class="com-two-row">{{scope.row.companyName}}</span>
         </template>
       </el-table-column>
-
-      <el-table-column align="center" label="联系人姓名">
+      <el-table-column label="联系人姓名">
         <template slot-scope="scope">
-          <span class="max-line2">{{scope.row.contactName?scope.row.contactName:'-'}}</span>
+          <span class="com-two-row">{{scope.row.contactName?scope.row.contactName:'-'}}</span>
         </template>
       </el-table-column>
-
-      <el-table-column align="center" label="手机号">
+      <el-table-column label="手机号">
         <template slot-scope="scope">
           <span>{{scope.row.phoneNo}}</span>
         </template>
       </el-table-column>
-
-      <el-table-column align="center" label="年龄">
+      <el-table-column label="年龄">
         <template slot-scope="scope">
           <span>{{scope.row.age?scope.row.age:'-'}}</span>
         </template>
       </el-table-column>
-
-      <el-table-column align="center"
-                       label="性别"
-                       show-overflow-tooltip>
+      <el-table-column label="性别" show-overflow-tooltip>
         <template slot-scope="scope">
           <span>{{scope.row.gender?scope.row.gender:'-'}}</span>
         </template>
       </el-table-column>
-
-      <el-table-column align="center" label="联系人所在地">
+      <el-table-column label="联系人所在地">
         <template slot-scope="scope">
           <span>{{scope.row.residence?scope.row.residence:'-'}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="名单来源">
+      <el-table-column label="名单来源">
         <template slot-scope="scope">
           <span>{{scope.row.source}}</span>
         </template>
       </el-table-column>
     </el-table>
-
     <div v-show="!listLoading" class="pagination-container">
       <el-pagination @size-change="handleSizeChange"
                      @current-change="handleCurrentChange"
@@ -104,13 +82,10 @@
                      :total="total">
       </el-pagination>
     </div>
-
-  </section>
+  </div>
 </template>
-
 <script>
 import { provinceAndCityData } from 'element-china-area-data' // 省市区数据
-
 export default {
   components: {},
   data () {
@@ -199,32 +174,3 @@ export default {
   }
 }
 </script>
-
-<style scoped lang="scss">
-  .table-add-box {
-    position: relative;
-    line-height: 48px;
-    div {
-      display: inline-block;
-    }
-    .list-table-tit {
-      margin-bottom: 0;
-    }
-    .add-box {
-      cursor: pointer;
-      position: absolute;
-      right: 0;
-      width: 102px;
-      height: 36px;
-      /*background: #0299CC;*/
-      background: #18c79c;
-      line-height: 36px;
-      font-family: PingFangSC-Medium;
-      font-size: 14px;
-      color: #FFFFFF;
-      letter-spacing: 0;
-      text-align: center;
-      top: 6px;
-    }
-  }
-</style>

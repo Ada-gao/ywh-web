@@ -1,131 +1,58 @@
 <template>
-  <div>
-    <div class="filter-container">
-      <el-row>
-        <el-col :span="11">
-          <el-input @keyup.enter.native="handleFilter"
-                    style="width: 200px;"
-                    class="filter-item"
-                    placeholder="输入销售名称"
-                    v-model="listQuery.saleName"/>
-          <el-input @keyup.enter.native="handleFilter"
-                    v-if="isSuperAdmin === 'true'"
-                    style="width: 200px;"
-                    class="filter-item"
-                    placeholder="输入所属公司名称"
-                    v-model="listQuery.companyName"/>
-          <el-button class="filter-item"
-                     type="primary"
-                     icon="search"
-                     @click="handleFilter"><i class="fa fa-search"></i>查询
-          </el-button>
-        </el-col>
-        <el-col :span="13" style="text-align: right;">
-          <el-select v-model="listQuery.accountId"
-                     :disabled="isSuperAdmin !== 'true'"
-                     placeholder="账户筛选"
-                     clearable
-                     @change="handleFilter1">
-            <el-option
-              v-for="item in accounts"
-              :key="item.accountId"
-              :label="item.accountName"
-              :value="item.accountId">
-            </el-option>
-          </el-select>
-          <el-select v-model="listQuery.team"
-                     placeholder="团队筛选"
-                     clearable
-                     @change="handleFilter1">
-            <el-option
-              v-for="item in teams"
-              :key="item"
-              :label="item"
-              :value="item">
-            </el-option>
-          </el-select>
-          <el-select v-model="listQuery.callType"
-                     placeholder="拨打类型筛选"
-                     clearable
-                     @change="handleFilter1">
-            <el-option
-              v-for="item in types"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-        </el-col>
-      </el-row>
+  <div class="com_page">
+    <div class="com_filter">
+      <el-input @keyup.enter.native="handleFilter" placeholder="输入销售名称" v-model="listQuery.saleName"/>
+      <el-input @keyup.enter.native="handleFilter" v-if="isSuperAdmin === 'true'" placeholder="输入所属公司名称" v-model="listQuery.companyName"/>
+      <el-button icon="search" @click="handleFilter"><i class="fa fa-search"/><span>查询</span></el-button>
+      <el-select v-model="listQuery.callType" placeholder="拨打类型筛选" clearable @change="handleFilter1">
+        <el-option v-for="item in types" :key="item.value" :label="item.label" :value="item.value"/>
+      </el-select>
+      <el-select v-model="listQuery.team" placeholder="团队筛选" clearable @change="handleFilter1">
+        <el-option v-for="item in teams" :key="item" :label="item" :value="item"/>
+      </el-select>
+      <el-select v-model="listQuery.accountId" :disabled="isSuperAdmin !== 'true'" placeholder="账户筛选" clearable @change="handleFilter1">
+        <el-option v-for="item in accounts" :key="item.accountId" :label="item.accountName" :value="item.accountId"/>
+      </el-select>
     </div>
-    <div class="detail-title">
-      <span class="list-tit">历史通话记录列表</span>
-      <el-button class="add_btn" @click="handleExport">
-        <i class="iconfont icon-piliangdaochu" style="color: #fff;margin-right: 10px"></i>批量导出
+    <div class="com_head">
+      <span class="com_title">历史通话记录列表</span>
+      <el-button @click="handleExport">
+        <i class="iconfont icon-piliangdaochu"/><span>批量导出</span>
       </el-button>
     </div>
-    <el-table
-      id="consumeTable"
-      :data="list"
-      v-loading="listLoading"
-      element-loading-text="给我一点时间"
-      border fit
-      highlight-current-row
-      style="width: 100%">
-      <el-table-column align="center" label="销售名称">
-        <template slot-scope="scope">
-          <span>{{scope.row.name}}</span>
-        </template>
+    <el-table :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit highlight-current-row>
+      <el-table-column label="销售名称">
+        <template slot-scope="scope"><span>{{scope.row.name}}</span></template>
       </el-table-column>
-      <el-table-column align="center" label="所属公司">
-        <template slot-scope="scope">
-          <span class="max-line2">{{scope.row.companyName}}</span>
-        </template>
+      <el-table-column label="所属公司">
+        <template slot-scope="scope"><span class="com-two-row">{{scope.row.companyName}}</span></template>
       </el-table-column>
-      <el-table-column align="center" label="所属账户">
-        <template slot-scope="scope">
-          <span>{{scope.row.accountName}}</span>
-        </template>
+      <el-table-column label="所属账户">
+        <template slot-scope="scope"><span>{{scope.row.accountName}}</span></template>
       </el-table-column>
-      <el-table-column align="center" label="所属团队">
-        <template slot-scope="scope">
-          <span>{{scope.row.team}}</span>
-        </template>
+      <el-table-column label="所属团队">
+        <template slot-scope="scope"><span>{{scope.row.team}}</span></template>
       </el-table-column>
-      <el-table-column align="center" label="拨打类型">
-        <template slot-scope="scope">
-          <span>{{scope.row.callType }}</span>
-        </template>
+      <el-table-column label="拨打类型">
+        <template slot-scope="scope"><span>{{scope.row.callType }}</span></template>
       </el-table-column>
-      <el-table-column align="center" label="拨打号码" width="120">
-        <template slot-scope="scope">
-          <span>{{scope.row.phoneNo}}</span>
-        </template>
+      <el-table-column label="拨打号码" width="120">
+        <template slot-scope="scope"><span>{{scope.row.phoneNo}}</span></template>
       </el-table-column>
-      <el-table-column align="center" label="客户名称">
-        <template slot-scope="scope">
-          <span class="max-line2">{{scope.row.contactName?scope.row.contactName:'-'}}</span>
-        </template>
+      <el-table-column label="客户名称">
+        <template slot-scope="scope"><span class="com-two-row">{{scope.row.contactName?scope.row.contactName:'-'}}</span></template>
       </el-table-column>
-      <el-table-column align="center" label="外呼结果">
-        <template slot-scope="scope">
-          <span>{{scope.row.result}}</span>
-        </template>
+      <el-table-column label="外呼结果">
+        <template slot-scope="scope"><span>{{scope.row.result}}</span></template>
       </el-table-column>
-      <el-table-column align="center" label="下一步行动计划" width="140">
-        <template slot-scope="scope">
-          <span>{{scope.row.status}}</span>
-        </template>
+      <el-table-column label="下一步行动计划" width="140">
+        <template slot-scope="scope"><span>{{scope.row.status}}</span></template>
       </el-table-column>
-      <el-table-column align="center" label="有效通话时长" width="120">
-        <template slot-scope="scope">
-          <span>{{scope.row.duration}}秒</span>
-        </template>
+      <el-table-column label="有效通话时长" width="120">
+        <template slot-scope="scope"><span>{{scope.row.duration}}秒</span></template>
       </el-table-column>
-      <el-table-column align="center" label="拨打时间" width="160">
-        <template slot-scope="scope">
-          <span>{{scope.row.actualCallStartDate}}</span>
-        </template>
+      <el-table-column label="拨打时间" width="160">
+        <template slot-scope="scope"><span>{{scope.row.actualCallStartDate}}</span></template>
       </el-table-column>
     </el-table>
     <div v-show="!listLoading">
@@ -141,7 +68,6 @@
     </div>
   </div>
 </template>
-
 <script>
   export default {
     data() {

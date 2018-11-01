@@ -1,10 +1,9 @@
 <template>
-  <div class="app-container">
-    <div class="detail-title">
-      <span class="list-tit">账户充值</span>
+  <div class="com_page">
+    <div class="com_head">
+      <span class="com_title">账户充值</span>
     </div>
-    <div class="margin-line"></div>
-    <div class="update-detail">
+    <div class="com-line"/>
       <el-form :model="form" :rules="rules" ref="form" label-width="140px">
         <el-row :gutter="20">
           <el-col :span="10">
@@ -52,14 +51,12 @@
           </el-col>
         </el-row>
       </el-form>
-      <el-col :span="20" slot="footer" class="dialog-footer" style="text-align: center">
+      <el-col :span="20" style="text-align: center">
         <el-button class="add_btn" @click="create('form')" :disabled="isCommit">提交</el-button>
         <el-button class="search_btn" @click="cancel('form')">取 消</el-button>
       </el-col>
     </div>
-  </div>
 </template>
-
 <script>
   export default {
     data() {

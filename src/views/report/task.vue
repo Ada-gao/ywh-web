@@ -1,116 +1,52 @@
 <template>
-  <div>
-    <div class="filter-container">
-      <el-row>
-        <el-col :span="14">
-          <el-input @keyup.enter.native="handleFilter"
-                    style="width: 200px;"
-                    class="filter-item"
-                    placeholder="输入任务名称"
-                    v-model="listQuery.taskName"/>
-          <el-input @keyup.enter.native="handleFilter"
-                    v-if="isSuperAdmin === 'true'"
-                    style="width: 200px;"
-                    class="filter-item"
-                    placeholder="输入所属公司名称"
-                    v-model="listQuery.companyName"/>
-          <el-button class="filter-item"
-                     type="primary"
-                     icon="search"
-                     @click="handleFilter"><i class="fa fa-search"></i>查询
-          </el-button>
-        </el-col>
-        <el-col :span="10" style="text-align: right;">
-          <el-select v-model="listQuery.team"
-                     placeholder="团队筛选"
-                     clearable
-                     @change="handleFilter1">
-            <el-option
-              v-for="item in teams"
-              :key="item"
-              :label="item"
-              :value="item">
-            </el-option>
-          </el-select>
-          <el-select v-model="listQuery.productName"
-                     placeholder="产品筛选"
-                     clearable
-                     @change="handleFilter2">
-            <el-option
-              v-for="item in products"
-              :key="item"
-              :label="item"
-              :value="item">
-            </el-option>
-          </el-select>
-        </el-col>
-      </el-row>
+  <div class="com_page">
+    <div class="com_filter">
+      <el-input @keyup.enter.native="handleFilter" placeholder="输入任务名称" v-model="listQuery.taskName"/>
+      <el-input @keyup.enter.native="handleFilter" v-if="isSuperAdmin === 'true'" placeholder="输入所属公司名称" v-model="listQuery.companyName"/>
+      <el-button icon="search" @click="handleFilter"><i class="fa fa-search"/><span>查询</span></el-button>
+      <el-select v-model="listQuery.productName" placeholder="产品筛选" clearable @change="handleFilter2">
+        <el-option v-for="item in products" :key="item" :label="item" :value="item"/>
+      </el-select>
+      <el-select v-model="listQuery.team" placeholder="团队筛选" clearable @change="handleFilter1">
+        <el-option v-for="item in teams" :key="item" :label="item" :value="item"/>
+      </el-select>
     </div>
-    <div class="detail-title">
-      <span class="list-tit">外呼任务列表</span>
-      <el-button class="add_btn" @click="handleExport">
-        <i class="iconfont icon-piliangdaochu" style="color: #fff;margin-right: 10px"></i>批量导出
+    <div class="com_head">
+      <span class="com_title">外呼任务列表</span>
+      <el-button @click="handleExport">
+        <i class="iconfont icon-piliangdaochu" /><span>批量导出</span>
       </el-button>
     </div>
-    <el-table
-      id="consumeTable"
-      :data="list"
-      v-loading="listLoading"
-      element-loading-text="给我一点时间"
-      border fit
-      highlight-current-row
-      style="width: 100%">
-      <el-table-column align="center" label="任务名称">
-        <template slot-scope="scope">
-          <span class="max-line2">{{scope.row.taskName}}</span>
-        </template>
+    <el-table :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit highlight-current-row>
+      <el-table-column label="任务名称">
+        <template slot-scope="scope"><span class="com-two-row">{{scope.row.taskName}}</span></template>
       </el-table-column>
-      <el-table-column align="center" label="推广产品">
-        <template slot-scope="scope">
-          <span class="max-line2">{{scope.row.productName}}</span>
-        </template>
+      <el-table-column label="推广产品">
+        <template slot-scope="scope"><span class="com-two-row">{{scope.row.productName}}</span></template>
       </el-table-column>
-      <el-table-column align="center" label="所属公司">
-        <template slot-scope="scope">
-          <span class="max-line2">{{scope.row.companyName}}</span>
-        </template>
+      <el-table-column label="所属公司">
+        <template slot-scope="scope"><span class="com-two-row">{{scope.row.companyName}}</span></template>
       </el-table-column>
-      <el-table-column align="center" label="所属团队">
-        <template slot-scope="scope">
-          <span>{{scope.row.team}}</span>
-        </template>
+      <el-table-column label="所属团队">
+        <template slot-scope="scope"><span>{{scope.row.team}}</span></template>
       </el-table-column>
-      <el-table-column align="center" label="名单名称">
-        <template slot-scope="scope">
-          <span class="max-line2">{{scope.row.groupName}}</span>
-        </template>
+      <el-table-column label="名单名称">
+        <template slot-scope="scope"><span class="com-two-row">{{scope.row.groupName}}</span></template>
       </el-table-column>
-      <el-table-column align="center" label="完成数">
-        <template slot-scope="scope">
-          <span>{{scope.row.totalTaskCompleteCnt}}</span>
-        </template>
+      <el-table-column label="完成数">
+        <template slot-scope="scope"><span>{{scope.row.totalTaskCompleteCnt}}</span></template>
       </el-table-column>
-      <el-table-column align="center" label="完成率">
-        <template slot-scope="scope">
-          <span>{{scope.row.taskCompleteRate}}</span>
-        </template>
+      <el-table-column label="完成率">
+        <template slot-scope="scope"><span>{{scope.row.taskCompleteRate}}</span></template>
       </el-table-column>
-
-      <el-table-column align="center" label="外呼总数">
-        <template slot-scope="scope">
-          <span>{{scope.row.cnt}}</span>
-        </template>
+      <el-table-column label="外呼总数">
+        <template slot-scope="scope"><span>{{scope.row.cnt}}</span></template>
       </el-table-column>
-      <el-table-column align="center" label="平均通话时长">
-        <template slot-scope="scope">
-          <span>{{scope.row.duration}}秒</span>
-        </template>
+      <el-table-column label="平均通话时长">
+        <template slot-scope="scope"><span>{{scope.row.duration}}秒</span></template>
       </el-table-column>
-
-      <el-table-column align="center" label="任务计划完成时间">
-        <template slot-scope="scope">
-          <span>{{scope.row.taskEndDate}}</span>
-        </template>
+      <el-table-column label="任务计划完成时间" width="160">
+        <template slot-scope="scope"><span>{{scope.row.taskEndDate}}</span></template>
       </el-table-column>
     </el-table>
     <div v-show="!listLoading">
@@ -126,7 +62,6 @@
     </div>
   </div>
 </template>
-
 <script>
   export default {
     data() {

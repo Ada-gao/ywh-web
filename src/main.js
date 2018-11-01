@@ -4,12 +4,14 @@ import 'es6-promise-polyfill'
 import 'es6-promise'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+import '@/styles/iconfont/iconfont.css';
+import '@/styles/app.scss';
 import 'font-awesome/css/font-awesome.min.css'
 import 'nprogress/nprogress.css'
 import VueRouter from 'vue-router'
 import routes from './common/routes'
 import App from './App'
-import './styles/index.scss';
+
 import * as Api from "@/api/api"
 import * as Utils  from '@/common/js/util'
 import vuePicturePreview from 'vue-picture-preview'

@@ -1,85 +1,54 @@
 <template>
-  <section>
-    <div class="filter-container">
-      <div class="detail-title">
-        <span class="list-tit">信息推送规则查询</span>
+  <div class="com_page">
+      <div class="com_head">
+        <span class="com_title">信息推送规则查询</span>
       </div>
-      <el-row style="margin-top: 10px">
-        <el-col :span="8">
+      <div class="com_filter">
           <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="输入信息推送规则名称" v-model="listQuery.ruleName"/>
           <el-button class="filter-item" type="primary" icon="search" @click="handleFilter"><i class="fa fa-search"></i>查询</el-button>
-        </el-col>
-        <el-col :span="16" style="text-align: right;">
-          <el-select v-model="listQuery.status"
-                     placeholder="状态筛选"
-                     clearable
-                     @change="handleFilter1">
-            <el-option
-              v-for="item in states"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
+          <el-select v-model="listQuery.team" placeholder="团队筛选" clearable @change="handleFilter1">
+            <el-option v-for="(item, index) in teams" :key="index" :label="item" :value="item"/>
           </el-select>
-          <el-select v-model="listQuery.companyId"
-                     placeholder="公司筛选"
-                     clearable
-                     :disabled="isSuperAdmin !== 'true'"
-                     @change="changeCompany">
-            <el-option
-              v-for="item in companies"
-              :key="item.id"
-              :label="item.companyName"
-              :value="item.id">
-            </el-option>
-          </el-select>
-          <el-select v-model="listQuery.team"
-                     placeholder="团队筛选"
-                     clearable
-                     @change="handleFilter1">
-            <el-option
-              v-for="(item, index) in teams"
-              :key="index"
-              :label="item"
-              :value="item">
-            </el-option>
-          </el-select>
-        </el-col>
-      </el-row>
+        <el-select v-model="listQuery.companyId" placeholder="公司筛选" clearable :disabled="isSuperAdmin !== 'true'" @change="changeCompany">
+          <el-option v-for="item in companies" :key="item.id" :label="item.companyName" :value="item.id"/>
+        </el-select>
+        <el-select v-model="listQuery.status" placeholder="状态筛选" clearable @change="handleFilter1">
+          <el-option v-for="item in states" :key="item.value" :label="item.label" :value="item.value"/>
+        </el-select>
     </div>
-    <div class="detail-title">
-      <span class="list-tit">信息推送规则组列表</span>
-      <el-button class="add_btn" @click="handleCreate">
-        <i class="fa fa-plus" style="color: #fff;margin-right: 10px"></i>新建推送规则
+    <div class="com_head">
+      <span class="com_title">信息推送规则组列表</span>
+      <el-button @click="handleCreate">
+        <i class="fa fa-plus" /><span>新建推送规则</span>
       </el-button>
     </div>
     <el-table :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fithighlight-current-row style="width: 100%">
-      <el-table-column align="center" label="规则ID">
+      <el-table-column  label="规则ID">
         <template slot-scope="scope">
           <span>{{scope.row.messageRuleCode}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="推送规则名称">
+      <el-table-column  label="推送规则名称">
         <template slot-scope="scope">
-          <span class="max-line2">{{scope.row.ruleName}}</span>
+          <span class="com-two-row">{{scope.row.ruleName}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="所属公司">
+      <el-table-column  label="所属公司">
         <template slot-scope="scope">
-          <span class="max-line2">{{scope.row.companyName}}</span>
+          <span class="com-two-row">{{scope.row.companyName}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="所属团队">
+      <el-table-column  label="所属团队">
         <template slot-scope="scope">
           <span>{{scope.row.team?scope.row.team:'-'}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="创建时间">
+      <el-table-column  label="创建时间">
         <template slot-scope="scope">
           <span>{{scope.row.createTime}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="状态">
+      <el-table-column  label="状态">
         <template slot-scope="scope">
           <span :style="scope.row.status==='生效'?'color:#17C263': scope.row.status==='待审核'?'color:#F7BA2A':'color:#D0021B'">{{scope.row.status}}</span>
           <el-tooltip effect="dark" placement="bottom"  :content="scope.row.rejectReason" v-show="scope.row.status==='审核失败'">
@@ -87,12 +56,8 @@
           </el-tooltip>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="操作">
-        <template slot-scope="scope">
-          <a size="small" class="common_btn" @click="handleDetail(scope.row)">查看详情 </a>
-          <span> | </span>
-          <a size="small" class="common_btn" @click="handleUpdate(scope.row)">修改信息 </a>
-        </template>
+      <el-table-column  label="操作">
+        <template slot-scope="scope"><a @click="handleDetail(scope.row)">查看详情 </a> | <a @click="handleUpdate(scope.row)">修改信息 </a></template>
       </el-table-column>
     </el-table>
     <div v-show="!listLoading">
@@ -103,9 +68,8 @@
                      layout="total, sizes, prev, pager, next, jumper" :total="total">
       </el-pagination>
     </div>
-  </section>
+  </div>
 </template>
-
 <script>
   export default {
     data () {

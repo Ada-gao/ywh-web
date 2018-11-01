@@ -1,6 +1,6 @@
 <template>
   <el-container style="height: 100%;">
-    <el-menu class="el-menu-nav"text-color="#fff" :collapse-transition="false" active-text-color="#fff" index="0" :collapse="isCollapse":unique-opened="true" :router="true" default-active="1" @open="handleChange" @close="handleChange">
+    <el-menu class="el-menu-nav" text-color="#fff" :collapse-transition="false" active-text-color="#fff" index="0" :collapse="isCollapse" :unique-opened="true" :router="true" default-active="1" @open="handleChange" @close="handleChange">
       <el-menu-item index="0" disabled style="cursor:default"><i class="fa fa-flash"/><span slot="title">雷鸣外呼管理平台</span></el-menu-item>
       <el-menu-item index="1" route="/dashboard"><i class="fa fa-home"/><span slot="title">首页-工作台</span></el-menu-item>
       <el-menu-item index="2" v-if="isSuperAdmin === 'false'" route="/account"><i class="iconfont icon-zhanghu"/><span slot="title">账户管理</span></el-menu-item>
@@ -9,7 +9,7 @@
       <el-menu-item index="5" route="/list"><i class="iconfont icon-guize"/><span slot="title">名单管理</span></el-menu-item>
       <el-menu-item index="6" route="/task"><i class="fa fa-phone"/><span slot="title">任务管理</span></el-menu-item>
       <el-submenu index="7">
-        <template slot="title"><i class="iconfont icon-xiaoxishezhi"></i><span slot="title" >推送管理</span></template>
+        <template slot="title"><i class="iconfont icon-xiaoxishezhi"></i><span slot="title">推送管理</span></template>
         <el-menu-item index="7-1" route="/push/rule"><i class="iconfont icon-guize"/><span slot="title">推送规则</span></el-menu-item>
         <el-menu-item index="7-2" route="/push/push"><i class="iconfont icon-fasong"/><span slot="title">信息推送</span></el-menu-item>
       </el-submenu>
@@ -113,40 +113,104 @@
     height: 0; /* 滚动条高度为0 */
     display: none; /* 滚动条隐藏 */
   }
-  .el-menu{
+
+  .el-menu {
     background: #343744;
   }
-  .el-menu-item.is-disabled{
+
+  .el-menu-item.is-disabled {
     opacity: 1;
     height: 60px;
     line-height: 60px;
   }
-  .el-submenu .el-menu-item{
+
+  .el-submenu .el-menu-item {
     background: #343744;
     padding-right: 0px;
   }
-  .el-submenu .el-menu-item:not(.el-menu--collapse){
+
+  .el-submenu .el-menu-item:not(.el-menu--collapse) {
     min-width: 0px;
   }
-  .el-menu-item.is-active{
+
+  .el-menu-item.is-active {
     background: #00C1DF;
   }
-  .el-menu-item,.el-submenu{
+
+  .el-menu-item, .el-submenu {
     background: #42485B;
   }
-  .el-menu-item:focus,.el-menu-item:hover{
-    background: #00C1DF ;
+
+  .el-menu-item:focus, .el-menu-item:hover {
+    background: #00C1DF;
   }
-  .el-submenu__title:focus,.el-submenu__title:hover{
-    background: #42485B ;
+
+  .el-submenu__title:focus, .el-submenu__title:hover {
+    background: #42485B;
   }
-  .el-menu-item i,.el-submenu i{
+
+  .el-menu-item i, .el-submenu i {
     margin-right: 10px;
     color: #fff;
     font-size: 18px;
   }
-  .el-menu-item span,.el-submenu span{
+
+  .el-menu-item span, .el-submenu span {
     color: #fff;
     font-size: 14px;
+  }
+
+  ///////
+  .el-header {
+    height: 60px;
+    line-height: 60px;
+    padding: 0px;
+    border-bottom: 1px solid rgba(219, 219, 219, 0.50);
+  }
+
+  .el-header .hello {
+    float: left;
+    text-align: center;
+    font-weight: bold;
+    font-size: 14px;
+  }
+
+  .el-header .hello i {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  .head {
+    float: right;
+    margin-right: 40px;
+    margin-bottom: 10px;
+  }
+
+  .main .el-button--primary {
+    border: 1px solid #0299CC;
+    color: #0299CC;
+    background: #ffff;
+    margin-left: 17px;
+  }
+
+  .main .el-button--primary:focus,
+  .main .el-button--primary:hover {
+    background: #00C1DF;
+    border-color: #00C1DF;
+    color: #fff;
+  }
+
+  .main .add_btn {
+    background: #0299CC;
+    color: #fff;
+  }
+
+  .main .add_btn:hover {
+    background: #00C1DF;
+    color: #fff;
+  }
+
+  .el-main {
+    padding: 20px;
   }
 </style>

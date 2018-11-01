@@ -1,19 +1,11 @@
 <template>
-  <div class="app-container">
-    <div class="detail-title">
-      <span class="list-tit">{{textMap[updateStatus]}}</span>
+  <div class="com_page">
+    <div class="com_head">
+      <span class="com_title">{{textMap[updateStatus]}}</span>
       <span style="float: right;color: #0299cc" v-show="updateStatus==='view'">{{value3 ? '启用' : '停用'}}</span>
-      <el-switch
-        v-show="updateStatus==='view'"
-        v-model="value3"
-        class="switch-btn"
-        @change="changeMode">
-      </el-switch>
-      <el-button class="upd_btn"
-                 v-show="updateStatus==='view'"
-                 @click="updateStat">
-        <i class="fa fa-edit" style="font-size: 22px;margin-right: 5px;vertical-align: middle;"></i>
-        <i style="font-style: normal;">修改</i>
+      <el-switch v-show="updateStatus==='view'" v-model="value3" class="switch-btn" @change="changeMode"/>
+      <el-button v-show="updateStatus==='view'" @click="updateStat">
+        <i class="fa fa-edit"/><span>修改</span>
       </el-button>
     </div>
     <div class="margin-line"></div>
@@ -82,12 +74,11 @@
           </el-col>
         </el-row>
       </el-form>
-        <el-col :span="20" slot="footer" class="dialog-footer" style="text-align: center">
-          <el-button v-show="updateStatus==='create' || updateStatus==='update'" class="add_btn" :disabled="isCommit" @click="create('form')">提
-            交
-          </el-button>
-          <el-button class="search_btn" @click="cancel('form')">取 消</el-button>
-        </el-col>
+      <el-col :span="20" slot="footer" class="dialog-footer" style="text-align: center">
+        <el-button v-show="updateStatus==='create' || updateStatus==='update'" class="add_btn" :disabled="isCommit" @click="create('form')">提 交
+        </el-button>
+        <el-button class="search_btn" @click="cancel('form')">取 消</el-button>
+      </el-col>
     </div>
     <div class="read-detail" v-if="updateStatus==='view'">
       <el-form :model="form" class="form-border" style="margin-bottom: 20px">
@@ -147,55 +138,53 @@
           </el-col>
         </el-row>
       </el-form>
-      <div class="detail-title">
-        <span class="list-tit">任务完成情况</span>
+      <div class="com_head">
+        <span class="com_title">任务完成情况</span>
       </div>
-      <el-table :key='tableKey' :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit
-                highlight-current-row style="width: 100%">
-
-        <el-table-column align="center" label="总任务完成数">
+      <el-table :key='tableKey' :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit highlight-current-row>
+        <el-table-column label="总任务完成数">
           <template slot-scope="scope">
             <span>{{scope.row.totalTaskCompleteCnt || 0}}</span>
           </template>
         </el-table-column>
 
-        <el-table-column align="center" label="总有效通话时长">
+        <el-table-column label="总有效通话时长">
           <template slot-scope="scope">
             <span>{{scope.row.totalEffectiveDuration || 0}}秒</span>
           </template>
         </el-table-column>
 
-        <el-table-column align="center" label="平均通话时长">
+        <el-table-column label="平均通话时长">
           <template slot-scope="scope">
             <span>{{scope.row.avgDuration || 0}}秒</span>
           </template>
         </el-table-column>
 
-        <el-table-column align="center" label="总完成率">
+        <el-table-column label="总完成率">
           <template slot-scope="scope">
             <span>{{scope.row.completeRate}}</span>
           </template>
         </el-table-column>
 
-        <el-table-column align="center" label="今日任务数">
+        <el-table-column label="今日任务数">
           <template slot-scope="scope">
             <span>{{scope.row.dailyTaskCnt || 0}}</span>
           </template>
         </el-table-column>
 
-        <el-table-column align="center" label="今日完成数">
+        <el-table-column label="今日完成数">
           <template slot-scope="scope">
             <span>{{scope.row.dailyTaskCompleteCnt || 0}}</span>
           </template>
         </el-table-column>
 
-        <el-table-column align="center" label="今日有效通话时长">
+        <el-table-column label="今日有效通话时长">
           <template slot-scope="scope">
             <span>{{scope.row.dailyEffectiveDuration || 0}}秒</span>
           </template>
         </el-table-column>
 
-        <el-table-column align="center" label="今日团队排名">
+        <el-table-column label="今日团队排名">
           <template slot-scope="scope">
             <span>{{scope.row.rank || 0}}</span>
           </template>
@@ -265,7 +254,7 @@
         }
       }
       return {
-        isCommit:false,
+        isCommit: false,
         rules: {
           companyId: [
             {required: true, trigger: 'blur', message: '请选择公司'}
@@ -321,7 +310,7 @@
         ruleForm: {
           password: null
         },
-        isSuperAdmin:'false',
+        isSuperAdmin: 'false',
       }
     },
     created() {
@@ -346,7 +335,7 @@
       this.isSuperAdmin = sessionStorage.getItem('isSuperAdmin')
     },
     methods: {
-      changeCompany(){
+      changeCompany() {
         this.$refs['form'].validateField('companyId')
       },
       // 去除空格
@@ -385,7 +374,7 @@
           this.form.createdDate = this.Utils.formatDateTime(this.form.createdDate)
         })
         this.Api.taskDoneRate(this.id).then(res => {
-          if (res.data){
+          if (res.data) {
             this.list = []
             this.list.push(res.data)
             if (this.list.length > 0) {
@@ -395,7 +384,7 @@
                 this.list[0].completeRate = 0
               }
             }
-          }else{
+          } else {
             this.list = null
           }
         })
@@ -428,8 +417,8 @@
                   })
                   this.$router.push({path: '/salesman'})
                 }).catch(() => {
-                  this.isCommit = false
-                })
+                this.isCommit = false
+              })
             } else {
               this.Api.updSale(this.form.id, this.form).then(res => {
                 this.$message({
@@ -464,10 +453,6 @@
       cancel() {
         this.$router.push({path: '/salesman'})
       },
-      handleChange(value) {
-      },
-      handleSuccess(fileList) {
-      },
       handleSizeChange(val) {
         this.listQuery.limit = val
       },
@@ -477,40 +462,3 @@
     }
   }
 </script>
-
-<style lang="scss" scoped>
-  .txt {
-    font-size: 13px !important;
-    color: #252525 !important;
-  }
-
-  .detail-title {
-    /*margin-bottom: 20px;*/
-    .upd_btn {
-      float: right;
-      border: none;
-      color: #0299CC;
-      i {
-        margin-right: 2px;
-        vertical-align: text-bottom;
-      }
-      &:hover {
-        background: #ffff;
-      }
-    }
-    .switch-btn {
-      float: right;
-      margin-left: 30px;
-      display: inline-block;
-      line-height: 40px;
-      margin-right: 3px;
-    }
-  }
-
-  .form-border {
-    border: 1px solid #EFEFEF;
-    border-radius: 5px;
-    padding: 20px 30px 0 20px;
-    overflow: hidden;
-  }
-</style>

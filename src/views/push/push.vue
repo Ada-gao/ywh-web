@@ -1,91 +1,73 @@
 <template>
-  <div>
-    <div class="filter-container">
-      <div class="detail-title">
-        <span class="list-tit">信息推送记录查询</span>
+  <div class="com_page">
+      <div class="com_head">
+        <span class="com_title">信息推送记录查询</span>
       </div>
-      <el-row style="margin-top: 10px">
-        <el-col :span="16">
-          <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item"
-                    placeholder="输入信息推送规则名称" v-model="listQuery.ruleName"/>
+      <div class="com_filter">
+          <el-input @keyup.enter.native="handleFilter" placeholder="输入信息推送规则名称" v-model="listQuery.ruleName"/>
           <el-date-picker v-model="listQuery.date"
                           type="daterange"
-                          style="width: 275px"
                           start-placeholder="开始日期"
                           :default-time="['00:00:00', '23:59:59']"
                           end-placeholder="结束日期"/>
-          <el-button class="filter-item" type="primary" icon="search" @click="handleFilter"><i class="fa fa-search"></i>查询
-          </el-button>
-        </el-col>
-        <el-col :span="8" style="text-align: right;">
-          <el-select v-model="listQuery.status"
-                     placeholder="状态筛选"
-                     clearable
-                     @change="handleFilter1">
-            <el-option
-              v-for="item in states"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
+          <el-button icon="search" @click="handleFilter"><i class="fa fa-search"></i><span>查询</span></el-button>
+          <el-select v-model="listQuery.status" placeholder="状态筛选" clearable @change="handleFilter1">
+            <el-option v-for="item in states" :key="item.value" :label="item.label" :value="item.value"/>
           </el-select>
-        </el-col>
-      </el-row>
     </div>
-    <div class="detail-title">
-      <span class="list-tit">信息推送记录列表</span>
-      <el-button class="add_btn" @click="handleCreate">
-        <i class="fa fa-plus" style="color: #fff;margin-right: 10px"></i>新建推送
+    <div class="com_head">
+      <span class="com_title">信息推送记录列表</span>
+      <el-button @click="handleCreate">
+        <i class="fa fa-plus" /><span>新建推送</span>
       </el-button>
     </div>
-    <el-table :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fithighlight-current-row
-              style="width: 100%">
-      <el-table-column align="center" label="信息推送批次号">
+    <el-table :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fithighlight-current-row>
+      <el-table-column label="信息推送批次号">
         <template slot-scope="scope">
           <span>{{scope.row.messageHistoryCode}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="所属公司">
+      <el-table-column label="所属公司">
         <template slot-scope="scope">
-          <span class="max-line2">{{scope.row.companyName}}</span>
+          <span class="com-two-row">{{scope.row.companyName}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="关联推送规则">
+      <el-table-column label="关联推送规则">
         <template slot-scope="scope">
           <span>{{scope.row.messageRuleName}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="推送目标">
+      <el-table-column label="推送目标">
         <template slot-scope="scope">
           <span>{{scope.row.target}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="创建时间" width="160">
+      <el-table-column label="创建时间" width="160">
         <template slot-scope="scope">
           <span>{{scope.row.createTime}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="推送条数" width="80px">
+      <el-table-column label="推送条数" width="120px">
         <template slot-scope="scope">
           <span>{{scope.row.totalCnt}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="失败条数" width="80px">
+      <el-table-column label="失败条数" width="120px">
         <template slot-scope="scope">
           <span>{{scope.row.failCnt}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="推送状态">
+      <el-table-column label="推送状态">
         <template slot-scope="scope">
           <span :style="scope.row.isComplete==='推送中'?'color:#009801':'color:#D0021B'">{{scope.row.isComplete}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="操作人">
+      <el-table-column label="操作人">
         <template slot-scope="scope">
           <span>{{scope.row.userName}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="操作">
+      <el-table-column label="操作">
         <template slot-scope="scope">
           <a size="small" class="common_btn" @click="handleDetail(scope.row)">查看</a>
           <span> | </span>
@@ -145,7 +127,7 @@
           </el-radio>
         </el-form-item>
         <div style="text-align: right;margin-top: 30px;">
-          <el-button class="search_btn" @click="createDialog = false">取 消</el-button>
+          <el-button class="search_btn"  @click="createDialog = false">取 消</el-button>
           <el-button class="add_btn" @click="createPush" :disabled="isCommit">确 定</el-button>
         </div>
       </el-form>

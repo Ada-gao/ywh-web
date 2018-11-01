@@ -1,190 +1,149 @@
 <template>
-  <section>
-    <div class="filter-container">
-      <el-row :gutter="20" style="margin-left: 20px;margin-right: 20px;">
+  <div class="page-salesman">
+      <el-row :gutter="20">
         <el-col :span="8">
-          <el-card class="card" :body-style="{ padding: '0px' }">
-            <div style="height: 140px;padding-left: 20px;padding-top: 35px;cursor:pointer;" @click="selectStatus('')">
-              <div class="logo" style="background: #4AD2DB">
-                <i class="iconfont icon-xiaoshoushu"/>
-              </div>
-              <div class="info">
-                <div class="title">销售人员总数</div>
-                <div class="count" style="color: #4AD2DB">
-                  {{totalSalesCnt?totalSalesCnt:0}}<span style="font-size: 14px">人</span>
+          <div @click="selectStatus('')">
+            <el-card>
+              <div>
+                <div class="logo-one">
+                  <i class="iconfont icon-xiaoshoushu"/>
+                </div>
+                <div class="info">
+                  <div class="title">销售人员总数</div>
+                  <div class="count-one">
+                    {{totalSalesCnt?totalSalesCnt:0}}<span>人</span>
+                  </div>
                 </div>
               </div>
-            </div>
-          </el-card>
-        </el-col>
-        <el-col :span="8">
-          <el-card class="card" :body-style="{ padding: '0px' }">
-            <div style="height: 140px;padding-left: 20px;padding-top: 35px;cursor:pointer;" @click="selectStatus('1')">
-              <div class="logo" style="background: #FDCE82">
-                <i class="iconfont icon-huoyuerenshu"/>
-              </div>
-              <div class="info">
-                <div class="title">活跃人数</div>
-                <div class="count" style="color: #FDCE82">
-                  {{enabledSalesCnt?enabledSalesCnt:0}}<span style="font-size: 14px">人</span>
-                </div>
-              </div>
-            </div>
-          </el-card>
-        </el-col>
-        <el-col :span="8">
-          <el-card class="card" :body-style="{ padding: '0px' }">
-            <div style="height: 140px;padding-left: 20px;padding-top: 35px;cursor:pointer;" @click="selectStatus('0')">
-              <div class="logo" style="background: #DFDFDF;">
-                <i class="iconfont icon-tingyong"/>
-              </div>
-              <div class="info">
-                <div class="title">停用人数</div>
-                <div class="count" style="color: #4A4A4A">
-                  {{disabledSalesCnt?disabledSalesCnt:0}}<span style="font-size: 14px">人</span>
-                </div>
-              </div>
-            </div>
-          </el-card>
-        </el-col>
-      </el-row>
-      <div class="detail-title" style="margin-top: 40px">
-        <span class="list-tit">销售查询</span>
-      </div>
-      <el-row style="margin-top: 10px">
-        <el-col :span="8">
-          <el-input @keyup.enter.native="handleFilter" style="width: 250px;" class="filter-item" placeholder="输入销售信息（姓名/帐号/电话）"
-                    v-model="listQuery.name">
-          </el-input>
-          <el-button class="filter-item" type="primary" icon="search" @click="handleFilter"><i class="fa fa-search"></i>查询
-          </el-button>
-        </el-col>
-        <el-col :span="16" style="text-align: right;">
-          <el-select v-model="listQuery.status"
-                     placeholder="状态筛选"
-                     clearable
-                     @change="handleFilter1">
-            <el-option
-              v-for="item in status"
-              :key="item.value"
-              :label="item.name"
-              :value="item.value">
-            </el-option>
-          </el-select>
-          <el-select v-model="listQuery.companyId"
-                     placeholder="公司筛选"
-                     clearable
-                     :disabled="isSuperAdmin !== 'true'"
-                     @change="handleCompany">
-            <el-option
-              v-for="item in companies"
-              :key="item.id"
-              :label="item.companyName"
-              :value="item.id">
-            </el-option>
-          </el-select>
-          <el-select v-model="listQuery.team"
-                     placeholder="团队筛选"
-                     clearable
-                     @change="handleFilter1">
-            <el-option
-              v-for="(item, index) in teams"
-              :key="index"
-              :label="item"
-              :value="item">
-            </el-option>
-          </el-select>
-        </el-col>
-      </el-row>
-    </div>
-    <div class="detail-title">
-      <span class="list-tit">销售列表</span>
-      <el-button class="add_btn" @click="handleCreate('add')">
-        <i class="fa fa-plus" style="color: #fff;margin-right: 10px"></i>新建销售
-      </el-button>
-      <el-button class="add_btn" @click="handleCreate('import')">
-        <i class="fa fa-sign-out" style="color: #fff;margin-right: 10px"></i>批量导入
-      </el-button>
-    </div>
-    <el-table :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit
-              highlight-current-row style="width: 100%">
-      <el-table-column align="center" label="销售ID" width="130px">
-        <template slot-scope="scope">
-          <span>{{scope.row.userCode}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" label="销售名称">
-        <template slot-scope="scope">
-          <span>{{scope.row.name}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" label="所属团队">
-        <template slot-scope="scope">
-          <span class="max-line2">{{scope.row.team}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" label="所属公司">
-        <template slot-scope="scope">
-          <span class="max-line2">{{scope.row.companyName}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" label="所在省份">
-        <template slot-scope="scope">
-          <span>{{scope.row.companyProvince}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" label="所属行业">
-        <template slot-scope="scope">
-          <span>{{scope.row.industryType}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" label="公司规模">
-        <template slot-scope="scope">
-          <span>{{scope.row.orgSize}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" label="状态">
-        <template slot-scope="scope">
-          <div style="cursor:pointer;" @click="showStatusDialog(scope.row)">
-            <span :style="scope.row.enabled?'color:#009801':'color:#D0021B'">{{scope.row.enabled?'启用':'停用'}}</span>
-            <i class="fa fa-cog" style="color: #a9a4a4;margin-left: 10px"></i>
+            </el-card>
           </div>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" label="操作" width="130px">
-        <template slot-scope="scope">
-          <a size="small" class="common_btn"
-             @click="handleUpdate(scope.row)">查看详情
-          </a>
-        </template>
-      </el-table-column>
-    </el-table>
-    <div v-show="!listLoading">
-      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
+        </el-col>
+        <el-col :span="8">
+          <div @click="selectStatus('1')">
+            <el-card>
+              <div>
+                <div class="logo-two">
+                  <i class="iconfont icon-huoyuerenshu"/>
+                </div>
+                <div class="info">
+                  <div class="title">活跃人数</div>
+                  <div class="count-two">
+                    {{enabledSalesCnt?enabledSalesCnt:0}}<span>人</span>
+                  </div>
+                </div>
+              </div>
+            </el-card>
+          </div>
+        </el-col>
+        <el-col :span="8">
+          <div @click="selectStatus('0')">
+            <el-card>
+              <div>
+                <div class="logo-three">
+                  <i class="iconfont icon-tingyong"/>
+                </div>
+                <div class="info">
+                  <div class="title">停用人数</div>
+                  <div class="count-three">
+                    {{disabledSalesCnt?disabledSalesCnt:0}}<span>人</span>
+                  </div>
+                </div>
+              </div>
+            </el-card>
+          </div>
+        </el-col>
+      </el-row>
+    <div class="com_page">
+      <div class="com_head">
+        <span class="com_title">销售查询</span>
+      </div>
+      <div class="com_filter">
+        <el-input @keyup.enter.native="handleFilter" placeholder="输入销售信息（姓名/帐号/电话）" v-model="listQuery.name"/>
+        <el-button icon="search" @click="handleFilter">
+          <i class="fa fa-search"/><span>查询</span>
+        </el-button>
+        <el-select v-model="listQuery.team" placeholder="团队筛选" clearable @change="handleFilter1">
+          <el-option v-for="(item, index) in teams" :key="index" :label="item" :value="item"/>
+        </el-select>
+        <el-select v-model="listQuery.companyId" placeholder="公司筛选" clearable :disabled="isSuperAdmin !== 'true'" @change="handleCompany">
+          <el-option v-for="item in companies" :key="item.id" :label="item.companyName" :value="item.id"/>
+        </el-select>
+        <el-select v-model="listQuery.status" placeholder="状态筛选" clearable @change="handleFilter1">
+          <el-option v-for="item in status" :key="item.value" :label="item.name" :value="item.value"/>
+        </el-select>
+      </div>
+      <div class="com_head">
+        <span class="com_title">销售列表</span>
+        <el-button @click="handleCreate('add')">
+          <i class="fa fa-plus"/><span>新建销售</span>
+        </el-button>
+        <el-button @click="handleCreate('import')">
+          <i class="fa fa-sign-out"/><span>批量导入</span>
+        </el-button>
+      </div>
+      <el-table :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit highlight-current-row>
+        <el-table-column label="销售ID" width="130px">
+          <template slot-scope="scope"><span>{{scope.row.userCode}}</span></template>
+        </el-table-column>
+        <el-table-column label="销售名称">
+          <template slot-scope="scope"><span>{{scope.row.name}}</span></template>
+        </el-table-column>
+        <el-table-column label="所属团队">
+          <template slot-scope="scope"><span class="com-two-row">{{scope.row.team}}</span></template>
+        </el-table-column>
+        <el-table-column label="所属公司">
+          <template slot-scope="scope"><span class="com-two-row">{{scope.row.companyName}}</span></template>
+        </el-table-column>
+        <el-table-column label="所在省份">
+          <template slot-scope="scope"><span>{{scope.row.companyProvince}}</span></template>
+        </el-table-column>
+        <el-table-column label="所属行业">
+          <template slot-scope="scope"><span>{{scope.row.industryType}}</span></template>
+        </el-table-column>
+        <el-table-column label="公司规模">
+          <template slot-scope="scope"><span>{{scope.row.orgSize}}</span></template>
+        </el-table-column>
+        <el-table-column label="状态">
+          <template slot-scope="scope">
+            <div style="cursor:pointer;" @click="showStatusDialog(scope.row)">
+              <span :style="scope.row.enabled?'color:#009801':'color:#D0021B'">{{scope.row.enabled?'启用':'停用'}}</span>
+              <i class="fa fa-cog" style="color: #a9a4a4;margin-left: 10px"></i>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column label="操作" width="130px">
+          <template slot-scope="scope"><a @click="handleUpdate(scope.row)">查看详情</a></template>
+        </el-table-column>
+      </el-table>
+      <el-pagination v-show="!listLoading"
+                     @size-change="handleSizeChange"
+                     @current-change="handleCurrentChange"
                      :current-page.sync="currentPage"
                      background
-                     :page-sizes="[5,10,20,30,50]" :page-size="listQuery.pageSize"
-                     layout="total, sizes, prev, pager, next, jumper" :total="total">
-      </el-pagination>
+                     :page-sizes="[5,10,20,30,50]"
+                     :page-size="listQuery.pageSize"
+                     layout="total, sizes, prev, pager, next, jumper"
+                     :total="total"/>
+      <el-dialog title="修改状态" :visible.sync="updateStatusDialog" width="20%">
+        <el-radio-group v-model="radio" style="text-align: center;width: 100%">
+          <el-radio label="启用"></el-radio>
+          <el-radio label="停用" style="margin-left: 100px"></el-radio>
+        </el-radio-group>
+        <div style="text-align: right;margin-top: 30px">
+          <el-button class="search_btn" @click="updateStatusDialog = false">取 消</el-button>
+          <el-button class="add_btn" @click="enabledSale">确 定</el-button>
+        </div>
+      </el-dialog>
     </div>
-    <el-dialog title="修改状态" :visible.sync="updateStatusDialog" width="20%">
-      <el-radio-group v-model="radio" style="text-align: center;width: 100%">
-        <el-radio label="启用"></el-radio>
-        <el-radio label="停用" style="margin-left: 100px"></el-radio>
-      </el-radio-group>
-      <div style="text-align: right;margin-top: 30px">
-        <el-button class="search_btn" @click="updateStatusDialog = false">取 消</el-button>
-        <el-button class="add_btn" @click="enabledSale">确 定</el-button>
-      </div>
-    </el-dialog>
-  </section>
+  </div>
+
 </template>
 
 <script>
   export default {
     data() {
       return {
-        isSuperAdmin:'false',
+        isSuperAdmin: 'false',
         updateStatusDialog: false,
         total: null,
         listLoading: true,
@@ -258,7 +217,7 @@
       },
       handleFilter() {
         delete this.listQuery.status
-        if (this.isSuperAdmin === 'true'){
+        if (this.isSuperAdmin === 'true') {
           delete this.listQuery.companyId
         }
         delete this.listQuery.team
@@ -344,37 +303,3 @@
     }
   }
 </script>
-
-<style scoped>
-  .card {
-    height: 120px;
-  }
-
-  .logo {
-    width: 50px;
-    height: 50px;
-    line-height: 50px;
-    border-radius: 4px;
-    text-align: center;
-    float: left;
-  }
-
-  .logo i {
-    color: #ffffff;
-    font-size: 28px
-  }
-
-  .info {
-    margin-left: 12px;
-    float: left;
-  }
-
-  .info .title {
-    font-size: 14px;
-    color: #475669;
-  }
-
-  .info .count {
-    font-size: 28px;
-  }
-</style>

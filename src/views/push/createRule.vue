@@ -1,139 +1,132 @@
 <template>
-  <section>
-    <div class="detail-title">
-      <span class="list-tit">{{textMap[updateStatus]}}</span>
+  <div class="com_page">
+    <div class="com_head">
+      <span class="com_title">{{textMap[updateStatus]}}</span>
     </div>
-    <div class="margin-line"></div>
-    <div class="update-detail">
-      <el-form :model="form" :rules="rules" ref="form" label-width="150px">
-        <el-row>
-          <el-col :span="7">
-            <el-form-item label="信息推送规则名称" prop="ruleName">
-              <el-input v-model="form.ruleName" placeholder="请输入信息推送规则名称" maxlength="50"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-col>
-          <el-form-item label="信息推送规则设定"/>
+    <div class="com-line"/>
+    <el-form :model="form" :rules="rules" ref="form" label-width="150px">
+      <el-row>
+        <el-col :span="7">
+          <el-form-item label="信息推送规则名称" prop="ruleName">
+            <el-input v-model="form.ruleName" placeholder="请输入信息推送规则名称" maxlength="50"></el-input>
+          </el-form-item>
         </el-col>
-        <el-row>
-          <el-col :span="7">
-            <el-form-item label="所属公司" prop="companyId">
-              <el-select v-model="form.companyId" placeholder="选择/输入所属公司" @change="changeCompany" filterable
-                         style="width: 100%" :disabled="isSuperAdmin !== 'true'">
-                <el-option
-                  v-for="item in companies"
-                  :key="item.id"
-                  :label="item.companyName"
-                  :value="item.id">
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="7">
-            <el-form-item label="所属团队" prop="team">
-              <el-select v-model="form.team" placeholder="选择/输入所属团队" filterable clearable style="width: 100%">
-                <el-option
-                  v-for="item in teamList"
-                  :key="item"
-                  :label="item"
-                  :value="item">
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="7">
-            <el-form-item label="关联名单">
-              <el-select v-model="form.outboundNameGroupId" placeholder="选择/输入关联名单" filterable clearable
-                         style="width: 100%">
-                <el-option
-                  v-for="item in associateList"
-                  :key="item.id"
-                  :label="item.groupName"
-                  :value="item.id">
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-form-item label="触发场景">
-          <el-radio-group v-model="form.triggerScene" @change="changeMode">
-            <el-radio label="外呼后"></el-radio>
-            <el-radio label="外呼前"></el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-row v-if="form.triggerScene === '外呼后'">
-          <el-col :span="7">
-            <el-form-item label="有效通话时长/秒" prop="duration">
-              <el-select v-model="form.lessOrGreater" style="width: 26%">
-                <el-option
-                  v-for="item in times"
-                  :key="item"
-                  :label="item"
-                  :value="item">
-                </el-option>
-              </el-select>
-              <el-input v-model="form.duration" placeholder="请输入时长" style="width: 72%;" maxlength="8"/>
-            </el-form-item>
-          </el-col>
-          <el-col :span="7">
-            <el-form-item label="下一步行动计划">
-              <el-select v-model="form.nextAction" placeholder="请选择下一步行动计划" clearable style="width: 100%">
-                <el-option
-                  v-for="item in actions"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="7">
-            <el-form-item label="外呼状态" prop="lastCallResult">
-              <el-select v-model="form.lastCallResult" placeholder="请选择外呼状态" clearable style="width: 100%"
-                         @change="changeStatus">
-                <el-option
-                  v-for="item in status"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="21">
-            <el-form-item label="推送规则模版" prop="ruleTemplate">
-              <el-input type="textarea" :rows="5" v-model="form.ruleTemplate" placeholder="请输入推送规则模版"
-                        maxlength="70"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="21">
-          <el-col :span="2" :offset="3">
-            <el-checkbox @change="addInfo" true-label="true ${联系人名称}" false-label="false ${联系人名称}">联系人名称</el-checkbox>
-          </el-col>
-          <el-col :span="2">
-            <el-checkbox @change="addInfo" true-label="true ${销售姓名}" false-label="false ${销售姓名}">销售姓名</el-checkbox>
-          </el-col>
-          <el-col :span="2">
-            <el-checkbox @change="addInfo" true-label="true ${公司名称}" false-label="false ${公司名称}">公司名称</el-checkbox>
-          </el-col>
-          <el-col :span="2">
-            <el-checkbox @change="addInfo" true-label="true ${企业微信}" false-label="false ${企业微信}">企业微信</el-checkbox>
-          </el-col>
-          <el-col :span="2">
-            <el-checkbox @change="addInfo" true-label="true ${销售微信}" false-label="false ${销售微信}">销售微信</el-checkbox>
-          </el-col>
-        </el-row>
-      </el-form>
-      <el-col :span="21" slot="footer" class="dialog-footer" style="text-align: center">
-        <el-button class="add_btn" @click="commit" :disabled="isCommit">提 交</el-button>
-        <el-button class="search_btn" @click="cancel">取 消</el-button>
+      </el-row>
+      <el-col>
+        <el-form-item label="信息推送规则设定"/>
       </el-col>
-    </div>
-  </section>
+      <el-row>
+        <el-col :span="7">
+          <el-form-item label="所属公司" prop="companyId">
+            <el-select v-model="form.companyId" placeholder="选择/输入所属公司" @change="changeCompany" filterable
+                       style="width: 100%" :disabled="isSuperAdmin !== 'true'">
+              <el-option
+                v-for="item in companies"
+                :key="item.id"
+                :label="item.companyName"
+                :value="item.id">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="7">
+          <el-form-item label="所属团队" prop="team">
+            <el-select v-model="form.team" placeholder="选择/输入所属团队" filterable clearable style="width: 100%">
+              <el-option
+                v-for="item in teamList"
+                :key="item"
+                :label="item"
+                :value="item">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="7">
+          <el-form-item label="关联名单">
+            <el-select v-model="form.outboundNameGroupId" placeholder="选择/输入关联名单" filterable clearable
+                       style="width: 100%">
+              <el-option
+                v-for="item in associateList"
+                :key="item.id"
+                :label="item.groupName"
+                :value="item.id">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-form-item label="触发场景">
+        <el-radio-group v-model="form.triggerScene" @change="changeMode">
+          <el-radio label="外呼后"></el-radio>
+          <el-radio label="外呼前"></el-radio>
+        </el-radio-group>
+      </el-form-item>
+      <el-row v-if="form.triggerScene === '外呼后'">
+        <el-col :span="7">
+          <el-form-item label="有效通话时长/秒" prop="duration">
+            <el-select v-model="form.lessOrGreater" style="width: 26%">
+              <el-option
+                v-for="item in times"
+                :key="item"
+                :label="item"
+                :value="item">
+              </el-option>
+            </el-select>
+            <el-input v-model="form.duration" placeholder="请输入时长" style="width: 72%;" maxlength="8"/>
+          </el-form-item>
+        </el-col>
+        <el-col :span="7">
+          <el-form-item label="下一步行动计划">
+            <el-select v-model="form.nextAction" placeholder="请选择下一步行动计划" clearable style="width: 100%">
+              <el-option v-for="item in actions" :key="item.value" :label="item.label" :value="item.value"/>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="7">
+          <el-form-item label="外呼状态" prop="lastCallResult">
+            <el-select v-model="form.lastCallResult" placeholder="请选择外呼状态" clearable style="width: 100%"
+                       @change="changeStatus">
+              <el-option
+                v-for="item in status"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="21">
+          <el-form-item label="推送规则模版" prop="ruleTemplate">
+            <el-input type="textarea" :rows="5" v-model="form.ruleTemplate" placeholder="请输入推送规则模版"
+                      maxlength="70"/>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="21">
+        <el-col :span="2" :offset="3">
+          <el-checkbox @change="addInfo" true-label="true ${联系人名称}" false-label="false ${联系人名称}">联系人名称</el-checkbox>
+        </el-col>
+        <el-col :span="2">
+          <el-checkbox @change="addInfo" true-label="true ${销售姓名}" false-label="false ${销售姓名}">销售姓名</el-checkbox>
+        </el-col>
+        <el-col :span="2">
+          <el-checkbox @change="addInfo" true-label="true ${公司名称}" false-label="false ${公司名称}">公司名称</el-checkbox>
+        </el-col>
+        <el-col :span="2">
+          <el-checkbox @change="addInfo" true-label="true ${企业微信}" false-label="false ${企业微信}">企业微信</el-checkbox>
+        </el-col>
+        <el-col :span="2">
+          <el-checkbox @change="addInfo" true-label="true ${销售微信}" false-label="false ${销售微信}">销售微信</el-checkbox>
+        </el-col>
+      </el-row>
+    </el-form>
+    <el-col :span="21" style="text-align: center">
+      <el-button class="add_btn" @click="commit" :disabled="isCommit">提 交</el-button>
+      <el-button class="search_btn" @click="cancel">取 消</el-button>
+    </el-col>
+  </div>
 </template>
 
 <script>
@@ -162,7 +155,7 @@
         }
       }
       return {
-        isCommit:false,
+        isCommit: false,
         form: {
           lessOrGreater: '≥',
           triggerScene: '外呼后',
@@ -291,11 +284,11 @@
               if (this.form.createTime) {
                 delete this.form.createTime
               }
-              if (this.form.status === '待审核'){
+              if (this.form.status === '待审核') {
                 this.form.status = '0'
-              }else if (this.form.status === '审核失败'){
+              } else if (this.form.status === '审核失败') {
                 this.form.status = '1'
-              }else if (this.form.status === '生效'){
+              } else if (this.form.status === '生效') {
                 this.form.status = '2'
               }
               this.Api.putMessage(this.form.id, this.form)
@@ -316,8 +309,8 @@
                   })
                   this.$router.push({path: '/push/rule'})
                 }).catch(() => {
-                  this.isCommit = false
-                })
+                this.isCommit = false
+              })
             }
           } else {
             return false

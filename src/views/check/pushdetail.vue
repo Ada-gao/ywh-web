@@ -1,17 +1,16 @@
 <template>
-  <div class="app-container">
-    <div class="detail-title">
-      <span class="list-tit">推送规则详情</span>
-      <el-button class="add_btn" @click="handleCheck(false)" v-show="obj.check">
-        <i class="iconfont icon-jujue" style="color: #fff;margin-right: 10px"></i>不通过
+  <div class="com_page">
+    <div class="com_head">
+      <span class="com_title">推送规则详情</span>
+      <el-button @click="handleCheck(false)" v-show="obj.check">
+        <i class="iconfont icon-jujue"/><span>不通过</span>
       </el-button>
-      <el-button class="add_btn" @click="handleCheck(true)" v-show="obj.check">
-        <i class="iconfont icon-tongguo" style="color: #fff;margin-right: 10px"></i>通过
+      <el-button @click="handleCheck(true)" v-show="obj.check">
+        <i class="iconfont icon-tongguo"/><span>通过</span>
       </el-button>
     </div>
-    <div class="margin-line"></div>
-    <div class="read-detail">
-      <el-form :model="form" class="form-border" style="margin-bottom: 20px" label-width="160px">
+    <div class="com-line"/>
+      <el-form :model="form" label-width="160px">
         <el-row>
           <el-col>
             <el-form-item label="推送规则名称:" >
@@ -64,7 +63,6 @@
           </el-col>
         </el-row>
       </el-form>
-    </div>
     <el-dialog title="审核通过" :visible.sync="agreeDialog" width="30%">
       <el-form :model="checkForm" :rules="checkRules" ref="checkForm" label-width="100px">
         <el-form-item label="确定审核通过吗？请输入短信模版！" class="txt" label-width="260px"/>
@@ -91,7 +89,6 @@
     </el-dialog>
   </div>
 </template>
-
 <script>
   export default {
     data () {
@@ -166,13 +163,3 @@
     }
   }
 </script>
-
-<style lang="scss" scoped>
-
-  .form-border {
-    border: 1px solid #EFEFEF;
-    border-radius: 5px;
-    padding: 20px 30px 0 20px;
-    overflow: hidden;
-  }
-</style>

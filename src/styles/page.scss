@@ -1,0 +1,274 @@
+//echarts.vue
+.page-echarts {
+  .el-card__body {
+    padding-top: 35px;
+    padding-left: 20px;
+  }
+  .el-card {
+    height: 120px;
+    .logo {
+      width: 50px;
+      height: 50px;
+      border-radius: 4px;
+      color: #fff;
+      line-height: 50px;
+      text-align: center;
+      float: left;
+      i {
+        font-size: 28px;
+      }
+    }
+    .logo-one {
+      @extend .logo;
+      background: #4AD2DB;
+    }
+    .logo-two {
+      @extend .logo;
+      background: #FDCE82;
+    }
+    .logo-three {
+      @extend .logo;
+      background: #30CDAA;
+    }
+    .logo-four {
+      @extend .logo;
+      background: #0299CC;
+    }
+    .info {
+      margin-left: 12px;
+      float: left;
+      .title {
+        font-size: 14px;
+        color: #475669;
+      }
+      .count {
+        margin-top: 10px;
+        font-size: 20px;
+        span {
+          margin-left: 2px;
+          font-size: 14px;
+        }
+      }
+      .count-one {
+        @extend .count;
+        color: #4AD2DB;
+      }
+      .count-two {
+        @extend .count;
+        color: #FDCE82;
+      }
+      .count-three {
+        @extend .count;
+        color: #30CDAA;
+      }
+      .count-four {
+        @extend .count;
+        color: #0299CC;
+      }
+    }
+  }
+}
+//account.vue
+.page-account{
+  .el-card__body {
+    padding-top: 35px;
+    padding-left: 0px;
+  }
+  .el-card {
+    height: 140px;
+    padding-left: 100px;
+    margin-bottom: 40px;
+    .logo {
+      width: 70px;
+      height: 70px;
+      border-radius: 4px;
+      color: #fff;
+      line-height: 70px;
+      text-align: center;
+      float: left;
+      i {
+        font-size: 40px;
+      }
+    }
+    .logo-one {
+      @extend .logo;
+      background: #4AD2DB;
+    }
+    .logo-two {
+      @extend .logo;
+      background: #FDCE82;
+    }
+    .info {
+      margin-left: 12px;
+      float: left;
+      .title {
+        font-size: 14px;
+        color: #475669;
+      }
+      .count {
+        margin-top: 20px;
+        font-size: 28px;
+        span {
+          margin-left: 2px;
+          font-size: 14px;
+        }
+      }
+      .count-one {
+        @extend .count;
+        color: #4AD2DB;
+      }
+      .count-two {
+        @extend .count;
+        color: #FDCE82;
+      }
+    }
+    .tip{
+      margin-left: 20px;
+      float: left;
+      margin-top: 50px;
+      line-height: 17px;
+      font-size: 12px;
+      i{
+        color:#D0021B;
+      }
+      span{
+        color: #475669;
+      }
+    }
+  }
+  .item{
+    padding: 20px;
+    box-shadow: 0 2px 6px 2px rgba(7,17,27,0.05);
+    border-radius: 2px;
+    margin-bottom: 20px;
+  }
+}
+//salesman.vue
+.page-salesman {
+  .el-card__body {
+    padding-top: 35px;
+    padding-left: 20px;
+  }
+  .el-card {
+    height: 120px;
+    margin-bottom: 20px;
+    cursor:pointer;
+    .logo {
+      width: 50px;
+      height: 50px;
+      border-radius: 4px;
+      color: #fff;
+      line-height: 50px;
+      text-align: center;
+      float: left;
+      i {
+        font-size: 28px;
+      }
+    }
+    .logo-one {
+      @extend .logo;
+      background: #4AD2DB;
+    }
+    .logo-two {
+      @extend .logo;
+      background: #FDCE82;
+    }
+    .logo-three {
+      @extend .logo;
+      background: #DFDFDF;
+    }
+    .info {
+      margin-left: 12px;
+      float: left;
+      .title {
+        font-size: 14px;
+        color: #475669;
+      }
+      .count {
+        margin-top: 10px;
+        font-size: 20px;
+        span {
+          margin-left: 2px;
+          font-size: 14px;
+        }
+      }
+      .count-one {
+        @extend .count;
+        color: #4AD2DB;
+      }
+      .count-two {
+        @extend .count;
+        color: #FDCE82;
+      }
+      .count-three {
+        @extend .count;
+        color: #4A4A4A;
+      }
+    }
+  }
+}
+
+
+//////////////
+
+.switch {
+  display: inline-flex;
+}
+
+.switch-open {
+  font-size: 10px;
+  width: 55px;
+  color: #ffffff;
+  z-index: 999;
+  pointer-events: none;
+  padding-left: 10px;
+  text-align: left;
+  margin-left: -55px;
+}
+
+.switch-close {
+  font-size: 10px;
+  width: 55px;
+  margin-left: -55px;
+  text-align: right;
+  color: #ffffff;
+  padding-right: 10px;
+  z-index: 999;
+  pointer-events: none;
+}
+
+.txt > .el-form-item__label {
+  line-height: 40px !important;
+}
+
+.sw > .el-switch__core {
+  width: 55px !important;
+  line-height: 40px !important;
+}
+
+.upd_btn {
+  float: right;
+  border: none;
+  color: #0299CC;
+  &:hover {
+    background: #ffff;
+  }
+  i {
+    margin-right: 2px;
+    vertical-align: text-bottom;
+  }
+
+}
+.switch-btn {
+  float: right;
+  margin-left: 30px;
+  display: inline-block;
+  line-height: 40px;
+  margin-right: 3px;
+}
+.form-border {
+  border: 1px solid #EFEFEF;
+  border-radius: 5px;
+  padding: 20px 30px;
+}
+

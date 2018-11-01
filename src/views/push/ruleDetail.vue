@@ -1,7 +1,7 @@
 <template>
-  <div class="app-container">
-    <div class="detail-title">
-      <span class="list-tit">推送规则详情</span>
+  <div class="com_page">
+    <div class="com_head">
+      <span class="com_title">推送规则详情</span>
       <span style="float: right;color: #0299cc">{{form.enabled ? '启用' : '停用'}}</span>
       <el-switch
         v-model="form.enabled"
@@ -14,7 +14,7 @@
         <i style="font-style: normal;">修改</i>
       </el-button>
     </div>
-    <div class="margin-line"></div>
+    <div class="com-line"/>
     <div class="read-detail">
       <el-form :model="form" class="form-border" style="margin-bottom: 20px" label-width="160px">
         <el-row>
@@ -72,7 +72,6 @@
     </div>
   </div>
 </template>
-
 <script>
   export default {
     data () {
@@ -130,34 +129,3 @@
     }
   }
 </script>
-
-<style lang="scss" scoped>
-  .detail-title {
-    /*margin-bottom: 20px;*/
-    .upd_btn {
-      float: right;
-      border: none;
-      color: #0299CC;
-      i {
-        margin-right: 2px;
-        vertical-align: text-bottom;
-      }
-      &:hover {
-        background: #ffff;
-      }
-    }
-    .switch-btn {
-      float: right;
-      margin-left: 30px;
-      display: inline-block;
-      line-height: 40px;
-      margin-right: 3px;
-    }
-  }
-  .form-border {
-    border: 1px solid #EFEFEF;
-    border-radius: 5px;
-    padding: 20px 30px 0 20px;
-    overflow: hidden;
-  }
-</style>

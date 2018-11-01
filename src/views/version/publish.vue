@@ -1,92 +1,88 @@
 <template>
-  <div>
-    <div class="detail-title">
-      <span class="list-tit">{{textMap[updateStatus]}}</span>
+  <div class="com_page">
+    <div class="com_head">
+      <span class="com_title">{{textMap[updateStatus]}}</span>
     </div>
-    <div class="margin-line"></div>
-    <div class="update-detail">
-      <el-form :model="form" :rules="rules" ref="form" label-width="120px">
-        <el-row :gutter="20">
-          <el-col :span="16">
-            <el-form-item label="识别号" prop="appPackage">
-              <el-input v-model="form.appPackage" placeholder="请输入识别号" maxlength="50"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="20">
-          <el-col :span="8">
-            <el-form-item label="版本名称" prop="versionName">
-              <el-input v-model="form.versionName" placeholder="请输入版本名称" maxlength="10"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="版本号" prop="versionCode">
-              <el-input v-model="form.versionCode" placeholder="请输入版本号" maxlength="10" :disabled="updateStatus==='update'?true:false"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="20">
-          <el-col :span="16">
-            <el-form-item label="升级平台" prop="platform">
-              <el-checkbox-group v-model="form.platform" :disabled="updateStatus==='update'?true:false">
-                <el-checkbox label="Android"/>
-                <el-checkbox label="IOS"/>
-              </el-checkbox-group>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="20">
-          <el-col :span="16">
-            <el-form-item label="升级方式" prop="promptType" style="float: left">
-              <el-radio-group v-model="form.promptType" @change="changeType">
-                <el-radio label="Silence">静默</el-radio>
-                <el-radio label="Force">强制</el-radio>
-                <el-radio label="Recommend">推荐</el-radio>
-              </el-radio-group>
-            </el-form-item>
-            <el-form-item prop="updateDeadline" style="float: left;margin-left: -110px" v-if="form.promptType === 'Recommend'">
-              <el-date-picker
-                v-model="form.updateDeadline"
-                type="date"
-                placeholder="选择最后升级日期"
-                :picker-options="pickerOptions0"/>
-            </el-form-item>
-            <el-form-item prop="updateDeadlineTime" style="float: left;margin-left: -110px" v-if="form.promptType === 'Recommend'">
-              <el-time-select
-                v-model="form.updateDeadlineTime"
-                :picker-options="{
-                  start: '00:00',
-                  step: '00:10',
-                  end: '23:50'
-                }"
-                placeholder="选择时间"/>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="16">
-            <el-form-item label="升级地址" prop="packageUrl">
-              <el-input v-model="form.packageUrl" placeholder="请输入升级地址" maxlength="255"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="16">
-            <el-form-item label="升级说明" prop="promptText">
-              <el-input type="textarea" v-model="form.promptText" :rows="5" placeholder="请输入升级说明"
-                        maxlength="200"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </el-form>
-      <el-col :span="16" slot="footer" class="dialog-footer" style="text-align: center">
-        <el-button class="add_btn" @click="create" :disabled="isCommit">提 交</el-button>
-        <el-button class="search_btn" @click="cancel">取 消</el-button>
-      </el-col>
-    </div>
+    <div class="com-line"/>
+    <el-form :model="form" :rules="rules" ref="form" label-width="120px">
+      <el-row>
+        <el-col :span="16">
+          <el-form-item label="识别号" prop="appPackage">
+            <el-input v-model="form.appPackage" placeholder="请输入识别号" maxlength="50"/>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="8">
+          <el-form-item label="版本名称" prop="versionName">
+            <el-input v-model="form.versionName" placeholder="请输入版本名称" maxlength="10"/>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="版本号" prop="versionCode">
+            <el-input v-model="form.versionCode" placeholder="请输入版本号" maxlength="10" :disabled="updateStatus==='update'?true:false"/>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="16">
+          <el-form-item label="升级平台" prop="platform">
+            <el-checkbox-group v-model="form.platform" :disabled="updateStatus==='update'?true:false">
+              <el-checkbox label="Android"/>
+              <el-checkbox label="IOS"/>
+            </el-checkbox-group>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="16">
+          <el-form-item label="升级方式" prop="promptType" style="float: left">
+            <el-radio-group v-model="form.promptType" @change="changeType">
+              <el-radio label="Silence">静默</el-radio>
+              <el-radio label="Force">强制</el-radio>
+              <el-radio label="Recommend">推荐</el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item prop="updateDeadline" style="float: left;margin-left: -110px" v-if="form.promptType === 'Recommend'">
+            <el-date-picker
+              v-model="form.updateDeadline"
+              type="date"
+              placeholder="选择最后升级日期"
+              :picker-options="pickerOptions0"/>
+          </el-form-item>
+          <el-form-item prop="updateDeadlineTime" style="float: left;margin-left: -110px" v-if="form.promptType === 'Recommend'">
+            <el-time-select
+              v-model="form.updateDeadlineTime"
+              :picker-options="{
+                start: '00:00',
+                step: '00:10',
+                end: '23:50'
+              }"
+              placeholder="选择时间"/>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="16">
+          <el-form-item label="升级地址" prop="packageUrl">
+            <el-input v-model="form.packageUrl" placeholder="请输入升级地址" maxlength="255"/>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="16">
+          <el-form-item label="升级说明" prop="promptText">
+            <el-input type="textarea" v-model="form.promptText" :rows="5" placeholder="请输入升级说明" maxlength="200"/>
+          </el-form-item>
+        </el-col>
+      </el-row>
+    </el-form>
+    <el-col :span="16" style="text-align: center">
+      <el-button class="add_btn" @click="create" :disabled="isCommit">提 交</el-button>
+      <el-button class="search_btn" @click="cancel">取 消</el-button>
+    </el-col>
   </div>
 </template>
-
 <script>
   export default {
     data() {

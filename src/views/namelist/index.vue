@@ -1,103 +1,42 @@
 <template>
-  <section>
-    <div class="filter-container">
-      <div class="detail-title">
-        <span class="list-tit">名单查询</span>
-      </div>
-      <el-row style="margin-top: 10px">
-        <el-col :span="8">
-          <el-input @keyup.enter.native="handleFilter"
-                    style="width: 200px;"
-                    class="filter-item"
-                    placeholder="输入名单名称"
-                    v-model="listQuery.groupName">
-          </el-input>
-          <el-button class="filter-item"
-                     type="primary"
-                     icon="search"
-                     @click="handleFilter"><i class="fa fa-search"></i>查询</el-button>
-        </el-col>
-        <el-col :span="16" style="text-align: right;">
-          <el-select v-model="listQuery.companyId"
-                     placeholder="公司筛选"
-                     clearable
-                     :disabled="isSuperAdmin !== 'true'"
-                     @change="handleFilter1">
-            <el-option
-              v-for="item in companies"
-              :key="item.id"
-              :label="item.companyName"
-              :value="item.id">
-            </el-option>
-          </el-select>
-        </el-col>
-      </el-row>
+  <div class="com_page">
+    <div class="com_head">
+      <span class="com_title">名单查询</span>
     </div>
-    <div class="detail-title">
-      <span class="list-tit">名单列表</span>
-      <el-button class="add_btn" @click="handleCreate">
-        <i class="fa fa-sign-out" style="color: #fff;margin-right: 10px"></i>批量导入
-      </el-button>
+    <div class="com_filter">
+      <el-input @keyup.enter.native="handleFilter" placeholder="输入名单名称" v-model="listQuery.groupName"/>
+      <el-button icon="search" @click="handleFilter"><i class="fa fa-search"></i>查询</el-button>
+      <el-select v-model="listQuery.companyId" placeholder="公司筛选" clearable :disabled="isSuperAdmin !== 'true'" @change="handleFilter1">
+        <el-option v-for="item in companies" :key="item.id" :label="item.companyName" :value="item.id"/>
+      </el-select>
     </div>
-    <el-table :key='tableKey'
-              :data="list"
-              v-loading="listLoading"
-              element-loading-text="给我一点时间"
-              border fit
-              highlight-current-row
-              style="width: 100%">
-
-      <el-table-column align="center" label="名单批次号" width="130px">
-        <template slot-scope="scope">
-          <span>{{scope.row.groupCode}}</span>
-        </template>
+    <div class="com_head">
+      <span class="com_title">名单列表</span>
+      <el-button @click="handleCreate"><i class="fa fa-sign-out"/><span>批量导入</span></el-button>
+    </div>
+    <el-table :key='tableKey' :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit highlight-current-row>
+      <el-table-column label="名单批次号" width="130px">
+        <template slot-scope="scope"><span>{{scope.row.groupCode}}</span></template>
       </el-table-column>
-
-      <el-table-column align="center" label="名单名称">
-        <template slot-scope="scope">
-          <span class="max-line2">{{scope.row.groupName}}</span>
-        </template>
+      <el-table-column label="名单名称">
+        <template slot-scope="scope"><span class="com-two-row">{{scope.row.groupName}}</span></template>
       </el-table-column>
-      <el-table-column align="center" label="所属公司">
-        <template slot-scope="scope">
-          <span class="max-line2">{{scope.row.companyName}}</span>
-        </template>
+      <el-table-column label="所属公司">
+        <template slot-scope="scope"><span class="com-two-row">{{scope.row.companyName}}</span></template>
       </el-table-column>
-      <el-table-column align="center" label="名单数量">
-        <template slot-scope="scope">
-          <span>{{scope.row.totalNameCnt}}</span>
-        </template>
+      <el-table-column label="名单数量">
+        <template slot-scope="scope"><span>{{scope.row.totalNameCnt}}</span></template>
       </el-table-column>
-
-      <el-table-column align="center" label="隐藏主号">
-        <template slot-scope="scope">
-          <span>{{scope.row.maskPhoneNo}}</span>
-        </template>
+      <el-table-column label="隐藏主号">
+        <template slot-scope="scope"><span>{{scope.row.maskPhoneNo}}</span></template>
       </el-table-column>
-
-<!--      <el-table-column align="center" label="名单状态">
-        <template slot-scope="scope">
-          <span :style="scope.row.status==='生效'?'color:#17C263': scope.row.status==='待审核'?'color:#F7BA2A':'color:#D0021B'">{{scope.row.status}}</span>
-          <el-tooltip effect="dark" placement="bottom"  :content="scope.row.rejectReason" v-show="scope.row.status==='审核失败'">
-            <i class="iconfont icon-wenti" style="color:#D0021B"/>
-          </el-tooltip>
-        </template>
-      </el-table-column>-->
-      <el-table-column align="center" label="名单导入时间">
-        <template slot-scope="scope">
-          <span>{{scope.row.createTime}}</span>
-        </template>
+      <el-table-column label="名单导入时间" width="160">
+        <template slot-scope="scope"><span>{{scope.row.createTime}}</span></template>
       </el-table-column>
-
-      <el-table-column align="center" label="操作" width="130px">
-        <template slot-scope="scope">
-          <a size="small" class="common_btn"
-             @click="handleUpdate(scope.row)">查看详情
-          </a>
-        </template>
+      <el-table-column label="操作" >
+        <template slot-scope="scope"><a @click="handleUpdate(scope.row)">查看详情</a></template>
       </el-table-column>
     </el-table>
-
     <div v-show="!listLoading" class="pagination-container">
       <el-pagination @size-change="handleSizeChange"
                      @current-change="handleCurrentChange"
@@ -109,10 +48,8 @@
                      :total="total">
       </el-pagination>
     </div>
-
-  </section>
+  </div>
 </template>
-
 <script>
 import { provinceAndCityData } from 'element-china-area-data' // 省市区数据
 export default {
@@ -207,32 +144,3 @@ export default {
   }
 }
 </script>
-
-<style scoped lang="scss">
-  .table-add-box {
-    position: relative;
-    line-height: 48px;
-    div {
-      display: inline-block;
-    }
-    .list-table-tit {
-      margin-bottom: 0;
-    }
-    .add-box {
-      cursor: pointer;
-      position: absolute;
-      right: 0;
-      width: 102px;
-      height: 36px;
-      /*background: #0299CC;*/
-      background: #18c79c;
-      line-height: 36px;
-      font-family: PingFangSC-Medium;
-      font-size: 14px;
-      color: #FFFFFF;
-      letter-spacing: 0;
-      text-align: center;
-      top: 6px;
-    }
-  }
-</style>

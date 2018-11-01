@@ -1,66 +1,44 @@
 <template>
-  <div>
-    <div class="filter-container">
-      <div class="detail-title">
-        <span class="list-tit">推送详情查询</span>
+  <div class="com_page">
+      <div class="com_head">
+        <span class="com_title">推送详情查询</span>
       </div>
-      <el-row style="margin-top: 10px">
-        <el-col :span="16">
-          <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item"
-                    placeholder="输入联系人名称" v-model="listQuery.contactName"/>
-          <el-date-picker v-model="listQuery.date"
-                          type="daterange"
-                          style="width: 275px"
-                          start-placeholder="推送开始时间"
-                          :default-time="['00:00:00', '23:59:59']"
-                          end-placeholder="推送结束时间"/>
-          <el-button class="filter-item" type="primary" icon="search" @click="handleFilter"><i class="fa fa-search"></i>查询
-          </el-button>
-        </el-col>
-        <el-col :span="8" style="text-align: right;">
-          <el-select v-model="listQuery.status"
-                     placeholder="推送结果"
-                     clearable
-                     @change="handleFilter1">
-            <el-option
-              v-for="item in states"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
+      <div class="com_filter">
+          <el-input @keyup.enter.native="handleFilter" placeholder="输入联系人名称" v-model="listQuery.contactName"/>
+          <el-date-picker v-model="listQuery.date" type="daterange" start-placeholder="推送开始时间" :default-time="['00:00:00', '23:59:59']" end-placeholder="推送结束时间"/>
+          <el-button icon="search" @click="handleFilter"><i class="fa fa-search"></i><span>查询</span></el-button>
+          <el-select v-model="listQuery.status" placeholder="推送结果" clearable @change="handleFilter1">
+            <el-option v-for="item in states" :key="item.value" :label="item.label" :value="item.value"/>
           </el-select>
-        </el-col>
-      </el-row>
     </div>
-    <div class="detail-title">
-      <span class="list-tit">推送详情列表</span>
-      <el-button class="add_btn" @click="handleExport">
-        <i class="iconfont icon-piliangdaochu" style="color: #fff;margin-right: 10px"></i>批量导出
+    <div class="com_head">
+      <span class="com_title">推送详情列表</span>
+      <el-button @click="handleExport">
+        <i class="iconfont icon-piliangdaochu"/><span>批量导出</span>
       </el-button>
     </div>
-    <el-table id="consumeTable" :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fithighlight-current-row
-              style="width: 100%">
-      <el-table-column align="center" label="联系人名称">
+    <el-table :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fithighlight-current-row>
+      <el-table-column label="联系人名称">
         <template slot-scope="scope">
           <span>{{scope.row.clientName}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="联系人手机">
+      <el-table-column label="联系人手机">
         <template slot-scope="scope">
-          <span class="max-line2">{{scope.row.phoneNum}}</span>
+          <span class="com-two-row">{{scope.row.phoneNum}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="推送时间">
+      <el-table-column label="推送时间">
         <template slot-scope="scope">
           <span>{{scope.row.createTime}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="单价（元）">
+      <el-table-column label="单价（元）">
         <template slot-scope="scope">
           <span>{{scope.row.money}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="推送状态">
+      <el-table-column label="推送状态">
         <template slot-scope="scope">
           <span :style="scope.row.status==='推送成功'?'color:#009801':'color:#D0021B'">{{scope.row.status}}</span>
           <el-tooltip effect="dark" placement="bottom"  :content="scope.row.failReason" v-show="scope.row.status!=='推送成功'">
@@ -79,7 +57,6 @@
     </div>
   </div>
 </template>
-
 <script>
   export default {
     data() {

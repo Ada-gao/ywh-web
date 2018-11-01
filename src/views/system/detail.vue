@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="com_page">
     <div style="margin-bottom: 20px">
       <el-radio-group v-model="radio" text-color="#FFFFFF" fill="#0299CC">
         <el-radio-button label="账户信息"></el-radio-button>
@@ -9,18 +9,16 @@
       </el-radio-group>
     </div>
     <div v-show="radio==='账户信息'">
-      <div class="detail-title">
-        <span class="list-tit">{{radio}}</span>
-        <span style="float: right;color: #0299cc" >{{accountStatus ? '启用' : '停用'}}</span>
+      <div class="com_head">
+        <span class="com_title">{{radio}}</span>
+        <span style="float: right;color: #0299cc">{{accountStatus ? '启用' : '停用'}}</span>
         <el-switch
           v-model="accountStatus"
           class="switch-btn"
           @change="changeMode">
         </el-switch>
-        <el-button class="upd_btn" @click="modifyStat">
-          <i class="fa fa-edit"
-             style="font-size: 22px;margin-right: 5px;vertical-align: middle;"></i>
-          <i style="font-style: normal;">修改</i>
+        <el-button @click="modifyStat">
+          <i class="fa fa-edit"/><span>修改</span>
         </el-button>
       </div>
       <div class="margin-line"></div>
@@ -34,15 +32,16 @@
             <el-col :span="8"><span class="detail-label">账户类型:</span><span
               class="detail-value">{{account.accountType}}</span></el-col>
           </el-row>
-            <el-row>
-              <el-col :span="8"><span class="detail-label">Account ID:</span><span class="detail-value" style="width: 70%">{{account.accountId}}</span>
-              </el-col>
-              <el-col :span="8"><span class="detail-label">账户到期时间:</span><span
-                class="detail-value">{{account.expireDate?account.expireDate:'长期有效'}}</span></el-col>
-              <el-col :span="8"><span class="detail-label">账户状态:</span><span class="detail-value">{{accountStatus? '生效' : '失效'}}</span>
-              </el-col>
-            </el-row>
-            <el-row>
+          <el-row>
+            <el-col :span="8"><span class="detail-label">Account ID:</span><span class="detail-value"
+                                                                                 style="width: 70%">{{account.accountId}}</span>
+            </el-col>
+            <el-col :span="8"><span class="detail-label">账户到期时间:</span><span
+              class="detail-value">{{account.expireDate?account.expireDate:'长期有效'}}</span></el-col>
+            <el-col :span="8"><span class="detail-label">账户状态:</span><span class="detail-value">{{accountStatus? '生效' : '失效'}}</span>
+            </el-col>
+          </el-row>
+          <el-row>
             <el-col :span="8"><span class="detail-label">key:</span><span
               class="detail-value">{{account.accountKey}}</span></el-col>
             <el-col :span="8"><span class="detail-label">余额提醒:</span><span class="detail-value">{{(account.balanceThreshold * 0.01).toFixed(2)}}</span>
@@ -51,30 +50,30 @@
             </el-col>
           </el-row>
         </el-form>
-        <div class="detail-title" style="margin-top: 22px;">
-          <span class="list-tit">管理员列表</span>
-          <el-button class="add_btn" @click="showCreateAdminDialog">
-            <i class="fa fa-plus" style="color: #fff;margin-right: 10px"></i>新建管理员
+        <div class="com_head" style="margin-top: 22px;">
+          <span class="com_title">管理员列表</span>
+          <el-button @click="showCreateAdminDialog">
+            <i class="fa fa-plus"/><span>新建管理员</span>
           </el-button>
         </div>
         <el-table :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit
                   highlight-current-row style="width: 100%;">
-          <el-table-column align="center" label="序号">
+          <el-table-column label="序号">
             <template slot-scope="scope">{{scope.row.userCode}}</template>
           </el-table-column>
-          <el-table-column align="center" label="姓名">
+          <el-table-column label="姓名">
             <template slot-scope="scope">{{scope.row.name}}</template>
           </el-table-column>
-          <el-table-column align="center" label="职务">
+          <el-table-column label="职务">
             <template slot-scope="scope">{{scope.row.level?scope.row.level:'-'}}</template>
           </el-table-column>
-          <el-table-column align="center" label="联系手机">
+          <el-table-column label="联系手机">
             <template slot-scope="scope">{{scope.row.mobile?scope.row.mobile:'-'}}</template>
           </el-table-column>
-          <el-table-column align="center" label="登录账号">
+          <el-table-column label="登录账号">
             <template slot-scope="scope">{{scope.row.username}}</template>
           </el-table-column>
-          <el-table-column align="center" label="状态">
+          <el-table-column label="状态">
             <template slot-scope="scope">
               <div class="switch">
                 <el-switch class="sw"
@@ -88,7 +87,7 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column align="center" label="操作">
+          <el-table-column label="操作">
             <template slot-scope="scope">
               <a size="small" class="common_btn"
                  @click="showUpdateInfoDialog(scope.row)">修改信息
@@ -218,155 +217,156 @@
       </div>
     </div>
     <div v-show="radio==='公司信息'">
-      <div class="detail-title">
-        <span class="list-tit">{{radio}}</span>
-        <el-button class="upd_btn" @click="handleUpdate">
-          <i class="fa fa-edit" style="font-size: 22px;margin-right: 5px;vertical-align: middle;"></i>
-          <i style="font-style: normal;">修改</i>
+      <div class="com_head">
+        <span class="com_title">{{radio}}</span>
+        <el-button @click="handleUpdate">
+          <i class="fa fa-edit"/><span>修改</span>
         </el-button>
       </div>
-      <div class="margin-line"></div>
-      <div class="read-detail">
-        <el-form :model="form" class="form-border">
-          <el-row>
-            <el-col :span="11"><span class="detail-label">公司ID:</span><span
-              class="detail-value">{{form.companyCode}}</span></el-col>
-            <el-col :span="11"><span class="detail-label">公司名称:</span><span
-              class="detail-value">{{form.companyName}}</span></el-col>
-          </el-row>
-            <el-row>
-              <el-col :span="11"><span class="detail-label">公司简称:</span><span
-                class="detail-value">{{form.shortName?form.shortName:'-'}}</span></el-col>
-              <el-col :span="11"><span class="detail-label">所在地:</span><span class="detail-value">{{form.companyProvince}}-{{form.companyCity}}</span>
-              </el-col>
-            </el-row>
-            <el-row>
-              <el-col :span="11"><span class="detail-label">公司地址:</span><span
-                class="detail-value">{{form.companyAddress}}</span></el-col>
-              <el-col :span="11"><span class="detail-label">所属行业:</span><span
-                class="detail-value">{{form.industryType}}</span></el-col>
-            </el-row>
-            <el-row>
-              <el-col :span="11"><span class="detail-label">公司规模:</span><span class="detail-value">{{form.orgSize}}</span>
-              </el-col>
-              <el-col :span="11"><span class="detail-label">联系人:</span><span class="detail-value">{{form.contact}}</span>
-              </el-col>
-            </el-row>
-          <el-row>
-            <el-col :span="11"><span class="detail-label">职务:</span><span
-              class="detail-value">{{form.occupation}}</span></el-col>
-            <el-col :span="11"><span class="detail-label">联系手机:</span><span
-              class="detail-value">{{form.contactMobile}}</span></el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="11"><span class="detail-label">企业邮箱:</span><span class="detail-value">{{form.email}}</span>
-            </el-col>
-            <el-col :span="11"><span class="detail-label">企业微信:</span><span
-              class="detail-value">{{form.wechatNo?form.wechatNo:'-'}}</span></el-col>
-          </el-row>
-           <el-row>
-             <el-col :span="22">
-               <span class="detail-label" style="line-height: 80px;">公司LOGO:</span>
-               <img :src="form.logo" alt="" style="width: 120px; height: 80px;">
-             </el-col>
-           </el-row>
-            <el-row>
-              <el-col :span="22" style="margin-top: 20px">
-                <span class="detail-label" style="line-height: 80px;">公司资质:</span>
-                  <img v-for="item in companyQualifications" :src="item" alt="" v-preview="item" style="width: 120px; height: 80px;margin-right: 10px;cursor: pointer">
-              </el-col>
-            </el-row>
-          <el-row>
-            <el-col :span="22" style="margin-top: 20px"><span class="detail-label"
-                                                              style="line-height: normal">备注:</span>
-              <div class="detail-value"
-                   style="max-width:600px;line-height:normal;word-wrap:break-word; word-break:normal;">{{form.remark?form.remark:'-'}}
-              </div>
-            </el-col>
-          </el-row>
-        </el-form>
-      </div>
+      <div class="com-line"/>
+      <el-form :model="form">
+        <el-row>
+          <el-col :span="11"><span class="detail-label">公司ID:</span><span
+            class="detail-value">{{form.companyCode}}</span></el-col>
+          <el-col :span="11"><span class="detail-label">公司名称:</span><span
+            class="detail-value">{{form.companyName}}</span></el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="11"><span class="detail-label">公司简称:</span><span
+            class="detail-value">{{form.shortName?form.shortName:'-'}}</span></el-col>
+          <el-col :span="11"><span class="detail-label">所在地:</span><span class="detail-value">{{form.companyProvince}}-{{form.companyCity}}</span>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="11"><span class="detail-label">公司地址:</span><span
+            class="detail-value">{{form.companyAddress}}</span></el-col>
+          <el-col :span="11"><span class="detail-label">所属行业:</span><span
+            class="detail-value">{{form.industryType}}</span></el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="11"><span class="detail-label">公司规模:</span><span class="detail-value">{{form.orgSize}}</span>
+          </el-col>
+          <el-col :span="11"><span class="detail-label">联系人:</span><span class="detail-value">{{form.contact}}</span>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="11"><span class="detail-label">职务:</span><span
+            class="detail-value">{{form.occupation}}</span></el-col>
+          <el-col :span="11"><span class="detail-label">联系手机:</span><span
+            class="detail-value">{{form.contactMobile}}</span></el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="11"><span class="detail-label">企业邮箱:</span><span class="detail-value">{{form.email}}</span>
+          </el-col>
+          <el-col :span="11"><span class="detail-label">企业微信:</span><span
+            class="detail-value">{{form.wechatNo?form.wechatNo:'-'}}</span></el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="22">
+            <span class="detail-label" style="line-height: 80px;">公司LOGO:</span>
+            <img :src="form.logo" alt="" style="width: 120px; height: 80px;">
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="22" style="margin-top: 20px">
+            <span class="detail-label" style="line-height: 80px;">公司资质:</span>
+            <img v-for="item in companyQualifications" :src="item" alt="" v-preview="item" style="width: 120px; height: 80px;margin-right: 10px;cursor: pointer">
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="22" style="margin-top: 20px"><span class="detail-label" style="line-height: normal">备注:</span>
+            <div class="detail-value" style="max-width:600px;line-height:normal;word-wrap:break-word; word-break:normal;">
+              {{form.remark?form.remark:'-'}}
+            </div>
+          </el-col>
+        </el-row>
+      </el-form>
     </div>
     <div v-show="radio==='消费记录'">
-      <div class="detail-title" style="margin-top: 22px;">
-        <span class="list-tit">{{radio}}</span>
-        <el-button class="add_btn" @click="handleExport">
-          <i class="iconfont icon-piliangdaochu" style="color: #fff;margin-right: 10px"></i>批量导出
+      <div class="com_head">
+        <span class="com_title">{{radio}}</span>
+        <el-button @click="handleExport">
+          <i class="iconfont icon-piliangdaochu"/><span>批量导出</span>
         </el-button>
       </div>
-      <el-table id="consumeTable" :data="list2" v-loading="listLoading2" element-loading-text="给我一点时间" border fit highlight-current-row style="width: 100%;">
-        <el-table-column align="center" label="消费流水号">
+      <el-table :data="list2" v-loading="listLoading2" element-loading-text="给我一点时间" border fit highlight-current-row>
+        <el-table-column label="消费流水号">
           <template slot-scope="scope">{{scope.row.consumptionCode}}</template>
         </el-table-column>
-        <el-table-column align="center" label="消费产品">
+        <el-table-column label="消费产品">
           <template slot-scope="scope">{{scope.row.consumptionProduct}}</template>
         </el-table-column>
-        <el-table-column align="center" label="消费内容">
+        <el-table-column label="消费内容">
           <template slot-scope="scope">{{scope.row.name}}</template>
         </el-table-column>
-        <el-table-column align="center" label="消费金额">
+        <el-table-column label="消费金额">
           <template slot-scope="scope">{{scope.row.money}}</template>
         </el-table-column>
-        <el-table-column align="center" label="消费时间">
+        <el-table-column label="消费时间">
           <template slot-scope="scope">{{scope.row.createTime}}</template>
         </el-table-column>
-        <el-table-column align="center" label="消费状态">
+        <el-table-column label="消费状态">
           <template slot-scope="scope">{{scope.row.status}}</template>
         </el-table-column>
-        <el-table-column align="center" label="操作人">
+        <el-table-column label="操作人">
           <template slot-scope="scope">{{scope.row.userName}}</template>
         </el-table-column>
       </el-table>
       <div v-show="!listLoading2">
-        <div style="float: right;line-height: 30px;color: #0299CC;font-size: 14px">累计消费金额：{{(consumeMoney * 0.01).toFixed(2)}}元</div>
-        <el-pagination @size-change="handleSizeChange2" @current-change="handleCurrentChange2"
+        <div class="total">累计消费金额：{{(consumeMoney * 0.01).toFixed(2)}}元</div>
+        <el-pagination @size-change="handleSizeChange2"
+                       @current-change="handleCurrentChange2"
                        :current-page.sync="currentPage2"
                        background
-                       :page-sizes="[10,20,30, 50]" :page-size="listQuery2.pageSize"
-                       layout="total, sizes, prev, pager, next, jumper" :total="total2">
+                       :page-sizes="[10,20,30, 50]"
+                       :page-size="listQuery2.pageSize"
+                       layout="total, sizes, prev, pager, next, jumper"
+                       :total="total2">
         </el-pagination>
       </div>
     </div>
     <div v-show="radio==='充值情况'">
-      <div class="detail-title" style="margin-top: 22px;">
-        <span class="list-tit">{{radio}}</span>
-        <el-button class="add_btn" @click="handleExportRecharge">
-          <i class="iconfont icon-piliangdaochu" style="color: #fff;margin-right: 10px"></i>批量导出
+      <div class="com_head">
+        <span class="com_title">{{radio}}</span>
+        <el-button @click="handleExportRecharge">
+          <i class="iconfont icon-piliangdaochu"/><span>批量导出</span>
         </el-button>
-        <el-button class="add_btn" @click="handleRecharge" style="margin-right: 20px">
-          <i class="iconfont icon-chongzhi" style="color: #fff;margin-right: 10px"></i>账户充值
+        <el-button @click="handleRecharge">
+          <i class="iconfont icon-chongzhi"/><span>账户充值</span>
         </el-button>
       </div>
-      <el-table id="rechargeTable" :data="list3" v-loading="listLoading3" element-loading-text="给我一点时间" border fit highlight-current-row style="width: 100%;">
-        <el-table-column align="center" label="充值编号">
+      <el-table :data="list3" v-loading="listLoading3" element-loading-text="给我一点时间" border fit highlight-current-row>
+        <el-table-column label="充值编号">
           <template slot-scope="scope">{{scope.row.rechargeCode}}</template>
         </el-table-column>
-        <el-table-column align="center" label="充值金额">
+        <el-table-column label="充值金额">
           <template slot-scope="scope">{{scope.row.money}}</template>
         </el-table-column>
-        <el-table-column align="center" label="充值时间" >
+        <el-table-column label="充值时间">
           <template slot-scope="scope">{{scope.row.createTime}}</template>
         </el-table-column>
-        <el-table-column align="center" label="充值状态">
+        <el-table-column label="充值状态">
           <template slot-scope="scope">{{scope.row.status}}</template>
         </el-table-column>
-        <el-table-column align="center" label="操作人">
+        <el-table-column label="操作人">
           <template slot-scope="scope">{{scope.row.userName}}</template>
         </el-table-column>
       </el-table>
       <div v-show="!listLoading3">
-        <div style="float: right;line-height: 30px;color: #0299CC;font-size: 14px">累计充值金额：{{(rechargeMoney * 0.01).toFixed(2)}}元</div>
-        <el-pagination @size-change="handleSizeChange3" @current-change="handleCurrentChange3"
+        <div class="total">累计充值金额：{{(rechargeMoney * 0.01).toFixed(2)}}元
+        </div>
+        <el-pagination @size-change="handleSizeChange3"
+                       @current-change="handleCurrentChange3"
                        :current-page.sync="currentPage3"
                        background
-                       :page-sizes="[10,20,30, 50]" :page-size="listQuery3.pageSize"
-                       layout="total, sizes, prev, pager, next, jumper" :total="total3">
-        </el-pagination>
+                       :page-sizes="[10,20,30, 50]"
+                       :page-size="listQuery3.pageSize"
+                       layout="total, sizes, prev, pager, next, jumper"
+                       :total="total3"/>
       </div>
     </div>
   </div>
 </template>
-
 <script>
   export default {
     data() {
@@ -431,12 +431,12 @@
         if (value) {
           if (reg.test(value)) {
             if (this.accountForm.balanceThreshold) {
-              if (parseInt(value) > this.accountForm.balanceThreshold){
+              if (parseInt(value) > this.accountForm.balanceThreshold) {
                 callback(new Error('余额警告值不能大于余额提醒值'))
-              } else{
+              } else {
                 callback()
               }
-            }else{
+            } else {
               callback()
             }
           } else {
@@ -447,10 +447,10 @@
         }
       }
       return {
-        isCommit:false,
-        consumeMoney:0,
-        rechargeMoney:0,
-        timeDefaultShow:null,
+        isCommit: false,
+        consumeMoney: 0,
+        rechargeMoney: 0,
+        timeDefaultShow: null,
         radio: '账户信息',
         tab1Status: true,
         form: {},
@@ -469,7 +469,7 @@
           pageIndex: 0,
           pageSize: 10
         },
-        updateAccountDialog:false,
+        updateAccountDialog: false,
         updateInfoDialog: false,
         updatePwdDialog: false,
         createAdminDialog: false,
@@ -492,16 +492,16 @@
           mobile: [
             {required: false, trigger: 'blur', validator: validateMobile}
           ],
-          warningValue:[
+          warningValue: [
             {required: true, trigger: 'blur', validator: checkValue}
           ]
         },
         adminForm: {},
-        accountForm:{
-          accountName:'',
-          balanceThreshold:'',
-          expireDate:'',
-          warningValue:''
+        accountForm: {
+          accountName: '',
+          balanceThreshold: '',
+          expireDate: '',
+          warningValue: ''
         },
         accountId: '',
         listLoading2: null,
@@ -521,7 +521,7 @@
           pageSize: 10
         },
         accountStatus: null,
-        companyQualifications:[]
+        companyQualifications: []
       }
     },
     created() {
@@ -534,7 +534,7 @@
       this.getRecharge()
     },
     methods: {
-      changeMode (val){
+      changeMode(val) {
         this.Api.enabledAccount(this.accountId, val).then(res => {
           this.accountStatus = val
           if (val) {
@@ -551,7 +551,7 @@
           this.getList()
         })
       },
-      switchMode (id, enabled) {
+      switchMode(id, enabled) {
         this.Api.userEnabled(id, enabled).then(res => {
           this.$message({
             message: '操作成功',
@@ -592,71 +592,71 @@
         this.listQuery3.pageIndex = val - 1
         this.getRecharge()
       },
-      getConsumption(){
-        this.Api.getConsumptionPage(this.accountId,this.listQuery2).then(response => {
+      getConsumption() {
+        this.Api.getConsumptionPage(this.accountId, this.listQuery2).then(response => {
           this.consumeMoney = response.data.statisResult;
           this.list2 = response.data.content
           this.total2 = response.data.totalElements
           this.listLoading2 = false
           this.list2.forEach(item => {
-            if (item.status){
-                item.status = '消费成功'
-            } else{
+            if (item.status) {
+              item.status = '消费成功'
+            } else {
               item.status = '消费失败'
             }
-            if (item.consumptionProduct === 'OutboundNameFee'){
+            if (item.consumptionProduct === 'OutboundNameFee') {
               item.consumptionProduct = '营销线索'
-            }else if (item.consumptionProduct === 'CommunicationFee'){
+            } else if (item.consumptionProduct === 'CommunicationFee') {
               item.consumptionProduct = '通信费'
-            }else if (item.consumptionProduct === 'MessageFee'){
+            } else if (item.consumptionProduct === 'MessageFee') {
               item.consumptionProduct = '短信费'
             }
-            item.money = (item.money*0.01).toFixed(2)
+            item.money = (item.money * 0.01).toFixed(2)
             item.createTime = this.Utils.formatDateTime(item.createTime)
           })
         })
       },
-      getRecharge(){
-        this.Api.getRechargePageById(this.accountId,this.listQuery3).then(response => {
+      getRecharge() {
+        this.Api.getRechargePageById(this.accountId, this.listQuery3).then(response => {
           this.rechargeMoney = response.data.statisResult;
           this.list3 = response.data.content
           this.total3 = response.data.totalElements
           this.listLoading3 = false
           this.list3.forEach(item => {
             item.money = (item.money * 0.01).toFixed(2)
-            if (item.status){
+            if (item.status) {
               item.status = '充值成功'
-            } else{
+            } else {
               item.status = '充值失败'
             }
             item.createTime = this.Utils.formatDateTime(item.createTime)
           })
         })
       },
-      handleExport(){
-        if (this.total2 === 0){
+      handleExport() {
+        if (this.total2 === 0) {
           this.$message.warning(`查询当前列表为空`);
           return
         }
         let query = JSON.parse(JSON.stringify(this.listQuery2))
         query.pageIndex = 0
         query.pageSize = this.total2
-        this.Api.getConsumptionPage(this.accountId,query).then(response => {
+        this.Api.getConsumptionPage(this.accountId, query).then(response => {
           let list = response.data.content
           list.forEach(item => {
-            if (item.status){
+            if (item.status) {
               item.status = '消费成功'
-            } else{
+            } else {
               item.status = '消费失败'
             }
-            if (item.consumptionProduct === 'OutboundNameFee'){
+            if (item.consumptionProduct === 'OutboundNameFee') {
               item.consumptionProduct = '营销线索'
-            }else if (item.consumptionProduct === 'CommunicationFee'){
+            } else if (item.consumptionProduct === 'CommunicationFee') {
               item.consumptionProduct = '通信费'
-            }else if (item.consumptionProduct === 'MessageFee'){
+            } else if (item.consumptionProduct === 'MessageFee') {
               item.consumptionProduct = '短信费'
             }
-            item.money = item.money*0.01.toFixed(2)
+            item.money = item.money * 0.01.toFixed(2)
             item.createTime = this.Utils.formatDateTime(item.createTime)
             item.消费流水号 = item.consumptionCode
             item.消费产品 = item.consumptionProduct
@@ -675,24 +675,24 @@
             delete item.userId
             delete item.userName
           })
-          this.Utils.exportExcel(list,'消费记录列表.xlsx')
+          this.Utils.exportExcel(list, '消费记录列表.xlsx')
         })
       },
-      handleExportRecharge(){
-        if (this.total3 === 0){
+      handleExportRecharge() {
+        if (this.total3 === 0) {
           this.$message.warning(`查询当前列表为空`);
           return
         }
         let query = JSON.parse(JSON.stringify(this.listQuery3))
         query.pageIndex = 0
         query.pageSize = this.total3
-        this.Api.getRechargePageById(this.accountId,query).then(response => {
+        this.Api.getRechargePageById(this.accountId, query).then(response => {
           let list = response.data.content
           list.forEach(item => {
             item.money = (item.money * 0.01).toFixed(2)
-            if (item.status){
+            if (item.status) {
               item.status = '充值成功'
-            } else{
+            } else {
               item.status = '充值失败'
             }
             item.createTime = this.Utils.formatDateTime(item.createTime)
@@ -712,24 +712,24 @@
             delete item.companyName
             delete item.accountType
           })
-          this.Utils.exportExcel(list,'充值记录列表.xlsx')
+          this.Utils.exportExcel(list, '充值记录列表.xlsx')
         })
       },
-      handleUpdate(){
+      handleUpdate() {
         this.$router.push({path: '/company/create', query: this.form})
       },
-      handleRecharge(){
-        this.$router.push({name: 'recharge',query:this.form})
+      handleRecharge() {
+        this.$router.push({name: 'recharge', query: this.form})
       },
-      modifyStat(){
-        if (this.$refs['accountForm']){
+      modifyStat() {
+        if (this.$refs['accountForm']) {
           this.$refs['accountForm'].resetFields()
         }
         let account = JSON.parse(JSON.stringify(this.account))
         this.accountForm.accountName = account.accountName
-        this.accountForm.balanceThreshold = (account.balanceThreshold*0.01).toFixed(2)
-        this.accountForm.warningValue = (account.warningValue*0.01).toFixed(2)
-        if (account.expireDate){
+        this.accountForm.balanceThreshold = (account.balanceThreshold * 0.01).toFixed(2)
+        this.accountForm.warningValue = (account.warningValue * 0.01).toFixed(2)
+        if (account.expireDate) {
           this.timeDefaultShow = new Date(account.expireDate)
         }
         this.updateAccountDialog = true
@@ -748,7 +748,7 @@
           }
           if (this.form.companyQualification) {
             this.companyQualifications = this.form.companyQualification.split(',');
-            this.companyQualifications.forEach((item,index)=>{
+            this.companyQualifications.forEach((item, index) => {
               this.companyQualifications[index] = process.env.BASE_API + '/file/getCompanyQualification?fileUuid=' + item
             })
           }
@@ -792,8 +792,8 @@
                 this.getList()
                 this.createAdminDialog = false
               }).catch(() => {
-                this.isCommit = false
-              })
+              this.isCommit = false
+            })
           } else {
             return false
           }
@@ -850,68 +850,3 @@
     }
   }
 </script>
-
-<style lang="scss">
-
-  .switch {
-    display: inline-flex;
-  }
-
-  .switch-open {
-    font-size: 10px;
-    width: 55px;
-    color: #ffffff;
-    z-index: 999;
-    pointer-events: none;
-    padding-left: 10px;
-    text-align: left;
-    margin-left: -55px;
-  }
-
-  .switch-close {
-    font-size: 10px;
-    width: 55px;
-    margin-left: -55px;
-    text-align: right;
-    color: #ffffff;
-    padding-right: 10px;
-    z-index: 999;
-    pointer-events: none;
-  }
-
-  .txt > .el-form-item__label {
-    line-height: 40px !important;
-  }
-
-  .sw > .el-switch__core {
-    width: 55px !important;
-    line-height: 40px !important;
-  }
-
-  .upd_btn {
-    float: right;
-    border: none;
-    color: #0299CC;
-    &:hover {
-      background: #ffff;
-    }
-    i {
-      margin-right: 2px;
-      vertical-align: text-bottom;
-    }
-
-  }
-  .switch-btn {
-    float: right;
-    margin-left: 30px;
-    display: inline-block;
-    line-height: 40px;
-    margin-right: 3px;
-  }
-  .form-border {
-    border: 1px solid #EFEFEF;
-    border-radius: 5px;
-    padding: 20px 30px;
-  }
-
-</style>

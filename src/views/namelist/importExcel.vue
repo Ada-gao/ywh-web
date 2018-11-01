@@ -1,30 +1,14 @@
 <template>
-  <div class="app-container">
-    <el-dialog
-      title="提示"
-      :visible.sync="dialogVisible"
-      width="30%">
-      <span>确定要导入这些数据吗？</span>
-      <span slot="footer" class="dialog-footer">
-    <el-button @click="dialogVisible = false">取 消</el-button>
-    <el-button type="primary" @click="submit">确 定</el-button>
-  </span>
-    </el-dialog>
-    <div class="detail-title">
-      <span class="list-tit">批量导入</span>
+  <div class="com_page">
+    <div class="com_head">
+      <span class="com_title">批量导入</span>
     </div>
-    <div class="upload-container">
       <el-form :model="form" :rules="rules" label-width="120px">
         <el-row :gutter="20">
           <el-col :span="11" :offset="6">
             <el-form-item label="所属公司" prop="companyId">
               <el-select v-model="form.companyId" placeholder="请选择所属公司" style="width: 100%" :disabled="isSuperAdmin !== 'true'">
-                <el-option
-                  v-for="item in companies"
-                  :key="item.id"
-                  :label="item.companyName"
-                  :value="item.id">
-                </el-option>
+                <el-option v-for="item in companies" :key="item.id" :label="item.companyName" :value="item.id"/>
               </el-select>
             </el-form-item>
           </el-col>
@@ -40,12 +24,7 @@
           <el-col :span="11" :offset="6">
             <el-form-item label="名单来源" prop="source">
               <el-select v-model="form.source" placeholder="请选择名单来源" style="width: 100%" :disabled="isSuperAdmin !== 'true'" @change="changeType">
-                <el-option
-                           v-for="(item,index) in sources"
-                           :key="index"
-                           :label="item"
-                           :value="item">
-                </el-option>
+                <el-option v-for="(item,index) in sources" :key="index" :label="item" :value="item"/>
               </el-select>
             </el-form-item>
           </el-col>
@@ -70,36 +49,33 @@
           </el-col>
         </el-row>
       </el-form>
-      <!--<div class="dialog-footer" style="text-align: center; margin-top: 20px">-->
-      <!--<el-button class="add_btn" @click="submit">提 交</el-button>-->
-      <!--</div>-->
-    </div>
-    <div class="detail-title" style="margin-top: 30px">
-      <span class="list-tit">名单列表</span>
-      <el-button
-        :class="form.companyId && form.groupName &&tableData.length && checkSuccess> 0 && !isCommit ? 'add_btn' : 'insert_btn'"
-        @click="showDialog">
-        <i class="fa fa-sign-out" style="margin-right: 10px"></i>确认导入
+    <div class="com_head">
+      <span class="com_title">名单列表</span>
+      <el-button :class="form.companyId && form.groupName &&tableData.length && checkSuccess> 0 && !isCommit ? 'add_btn' : 'insert_btn'" @click="showDialog">
+        <i class="fa fa-sign-out"/><span>确认导入</span>
       </el-button>
-
-      <span style="float:right;">共有<i style="color:#0299CC;font-style: normal;">{{tableData.length}}</i>条</span>
+      <span style="float:right;margin-right: 10px">共有<i style="color:#0299CC;font-style: normal;">{{tableData.length}}</i>条</span>
     </div>
-    <el-table :data="tableData" v-show="errorData.length == 0" border highlight-current-row
-              style="width: 100%;margin-top:10px;">
-      <el-table-column v-for='item of tableHeader' :prop="item" :label="item" :key='item'>
-      </el-table-column>
+    <el-table :data="tableData" v-show="errorData.length == 0" border highlight-current-row>
+      <el-table-column v-for='item of tableHeader' :prop="item" :label="item" :key='item'/>
     </el-table>
-    <el-table :data="errorData" v-show="errorData.length > 0" border highlight-current-row
-              style="width: 100%;margin-top:10px;">
-      <el-table-column v-for='item of errorHeader' :prop="item" :label="item" :key='item'>
-      </el-table-column>
+    <el-table :data="errorData" v-show="errorData.length > 0" border highlight-current-row>
+      <el-table-column v-for='item of errorHeader' :prop="item" :label="item" :key='item'/>
     </el-table>
+    <el-dialog
+      title="提示"
+      :visible.sync="dialogVisible"
+      width="30%">
+      <span>确定要导入这些数据吗？</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="submit">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
-
 <script>
   import UploadExcelComponent from '@/components/uploadExcel.vue'
-
   export default {
     name: 'uploadExcel',
     components: {UploadExcelComponent},
@@ -258,20 +234,3 @@
     }
   }
 </script>
-
-<style lang="scss" scoped>
-  .app-container {
-    .insert_btn {
-      background: #EFF2F7;
-      color: #C0CCDA;
-      border: none;
-      padding: 12px;
-      cursor: not-allowed;
-    }
-    /*.add_btn {*/
-    /*padding: 12px;*/
-    /*border:none;*/
-    /*}*/
-  }
-
-</style>

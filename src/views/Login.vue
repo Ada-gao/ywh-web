@@ -21,12 +21,8 @@
   </el-form>
   </div>
 </template>
-
 <script>
-
-
 import NProgress from 'nprogress'
-
 export default {
   data () {
     const validateUser = (rule, value, callback) => {

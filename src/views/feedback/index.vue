@@ -1,70 +1,39 @@
 <template>
-  <section>
-    <div class="filter-container">
-      <div class="detail-title">
-        <span class="list-tit">反馈查询</span>
+  <div class="com_page">
+      <div class="com_head">
+        <span class="com_title">反馈查询</span>
       </div>
-      <el-row style="margin-top: 10px">
-        <el-col :span="8">
-          <el-input @keyup.enter.native="handleFilter"
-                    style="width: 200px;"
-                    class="filter-item"
-                    placeholder="输入反馈人姓名"
-                    v-model="listQuery.name">
-          </el-input>
-          <el-button class="filter-item"
-                     type="primary"
-                     icon="search"
-                     @click="handleFilter"><i class="fa fa-search"></i>查询</el-button>
-        </el-col>
-      </el-row>
+    <div class="com_filter">
+      <el-input @keyup.enter.native="handleFilter" placeholder="输入反馈人姓名" v-model="listQuery.name"/>
+      <el-button icon="search" @click="handleFilter">
+        <i class="fa fa-search"/><span>查询</span>
+      </el-button>
     </div>
-    <div class="detail-title">
-      <span class="list-tit">反馈列表</span>
+    <div class="com_head">
+      <span class="com_title">反馈列表</span>
     </div>
     <el-table
               :data="list"
               v-loading="listLoading"
               element-loading-text="给我一点时间"
               border fit
-              highlight-current-row
-              style="width: 100%">
-
-      <el-table-column align="center" label="序号" width="130px">
-        <template slot-scope="scope">
-          <span>{{scope.row.id}}</span>
-        </template>
+              highlight-current-row>
+      <el-table-column label="序号" width="130px">
+        <template slot-scope="scope"><span>{{scope.row.id}}</span></template>
       </el-table-column>
-
-      <el-table-column align="center" label="反馈人">
-        <template slot-scope="scope">
-          <span>{{scope.row.name}}</span>
-        </template>
+      <el-table-column label="反馈人">
+        <template slot-scope="scope"><span>{{scope.row.name}}</span></template>
       </el-table-column>
-
-      <el-table-column align="center" label="反馈问题">
-        <template slot-scope="scope">
-          <span class="max-line2">{{scope.row.feedbackContent}}</span>
-        </template>
+      <el-table-column label="反馈问题">
+        <template slot-scope="scope"><span class="com-two-row">{{scope.row.feedbackContent}}</span></template>
       </el-table-column>
-
-      <el-table-column align="center" label="反馈时间">
-        <template slot-scope="scope">
-          <span>{{scope.row.createTime}}</span>
-        </template>
+      <el-table-column label="反馈时间">
+        <template slot-scope="scope"><span>{{scope.row.createTime}}</span></template>
       </el-table-column>
-
-      <el-table-column align="center"
-                       label="操作"
-                       width="130px">
-        <template slot-scope="scope">
-          <a size="small"
-             @click="handleUpdate(scope.row)"
-             class="common_btn">查看详情</a>
-        </template>
+      <el-table-column label="操作" width="130px">
+        <template slot-scope="scope"><a @click="handleUpdate(scope.row)">查看详情</a></template>
       </el-table-column>
     </el-table>
-
     <div v-show="!listLoading">
       <el-pagination @size-change="handleSizeChange"
                      @current-change="handleCurrentChange"
@@ -76,8 +45,7 @@
                      :total="total">
       </el-pagination>
     </div>
-
-  </section>
+  </div>
 </template>
 
 <script>
@@ -130,32 +98,3 @@ export default {
   }
 }
 </script>
-
-<style scoped lang="scss">
-  .table-add-box {
-    position: relative;
-    line-height: 48px;
-    div {
-      display: inline-block;
-    }
-    .list-table-tit {
-      margin-bottom: 0;
-    }
-    .add-box {
-      cursor: pointer;
-      position: absolute;
-      right: 0;
-      width: 102px;
-      height: 36px;
-      /*background: #0299CC;*/
-      background: #18c79c;
-      line-height: 36px;
-      font-family: PingFangSC-Medium;
-      font-size: 14px;
-      color: #FFFFFF;
-      letter-spacing: 0;
-      text-align: center;
-      top: 6px;
-    }
-  }
-</style>

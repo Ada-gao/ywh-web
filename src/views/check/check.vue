@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <div class="com_page">
     <div style="margin-bottom: 20px">
       <el-radio-group v-model="radio" text-color="#FFFFFF" fill="#0299CC" @change="changeRadio">
         <el-radio-button label="审核管理"></el-radio-button>
@@ -7,61 +7,49 @@
       </el-radio-group>
     </div>
     <div v-show="radio==='审核管理'">
-      <div class="filter-container">
-        <div class="detail-title">
-          <span class="list-tit">{{radio}}</span>
+        <div class="com_head">
+          <span class="com_title">{{radio}}</span>
         </div>
-        <el-row>
-          <el-col :span="18">
-            <el-input @keyup.enter.native="handleFilter" style="width: 190px;" class="filter-item" placeholder="输入所属公司名称"
-                      v-model="listQuery.companyName"/>
+      <div class="com_filter">
+            <el-input @keyup.enter.native="handleFilter" placeholder="输入所属公司名称" v-model="listQuery.companyName"/>
             <el-date-picker v-model="listQuery.date"
                             type="daterange"
                             style="width: 275px"
                             start-placeholder="开始日期"
                             :default-time="['00:00:00', '23:59:59']"
                             end-placeholder="结束日期"/>
-            <el-button class="filter-item" type="primary" icon="search" @click="handleFilter"><i class="fa fa-search"/>查询
+            <el-button icon="search" @click="handleFilter"><i class="fa fa-search"/>查询
             </el-button>
-          </el-col>
-          <el-col :span="6" style="text-align: right;">
             <el-select v-model="listQuery.type" placeholder="审核类型筛选" clearable @change="handleFilter1">
-              <el-option
-                v-for="item in types"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
+              <el-option v-for="item in types" :key="item.value" :label="item.label" :value="item.value">
               </el-option>
             </el-select>
-          </el-col>
-        </el-row>
       </div>
-      <div class="detail-title">
-        <span class="list-tit">待审核列表</span>
+      <div class="com_head">
+        <span class="com_title">待审核列表</span>
       </div>
-      <el-table :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit
-                highlight-current-row style="width: 100%">
-        <el-table-column align="center" label="审核流水号">
+      <el-table :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit highlight-current-row>
+        <el-table-column label="审核流水号">
           <template slot-scope="scope">
             <span>{{scope.row.reviewCode}}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="所属公司">
+        <el-table-column label="所属公司">
           <template slot-scope="scope">
-            <span class="max-line2">{{scope.row.companyName}}</span>
+            <span class="com-two-row">{{scope.row.companyName}}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="审核类型">
+        <el-table-column label="审核类型">
           <template slot-scope="scope">
             <span>{{scope.row.type}}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="创建时间">
+        <el-table-column label="创建时间">
           <template slot-scope="scope">
             <span>{{scope.row.createTime}}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="审核状态">
+        <el-table-column label="审核状态">
           <template slot-scope="scope">
             <div style="cursor:pointer;" @click="showStatusDialog(scope.row)">
               <span style="color:#F7BA2A">{{scope.row.status}}</span>
@@ -69,20 +57,17 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="操作" width="150">
+        <el-table-column label="操作" width="150">
           <template slot-scope="scope">
-            <a size="small" class="common_btn" @click="handleUpdate(scope.row)">查看详情</a>
+            <a @click="handleUpdate(scope.row)">查看详情</a>
           </template>
         </el-table-column>
       </el-table>
-      <div v-show="!listLoading">
-        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-                       :current-page.sync="currentPage"
-                       background
-                       :page-sizes="[10,20,30, 50]" :page-size="listQuery.pageSize"
-                       layout="total, sizes, prev, pager, next, jumper" :total="total">
-        </el-pagination>
-      </div>
+      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" v-show="!listLoading"
+                     :current-page.sync="currentPage"
+                     background
+                     :page-sizes="[10,20,30, 50]" :page-size="listQuery.pageSize"
+                     layout="total, sizes, prev, pager, next, jumper" :total="total"/>
       <el-dialog title="审核" :visible.sync="updateStatusDialog" width="25%">
         <el-radio-group v-model="checkRadio" @change="resetForm" style="text-align: center;width: 100%">
           <el-radio label="通过"></el-radio>
@@ -109,12 +94,10 @@
       </el-dialog>
     </div>
     <div v-show="radio==='历史审核查询'">
-      <div class="filter-container">
-        <div class="detail-title">
-          <span class="list-tit">{{radio}}</span>
+        <div class="com_head">
+          <span class="com_title">{{radio}}</span>
         </div>
-        <el-row>
-          <el-col :span="14">
+        <div class="com_filter">
             <el-input @keyup.enter.native="handleFilter2" style="width: 190px;" class="filter-item" placeholder="输入所属公司名称"
                       v-model="listQuery2.companyName"/>
             <el-date-picker v-model="listQuery2.date"
@@ -125,8 +108,6 @@
                             :default-time="['00:00:00', '23:59:59']"/>
             <el-button class="filter-item" type="primary" icon="search" @click="handleFilter2"><i class="fa fa-search"/>查询
             </el-button>
-          </el-col>
-          <el-col :span="10" style="text-align: right;">
             <el-select v-model="listQuery2.status"
                        placeholder="审核状态筛选"
                        clearable
@@ -146,48 +127,43 @@
                 :value="item.value">
               </el-option>
             </el-select>
-          </el-col>
-        </el-row>
       </div>
-      <div class="detail-title">
-        <span class="list-tit">审核列表</span>
+      <div class="com_head">
+        <span class="com_title">审核列表</span>
       </div>
-      <el-table :data="list2" v-loading="listLoading2" element-loading-text="给我一点时间" border fit
-                highlight-current-row style="width: 100%">
-        <el-table-column align="center" label="审核流水号">
+      <el-table :data="list2" v-loading="listLoading2" element-loading-text="给我一点时间" border fit highlight-current-row>
+        <el-table-column label="审核流水号">
           <template slot-scope="scope">
             <span>{{scope.row.reviewCode}}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="所属公司">
+        <el-table-column label="所属公司">
           <template slot-scope="scope">
-            <span class="max-line2">{{scope.row.companyName}}</span>
+            <span class="com-two-row">{{scope.row.companyName}}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="审核类型">
+        <el-table-column label="审核类型">
           <template slot-scope="scope">
             <span>{{scope.row.type}}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="创建时间">
+        <el-table-column label="创建时间">
           <template slot-scope="scope">
             <span>{{scope.row.createTime}}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="处理时间">
+        <el-table-column label="处理时间">
           <template slot-scope="scope">
             <span>{{scope.row.updateTime}}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="审核状态">
+        <el-table-column label="审核状态">
           <template slot-scope="scope">
             <span :style="scope.row.status==='已通过'?'color:#009801':'color:#FF4C4C'">{{scope.row.status}}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="操作" width="150">
-          <template slot-scope="scope">
-            <a size="small" class="common_btn" @click="handleUpdate(scope.row)">查看详情</a>
-          </template>
+        <el-table-column label="操作" width="150">
+          <template slot-scope="scope"><a @click="handleUpdate(scope.row)">查看详情</a></template>
         </el-table-column>
       </el-table>
       <div v-show="!listLoading2">
@@ -199,7 +175,7 @@
         </el-pagination>
       </div>
     </div>
-  </section>
+  </div>
 </template>
 
 <script>

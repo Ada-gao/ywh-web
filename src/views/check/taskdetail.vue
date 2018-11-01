@@ -1,17 +1,16 @@
 <template>
-  <div class="app-container">
-    <div class="detail-title">
-      <span class="list-tit">任务描述</span>
-      <el-button class="add_btn" @click="handleCheck(false)">
-        <i class="iconfont icon-jujue" style="color: #fff;margin-right: 10px"></i>不通过
+  <div class="com_page">
+    <div class="com_head">
+      <span class="com_title">任务描述</span>
+      <el-button @click="handleCheck(false)">
+        <i class="iconfont icon-jujue"/><span>不通过</span>
       </el-button>
-      <el-button class="add_btn" @click="handleCheck(true)">
-        <i class="iconfont icon-tongguo" style="color: #fff;margin-right: 10px"></i>通过
+      <el-button @click="handleCheck(true)">
+        <i class="iconfont icon-tongguo"/><span>通过</span>
       </el-button>
     </div>
-    <div class="margin-line"></div>
-    <div class="task-detail">
-      <el-form :model="form" class="form-border" style="margin-bottom: 20px">
+    <div class="com-line"/>
+      <el-form :model="form">
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item label="关联名单：">
@@ -83,65 +82,51 @@
           </el-col>
         </el-row>
       </el-form>
-      <div class="detail-title">
-        <span class="list-tit">名单列表</span>
+      <div class="com_head">
+        <span class="com_title">名单列表</span>
       </div>
-      <el-table :key='tableKey'
-                :data="list"
-                v-loading="listLoading"
-                element-loading-text="给我一点时间"
-                border fit
-                highlight-current-row
-                style="width: 100%">
-
-        <el-table-column align="center" label="任务ID" width="80">
+      <el-table :key='tableKey' :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit  highlight-current-row>
+        <el-table-column label="任务ID" width="80">
           <template slot-scope="scope">
             <span>{{scope.row.id}}</span>
           </template>
         </el-table-column>
-
-        <el-table-column align="center" label="联系人姓名">
+        <el-table-column label="联系人姓名">
           <template slot-scope="scope">
             <span>{{scope.row.contactName?scope.row.contactName:'-'}}</span>
           </template>
         </el-table-column>
-
-        <el-table-column align="center" label="手机号">
+        <el-table-column label="手机号">
           <template slot-scope="scope">
             <span>{{scope.row.phoneNo}}</span>
           </template>
         </el-table-column>
-
-        <el-table-column align="center" label="年龄" width="100">
+        <el-table-column label="年龄" width="100">
           <template slot-scope="scope">
             <span>{{scope.row.age?scope.row.age:'-'}}</span>
           </template>
         </el-table-column>
-
-        <el-table-column align="center" label="性别" width="80">
+        <el-table-column label="性别" width="80">
           <template slot-scope="scope">
             <span>{{scope.row.gender?scope.row.gender:'-'}}</span>
           </template>
         </el-table-column>
-
-        <el-table-column align="center" label="所在地" width="80">
+        <el-table-column label="所在地" width="80">
           <template slot-scope="scope">
             <span>{{scope.row.residence?scope.row.residence:'-'}}</span>
           </template>
         </el-table-column>
-
-        <el-table-column align="center" label="外呼次数" width="80">
+        <el-table-column label="外呼次数" width="80">
           <template slot-scope="scope">
             <span>{{scope.row.callCount || 0}}</span>
           </template>
         </el-table-column>
-
-        <el-table-column align="center" label="最近通话时间" width="160">
+        <el-table-column label="最近通话时间" width="160">
           <template slot-scope="scope">
             <span>{{scope.row.lastCallDate}}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="外呼结果">
+        <el-table-column label="外呼结果">
           <template slot-scope="scope">
             <span v-if="scope.row.lastCallResult === 'NOT_CALL'">未外呼</span>
             <span v-if="scope.row.lastCallResult === 'NOT_EXIST'">空号</span>
@@ -149,12 +134,12 @@
             <span v-if="scope.row.lastCallResult === 'CONNECTED'">已接通</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="有效通话时长">
+        <el-table-column label="有效通话时长">
           <template slot-scope="scope">
             <span>{{scope.row.duration || 0}}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="下一步行动计划">
+        <el-table-column label="下一步行动计划">
           <template slot-scope="scope">
             <span v-if="scope.row.status === 'CALL_AGAIN'">再次外呼</span>
             <span v-if="scope.row.status === 'GIVE_UP'">放弃外呼</span>
@@ -183,7 +168,6 @@
           <el-button class="add_btn" @click="updateLimitedTimes('ruleForm')">确 定</el-button>
         </div>
       </el-dialog>
-
       <el-dialog title="审核通过" :visible.sync="agreeDialog" width="30%">
         <el-form :model="checkForm" :rules="checkRules" ref="checkForm" label-width="100px">
           <el-form-item label="确定审核通过吗？" class="txt" label-width="160px"/>
@@ -205,11 +189,8 @@
           <el-button class="add_btn" @click="commit('1')">确 定</el-button>
         </div>
       </el-dialog>
-
     </div>
-  </div>
 </template>
-
 <script>
   export default {
     data() {
@@ -393,41 +374,3 @@
     }
   }
 </script>
-
-<style lang="scss">
-  .txt {
-    font-size: 13px !important;
-    color: #252525 !important;
-  }
-  .detail-title {
-    /*margin-top: 30px;*/
-    /*margin-bottom: 20px;*/
-    .upd_btn {
-      float: right;
-    }
-  }
-
-  .form-border {
-    border: 1px solid #EFEFEF;
-    border-radius: 5px;
-    padding: 20px 30px 0 20px;
-    overflow: hidden;
-  }
-
-  .task-detail {
-    .el-form-item__content {
-    }
-  }
-
-  .container .task-detail .el-form-item__content span.blue-color {
-    font-size: 14px;
-    color: #0299CC;
-    cursor: pointer;
-  }
-
-  .el-popover {
-    max-height: 360px;
-    overflow: auto;
-    word-break: break-all;
-  }
-</style>
