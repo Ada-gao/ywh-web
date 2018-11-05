@@ -23,7 +23,7 @@
         <template slot-scope="scope"><span>{{scope.row.createTime}}</span></template>
       </el-table-column>
       <el-table-column label="升级方式">
-        <template slot-scope="scope"><span>{{scope.row.promptType}}</span></template>
+        <template slot-scope="scope"><span>{{scope.row.promptName}}</span></template>
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope"><a @click="handleUpdate(scope.row)">编辑</a></template>
@@ -65,11 +65,11 @@
           this.listLoading = false
           this.list.forEach(item => {
             if (item.promptType === 'Silence'){
-              item.promptType = '静默'
+              item.promptName = '静默'
             } else if (item.promptType === 'Force'){
-              item.promptType = '强制'
+              item.promptName = '强制'
             }else if (item.promptType === 'Recommend'){
-              item.promptType = '推荐'
+              item.promptName = '推荐'
             }
             item.createTime = this.Utils.formatDateTime(item.createTime)
           })
