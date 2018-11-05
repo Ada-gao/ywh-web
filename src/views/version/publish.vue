@@ -193,10 +193,11 @@
         this.$refs['form'].validate(valid => {
           if (valid) {
             this.isCommit = true
-            this.form.platform = this.form.platform.join(',')
+            let data = JSON.parse(JSON.stringify(this.form))
+            data.platform = data.platform.join(',')
             if (this.updateStatus === 'update'){
-              delete this.form.createTime
-              this.Api.updateVersion(this.form.id,this.form)
+              delete data.createTime
+              this.Api.updateVersion(data.id,data)
                 .then(res => {
                   this.$message({
                     message: '修改成功',
@@ -207,7 +208,7 @@
                   this.isCommit = false
                 })
             } else{
-              this.Api.createVersion(this.form)
+              this.Api.createVersion(data)
                 .then(res => {
                   this.$message({
                     message: '新建成功',
