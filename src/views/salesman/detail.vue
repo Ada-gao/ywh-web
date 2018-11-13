@@ -4,9 +4,9 @@
       <span class="com_title">{{textMap[updateStatus]}}</span>
       <span style="float: right;color: #0299cc" v-show="updateStatus==='view'">{{value3 ? '启用' : '停用'}}</span>
       <el-switch v-show="updateStatus==='view'" v-model="value3" class="switch-btn" @change="changeMode"/>
-      <el-button v-show="updateStatus==='view'" @click="updateStat">
+      <div class="update" v-show="updateStatus==='view'" @click="updateStat">
         <i class="fa fa-edit"/><span>修改</span>
-      </el-button>
+      </div>
     </div>
     <div class="margin-line"></div>
     <div class="update-detail" v-if="updateStatus==='create'||updateStatus==='update'">

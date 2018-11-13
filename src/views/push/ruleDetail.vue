@@ -8,11 +8,9 @@
         class="switch-btn"
         @change="changeMode">
       </el-switch>
-      <el-button class="upd_btn"
-                 @click="updateStat">
-        <i class="fa fa-edit" style="font-size: 22px;margin-right: 5px;vertical-align: middle;"></i>
-        <i style="font-style: normal;">修改</i>
-      </el-button>
+      <div class="update" @click="updateStat">
+        <i class="fa fa-edit"></i><span>修改</span>
+      </div>
     </div>
     <div class="com-line"/>
     <div class="read-detail">

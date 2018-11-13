@@ -42,7 +42,7 @@
                  @click="showDialog">
         <i class="fa fa-sign-out"></i>确认导入
       </el-button>
-      <span style="float:right;margin-right: 10px">共有<i style="color:#0299CC;font-style: normal;margin-right: ">{{tableData.length}}</i>条</span>
+      <span style="float:right;margin-right: 10px">共有<i style="color:#0299CC;font-style: normal;margin-right: 10px">{{tableData.length}}</i>条</span>
     </div>
     <el-table :data="tableData" v-show="errorData.length == 0" border highlight-current-row>
       <el-table-column v-for='item of tableHeader' :prop="item" :label="item" :key='item'/>
@@ -53,8 +53,8 @@
     <el-dialog title="提示" :visible.sync="dialogVisible" width="30%">
       <span>确定要导入这些数据吗？</span>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="submit">确 定</el-button>
+        <el-button  class="search_btn" @click="dialogVisible = false">取 消</el-button>
+        <el-button class="add_btn" @click="submit">确 定</el-button>
       </span>
     </el-dialog>
   </div>

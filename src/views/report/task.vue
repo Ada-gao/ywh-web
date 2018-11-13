@@ -158,45 +158,21 @@
         query.pageIndex = 0
         query.pageSize = this.total
         this.Api.getAdminTasks(query).then(response => {
-          let list = response.data.content
-          list.forEach(item => {
-            item.taskEndDate = this.Utils.formatDate(item.taskEndDate)
-            item.任务名称 = item.taskName
-            item.推广产品 = item.productName
-            item.所属公司 = item.companyName
-            item.所属团队 = item.team
-            item.名单名称 = item.groupName
-            item.完成数 = item.totalTaskCompleteCnt
-            item.完成率 = item.taskCompleteRate + '%'
-            item.外呼总数 = item.cnt
-            item.平均通话时长 = item.duration + '秒'
-            item.任务计划完成时间 = item.taskEndDate
-            delete item.createTime
-            delete item.reason
-            delete item.companyId
-            delete item.interv
-            delete item.minimumDuration
-            delete item.duration
-            delete item.assignRule
-            delete item.taskStartDate
-            delete item.tarGet
-            delete item.talk
-            delete item.cnt
-            delete item.effectiveTasks
-            delete item.userCount
-            delete item.productName
-            delete item.limitedTimes
-            delete item.team
-            delete item.companyName
-            delete item.taskEndDate
-            delete item.totalTaskCompleteCnt
-            delete item.totalTaskCnt
-            delete item.taskCompleteRate
-            delete item.groupName
-            delete item.taskName
-            delete item.id
-            delete item.rejectReason
-            delete item.status
+          let data = response.data.content
+          let list = []
+          data.forEach((item,index) => {
+            let obj = new Object()
+            obj.任务名称 = item.taskName
+            obj.推广产品 = item.productName
+            obj.所属公司 = item.companyName
+            obj.所属团队 = item.team
+            obj.名单名称 = item.groupName
+            obj.完成数 = item.totalTaskCompleteCnt
+            obj.完成率 = item.taskCompleteRate + '%'
+            obj.外呼总数 = item.cnt
+            obj.平均通话时长 = item.duration + '秒'
+            obj.任务计划完成时间 = this.Utils.formatDate(item.taskEndDate)
+            list[index] = obj
           })
           this.Utils.exportExcel(list,'外呼任务列表.xlsx')
         })
