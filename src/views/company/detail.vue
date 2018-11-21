@@ -2,9 +2,9 @@
   <div class="com_page">
     <div class="com_head">
       <span class="com_title">公司详情页</span>
-      <el-button @click="modifyStat">
+      <div class="update" @click="modifyStat">
         <i class="fa fa-edit"/><span>修改</span>
-      </el-button>
+      </div>
     </div>
     <div class="com-line"/>
     <el-form :model="form">

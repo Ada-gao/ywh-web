@@ -17,9 +17,9 @@
           class="switch-btn"
           @change="changeMode">
         </el-switch>
-        <el-button @click="modifyStat">
+        <div class="update" @click="modifyStat">
           <i class="fa fa-edit"/><span>修改</span>
-        </el-button>
+        </div>
       </div>
       <div class="margin-line"></div>
       <div class="read-detail">
@@ -219,9 +219,9 @@
     <div v-show="radio==='公司信息'">
       <div class="com_head">
         <span class="com_title">{{radio}}</span>
-        <el-button @click="handleUpdate">
+        <div class="update" @click="handleUpdate">
           <i class="fa fa-edit"/><span>修改</span>
-        </el-button>
+        </div>
       </div>
       <div class="com-line"/>
       <el-form :model="form">

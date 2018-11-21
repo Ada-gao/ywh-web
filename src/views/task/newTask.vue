@@ -104,7 +104,14 @@
         </el-col>
       </el-row>
       <el-row :gutter="20">
-        <el-col class="last-item" :span="24">
+        <el-col :span="24">
+          <el-form-item label="开启录音">
+            <el-checkbox v-model="taskGroup.record"/>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="24">
           <el-form-item label="外呼规则设定"></el-form-item>
         </el-col>
       </el-row>

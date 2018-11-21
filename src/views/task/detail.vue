@@ -160,8 +160,8 @@
         </el-form-item>
       </el-form>
       <div style="text-align: right">
-        <el-button @click="cancelLimitedTimes('ruleForm')">取 消</el-button>
-        <el-button @click="updateLimitedTimes('ruleForm')">确 定</el-button>
+        <el-button class="search_btn" @click="cancelLimitedTimes('ruleForm')">取 消</el-button>
+        <el-button class="add_btn" @click="updateLimitedTimes('ruleForm')">确 定</el-button>
       </div>
     </el-dialog>
   </div>

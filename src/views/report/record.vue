@@ -54,22 +54,36 @@
       <el-table-column label="拨打时间" width="160">
         <template slot-scope="scope"><span>{{scope.row.actualCallStartDate}}</span></template>
       </el-table-column>
+      <el-table-column label="操作" width="130px">
+        <template slot-scope="scope">
+          <a v-if="scope.row.record" @click="handlePlay(scope.row.record)">播放录音</a>
+          <span v-else>暂无录音</span>
+        </template>
+      </el-table-column>
     </el-table>
-    <div v-show="!listLoading">
       <el-pagination @size-change="handleSizeChange"
                      @current-change="handleCurrentChange"
                      :current-page.sync="currentPage"
                      :page-sizes="[10,20,30, 50]"
+                     v-show="!listLoading"
                      background
                      :page-size="listQuery.pageSize"
                      layout="total, sizes, prev, pager, next, jumper"
                      :total="total">
       </el-pagination>
+    <div class="dialog">
+      <el-dialog title="录音详情" :visible="playDialog" :before-close="handleClose">
+        <VueAudio :url="url"/>
+      </el-dialog>
     </div>
   </div>
 </template>
 <script>
+  import VueAudio from '@/components/VueAudio'
   export default {
+    components:{
+      VueAudio
+    },
     data() {
       return {
         total: null,
@@ -80,6 +94,7 @@
         },
         currentPage: 1,
         list: null,
+        playDialog:false,
         accounts: [],
         teams: [],
         types: [
@@ -93,6 +108,7 @@
           }
         ],
         isSuperAdmin:'false',
+        url:''
       }
     },
     created() {
@@ -105,6 +121,14 @@
       this.isSuperAdmin = sessionStorage.getItem('isSuperAdmin')
     },
     methods: {
+      handlePlay(url){
+        this.url = url
+        this.playDialog = true
+      },
+      handleClose(){
+        this.url = ''
+        this.playDialog = false
+      },
       getList() {
         this.Api.getCallHistory(this.listQuery).then(response => {
           let data = response.data.content
@@ -141,6 +165,7 @@
             obj.status = item[8];
             obj.duration = item[9];
             obj.actualCallStartDate = item[10]
+            obj.record = item[11]
             this.list[index] = obj
           })
         })

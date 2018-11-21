@@ -1,6 +1,13 @@
 @import "page";
 
 .com_page{
+  .insert_btn {
+    background: #EFF2F7;
+    color: #C0CCDA;
+    border: none;
+    padding: 12px;
+    cursor: not-allowed;
+  }
   .com_head{
     line-height: 40px;
     margin-bottom: 20px;
@@ -22,12 +29,25 @@
       color: #fff;
       float: right;
       margin-right: 10px;
+      font-size: 14px;
       i{
         margin-right: 10px;
       }
       &:hover{
         background: #00C1DF;
         color: #fff;
+      }
+    }
+    .update {
+      color: #0299CC;
+      float: right;
+      margin-right: 10px;
+      font-size: 14px;
+      i{
+        margin-right: 5px;
+      }
+      &:hover{
+        color: #00C1DF;
       }
     }
   }
@@ -60,6 +80,13 @@
         color: #00C1DF;
         border: 1px solid #00C1DF;
       }
+    }
+    .el-range-editor{
+      width: 250px;
+      border:1px solid #C8C8C8;
+    }
+    .el-range-editor.is-active,.el-range-editor:hover{
+      border:1px solid #00C1DF;
     }
   }
   .el-table{
