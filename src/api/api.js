@@ -123,7 +123,9 @@ export const getAuthDustryByType = typeId => axios.get('/industry/auth/getIndust
 export const getVersionPage = params => axios.get('/version', {params: params})
 export const createVersion = params => axios.post('/version', params)
 export const updateVersion = (id, params) => axios.put('/version/'+ id, params)
-
+// customer
+export const potentialList = params => axios.get('/task/potentialList', {params: params})
+export const updatePotentialUser = params => axios.put('/task/updatePotentialUser' , params)
 
 
 
