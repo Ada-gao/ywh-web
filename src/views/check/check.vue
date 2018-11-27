@@ -265,10 +265,8 @@
             }
             if (item.status === '0') {
               item.status = '待审核'
-            } if (item.status === '1') {
-              item.status = '审核失败'
-            } else if (item.status === '2') {
-              item.status = '生效'
+            } if (item.status === '4') {
+              item.status = '话术待审核'
             }
             item.createTime = this.Utils.formatDateTime(item.createTime)
           })
@@ -333,6 +331,7 @@
           delete this.listQuery.date
         }
         this.listQuery.pageIndex = 0
+        this.currentPage = 1
         this.getList()
       },
       handleFilter1() {
@@ -342,6 +341,7 @@
           delete this.listQuery.type
         }
         this.listQuery.pageIndex = 0
+        this.currentPage = 1
         this.getList()
       },
       handleSizeChange2(val) {

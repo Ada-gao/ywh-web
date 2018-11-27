@@ -152,6 +152,7 @@
           delete this.listQuery.ruleName
         }
         this.listQuery.pageIndex = 0
+        this.currentPage = 1
         this.getList()
       },
       changeCompany() {
@@ -170,6 +171,7 @@
           delete this.listQuery.team
         }
         this.listQuery.pageIndex = 0
+        this.currentPage = 1
         this.getList()
       },
       handleDetail (obj) {

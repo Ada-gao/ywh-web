@@ -332,6 +332,7 @@
           delete this.listQuery.accountCode
         }
         this.listQuery.pageIndex = 0
+        this.currentPage = 1
         this.getAccounts()
       },
       handleFilter1() {
@@ -345,6 +346,7 @@
           delete this.listQuery.status
         }
         this.listQuery.pageIndex = 0
+        this.currentPage = 1
         this.getAccounts()
       },
       handleFilter3() {

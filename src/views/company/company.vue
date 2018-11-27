@@ -125,6 +125,7 @@ export default {
         delete this.listQuery.companyName
       }
       this.listQuery.pageIndex = 0
+      this.currentPage = 1
       this.getList()
     },
     handleFilter1 () {
@@ -143,6 +144,7 @@ export default {
         delete this.listQuery.orgSize
       }
       this.listQuery.pageIndex = 0
+      this.currentPage = 1
       this.getList()
     },
     handleCreate () {

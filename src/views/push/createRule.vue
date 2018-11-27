@@ -62,7 +62,7 @@
         </el-radio-group>
       </el-form-item>
       <el-row v-if="form.triggerScene === '外呼后'">
-        <el-col :span="7">
+<!--        <el-col :span="7">
           <el-form-item label="有效通话时长/秒" prop="duration">
             <el-select v-model="form.lessOrGreater" style="width: 26%">
               <el-option
@@ -74,7 +74,7 @@
             </el-select>
             <el-input v-model="form.duration" placeholder="请输入时长" style="width: 72%;" maxlength="8"/>
           </el-form-item>
-        </el-col>
+        </el-col>-->
         <el-col :span="7">
           <el-form-item label="下一步行动计划">
             <el-select v-model="form.nextAction" placeholder="请选择下一步行动计划" clearable style="width: 100%">
@@ -132,7 +132,7 @@
 <script>
   export default {
     data() {
-      const checkNumber = (rule, value, callback) => {
+/*      const checkNumber = (rule, value, callback) => {
         if (!value) {
           callback()
         } else {
@@ -142,7 +142,7 @@
             callback()
           }
         }
-      }
+      }*/
       const checkTemplate = (rule, value, callback) => {
         if (!value) {
           callback('请输入推送规则模版')
@@ -173,9 +173,9 @@
           companyId: [
             {required: true, trigger: 'blur', message: '请选择所属公司'}
           ],
-          duration: [
+   /*       duration: [
             {required: false, trigger: 'blur', validator: checkNumber}
-          ],
+          ],*/
           lastCallResult: [
             {required: true, trigger: 'blur', message: '请选择外呼状态'}
           ],

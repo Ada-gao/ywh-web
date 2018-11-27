@@ -22,20 +22,14 @@
     <el-table :data="list" v-loading="listLoading" @selection-change="handleSelectionChange" element-loading-text="给我一点时间" border fit highlight-current-row>
       <el-table-column type="selection" width="105px">
       </el-table-column>
-      <el-table-column label="客户名称">
+      <el-table-column label="销售名称">
         <template slot-scope="scope"><span>{{scope.row.contactName}}</span></template>
       </el-table-column>
-      <el-table-column label="客户分类">
+      <el-table-column label="关联团队">
         <template slot-scope="scope"><span>{{scope.row.type}}</span></template>
       </el-table-column>
-      <el-table-column label="所属销售名称">
+      <el-table-column label="分配条数">
         <template slot-scope="scope"><span>{{scope.row.saleName}}</span></template>
-      </el-table-column>
-      <el-table-column label="所属公司">
-        <template slot-scope="scope"><span class="com-two-row">{{scope.row.companyName}}</span></template>
-      </el-table-column>
-      <el-table-column label="任务ID">
-        <template slot-scope="scope"><span>{{scope.row.taskId}}</span></template>
       </el-table-column>
       <el-table-column label="操作" width="105px">
         <template slot-scope="scope"><a @click="handleUpdate(scope.row)">修改销售</a></template>

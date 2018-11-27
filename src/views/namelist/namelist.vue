@@ -152,6 +152,7 @@ export default {
         delete this.listQuery.contactName
       }
       this.listQuery.pageIndex = 0
+      this.currentPage = 1
       this.getList()
     },
     handleFilter1 () {
@@ -166,6 +167,7 @@ export default {
         delete this.listQuery.companyId
       }
       this.listQuery.pageIndex = 0
+      this.currentPage = 1
       this.getList()
     },
     handleCreate () {

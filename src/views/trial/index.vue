@@ -207,6 +207,7 @@
       },
       handleFilter() {
         this.listQuery.pageIndex = 0
+        this.currentPage = 1
         this.listQuery.status = null
         delete this.listQuery.status
         if (!this.listQuery.companyName) {
@@ -216,6 +217,7 @@
       },
       handleFilter1() {
         this.listQuery.pageIndex = 0
+        this.currentPage = 1
         this.listQuery.companyName = ''
         delete this.listQuery.companyName
         if (!this.listQuery.status) {

@@ -146,6 +146,7 @@
           delete this.listQuery.companyName
         }
         this.listQuery.pageIndex = 0
+        this.currentPage = 1
         this.getList()
       },
       handleFilter1() {
@@ -158,6 +159,7 @@
           delete this.listQuery.team
         }
         this.listQuery.pageIndex = 0
+        this.currentPage = 1
         this.getList()
       },
       handleExport(){

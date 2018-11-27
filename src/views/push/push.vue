@@ -248,6 +248,7 @@
           delete this.listQuery.date
         }
         this.listQuery.pageIndex = 0
+        this.currentPage = 1
         this.getList()
       },
       handleFilter1() {
@@ -257,6 +258,7 @@
           delete this.listQuery.status
         }
         this.listQuery.pageIndex = 0
+        this.currentPage = 1
         this.getList()
       },
       handleDetail(obj) {

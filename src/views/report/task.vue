@@ -123,6 +123,7 @@
           delete this.listQuery.companyName
         }
         this.listQuery.pageIndex = 0
+        this.currentPage = 1
         this.getList()
       },
       handleFilter1() {
@@ -132,6 +133,7 @@
           delete this.listQuery.team
         }
         this.listQuery.pageIndex = 0
+        this.currentPage = 1
         this.getList()
         this.Api.getProductByTeam(encodeURI(this.listQuery.team)).then((res) => {
           this.products = res.data
@@ -147,6 +149,7 @@
           delete this.listQuery.productName
         }
         this.listQuery.pageIndex = 0
+        this.currentPage = 1
         this.getList()
       },
       handleExport(){

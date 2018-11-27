@@ -60,7 +60,7 @@
           </template>
           <template v-else-if="scope.row.status === '1'">
             <span style="color:#D0021B">审核失败</span>
-            <el-tooltip effect="dark" placement="bottom" :content="scope.row.rejectReason">
+            <el-tooltip effect="dark" placement="bottom" :content="scope.row.reason">
               <i class="iconfont icon-wenti" style="color:#D0021B"/>
             </el-tooltip>
           </template>

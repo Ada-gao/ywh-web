@@ -87,6 +87,7 @@ export default {
     },
     handleFilter () {
       this.listQuery.pageIndex = 0
+      this.currentPage = 1
       if (!this.listQuery.name) {
         delete this.listQuery.name
       }
