@@ -22,8 +22,7 @@
       <el-row :gutter="20">
         <el-col :span="17">
           <el-form-item label="关联名单" prop="outboundNameGroupId">
-            <el-select v-model="taskGroup.outboundNameGroupId" placeholder="选择/输入关联名单"
-                       @change="$refs['taskGroup'].validateField('outboundNameGroupId')">
+            <el-select v-model="taskGroup.outboundNameGroupId" filterable placeholder="选择/输入关联名单" @change="$refs['taskGroup'].validateField('outboundNameGroupId')">
               <el-option
                 v-for="item in associateList"
                 :key="item.id"
@@ -50,14 +49,13 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="17">
-          <el-form-item label="关联团队" prop="team">
-            <el-select v-model="taskGroup.team" placeholder="选择/输入关联团队"
-                       @change="$refs['taskGroup'].validateField('team')">
+          <el-form-item label="关联销售" prop="salesId">
+            <el-select v-model="taskGroup.salesId" multiple clearable filterable placeholder="选择/输入关联销售" @change="$refs['taskGroup'].validateField('salesId')">
               <el-option
-                v-for="item in teamList"
-                :key="item"
-                :label="item"
-                :value="item">
+                v-for="item in saleList"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id">
               </el-option>
             </el-select>
           </el-form-item>
@@ -112,30 +110,13 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="24">
-          <el-form-item label="外呼规则设定"></el-form-item>
+          <el-form-item label="外呼规则设定" style="font-weight: bold"></el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item label="有效通话时长（秒）" prop="minimumDuration" label-width="220px">
-            <el-input placeholder="有效通话时长" v-model="taskGroup.minimumDuration" maxlength="8"/>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="有效任务数（通）：通/人/天" prop="effectiveTasks" label-width="220px">
-            <el-input placeholder="有效任务数" v-model="taskGroup.effectiveTasks" maxlength="8"/>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-form-item label="外呼次数限制" prop="limitedTimes" label-width="220px">
+        <el-col :span="17">
+          <el-form-item label="外呼次数限制" prop="limitedTimes">
             <el-input placeholder="外呼次数限制" v-model="taskGroup.limitedTimes" maxlength="8"/>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="外呼频率（间隔）天" prop="interv" label-width="220px">
-            <el-input placeholder="外呼频率间隔" v-model="taskGroup.interv" maxlength="8"/>
           </el-form-item>
         </el-col>
       </el-row>
@@ -149,51 +130,6 @@
 <script>
   export default {
     data() {
-      const checkNumber = (rule, value, callback) => {
-        if (!value) {
-          return callback(new Error('请输入有效通话时长'))
-        } else {
-          if (value == 0) {
-            callback(new Error('输入数字的不能为0'))
-          } else {
-            if (!/^[0-9]+$/.test(value)) {
-              callback(new Error('请输入数字'))
-            } else {
-              callback()
-            }
-          }
-        }
-      }
-      const checkNumber2 = (rule, value, callback) => {
-        if (!value) {
-          return callback(new Error('请输入有效任务数'))
-        } else {
-          if (value == 0) {
-            callback(new Error('输入数字的不能为0'))
-          } else {
-            if (!/^[0-9]+$/.test(value)) {
-              callback(new Error('请输入数字'))
-            } else {
-              callback()
-            }
-          }
-        }
-      }
-      const checkNumber3 = (rule, value, callback) => {
-        if (!value) {
-          return callback(new Error('请输入外呼频率间隔'))
-        } else {
-          if (value == 0) {
-            callback(new Error('输入数字的不能为0'))
-          } else {
-            if (!/^[0-9]+$/.test(value)) {
-              callback(new Error('请输入数字'))
-            } else {
-              callback()
-            }
-          }
-        }
-      }
       const checkNumber4 = (rule, value, callback) => {
         if (value) {
           if (value == 0) {
@@ -214,8 +150,7 @@
         isSuperAdmin: 'false',
         taskGroup: {
           taskDate: [],
-          team: '',
-          outboundNameGroupId: '',
+          salesId: [],
           assignRule: '随机平均分配'
         },
         rules: {
@@ -240,44 +175,34 @@
           taskName: [
             {required: true, message: '请输入任务名称', trigger: 'blur'}
           ],
-          team: [
-            {required: true, message: '请选择/输入关联团队', trigger: 'blur'}
+          salesId: [
+            {required: true, message: '请选择/输入关联销售', trigger: 'blur'}
           ],
           taskDate: [
             {required: true, message: '请选择日期', trigger: 'blur'}
           ],
-          minimumDuration: [
-            {required: true, trigger: 'blur', validator: checkNumber}
-          ],
-          effectiveTasks: [
-            {required: true, trigger: 'blur', validator: checkNumber2}
-          ],
           nextActionRule: [
             {required: true, message: '请选择下一步行动规则', trigger: 'blur'}
-          ],
-          interv: [
-            {required: true, trigger: 'blur', validator: checkNumber3}
           ],
           limitedTimes: [
             {required: false, trigger: 'blur', validator: checkNumber4}
           ]
         },
         updateStatus: '',
-        teamList: [],
+        saleList: '',
         associateList: [],
-        listLoading: true,
         tableKey: 0,
         total: null,
         companies: [],
-        nextActionList: null,
         textLength: '',
-        SurplusLength: ''
+        SurplusLength: '',
+        isEdit:false
       }
     },
     created() {
-      this.listLoading = false
-      this.nextActionList = this.Utils.nextActionList()
-      this.getQuery()
+      this.Api.getCompanies().then(res => {
+        this.companies = res.data
+      })
       let companyId = sessionStorage.getItem('companyId')
       if (companyId) {
         this.taskGroup.companyId = parseInt(companyId)
@@ -290,35 +215,30 @@
         if (this.$refs['taskGroup']) {
           this.$refs['taskGroup'].validateField('companyId')
         }
-        if (this.taskGroup.team) {
-          this.taskGroup.team = ''
+        if (this.taskGroup.salesId){
+          this.taskGroup.salesId = []
         }
-        if (this.taskGroup.outboundNameGroupId) {
+        if (this.taskGroup.outboundNameGroupId){
           this.taskGroup.outboundNameGroupId = ''
         }
-        this.Api.getTeams({companyId: this.taskGroup.companyId}).then(res => {
-          this.teamList = res.data
-        })
-        this.Api.getNames(this.taskGroup.companyId).then(res => {
-          this.associateList = res.data
-        })
-      },
-      getQuery() {
-        this.Api.getCompanies().then(res => {
-          this.companies = res.data
-        })
+        if (this.taskGroup.companyId) {
+          this.Api.getAllSaleUsers(this.taskGroup.companyId).then(res => {
+            this.saleList = res.data
+          })
+          this.Api.getNames(this.taskGroup.companyId).then(res => {
+            this.associateList = res.data
+          })
+        }
       },
       create(formName) {
-        const set = this.$refs
-        set[formName].validate(valid => {
+        this.$refs[formName].validate(valid => {
           if (valid) {
             this.isCommit = true
-            this.taskGroup.taskStartDate = this.taskGroup.taskDate[0]
-            this.taskGroup.taskEndDate = this.taskGroup.taskDate[1]
-            this.taskGroup.interv -= 0
-            this.taskGroup.effectiveTasks -= 0
-            this.taskGroup.minimumDuration -= 0
-            this.Api.createTask(this.taskGroup)
+            let taskGroup = JSON.parse(JSON.stringify(this.taskGroup))
+            taskGroup.taskStartDate = taskGroup.taskDate[0]
+            taskGroup.taskEndDate = taskGroup.taskDate[1]
+            taskGroup.salesId = taskGroup.salesId.join(",")
+            this.Api.createTask(taskGroup)
               .then((res) => {
                 if (res.data) {
                   this.$alert(res.data, '提示', {

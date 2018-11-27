@@ -23,6 +23,7 @@ import nameexcel from '../views/namelist/importExcel'
 import task from '../views/task/task'
 import newTask from '../views/task/newTask'
 import tasklist from '../views/task/detail'
+import taskdispatch from '../views/task/dispatch'
 // 8、消息推送管理
 import push from '../views/push/push'
 import rule from '../views/push/rule'
@@ -83,6 +84,7 @@ let routes = [
       {path: '/task', component: task},
       {path: '/task/newTask', component: newTask, name: 'newTask'},
       {path: '/task/detail', component: tasklist, name: 'taskDetail'},
+      {path: '/task/dispatch', component: taskdispatch,name:'taskdispatch'},
       {path: '/push/push', component: push, name: 'push'},
       {path: '/push/rule', component: rule, name: 'rule'},
       {path: '/push/ruleDetail', component: ruleDetail, name: 'ruleDetail'},

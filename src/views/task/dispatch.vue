@@ -1,7 +1,7 @@
 <template>
   <div class="com_page">
     <div class="com_head">
-      <span class="com_title">潜客查询</span>
+      <span class="com_title">任务调配</span>
     </div>
     <div class="com_filter">
       <el-input @keyup.enter.native="handleFilter" placeholder="输入潜客信息（客户姓名/所属销售姓名）" style="width: 300px;" v-model="listQuery.name"/>
@@ -14,7 +14,7 @@
       </el-select>
     </div>
     <div class="com_head">
-      <span class="com_title">潜客列表</span>
+      <span class="com_title">名单列表</span>
       <el-button @click="handleUpdate('')" :disabled="multipleSelection.length === 0">
         <i class="fa fa-edit"/><span>批量修改</span>
       </el-button>
@@ -151,7 +151,7 @@
             }
           })
         }
-        this.Api.getAllSaleUsers(companyId).then(res => {
+        this.Api.getAllSaleUsers('').then(res => {
           this.sales = res.data
         })
       },

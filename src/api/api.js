@@ -98,6 +98,10 @@ export const updateTimes = (id, params) => axios.put('/task/updateTimes/' + id +
 export const getProductByTeam = team => axios.get('/task/getProductByTeam?team=' + team)
 export const getStatistic = () => axios.get('/task/statisByCompany')
 export const taskDoneRate = (id) => axios.get('/task/statisBySales?userId=' + id)
+export const getProductList = () => axios.get('/task/getProductList')
+export const updateRecord = (id, record) => axios.put('/task/updateRecord/' + id + '?record=' + record)
+export const updateTaskGroupStatus = (id, status) => axios.put('/task/updateTaskGroupStatus/' + id + '?status=' + status)
+
 // file
 export const getFile = id => axios.get('/file/' + id)
 // feedback
@@ -112,8 +116,6 @@ export const excelCallStatis = params => axios.get('/reportMgmt/excel/getCallSta
 export const excelCallHistory = params => axios.get('/reportMgmt/excel/getCallHistory', {params: params})
 // trial
 export const getTrial = params => axios.get('/trial/getPage', {params: params})
-// product
-export const getProductList = () => axios.get('/product/list')
 // dict
 export const getOrgSize = () => axios.get('/dict/TypeorgSize')
 // industry
@@ -126,6 +128,6 @@ export const updateVersion = (id, params) => axios.put('/version/'+ id, params)
 // customer
 export const potentialList = params => axios.get('/task/potentialList', {params: params})
 export const updatePotentialUser = params => axios.put('/task/updatePotentialUser' , params)
-
+export const getAllSaleUsers = companyId => axios.get('/users/queryAllSaleUsers?companyId='+companyId)
 
 

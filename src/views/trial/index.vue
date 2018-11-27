@@ -74,13 +74,15 @@
                    :page-size="listQuery.pageSize"
                    layout="total, sizes, prev, pager, next, jumper"
                    :total="total"/>
-    <el-dialog title="提示" :visible.sync="isDialogShow" width="30%" :center="false">
-      <el-radio v-model="radio" label="试用中">试用中</el-radio>
-      <el-radio v-model="radio" label="试用结束">试用结束</el-radio>
-      <span>
-        <el-button @click="isDialogShow = false">取 消</el-button>
-        <el-button type="primary" @click="updateStatus">确 定</el-button>
-      </span>
+    <el-dialog title="提示" :visible.sync="isDialogShow" width="350px" :center="false">
+      <el-radio-group v-model="radio" style="text-align: center;width: 100%">
+        <el-radio label="试用中"/>
+        <el-radio label="试用结束" style="margin-left: 100px"/>
+      </el-radio-group>
+      <div style="text-align: right;margin-top: 30px">
+        <el-button class="search_btn" @click="isDialogShow = false">取 消</el-button>
+        <el-button class="add_btn" @click="updateStatus">确 定</el-button>
+      </div>
     </el-dialog>
   </div>
 </template>
