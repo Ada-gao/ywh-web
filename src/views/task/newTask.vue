@@ -1,7 +1,7 @@
 <template>
   <div class="com_page">
     <div class="com_head">
-      <span class="com_title">新建任务</span>
+      <span class="com_title">{{isEdit?'编辑任务':'新建任务'}}</span>
     </div>
     <div class="com-line"/>
     <el-form :model="taskGroup" ref="taskGroup" label-width="100px" :rules="rules">
@@ -11,7 +11,7 @@
             <el-select v-model="taskGroup.companyId"
                        placeholder="选择/输入所属公司"
                        @change="changeCompany"
-                       :disabled="isSuperAdmin !== 'true'"
+                       :disabled="isSuperAdmin !== 'true' || isEdit"
                        filterable>
               <el-option v-for="item in companies" :key="item.id" :label="item.companyName" :value="item.id">
               </el-option>
@@ -22,7 +22,7 @@
       <el-row :gutter="20">
         <el-col :span="17">
           <el-form-item label="关联名单" prop="outboundNameGroupId">
-            <el-select v-model="taskGroup.outboundNameGroupId" filterable placeholder="选择/输入关联名单" @change="$refs['taskGroup'].validateField('outboundNameGroupId')">
+            <el-select :disabled="isEdit" v-model="taskGroup.outboundNameGroupId" filterable placeholder="选择/输入关联名单" @change="$refs['taskGroup'].validateField('outboundNameGroupId')">
               <el-option
                 v-for="item in associateList"
                 :key="item.id"
@@ -36,21 +36,21 @@
       <el-row :gutter="20">
         <el-col :span="17">
           <el-form-item label="任务名称" prop="taskName">
-            <el-input v-model="taskGroup.taskName" placeholder="输入任务名称" maxlength="50"></el-input>
+            <el-input :disabled="isEdit" v-model="taskGroup.taskName" placeholder="输入任务名称" maxlength="50"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="17">
           <el-form-item label="推广产品" prop="productName">
-            <el-input v-model="taskGroup.productName" placeholder="输入产品名称" maxlength="50"></el-input>
+            <el-input :disabled="isEdit" v-model="taskGroup.productName" placeholder="输入产品名称" maxlength="50"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="17">
           <el-form-item label="关联销售" prop="salesId">
-            <el-select v-model="taskGroup.salesId" multiple clearable filterable placeholder="选择/输入关联销售" @change="$refs['taskGroup'].validateField('salesId')">
+            <el-select :disabled="isEdit" v-model="taskGroup.salesId" multiple clearable filterable placeholder="选择/输入关联销售" @change="$refs['taskGroup'].validateField('salesId')">
               <el-option
                 v-for="item in saleList"
                 :key="item.id"
@@ -74,7 +74,7 @@
       <el-row :gutter="20">
         <el-col :span="17">
           <el-form-item label="任务目标" prop="taskTarget">
-            <el-input v-model="taskGroup.taskTarget" placeholder="输入任务目标" maxlength="100"></el-input>
+            <el-input  :disabled="isEdit" v-model="taskGroup.taskTarget" placeholder="输入任务目标" maxlength="100"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -97,6 +97,7 @@
                             start-placeholder="开始日期"
                             end-placeholder="结束日期"
                             :default-time="['00:00:00', '23:59:59']"
+                            @blur="getSTime"
                             v-model="taskGroup.taskDate"/>
           </el-form-item>
         </el-col>
@@ -188,29 +189,48 @@
             {required: false, trigger: 'blur', validator: checkNumber4}
           ]
         },
-        updateStatus: '',
         saleList: '',
         associateList: [],
-        tableKey: 0,
-        total: null,
         companies: [],
         textLength: '',
-        SurplusLength: '',
-        isEdit:false
+        isEdit:false,
       }
     },
     created() {
       this.Api.getCompanies().then(res => {
         this.companies = res.data
       })
-      let companyId = sessionStorage.getItem('companyId')
-      if (companyId) {
-        this.taskGroup.companyId = parseInt(companyId)
-        this.changeCompany()
+      let taskGroup = this.$route.query.item
+      if (taskGroup){
+        this.isEdit = true
+        this.taskGroup = taskGroup
+        this.taskGroup.companyId = parseInt(taskGroup.companyId)
+        this.taskGroup.taskDate = new Array(new Date(taskGroup.taskStartDate),new Date(taskGroup.taskEndDate))
+        let salesId = taskGroup.salesId
+        this.Api.getAllSaleUsers(this.taskGroup.companyId).then(res => {
+          this.saleList = res.data
+          this.taskGroup.salesId = []
+          salesId.toString().split(',').forEach((item,index)=>{
+            this.taskGroup.salesId[index] = parseInt(item)
+          })
+        })
+        this.Api.getNames(this.taskGroup.companyId).then(res => {
+          this.associateList = res.data
+          this.taskGroup.outboundNameGroupId = parseInt(taskGroup.outboundNameGroupId)
+        })
+      } else{
+        let companyId = sessionStorage.getItem('companyId')
+        if (companyId) {
+          this.taskGroup.companyId = parseInt(companyId)
+          this.changeCompany()
+        }
       }
       this.isSuperAdmin = sessionStorage.getItem('isSuperAdmin')
     },
     methods: {
+      getSTime(){
+        this.taskGroup = JSON.parse(JSON.stringify(this.taskGroup))
+      },
       changeCompany() {
         if (this.$refs['taskGroup']) {
           this.$refs['taskGroup'].validateField('companyId')
@@ -238,29 +258,29 @@
             taskGroup.taskStartDate = taskGroup.taskDate[0]
             taskGroup.taskEndDate = taskGroup.taskDate[1]
             taskGroup.salesId = taskGroup.salesId.join(",")
-            this.Api.createTask(taskGroup)
-              .then((res) => {
-                if (res.data) {
-                  this.$alert(res.data, '提示', {
-                    confirmButtonText: '确定',
-                    callback: action => {
-                      this.$message({
-                        message: '创建成功',
-                        type: 'success'
-                      })
-                      this.$router.push({path: '/task'})
-                    }
-                  });
-                } else {
+            if (this.isEdit){
+              this.Api.updateGroup(taskGroup.id,taskGroup)
+                .then((res) => {
+                  this.$message({
+                    message: '修改成功',
+                    type: 'success'
+                  })
+                  this.$router.push({path: '/task'})
+                }).catch(() => {
+                this.isCommit = false
+              })
+            } else{
+              this.Api.createTask(taskGroup)
+                .then((res) => {
                   this.$message({
                     message: '创建成功',
                     type: 'success'
                   })
                   this.$router.push({path: '/task'})
-                }
-              }).catch(() => {
-              this.isCommit = false
-            })
+                }).catch(() => {
+                this.isCommit = false
+              })
+            }
           } else {
             return false
           }

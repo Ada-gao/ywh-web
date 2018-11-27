@@ -247,7 +247,7 @@
       }
     },
     created() {
-      this.detail = JSON.parse(this.$route.query.item)
+      this.detail = this.$route.query.item
       if (this.detail.status === '2'){
         this.taskStatus = true
       }
@@ -357,10 +357,10 @@
         }
       },
       handleEdit() {
-        this.$router.push({name: 'newTask', query: {item:this.form}})
+        this.$router.push({name: 'newTask', query: {item:this.detail}})
       },
       handleDispatch() {
-        this.$router.push({name: 'taskdispatch', query: {item:this.form}})
+        this.$router.push({name: 'taskdispatch', query: {item:this.detail}})
       },
       changeMode(val) {
         this.Api.updateTaskGroupStatus(this.detail.id, val?'2':'3').then(res => {

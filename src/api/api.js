@@ -101,7 +101,7 @@ export const taskDoneRate = (id) => axios.get('/task/statisBySales?userId=' + id
 export const getProductList = () => axios.get('/task/getProductList')
 export const updateRecord = (id, record) => axios.put('/task/updateRecord/' + id + '?record=' + record)
 export const updateTaskGroupStatus = (id, status) => axios.put('/task/updateTaskGroupStatus/' + id + '?status=' + status)
-
+export const updateGroup = (id, params) => axios.put('/task/updateGroup/' + id, params)
 // file
 export const getFile = id => axios.get('/file/' + id)
 // feedback

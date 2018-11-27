@@ -229,7 +229,7 @@
         this.$router.push({name: 'newTask', query: {item:obj}})
       },
       handleUpdate(obj) {
-        this.$router.push({name: 'taskDetail', query: {item:JSON.stringify(obj)}})
+        this.$router.push({name: 'taskDetail', query: {item:obj}})
       },
       showDialog(val) {
         this.item = val
