@@ -12,24 +12,15 @@
       </el-select>
     </div>
     <div class="com_head">
-      <span class="com_title">工作量列表</span>
+      <span class="com_title">每日情况列表</span>
       <el-button  @click="handleExport">
         <i class="iconfont icon-piliangdaochu"/><span>批量导出</span>
       </el-button>
     </div>
     <el-table :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit highlight-current-row>
-      <el-table-column label="销售名称">
+      <el-table-column label="日期">
         <template slot-scope="scope"><span class="com-two-row">{{scope.row.uname}}</span></template>
       </el-table-column>
-      <!-- <el-table-column label="所属公司">
-        <template slot-scope="scope"><span class="com-two-row">{{scope.row.companyName}}</span></template>
-      </el-table-column>
-      <el-table-column label="所属账户">
-        <template slot-scope="scope"><span class="com-two-row">{{scope.row.accountName}}</span></template>
-      </el-table-column>
-      <el-table-column label="所属团队">
-        <template slot-scope="scope"><span class="com-two-row">{{scope.row.team}}</span></template>
-      </el-table-column> -->
       <el-table-column label="目标客户数">
         <template slot-scope="scope"><span>{{scope.row.taskCnt}}</span></template>
       </el-table-column>
@@ -60,11 +51,8 @@
       <el-table-column label="跟进客户占比">
         <template slot-scope="scope"><span>{{scope.row.followCutomerCnt/scope.row.actualCustomerCnt||0}}</span></template>
       </el-table-column>
-      <el-table-column label="完成情况">
-        <template slot-scope="scope"><span>{{scope.row.surplusCustomerCnt+scope.row.actualCustomerCnt===scope.row.taskCn?'完成':'未完成'}}</span></template>
-      </el-table-column>
-      <el-table-column align="center" label="每日情况">
-        <template slot-scope="scope"><router-link :to="`/report/workDayLoad/${scope.row.userId}`">查看详情</router-link></template>
+      <el-table-column align="center" label="历史通话记录">
+        <template slot-scope="scope"><router-link :to="`/report/record/${scope.row.userId}`">查看详情</router-link></template>
       </el-table-column>
     </el-table>
     <div v-show="!listLoading">
@@ -88,27 +76,31 @@
         listLoading: true,
         listQuery: {
           pageIndex: 0,
-          pageSize: 10
+          pageSize: 10,
+          userId: '',
+          startTime: null,
+          endTime: null
         },
         currentPage: 1,
         list: null,
         accounts: [],
         teams: [],
-        isSuperAdmin:'false',
+        isSuperAdmin:'false'
       }
     },
     created() {
       this.getList()
-      this.getQuery()
+      // this.getQuery()
+      this.listQuery.userId = this.$route.params.userId
       let accountId = sessionStorage.getItem('accountId')
-      if (accountId) {
-        this.listQuery.accountId = parseInt(accountId)
-      }
+      // if (accountId) {
+      //   this.listQuery.accountId = parseInt(accountId)
+      // }
       this.isSuperAdmin = sessionStorage.getItem('isSuperAdmin')
     },
     methods: {
       getList() {
-        this.Api.workload(this.listQuery).then(response => {
+        this.Api.workDayLoad(this.listQuery).then(response => {
           let data = response.data.content
           this.total = response.data.totalElements
           this.listLoading = false
@@ -187,7 +179,7 @@
         let query = JSON.parse(JSON.stringify(this.listQuery))
         query.pageIndex = 0
         query.pageSize = this.total
-        this.Api.workload(query).then(response => {
+        this.Api.workDayLoad(query).then(response => {
           let data = response.data.content
           let list = []
           data.forEach((item,index) => {

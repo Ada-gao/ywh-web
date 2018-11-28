@@ -39,9 +39,10 @@ import pushdetail from '../views/check/pushdetail'
 import taskdetail from '../views/check/taskdetail'
 // 11、报表统计
 import workload from '../views/report/workload'
-import reportTask from '../views/report/task'
+import workDayLoad from '../views/report/workDayLoad'
+// import reportTask from '../views/report/task'
 import record from '../views/report/record'
-import count from '../views/report/count'
+// import count from '../views/report/count'
 // 12、系统管理
 import system from '../views/system/system'
 import open from '../views/system/open'
@@ -96,9 +97,10 @@ let routes = [
       {path: '/check/pushdetail', component: pushdetail, name: 'pushdetail'},
       {path: '/check/taskdetail', component: taskdetail, name: 'taskdetail'},
       {path: '/report/workload', component: workload},
-      {path: '/report/task', component: reportTask},
-      {path: '/report/record', component: record},
-      {path: '/report/count', component: count},
+      {path: '/report/workDayLoad/:userId', component: workDayLoad},
+      // {path: '/report/task', component: reportTask},
+      {path: '/report/record/:userId', component: record},
+      // {path: '/report/count', component: count},
       {path: '/system', component: system},
       {path: '/system/open', component: open, name: 'open'},
       {path: '/system/recharge', component: recharge, name: 'recharge'},

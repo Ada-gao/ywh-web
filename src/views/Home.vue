@@ -19,9 +19,9 @@
       <el-submenu index="11">
         <template slot="title"><i class="iconfont icon-chart"></i><span slot="title">报表统计</span></template>
         <el-menu-item index="11-1" route="/report/workload"><i class="iconfont icon-wodegongzuoliang"/><span slot="title">工作量统计</span></el-menu-item>
-        <el-menu-item index="11-2" route="/report/task"><i class="iconfont icon-boda"/><span slot="title">外呼任务统计</span></el-menu-item>
-        <el-menu-item index="11-3" route="/report/count"><i class="iconfont icon-lishi"/><span slot="title">话务统计</span></el-menu-item>
-        <el-menu-item index="11-4" route="/report/record"><i class="iconfont icon-tonghuahuawuliang"/><span slot="title">历史通话记录</span></el-menu-item>
+        <!-- <el-menu-item index="11-2" route="/report/task"><i class="iconfont icon-boda"/><span slot="title">外呼任务统计</span></el-menu-item> -->
+        <!-- <el-menu-item index="11-3" route="/report/count"><i class="iconfont icon-lishi"/><span slot="title">话务统计</span></el-menu-item> -->
+        <el-menu-item index="11-4" route="/report/record/0"><i class="iconfont icon-tonghuahuawuliang"/><span slot="title">历史通话记录</span></el-menu-item>
       </el-submenu>
       <el-menu-item index="12" v-if="isSuperAdmin === 'true'" route="/system"><i class="iconfont icon-quanxian"/><span slot="title">系统管理</span></el-menu-item>
       <el-menu-item index="13" v-if="isSuperAdmin === 'true'" route="/feedback"><i class="fa fa-question-circle"/><span slot="title">问题反馈</span></el-menu-item>

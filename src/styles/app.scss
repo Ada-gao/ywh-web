@@ -89,6 +89,11 @@
       border:1px solid #00C1DF;
     }
   }
+  .com_filter.com_filter_noFloat{
+    .el-select{
+      float: none;
+    } 
+  }
   .el-table{
     margin-bottom: 20px;
     th{

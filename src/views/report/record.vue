@@ -3,7 +3,10 @@
     <div class="com_filter">
       <el-input @keyup.enter.native="handleFilter" placeholder="输入销售名称" v-model="listQuery.saleName"/>
       <el-input @keyup.enter.native="handleFilter" v-if="isSuperAdmin === 'true'" placeholder="输入所属公司名称" v-model="listQuery.companyName"/>
+      <el-input @keyup.enter.native="handleFilter" v-if="isSuperAdmin === 'true'" placeholder="输入任务名称" v-model="listQuery.taskName"/>
       <el-button icon="search" @click="handleFilter"><i class="fa fa-search"/><span>查询</span></el-button>
+    </div>
+    <div class="com_filter com_filter_noFloat">
       <el-select v-model="listQuery.callType" placeholder="拨打类型筛选" clearable @change="handleFilter1">
         <el-option v-for="item in types" :key="item.value" :label="item.label" :value="item.value"/>
       </el-select>
@@ -12,6 +15,9 @@
       </el-select>
       <el-select v-model="listQuery.accountId" :disabled="isSuperAdmin !== 'true'" placeholder="账户筛选" clearable @change="handleFilter1">
         <el-option v-for="item in accounts" :key="item.accountId" :label="item.accountName" :value="item.accountId"/>
+      </el-select>
+      <el-select v-model="listQuery.accountId" :disabled="isSuperAdmin !== 'true'" placeholder="下一步行动计划" clearable @change="handleFilter1">
+        <el-option v-for="item in actions" :key="item.accountId" :label="item.accountName" :value="item.accountId"/>
       </el-select>
     </div>
     <div class="com_head">
@@ -36,8 +42,8 @@
       <el-table-column label="拨打类型">
         <template slot-scope="scope"><span>{{scope.row.callType }}</span></template>
       </el-table-column>
-      <el-table-column label="拨打号码" width="120">
-        <template slot-scope="scope"><span>{{scope.row.phoneNo}}</span></template>
+      <el-table-column label="关联任务">
+        <template slot-scope="scope"><span>{{scope.row.taskName}}</span></template>
       </el-table-column>
       <el-table-column label="客户名称">
         <template slot-scope="scope"><span class="com-two-row">{{scope.row.contactName?scope.row.contactName:'-'}}</span></template>
@@ -48,7 +54,7 @@
       <el-table-column label="下一步行动计划" width="140">
         <template slot-scope="scope"><span>{{scope.row.status}}</span></template>
       </el-table-column>
-      <el-table-column label="有效通话时长" width="120">
+      <el-table-column label="通话时长" width="120">
         <template slot-scope="scope"><span>{{scope.row.duration}}秒</span></template>
       </el-table-column>
       <el-table-column label="拨打时间" width="160">
@@ -90,7 +96,8 @@
         listLoading: true,
         listQuery: {
           pageIndex: 0,
-          pageSize: 10
+          pageSize: 10,
+          userId: ''
         },
         currentPage: 1,
         list: null,
@@ -107,17 +114,21 @@
             value: '1'
           }
         ],
+        actions: [
+          {label: '再次外呼'}
+        ],
         isSuperAdmin:'false',
         url:''
       }
     },
     created() {
+      // this.getQuery()
+      this.listQuery.userId = this.$route.params.userId
+      // let accountId = sessionStorage.getItem('accountId')
+      // if (accountId) {
+      //   this.listQuery.accountId = parseInt(accountId)
+      // }
       this.getList()
-      this.getQuery()
-      let accountId = sessionStorage.getItem('accountId')
-      if (accountId) {
-        this.listQuery.accountId = parseInt(accountId)
-      }
       this.isSuperAdmin = sessionStorage.getItem('isSuperAdmin')
     },
     methods: {
@@ -130,6 +141,7 @@
         this.playDialog = false
       },
       getList() {
+        if (this.listQuery.userId == 0) this.listQuery.userId = ''
         this.Api.getCallHistory(this.listQuery).then(response => {
           let data = response.data.content
           this.total = response.data.totalElements
@@ -154,18 +166,19 @@
             }
             item[10] = this.Utils.formatDateTime(item[10])
             let obj = new Object()
-            obj.name = item[0];
-            obj.companyName = item[1];
-            obj.accountName = item[2];
-            obj.team = item[3];
-            obj.callType = item[4] === 0 ?'原生拨打' :'第三方拨打';
-            obj.phoneNo = item[5];
-            obj.contactName = item[6];
+            obj.name = item[0]
+            obj.companyName = item[1]
+            obj.accountName = item[2]
+            obj.team = item[3]
+            obj.callType = item[4] === 0 ?'原生拨打' :'第三方拨打'
+            // obj.phoneNo = item[5]
+            obj.contactName = item[6]
             obj.result = item[7]
-            obj.status = item[8];
-            obj.duration = item[9];
+            obj.status = item[8]
+            obj.duration = item[9]
             obj.actualCallStartDate = item[10]
             obj.record = item[11]
+            obj.taskName = item[5]
             this.list[index] = obj
           })
         })
