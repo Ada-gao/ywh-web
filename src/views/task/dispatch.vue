@@ -3,54 +3,60 @@
     <div class="com_head">
       <span class="com_title">任务调配</span>
     </div>
-    <div class="com_filter">
-      <el-input @keyup.enter.native="handleFilter" placeholder="输入潜客信息（客户姓名/所属销售姓名）" style="width: 300px;" v-model="listQuery.name"/>
-      <el-button icon="search" @click="handleFilter"><i class="fa fa-search"></i>查询</el-button>
-      <el-select v-model="listQuery.type" placeholder="潜客类型" clearable @change="handleFilter">
-        <el-option v-for="item in types" :key="item.value" :label="item.label" :value="item.value"/>
-      </el-select>
-      <el-select v-model="listQuery.companyId" placeholder="公司筛选" clearable filterable @change="handleFilter">
-        <el-option v-for="item in companies" :key="item.id" :label="item.companyName" :value="item.id"/>
-      </el-select>
+    <div style="margin-bottom: 40px">
+      <el-row>
+        <el-col :span="8">
+          <span class="detail-label">任务名称:</span>
+          <span class="detail-value">{{taskInfo.taskName}}</span>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="8">
+          <span class="detail-label">未外呼数:</span>
+          <span class="detail-value">{{taskInfo.dnfCnt}}个</span>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="8">
+          <span class="detail-label">分配规则:</span>
+          <span class="detail-value">
+            <el-radio-group v-model="taskInfo.assignRule">
+              <el-radio label="随机平均分配"/>
+              <el-radio label="自定义分配"/>
+            </el-radio-group>
+          </span>
+        </el-col>
+      </el-row>
     </div>
     <div class="com_head">
       <span class="com_title">名单列表</span>
-      <el-button @click="handleUpdate('')" :disabled="multipleSelection.length === 0">
-        <i class="fa fa-edit"/><span>批量修改</span>
+      <el-button @click="showDialog">
+        <i class="fa fa-plus"/><span>新增销售</span>
       </el-button>
     </div>
-    <el-table :data="list" v-loading="listLoading" @selection-change="handleSelectionChange" element-loading-text="给我一点时间" border fit highlight-current-row>
-      <el-table-column type="selection" width="105px">
-      </el-table-column>
+    <el-table :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit highlight-current-row>
       <el-table-column label="销售名称">
-        <template slot-scope="scope"><span>{{scope.row.contactName}}</span></template>
+        <template slot-scope="scope"><span>{{scope.row.uname}}</span></template>
       </el-table-column>
       <el-table-column label="关联团队">
-        <template slot-scope="scope"><span>{{scope.row.type}}</span></template>
+        <template slot-scope="scope"><span>{{scope.row.team}}</span></template>
       </el-table-column>
       <el-table-column label="分配条数">
-        <template slot-scope="scope"><span>{{scope.row.saleName}}</span></template>
+        <template slot-scope="scope"><span>{{scope.row.dnfCnt}}</span></template>
       </el-table-column>
-      <el-table-column label="操作" width="105px">
-        <template slot-scope="scope"><a @click="handleUpdate(scope.row)">修改销售</a></template>
+      <el-table-column label="操作">
+        <template slot-scope="scope"><a @click="handleUpdate(scope.row)">删除</a></template>
       </el-table-column>
     </el-table>
-    <div v-show="!listLoading">
-      <el-pagination @size-change="handleSizeChange"
-                     @current-change="handleCurrentChange"
-                     :current-page.sync="currentPage"
-                     :page-sizes="[10,20,30, 50]"
-                     background
-                     :page-size="listQuery.pageSize"
-                     layout="total, sizes, prev, pager, next, jumper"
-                     :total="total">
-      </el-pagination>
-    </div>
-    <el-dialog title="修改销售" :visible.sync="dialogVisible" width="30%">
+    <el-col style="text-align: center;margin-top: 50px">
+      <el-button class="add_btn" @click="create" :disabled="isCommit">提 交</el-button>
+      <el-button class="search_btn" @click="cancel">取 消</el-button>
+    </el-col>
+    <el-dialog title="新增销售" :visible.sync="dialogVisible" width="30%">
       <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="80px" style="margin-right: 20px;">
-        <el-form-item label="新销售" prop="userId" class="txt">
-          <el-select v-model="ruleForm.userId" placeholder="请选择新销售" filterable>
-            <el-option v-for="item in sales" :key="item.id" :label="item.name" :value="item.id"/>
+        <el-form-item label="销售" prop="userId" class="txt">
+          <el-select v-model="ruleForm.userId" placeholder="请选择销售" filterable>
+            <el-option v-for="item in saleList" :key="item.id" :label="item.name" :value="item.id"/>
           </el-select>
         </el-form-item>
       </el-form>
@@ -64,114 +70,74 @@
 
 <script>
   export default {
-    components: {},
     data() {
       return {
         dialogVisible: false,
-        total: null,
         listLoading: true,
-        listQuery: {
-          pageIndex: 0,
-          pageSize: 10
-        },
-        currentPage: 1,
         list: null,
-        types: [
-          {
-            label: '意向客户',
-            value: 'follow'
-          },
-          {
-            label: '星标客户',
-            value: 'star'
-          }
-        ],
-        companies: [],
-        sales: [],
-        multipleSelection: [],
+        taskInfo:{},
         rules: {
           userId: [
-            {required: true, trigger: 'blur', message: '请选择新销售'}
+            {required: true, trigger: 'blur', message: '请选择销售'}
           ],
         },
-        ruleForm: {},
-        taskIds:''
+        ruleForm:{},
+        saleAllList:[],
+        saleList:[],
+        task:null,
+        isCommit:false
       }
     },
     created() {
-      this.getCompanies()
-      this.getList()
+      this.task = this.$route.query.item
+      this.Api.getReAssignInfo(this.task.id).then(res => {
+        this.taskInfo = res.data.taskInfo
+        this.list = res.data.taskDetail
+        this.listLoading = false
+      })
+      this.Api.getAllSaleUsers('').then(res => {
+        this.saleAllList = res.data
+      })
     },
     methods: {
-      getCompanies() {
-        this.Api.getCompanies().then(res => {
-          this.companies = res.data
+      create() {
+        this.Api.updateGroup(taskGroup.id,taskGroup)
+          .then((res) => {
+            this.$message({
+              message: '修改成功',
+              type: 'success'
+            })
+            this.$router.push({path: '/task'})
+          }).catch(() => {
+          this.isCommit = false
         })
       },
-      getList() {
-        this.Api.potentialList(this.listQuery).then(response => {
-          this.list = response.data.content
-          this.total = response.data.totalElements
-          this.listLoading = false
-        })
+      cancel() {
+        this.$router.push({path: '/task'})
       },
-      handleSizeChange(val) {
-        this.listQuery.pageSize = val
-        this.getList()
-      },
-      handleCurrentChange(val) {
-        this.listQuery.pageIndex = val - 1
-        this.getList()
-      },
-      handleFilter() {
-        this.listQuery.pageIndex = 0
-        this.currentPage = 1
-        this.getList()
-      },
-      handleUpdate(val) {
+      showDialog(){
         this.dialogVisible = true
-        let companyId = null
-        if (val) {
-          companyId = val.companyId
-          this.taskIds =  val.taskId
-        } else {
-          companyId = this.multipleSelection[0].companyId
-          this.taskIds = ''
-          this.multipleSelection.forEach((item,index)=>{
-            if (index === 0){
-              this.taskIds = item.taskId
-            } else{
-              this.taskIds += "," + item.taskId
+        this.saleAllList.forEach(item=>{
+          let isHas = false
+          this.list.forEach(item=>{
+            if (item.id){
+
             }
           })
-        }
-        this.Api.getAllSaleUsers('').then(res => {
-          this.sales = res.data
+          this.saleList
         })
       },
       handleSubmit() {
+
         this.$refs['ruleForm'].validate((valid) => {
           if (valid) {
-            let params = {
-              taskIds: this.taskIds + "",
-              userId: this.ruleForm.userId
-            }
-            this.Api.updatePotentialUser(params).then(res => {
-              this.$message({
-                message: '操作成功',
-                type: 'success'
-              })
-              this.$refs['ruleForm'].resetFields()
-              this.dialogVisible = false
-              this.getList()
-            })
+
+
+            this.dialogVisible = false
           } else {
             return false
           }
         })
-      },
-      handleSelectionChange(val) {
-        this.multipleSelection = val;
       }
     }
   }
