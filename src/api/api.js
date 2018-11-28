@@ -109,6 +109,7 @@ export const getFeedback = params => axios.get('/feedback/getPage', {params: par
 export const getFdDetail = id => axios.get('/feedback/getImg/' + id)
 // report
 export const workload = params => axios.get('/reportMgmt/workload', {params: params})
+export const workDayLoad = params => axios.get('/reportMgmt/workDayload', {params: params})
 export const getCallStatis = params => axios.get('/reportMgmt/getCallStatis', {params: params})
 export const getCallHistory = params => axios.get('/reportMgmt/getCallHistory', {params: params})
 export const excelworkload = params => axios.get('/reportMgmt/excel/workload', {params: params})
